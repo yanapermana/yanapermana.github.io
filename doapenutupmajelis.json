@@ -1,69 +1,72 @@
 {
-  "Ads": [
-    {
-      "select_main_ads": "ADMOB",
-      "select_backup_ads":"APPLOVIN-D",
-      "main_ads_banner": "ca-app-pub-3940256099942544/9214589741",
-      "main_ads_intertitial":"ca-app-pub-3940256099942544/1033173712",
-      "native_for_admob":"ca-app-pub-3940256099942544/2247696110",
-      "backup_ads_banner":"db4d5e8718b97d78",
-      "backup_ads_intertitial":"518cd97722c60b52",
-      "interval_intertitial": 5,
-      "initialize_sdk":"107355779",
-      "initialize_sdk_backup_ads":"",
-      "high_paying_keyword_1": "",
-      "high_paying_keyword_2": "",
-      "high_paying_keyword_3": "",
-      "high_paying_keyword_4": "",
-      "high_paying_keyword_5": "",
-      "status_app": "0",
-      "link_redirect": "https://"
-    }
-  ],
-   "More": [
-    {
-      "id": 1,
-      "title": "IQ Test vs The Moron Test",
-      "image": "https://play-lh.googleusercontent.com/-hbyzqqYI7QzD_m0QwQrawyqaydnWMgR0Lht24oSSBYjj_YkVmImcId_KFunuWQuWAE=s180-rw",
-      "link": "https://play.google.com/store/apps/details?id=com.aliendroid.squidiqgame"
-    }
-  ],
-  "Categories": [
-    {
-      "id": 1,
-      "name_category": "Guide",
-      "image": "file:///android_asset/image/image1.png"
-    }
-  ],
-  "Data": [
-    {
-      "id": 1,
-      "name_category": "Guide",
-      "title": "Doa Penutup Majelis",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 1",
-      "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
-    },{
-      "id": 2,
-      "name_category": "Guide",
-      "title": "Doa Penutup Majelis",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 1",
-      "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
-    },{
-      "id": 3,
-      "name_category": "Guide",
-      "title": "Doa Penutup Majelis",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 1",
-      "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
-    },{
-      "id": 4,
-      "name_category": "Guide",
-      "title": "Doa Penutup Majelis",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 1",
-      "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
-    }
-  ]
+    "Ads": [
+        {
+            "select_main_ads": "ADMOB",
+            "select_backup_ads": "APPLOVIN-D",
+            "main_ads_banner": "ca-app-pub-3940256099942544/9214589741",
+            "main_ads_intertitial": "ca-app-pub-3940256099942544/1033173712",
+            "native_for_admob": "ca-app-pub-3940256099942544/2247696110",
+            "backup_ads_banner": "db4d5e8718b97d78",
+            "backup_ads_intertitial": "518cd97722c60b52",
+            "interval_intertitial": 5,
+            "initialize_sdk": "107355779",
+            "initialize_sdk_backup_ads": "",
+            "high_paying_keyword_1": "",
+            "high_paying_keyword_2": "",
+            "high_paying_keyword_3": "",
+            "high_paying_keyword_4": "",
+            "high_paying_keyword_5": "",
+            "status_app": "0",
+            "link_redirect": "https://"
+        }
+    ],
+    "More": [
+        {
+            "id": 1,
+            "title": "IQ Test vs The Moron Test",
+            "image": "https://play-lh.googleusercontent.com/-hbyzqqYI7QzD_m0QwQrawyqaydnWMgR0Lht24oSSBYjj_YkVmImcId_KFunuWQuWAE=s180-rw",
+            "link": "https://play.google.com/store/apps/details?id=com.aliendroid.squidiqgame"
+        }
+    ],
+    "Categories": [
+        {
+            "id": 1,
+            "name_category": "Guide",
+            "image": "file:///android_asset/image/image1.png"
+        }
+    ],
+    "Data": [
+        {
+            "id": 1,
+            "name_category": "Guide",
+            "title": "Doa Penutup Majelis",
+            "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
+            "description": "Halaman 1",
+            "link": "<p>سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</p><p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
+        },
+        {
+            "id": 2,
+            "name_category": "Guide",
+            "title": "Doa Penutup Majelis",
+            "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
+            "description": "Halaman 1",
+            "link": "<p>سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</p><p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
+        },
+        {
+            "id": 3,
+            "name_category": "Guide",
+            "title": "Doa Penutup Majelis",
+            "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
+            "description": "Halaman 1",
+            "link": "<p>سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</p><p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
+        },
+        {
+            "id": 4,
+            "name_category": "Guide",
+            "title": "Doa Penutup Majelis",
+            "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
+            "description": "Halaman 1",
+            "link": "<p>سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</p><p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
+        }
+    ]
 }
