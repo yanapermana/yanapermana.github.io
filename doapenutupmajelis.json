@@ -31,24 +31,14 @@
   "Categories": [
     {
       "id": 1,
-      "name_category": "Playstore",
+      "name_category": "Guide",
       "image": "file:///android_asset/image/image1.png"
-    },
-    {
-      "id": 2,
-      "name_category": "Tutorial",
-      "image": "file:///android_asset/image/image2.webp"
-    },
-    {
-      "id": 3,
-      "name_category": "Reskin",
-      "image": "https://s3.ap-southeast-1.amazonaws.com/aliendroid/uploads/blog/202110/img_thumb_616ec085f3a296-86862239-28733081.jpg"
     }
   ],
   "Data": [
     {
       "id": 1,
-      "name_category": "Playstore",
+      "name_category": "Guide",
       "title": "Cara Membuka Pin HP Yang Lupa Password",
       "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
       "description": "Halaman 1",
@@ -56,7 +46,7 @@
     },
     {
       "id": 2,
-      "name_category": "Tutorial",
+      "name_category": "Guide",
       "title": "Cara Membuka Pin HP Yang Lupa Password",
       "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
       "description": "Halaman 2",
@@ -64,7 +54,7 @@
     },
     {
       "id": 3,
-      "name_category": "Tutorial",
+      "name_category": "Guide",
       "title": "Cara Membuka Pin HP Yang Lupa Password",
       "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
       "description": "Halaman 3",
@@ -72,7 +62,7 @@
     },
     {
       "id": 4,
-      "name_category": "Reskin",
+      "name_category": "Guide",
       "title": "Cara Membuka Pin HP Yang Lupa Password",
       "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
       "description": "Halaman 4",
