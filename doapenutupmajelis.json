@@ -39,34 +39,10 @@
     {
       "id": 1,
       "name_category": "Guide",
-      "title": "Cara Membuka Pin HP Yang Lupa Password",
+      "title": "Doa Penutup Majelis",
       "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
       "description": "Halaman 1",
-      "link": "<p>Cara Membuka Pin HP yang Lupa Password</p><p>Lupa membuka pola atau PIN HP menjadi masalah beberapa orang. Jika PIN HP salah, secara otomatis HP akan terkunci. Pengguna harus menunggu selama beberapa detik atau menit, jika pola PIN salah. Berikut cara membuka PIN HP android.</p><p>Cara Membuka Pin HP yang Lupa</p><p>1. Fitur Find My Device</p><p>Fitur Find My Device adalah layanan resmi buatan Google yang bisa diakses di laptop. Pengguna bisa memakai browser di laptop atau HP orang lain. Berikut caranya:</p><p>-Masuk ke browser Google -Kunjungi website Find My Device-Google -Pastikan akun Google di laptop sama dengan akun di HP Pilih Lock atau Kunci  -Kemudian refresh beberapa kali ketika Android Device Manager tidak menemukan perangkat  -Jika berhasil ditemukan, masukkan kata sandi sebanyak dua kali  -Klik konfirmasi untuk melanjutkan  -Setelah itu pengguna bisa membuka HP menggunakan pin baru</p>"
-    },
-    {
-      "id": 2,
-      "name_category": "Guide",
-      "title": "Cara Membuka Pin HP Yang Lupa Password",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 2",
-      "link": "<p>2. Telepon Pakai HP Orang Lain</p><p>-Pinjam HP milik orang lain untuk menelepon ponselmu  -Ketika HP berdering segera angkat panggilan telepon  -Setelah telepon selesai, pilih tombol Home  -Kemudian pergi ke menu pengaturan  -Pengguna bisa mengganti PIN atau Pola HP baru</p>"
-    },
-    {
-      "id": 3,
-      "name_category": "Guide",
-      "title": "Cara Membuka Pin HP Yang Lupa Password",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 3",
-      "link": "<p>3. Fitur Samsung Find My Mobile</p><p>Khusus ponsel merek Samsung bisa menggunakan Find My Mobile. Caranya hampir sama dengan Find My Device dari Google. Fitur menemukan ponsel ini berguna untuk membuka kunci HP jika lupa pola, PIN, dan kata sandi.  Berikut cara mengubah PIN HP yang lupa untuk merek Samsung:</p><p>-Buka browser di laptop  -Kunjungi website Samsung find my device  -Masuk ke perangkat akun Samsung  -Pilih tombol kunci screen (lock my screen) di bagian kiri layar  -Kemudian masukkan PIN yang baru  -Klik tombol lock  -Secara otomatis PIN HP akan berubah dalam 1 sampai 2 menit  -Pengguna bisa menggunakan PIN baru untuk membuka HP</p>"
-    },
-    {
-      "id": 4,
-      "name_category": "Guide",
-      "title": "Cara Membuka Pin HP Yang Lupa Password",
-      "image": "https://2.bp.blogspot.com/-TSnN7VAWSsw/WAX2Ne2eVKI/AAAAAAAAE50/iGs0KlJnMD4hk8MbEO8nqmCGhdDXxud9wCLcB/s1600/membuka-pola-kunci-layar-hp-android-yang-lupa.png",
-      "description": "Halaman 4",
-      "link": "<p>4. Pakai Forgot Pattern</p><p>Langkah kedua yaitu menggunakan fitur forgot pattern. Fitur ini tersedia untuk OS Android 4.4 atau lebih rendah.  Cara membuka pola HP yaitu:</p><p>-Masukkan PIN acak pada ponsel  -Klik Forgot Pattern yang berada di bawah samping panggilan darurat  -Masukkan akun Google beserta password sesuai akun di HP  -Kemudian reset screen lock dan buat pola baru</p>"
+      "link": "<p>سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</p><p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
     }
   ]
 }
