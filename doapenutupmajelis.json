@@ -46,23 +46,23 @@
         },{
             "id": 2,
             "name_category": "Guide",
-            "title": "Doa Penutup Majelis",
+            "title": "Doa Berangkat Kerja",
             "image": "file:///android_asset/image/doa_penutup_majelis.png",
-            "description": "Halaman 1",
-            "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
+            "description": "Halaman 2",
+            "link": "<p><p>بسم اللّه على نفسي ومالي وديني، اللّهمّ رضّني بقضاءك وبارك لي فيما قدّرلي حتّى لَا ٱحبَّ تعجِيلَ مَا أخّرت ولَا تأْخير ما عجّلتَ</p><p>Bismillahi 'ala nafsi wa mali wa dini. Allahumma Raddhini bi qada'ika wabarik li fima quddira li hatta la uhibba ta'jila ma akhkharta wa la ta'khira ma 'ajjalta.</p><p> Dengan menyebut nama Allah atas diriku, hartaku, dan agamaku. Ya Allah, jadikanlah aku orang yang rida (menerima) atas ketetapan-Mu serta berkahilah aku atas rezeki yang Engkau tentukan, sehingga aku tak tergesa-gesa meminta sesuatu yang Engkau tunda atau menunda-nunda sesuatu yang Engkau hendak segerakan.</p></p>"
         },{
             "id": 3,
             "name_category": "Guide",
             "title": "Doa Penutup Majelis",
             "image": "file:///android_asset/image/doa_penutup_majelis.png",
-            "description": "Halaman 1",
+            "description": "Halaman 3",
             "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
         },{
             "id": 4,
             "name_category": "Guide",
             "title": "Doa Penutup Majelis",
             "image": "file:///android_asset/image/doa_penutup_majelis.png",
-            "description": "Halaman 1",
+            "description": "Halaman 4",
             "link": "<p>Subhaanakallaahumma wa bihamdika asyhadu alaailaha illa 'anta astagfiruka wa 'atubu ilaik.</p><p>Artinya: Mahasuci Engkau, ya Allah, aku memuji-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau, aku memohon ampun dan bertobat kepada-Mu'.</p>"
         }
     ]
