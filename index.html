@@ -1,10 +1,399 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>yanapermana.github.io</title>
-</head>
-<body>
-	<h1>Classic Link</h1>
-	<a href="kbm-crimping.html">KBM Crimping</a>
-</body>
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Directory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .link-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .link-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg">
+  <main class="min-h-full flex flex-col"><!-- Header Section -->
+   <header class="text-center py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+     <h1 id="page-title" class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Link Directory</h1>
+     <p id="page-subtitle" class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">Temukan semua link penting dalam satu tempat yang mudah diakses</p>
+    </div>
+   </header><!-- Search Section -->
+   <section class="px-4 pb-8">
+    <div class="max-w-2xl mx-auto">
+     <div class="relative">
+      <div class="relative"><input type="text" id="search-input" placeholder="Cari link..." class="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-6 py-4 pl-12 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/30 transition-all">
+       <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+       </svg>
+      </div><!-- Autocomplete Dropdown -->
+      <div id="autocomplete-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl shadow-lg z-10 hidden max-h-60 overflow-y-auto"><!-- Autocomplete items will be inserted here -->
+      </div>
+     </div>
+    </div>
+   </section><!-- Links Section -->
+   <section class="flex-1 px-4 pb-12">
+    <div class="max-w-2xl mx-auto space-y-4" id="links-container"><!-- Links will be dynamically generated here -->
+    </div>
+   </section><!-- Footer -->
+   <footer class="text-center py-8 px-4">
+    <p id="footer-text" class="text-white/80 text-sm">© 2024 Link Directory. Semua hak dilindungi.</p>
+   </footer>
+  </main>
+  <script>
+        // Default configuration
+        const defaultConfig = {
+            page_title: "Link Directory",
+            page_subtitle: "Temukan semua link penting dalam satu tempat yang mudah diakses",
+            link_1_title: "KBM Crimping",
+            link_2_title: "Email Kontak", 
+            link_3_title: "Media Sosial",
+            link_4_title: "Dokumentasi",
+            footer_text: "© 2024 Link Directory. Semua hak dilindungi.",
+            primary_color: "#667eea",
+            secondary_color: "#764ba2",
+            font_family: "Inter",
+            font_size: 16
+        };
+
+        // Links data structure
+        const linksData = [
+            {
+                id: 'link-1',
+                title: 'KBM Crimping',
+                url: 'kbm-crimping.html',
+                icon: 'M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14',
+                keywords: ['kbm', 'crimping']
+            },
+            {
+                id: 'link-2',
+                title: 'Email Kontak',
+                url: 'mailto:contact@example.com',
+                icon: 'M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207',
+                keywords: ['email', 'kontak', 'contact', 'mail', 'surat']
+            },
+            {
+                id: 'link-3',
+                title: 'Media Sosial',
+                url: 'https://example.com/social',
+                icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+                keywords: ['media', 'sosial', 'social', 'facebook', 'instagram', 'twitter']
+            },
+            {
+                id: 'link-4',
+                title: 'Dokumentasi',
+                url: 'https://example.com/docs',
+                icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+                keywords: ['dokumentasi', 'docs', 'panduan', 'guide', 'manual', 'help']
+            }
+        ];
+
+        let filteredLinks = [...linksData];
+        let selectedIndex = -1;
+
+        // Function to create link HTML
+        function createLinkHTML(link, config) {
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseSize = config.font_size || defaultConfig.font_size;
+            
+            return `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
+                   class="link-card block w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl p-6 text-center hover:bg-white/30 group">
+                    <div class="flex items-center justify-center space-x-3">
+                        <svg class="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${link.icon}"></path>
+                        </svg>
+                        <span class="text-white font-semibold" style="font-size: ${baseSize * 1.125}px; font-family: ${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">${link.title}</span>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Function to render links
+        function renderLinks(config) {
+            const container = document.getElementById('links-container');
+            container.innerHTML = filteredLinks.map(link => createLinkHTML(link, config)).join('');
+        }
+
+        // Function to update links data with config
+        function updateLinksData(config) {
+            linksData[0].title = config.link_1_title || defaultConfig.link_1_title;
+            linksData[1].title = config.link_2_title || defaultConfig.link_2_title;
+            linksData[2].title = config.link_3_title || defaultConfig.link_3_title;
+            linksData[3].title = config.link_4_title || defaultConfig.link_4_title;
+            
+            // Update keywords based on titles
+            linksData[0].keywords = ['website', 'utama', 'home', 'beranda', config.link_1_title?.toLowerCase() || ''];
+            linksData[1].keywords = ['email', 'kontak', 'contact', 'mail', 'surat', config.link_2_title?.toLowerCase() || ''];
+            linksData[2].keywords = ['media', 'sosial', 'social', 'facebook', 'instagram', 'twitter', config.link_3_title?.toLowerCase() || ''];
+            linksData[3].keywords = ['dokumentasi', 'docs', 'panduan', 'guide', 'manual', 'help', config.link_4_title?.toLowerCase() || ''];
+            
+            filteredLinks = [...linksData];
+        }
+
+        // Search functionality
+        function performSearch(query) {
+            if (!query.trim()) {
+                filteredLinks = [...linksData];
+                hideAutocomplete();
+                return;
+            }
+
+            const searchTerm = query.toLowerCase();
+            filteredLinks = linksData.filter(link => {
+                return link.title.toLowerCase().includes(searchTerm) ||
+                       link.keywords.some(keyword => keyword.includes(searchTerm));
+            });
+
+            showAutocomplete(query);
+        }
+
+        // Show autocomplete dropdown
+        function showAutocomplete(query) {
+            const dropdown = document.getElementById('autocomplete-dropdown');
+            const searchTerm = query.toLowerCase();
+            
+            if (filteredLinks.length === 0) {
+                dropdown.innerHTML = '<div class="p-4 text-gray-600 text-center">Tidak ada link yang ditemukan</div>';
+            } else {
+                dropdown.innerHTML = filteredLinks.map((link, index) => {
+                    const isSelected = index === selectedIndex;
+                    return `
+                        <div class="autocomplete-item p-3 hover:bg-white/20 cursor-pointer flex items-center space-x-3 ${isSelected ? 'bg-white/20' : ''}" 
+                             data-index="${index}" data-url="${link.url}">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${link.icon}"></path>
+                            </svg>
+                            <span class="text-gray-800 font-medium">${highlightMatch(link.title, searchTerm)}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            dropdown.classList.remove('hidden');
+        }
+
+        // Hide autocomplete dropdown
+        function hideAutocomplete() {
+            document.getElementById('autocomplete-dropdown').classList.add('hidden');
+            selectedIndex = -1;
+        }
+
+        // Highlight matching text
+        function highlightMatch(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<mark class="bg-yellow-200 px-1 rounded">$1</mark>');
+        }
+
+        // Render function to update UI based on config
+        async function render(config) {
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseSize = config.font_size || defaultConfig.font_size;
+            const primaryColor = config.primary_color || defaultConfig.primary_color;
+            const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+            
+            // Apply font family
+            document.body.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+            
+            // Apply font sizes proportionally
+            document.getElementById('page-title').style.fontSize = `${baseSize * 2.5}px`;
+            document.getElementById('page-subtitle').style.fontSize = `${baseSize * 1.125}px`;
+            document.getElementById('footer-text').style.fontSize = `${baseSize * 0.875}px`;
+            
+            // Apply search input font size
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.style.fontSize = `${baseSize}px`;
+            }
+            
+            // Apply gradient colors
+            document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            
+            // Update text content
+            document.getElementById('page-title').textContent = config.page_title || defaultConfig.page_title;
+            document.getElementById('page-subtitle').textContent = config.page_subtitle || defaultConfig.page_subtitle;
+            document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+            
+            // Update links data and render
+            updateLinksData(config);
+            renderLinks(config);
+        }
+
+        // Map configuration to capabilities for editing
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            config.primary_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.secondary_color || defaultConfig.secondary_color,
+                        set: (value) => {
+                            config.secondary_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }
+            };
+        }
+
+        // Map configuration to edit panel values
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["page_title", config.page_title || defaultConfig.page_title],
+                ["page_subtitle", config.page_subtitle || defaultConfig.page_subtitle],
+                ["link_1_title", config.link_1_title || defaultConfig.link_1_title],
+                ["link_2_title", config.link_2_title || defaultConfig.link_2_title],
+                ["link_3_title", config.link_3_title || defaultConfig.link_3_title],
+                ["link_4_title", config.link_4_title || defaultConfig.link_4_title],
+                ["footer_text", config.footer_text || defaultConfig.footer_text]
+            ]);
+        }
+
+        // Initialize search functionality
+        function initializeSearch() {
+            const searchInput = document.getElementById('search-input');
+            const dropdown = document.getElementById('autocomplete-dropdown');
+
+            // Search input event listeners
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+                performSearch(query);
+                if (query.trim()) {
+                    renderLinks(window.elementSdk ? window.elementSdk.config : defaultConfig);
+                } else {
+                    renderLinks(window.elementSdk ? window.elementSdk.config : defaultConfig);
+                }
+            });
+
+            // Keyboard navigation
+            searchInput.addEventListener('keydown', (e) => {
+                const items = dropdown.querySelectorAll('.autocomplete-item');
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelection();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = Math.max(selectedIndex - 1, -1);
+                    updateSelection();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && items[selectedIndex]) {
+                        const url = items[selectedIndex].dataset.url;
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                        searchInput.value = '';
+                        hideAutocomplete();
+                    }
+                } else if (e.key === 'Escape') {
+                    hideAutocomplete();
+                    searchInput.blur();
+                }
+            });
+
+            // Click outside to close
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                    hideAutocomplete();
+                }
+            });
+
+            // Autocomplete item clicks
+            dropdown.addEventListener('click', (e) => {
+                const item = e.target.closest('.autocomplete-item');
+                if (item) {
+                    const url = item.dataset.url;
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                    searchInput.value = '';
+                    hideAutocomplete();
+                }
+            });
+        }
+
+        // Update selection highlighting
+        function updateSelection() {
+            const items = document.querySelectorAll('.autocomplete-item');
+            items.forEach((item, index) => {
+                if (index === selectedIndex) {
+                    item.classList.add('bg-white/20');
+                } else {
+                    item.classList.remove('bg-white/20');
+                }
+            });
+        }
+
+        // Initialize the element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                render,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Initialize everything when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSearch();
+            render(defaultConfig);
+        });
+
+        // Initial render
+        render(defaultConfig);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99187631e2bbdf9b',t:'MTc2MDk2Mjc0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
