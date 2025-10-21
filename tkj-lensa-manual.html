@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial Kamera Sony dengan Lensa Manual</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .camera-body {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .lens-ring {
+            background: conic-gradient(from 0deg, #666, #333, #666);
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .setting-dial {
+            background: radial-gradient(circle, #444, #222);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .setting-dial:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        
+        .step-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .interactive-button {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-button:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.5s ease;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        .tooltip {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            position: absolute;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .tooltip.show {
+            opacity: 1;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-blue-50 to-indigo-100 font-sans">
+  <div class="tooltip" id="tooltip"></div>
+  <main class="container mx-auto px-4 py-8 max-w-6xl"><!-- Header -->
+   <header class="text-center mb-12">
+    <h1 id="main-title" class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">📸 Tutorial Kamera Sony dengan Lensa Manual</h1>
+    <p id="subtitle" class="text-xl text-gray-600 max-w-3xl mx-auto">Pelajari cara menggunakan kamera Sony dengan lensa manual untuk menghasilkan foto yang menakjubkan</p>
+   </header><!-- Progress Bar -->
+   <div class="mb-8">
+    <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+     <div id="progress-bar" class="progress-bar h-full rounded-full" style="width: 0%"></div>
+    </div>
+    <p class="text-center mt-2 text-sm text-gray-600">Progress: <span id="progress-text">0/7</span> langkah selesai</p>
+   </div><!-- Interactive Camera Diagram -->
+   <section class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">🎯 Kenali Bagian Kamera Anda</h2>
+    <div class="bg-white rounded-2xl p-8 shadow-xl">
+     <div class="relative mx-auto" style="width: 400px; height: 300px;"><!-- Camera Body -->
+      <div class="camera-body absolute inset-0 flex items-center justify-center"><!-- Lens Mount -->
+       <div class="lens-ring w-32 h-32 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform" onclick="showTooltip(event, 'Mount lensa - tempat memasang lensa manual')" onmouseleave="hideTooltip()">
+        <div class="w-20 h-20 bg-black rounded-full flex items-center justify-center"><span class="text-white text-xs">SONY</span>
+        </div>
+       </div><!-- Mode Dial -->
+       <div class="setting-dial w-12 h-12 absolute top-4 right-8 flex items-center justify-center text-white text-xs font-bold cursor-pointer" onclick="showTooltip(event, 'Mode Dial - pilih mode Manual (M) untuk kontrol penuh')" onmouseleave="hideTooltip()">
+        M
+       </div><!-- Shutter Button -->
+       <div class="setting-dial w-8 h-8 absolute top-2 right-16 bg-gray-600 cursor-pointer" onclick="showTooltip(event, 'Tombol Shutter - tekan setengah untuk fokus, penuh untuk foto')" onmouseleave="hideTooltip()">
+       </div><!-- Control Wheel -->
+       <div class="setting-dial w-10 h-10 absolute bottom-4 right-4 cursor-pointer" onclick="showTooltip(event, 'Control Wheel - putar untuk mengubah pengaturan')" onmouseleave="hideTooltip()">
+       </div>
+      </div>
+     </div>
+     <p class="text-center mt-4 text-gray-600">Klik pada bagian kamera untuk mempelajari fungsinya</p>
+    </div>
+   </section><!-- Interactive Steps -->
+   <section class="mb-12">
+    <h2 id="step-title" class="text-3xl font-bold text-center mb-8 text-gray-800">📚 Langkah-langkah Tutorial</h2>
+    <div class="grid gap-6"><!-- Step 1 -->
+     <div class="step-card p-6 rounded-xl" id="step-1">
+      <div class="flex items-start gap-4">
+       <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        1
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Pasang Lensa Manual</h3>
+        <p class="text-gray-600 mb-4">Pasang lensa manual pada mount kamera dengan memutar searah jarum jam hingga terkunci.</p><button class="interactive-button text-white px-4 py-2 rounded-lg" onclick="completeStep(1)"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 2 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-2">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        2
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Aktifkan Focus Peaking</h3>
+        <p class="text-gray-600 mb-4">Masuk ke Menu → Camera Settings → Focus Peaking → On. Pilih warna yang kontras dengan subjek.</p><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-2"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 3 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-3">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        3
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Atur Mode Manual (M)</h3>
+        <p class="text-gray-600 mb-4">Putar mode dial ke posisi M untuk kontrol penuh atas aperture, shutter speed, dan ISO.</p><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-3"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 4 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-4">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        4
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Atur Aperture pada Lensa</h3>
+        <p class="text-gray-600 mb-4">Putar ring aperture pada lensa. f/1.4-f/2.8 untuk bokeh, f/8-f/11 untuk ketajaman maksimal.</p>
+        <div class="mb-4"><label class="block text-sm font-medium mb-2">Pilih Aperture:</label> <select class="border rounded px-3 py-2" id="aperture-select" onchange="updateApertureDemo()"> <option value="1.4">f/1.4 (Bokeh maksimal)</option> <option value="2.8">f/2.8 (Portrait)</option> <option value="5.6">f/5.6 (Seimbang)</option> <option value="8">f/8 (Landscape)</option> <option value="11">f/11 (Ketajaman maksimal)</option> </select>
+        </div><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-4"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 5 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-5">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        5
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Atur Shutter Speed</h3>
+        <p class="text-gray-600 mb-4">Gunakan control wheel untuk mengatur shutter speed. 1/60s atau lebih cepat untuk handheld.</p>
+        <div class="mb-4"><label class="block text-sm font-medium mb-2">Shutter Speed:</label> <input type="range" min="1" max="8" value="4" class="w-full" id="shutter-range" oninput="updateShutterDemo()">
+         <div class="flex justify-between text-xs text-gray-500 mt-1"><span>1/4000s</span> <span>1/250s</span> <span>1/60s</span> <span>1s</span>
+         </div>
+         <p class="text-center mt-2 font-medium" id="shutter-value">1/250s</p>
+        </div><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-5"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 6 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-6">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        6
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Fokus Manual</h3>
+        <p class="text-gray-600 mb-4">Putar ring fokus pada lensa sambil melihat focus peaking di LCD/EVF hingga subjek tajam.</p>
+        <div class="mb-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+         <p class="text-sm"><strong>💡 Tips:</strong> Gunakan magnification (zoom in) untuk fokus yang lebih presisi pada detail penting.</p>
+        </div><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-6"> ✓ Selesai </button>
+       </div>
+      </div>
+     </div><!-- Step 7 -->
+     <div class="step-card p-6 rounded-xl opacity-50" id="step-7">
+      <div class="flex items-start gap-4">
+       <div class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+        7
+       </div>
+       <div class="flex-1">
+        <h3 class="text-xl font-semibold mb-2">Ambil Foto</h3>
+        <p class="text-gray-600 mb-4">Tekan shutter setengah untuk mengunci exposure, lalu tekan penuh untuk mengambil foto.</p><button class="interactive-button text-white px-4 py-2 rounded-lg opacity-50 cursor-not-allowed" disabled id="btn-7"> 🎉 Selesai! </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Settings Simulator -->
+   <section class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">⚙️ Simulator Pengaturan</h2>
+    <div class="bg-white rounded-2xl p-8 shadow-xl">
+     <div class="grid md:grid-cols-2 gap-8">
+      <div>
+       <h3 class="text-xl font-semibold mb-4">Pengaturan Kamera</h3>
+       <div class="space-y-4">
+        <div><label class="block text-sm font-medium mb-2">ISO</label> <select class="w-full border rounded px-3 py-2" id="iso-select" onchange="updateExposure()"> <option value="100">ISO 100</option> <option value="200">ISO 200</option> <option value="400" selected>ISO 400</option> <option value="800">ISO 800</option> <option value="1600">ISO 1600</option> <option value="3200">ISO 3200</option> </select>
+        </div>
+        <div><label class="block text-sm font-medium mb-2">White Balance</label> <select class="w-full border rounded px-3 py-2" id="wb-select"> <option value="auto">Auto WB</option> <option value="daylight">Daylight (5500K)</option> <option value="cloudy">Cloudy (6500K)</option> <option value="tungsten">Tungsten (3200K)</option> <option value="fluorescent">Fluorescent (4000K)</option> </select>
+        </div>
+       </div>
+      </div>
+      <div>
+       <h3 class="text-xl font-semibold mb-4">Hasil Exposure</h3>
+       <div class="bg-gray-100 rounded-lg p-4 h-32 flex items-center justify-center" id="exposure-result">
+        <div class="text-center">
+         <div class="text-2xl mb-2" id="exposure-icon">
+          📸
+         </div>
+         <p class="text-sm text-gray-600" id="exposure-text">Exposure: Normal</p>
+        </div>
+       </div>
+       <div class="mt-4 text-sm text-gray-600">
+        <p><strong>Tips:</strong> Gunakan histogram untuk memastikan exposure yang tepat.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Tips & Tricks -->
+   <section class="mb-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">💡 Tips &amp; Trik</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       🎯
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Focus Peaking</h3>
+      <p class="text-gray-600 text-sm">Aktifkan focus peaking dengan warna yang kontras untuk memudahkan fokus manual yang presisi.</p>
+     </div>
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       🔍
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Magnification</h3>
+      <p class="text-gray-600 text-sm">Gunakan fitur zoom in (magnification) untuk fokus yang lebih akurat pada detail penting.</p>
+     </div>
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       📊
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Histogram</h3>
+      <p class="text-gray-600 text-sm">Aktifkan histogram untuk memantau exposure dan menghindari over/underexposure.</p>
+     </div>
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       🌟
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Zebra Pattern</h3>
+      <p class="text-gray-600 text-sm">Aktifkan zebra pattern untuk melihat area yang overexposed secara real-time.</p>
+     </div>
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       ⚡
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Back Button Focus</h3>
+      <p class="text-gray-600 text-sm">Atur fokus ke tombol belakang untuk memisahkan fokus dari shutter button.</p>
+     </div>
+     <div class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+      <div class="text-3xl mb-4">
+       🎨
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Custom Functions</h3>
+      <p class="text-gray-600 text-sm">Atur custom function buttons untuk akses cepat ke pengaturan yang sering digunakan.</p>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="text-center py-8">
+    <p id="footer-text" class="text-gray-600 mb-4">Selamat! Anda telah menguasai dasar-dasar penggunaan kamera Sony dengan lensa manual. Terus berlatih untuk hasil yang lebih baik!</p>
+    <div class="flex justify-center gap-4"><button class="interactive-button text-white px-6 py-3 rounded-lg" onclick="resetTutorial()"> 🔄 Ulangi Tutorial </button> <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors" onclick="showCertificate()"> 🏆 Dapatkan Sertifikat </button>
+    </div>
+   </footer>
+  </main><!-- Certificate Modal -->
+  <div id="certificate-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+   <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+    <div class="text-6xl mb-4">
+     🏆
+    </div>
+    <h3 class="text-2xl font-bold mb-4">Selamat!</h3>
+    <p class="text-gray-600 mb-6">Anda telah menyelesaikan tutorial "Cara Menggunakan Kamera Sony dengan Lensa Manual"</p><button class="interactive-button text-white px-6 py-3 rounded-lg" onclick="closeCertificate()"> Tutup </button>
+   </div>
+  </div>
+  <script>
+        // Configuration object for editable features
+        const defaultConfig = {
+            main_title: "📸 Tutorial Kamera Sony dengan Lensa Manual",
+            subtitle: "Pelajari cara menggunakan kamera Sony dengan lensa manual untuk menghasilkan foto yang menakjubkan",
+            step_title: "📚 Langkah-langkah Tutorial",
+            footer_text: "Selamat! Anda telah menguasai dasar-dasar penggunakan kamera Sony dengan lensa manual. Terus berlatih untuk hasil yang lebih baik!"
+        };
+
+        // Tutorial state
+        let completedSteps = 0;
+        const totalSteps = 7;
+
+        // Initialize the Element SDK
+        async function initializeSDK() {
+            if (window.elementSdk) {
+                await window.elementSdk.init({
+                    defaultConfig: defaultConfig,
+                    render: async (config) => {
+                        document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+                        document.getElementById('subtitle').textContent = config.subtitle || defaultConfig.subtitle;
+                        document.getElementById('step-title').textContent = config.step_title || defaultConfig.step_title;
+                        document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+                    },
+                    mapToCapabilities: (config) => ({
+                        recolorables: [
+                            {
+                                get: () => config.primary_color || "#3b82f6",
+                                set: (value) => {
+                                    config.primary_color = value;
+                                    window.elementSdk.setConfig({ primary_color: value });
+                                }
+                            }
+                        ],
+                        borderables: [],
+                        fontEditable: {
+                            get: () => config.font_family || "Inter, system-ui, sans-serif",
+                            set: (value) => {
+                                config.font_family = value;
+                                window.elementSdk.setConfig({ font_family: value });
+                            }
+                        },
+                        fontSizeable: {
+                            get: () => config.font_size || 16,
+                            set: (value) => {
+                                config.font_size = value;
+                                window.elementSdk.setConfig({ font_size: value });
+                            }
+                        }
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["main_title", config.main_title || defaultConfig.main_title],
+                        ["subtitle", config.subtitle || defaultConfig.subtitle],
+                        ["step_title", config.step_title || defaultConfig.step_title],
+                        ["footer_text", config.footer_text || defaultConfig.footer_text]
+                    ])
+                });
+            }
+        }
+
+        // Complete a tutorial step
+        function completeStep(stepNumber) {
+            const step = document.getElementById(`step-${stepNumber}`);
+            const button = document.getElementById(`btn-${stepNumber}`);
+            
+            // Mark current step as completed
+            step.classList.remove('opacity-50');
+            step.classList.add('bg-green-50', 'border-green-500');
+            button.textContent = '✅ Selesai';
+            button.classList.add('bg-green-500', 'cursor-not-allowed');
+            button.disabled = true;
+            
+            completedSteps++;
+            updateProgress();
+            
+            // Enable next step
+            if (stepNumber < totalSteps) {
+                const nextStep = document.getElementById(`step-${stepNumber + 1}`);
+                const nextButton = document.getElementById(`btn-${stepNumber + 1}`);
+                
+                nextStep.classList.remove('opacity-50');
+                nextStep.classList.add('pulse-animation');
+                
+                const stepCircle = nextStep.querySelector('.bg-gray-400');
+                stepCircle.classList.remove('bg-gray-400');
+                stepCircle.classList.add('bg-blue-500');
+                
+                nextButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                nextButton.disabled = false;
+                nextButton.onclick = () => completeStep(stepNumber + 1);
+                
+                // Remove pulse after 3 seconds
+                setTimeout(() => {
+                    nextStep.classList.remove('pulse-animation');
+                }, 3000);
+            }
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const percentage = (completedSteps / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').textContent = `${completedSteps}/${totalSteps}`;
+            
+            if (completedSteps === totalSteps) {
+                setTimeout(() => {
+                    showCertificate();
+                }, 1000);
+            }
+        }
+
+        // Show tooltip
+        function showTooltip(event, text) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.textContent = text;
+            tooltip.style.left = event.pageX + 10 + 'px';
+            tooltip.style.top = event.pageY - 30 + 'px';
+            tooltip.classList.add('show');
+        }
+
+        // Hide tooltip
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('show');
+        }
+
+        // Update aperture demo
+        function updateApertureDemo() {
+            const aperture = document.getElementById('aperture-select').value;
+            // This would update a visual demo in a real implementation
+            console.log(`Aperture set to f/${aperture}`);
+        }
+
+        // Update shutter demo
+        function updateShutterDemo() {
+            const range = document.getElementById('shutter-range');
+            const value = parseInt(range.value);
+            const shutterSpeeds = ['1/4000s', '1/1000s', '1/500s', '1/250s', '1/125s', '1/60s', '1/30s', '1s'];
+            document.getElementById('shutter-value').textContent = shutterSpeeds[value - 1];
+        }
+
+        // Update exposure simulation
+        function updateExposure() {
+            const iso = document.getElementById('iso-select').value;
+            const icon = document.getElementById('exposure-icon');
+            const text = document.getElementById('exposure-text');
+            
+            if (iso <= 400) {
+                icon.textContent = '☀️';
+                text.textContent = 'Exposure: Optimal';
+            } else if (iso <= 1600) {
+                icon.textContent = '🌤️';
+                text.textContent = 'Exposure: Sedikit Noise';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Exposure: Noise Tinggi';
+            }
+        }
+
+        // Reset tutorial
+        function resetTutorial() {
+            completedSteps = 0;
+            updateProgress();
+            
+            for (let i = 1; i <= totalSteps; i++) {
+                const step = document.getElementById(`step-${i}`);
+                const button = document.getElementById(`btn-${i}`);
+                const circle = step.querySelector('.bg-green-500, .bg-blue-500');
+                
+                step.classList.remove('bg-green-50', 'border-green-500', 'pulse-animation');
+                button.classList.remove('bg-green-500', 'cursor-not-allowed');
+                button.disabled = i !== 1;
+                button.textContent = i === totalSteps ? '🎉 Selesai!' : '✓ Selesai';
+                
+                if (i === 1) {
+                    step.classList.remove('opacity-50');
+                    circle.classList.remove('bg-gray-400');
+                    circle.classList.add('bg-blue-500');
+                    button.onclick = () => completeStep(1);
+                } else {
+                    step.classList.add('opacity-50');
+                    circle.classList.remove('bg-blue-500');
+                    circle.classList.add('bg-gray-400');
+                    button.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+        }
+
+        // Show certificate modal
+        function showCertificate() {
+            document.getElementById('certificate-modal').classList.remove('hidden');
+            document.getElementById('certificate-modal').classList.add('flex');
+        }
+
+        // Close certificate modal
+        function closeCertificate() {
+            document.getElementById('certificate-modal').classList.add('hidden');
+            document.getElementById('certificate-modal').classList.remove('flex');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSDK();
+            updateExposure();
+            updateShutterDemo();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99202819e4f1df9b',t:'MTc2MTA0MzQzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
