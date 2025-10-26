@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pembelajaran Coding HTML Interaktif</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: relative;
+            background: #2c3e50;
+        }
+
+        .nav-desktop {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-desktop li {
+            margin: 0;
+        }
+
+        .nav-desktop button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .nav-desktop button:hover,
+        .nav-desktop button.active {
+            background: #34495e;
+        }
+
+        .burger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 15px 20px;
+            cursor: pointer;
+        }
+
+        .nav-mobile {
+            display: none;
+            background: #34495e;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-mobile button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 1rem;
+            border-bottom: 1px solid #2c3e50;
+        }
+
+        .nav-mobile button:hover,
+        .nav-mobile button.active {
+            background: #2c3e50;
+        }
+
+        /* Content */
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #4facfe;
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-example pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .quiz-form input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .question h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .question label {
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .question label:hover {
+            background: #e9ecef;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            float: right;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Floating Button */
+        .float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+
+            .burger-menu {
+                display: block;
+            }
+
+            .nav-mobile.show {
+                display: block;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .float-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4facfe;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Message */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container"><!-- Header -->
+   <div class="header">
+    <h1 id="course-title">Pembelajaran Coding HTML Interaktif</h1>
+    <p>Mata Pelajaran: Informatika | Guru: <span id="teacher-name">Pak/Bu Guru</span></p>
+   </div><!-- Navigation -->
+   <div class="nav-container"><button class="burger-menu" onclick="toggleMobileNav()">☰</button>
+    <ul class="nav-desktop">
+     <li><button onclick="showSection('pembuka')" class="active">Pembuka</button></li>
+     <li><button onclick="showSection('memahami')">Memahami</button></li>
+     <li><button onclick="showSection('mengaplikasi')">Mengaplikasi</button></li>
+     <li><button onclick="showSection('merefleksi')">Merefleksi</button></li>
+     <li><button onclick="showSection('penutup')">Penutup</button></li>
+    </ul>
+    <ul class="nav-mobile" id="navMobile">
+     <li><button onclick="showSection('pembuka'); toggleMobileNav()">Pembuka</button></li>
+     <li><button onclick="showSection('memahami'); toggleMobileNav()">Memahami</button></li>
+     <li><button onclick="showSection('mengaplikasi'); toggleMobileNav()">Mengaplikasi</button></li>
+     <li><button onclick="showSection('merefleksi'); toggleMobileNav()">Merefleksi</button></li>
+     <li><button onclick="showSection('penutup'); toggleMobileNav()">Penutup</button></li>
+    </ul>
+   </div><!-- Content -->
+   <div class="content"><!-- Pembuka Section -->
+    <div id="pembuka" class="section active">
+     <div class="card">
+      <h3>🌟 Selamat Datang di Pembelajaran Coding HTML!</h3>
+      <p><strong>Assalamu'alaikum dan selamat pagi, anak-anak!</strong></p>
+      <p>Mari kita mulai pembelajaran hari ini dengan berdoa bersama dan menciptakan suasana belajar yang menyenangkan.</p>
+      <h4>📋 Capaian Pembelajaran</h4>
+      <p>Pada akhir fase E, peserta didik mampu menerapkan praktik baik konsep pemrograman prosedural dalam salah satu bahasa pemrograman prosedural dan mampu mengembangkan program yang terstruktur dalam notasi algoritma atau notasi lain, berdasarkan strategi algoritmik yang tepat.</p>
+      <h4>🎯 Tujuan Pembelajaran</h4>
+      <ul>
+       <li>Murid mampu memahami pemrograman melalui coding HTML dengan baik</li>
+       <li>Murid mampu menerapkan coding HTML dengan baik dan tanggung jawab</li>
+       <li>Murid mampu menganalisis cara coding HTML dengan baik dan tepat</li>
+      </ul>
+     </div>
+     <div class="card">
+      <h3>🤔 Pertanyaan Pemantik</h3>
+      <p style="font-size: 1.2rem; font-weight: bold; color: #4facfe;">"Pernahkah kalian bertanya bagaimana cara website dibuat?"</p>
+      <p>Hari ini kita akan menjelajahi dunia coding HTML yang menakjubkan!</p>
+     </div>
+     <div class="card">
+      <h3>💡 Kata Motivasi dari Steve Jobs</h3>
+      <blockquote style="font-style: italic; font-size: 1.1rem; color: #666; border-left: 4px solid #4facfe; padding-left: 20px; margin: 20px 0;"><span id="motivation-quote">"Everybody should learn to program a computer, because it teaches you how to think."</span> <br><br><strong>- Steve Jobs</strong>
+      </blockquote>
+      <p>Coding bukan hanya tentang menulis kode, tetapi tentang cara berpikir logis dan kreatif!</p>
+     </div><button class="btn btn-next" onclick="showSection('memahami')">Selanjutnya →</button>
+     <div style="clear: both;"></div>
+    </div><!-- Memahami Section -->
+    <div id="memahami" class="section">
+     <div class="card">
+      <h3>🎥 Video Pembelajaran: Coding dalam Kehidupan Nyata</h3>
+      <p>Mari kita lihat bagaimana coding digunakan dalam kehidupan sehari-hari!</p>
+      <div class="video-container"><iframe src="https://www.youtube.com/embed/0oA1Z6UKM5M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+      </div>
+      <p><strong>Diskusi:</strong> Setelah menonton video, mari berdiskusi tentang peran coding di kafe, sekolah, dan rumah!</p>
+     </div>
+     <div class="card">
+      <h3>🌐 Apa itu HTML?</h3>
+      <p><strong>HTML (HyperText Markup Language)</strong> adalah bahasa markup yang digunakan untuk membuat struktur halaman web.</p>
+      <h4>🎨 Perbedaan HTML dan CSS</h4>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+       <div style="background: #e3f2fd; padding: 15px; border-radius: 8px;">
+        <h5>HTML</h5>
+        <ul>
+         <li>Struktur dan konten</li>
+         <li>Tag dan elemen</li>
+         <li>Kerangka website</li>
+        </ul>
+       </div>
+       <div style="background: #f3e5f5; padding: 15px; border-radius: 8px;">
+        <h5>CSS</h5>
+        <ul>
+         <li>Styling dan tampilan</li>
+         <li>Warna dan layout</li>
+         <li>Dekorasi website</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="card">
+      <h3>🏷️ Syntax HTML dan Warna Kode</h3>
+      <p>HTML menggunakan tag yang ditulis dalam tanda kurung sudut:</p>
+      <div class="code-example">
+       <pre><span style="color: #0066cc;">&lt;tag&gt;</span>konten<span style="color: #0066cc;">&lt;/tag&gt;</span>
+
+<span style="color: #008000;">&lt;!-- Contoh tag HTML --&gt;</span>
+<span style="color: #0066cc;">&lt;h1&gt;</span>Judul Utama<span style="color: #0066cc;">&lt;/h1&gt;</span>
+<span style="color: #0066cc;">&lt;p&gt;</span>Ini adalah paragraf<span style="color: #0066cc;">&lt;/p&gt;</span>
+<span style="color: #0066cc;">&lt;a href=<span style="color: #cc0000;">"https://example.com"</span>&gt;</span>Link<span style="color: #0066cc;">&lt;/a&gt;</span></pre>
+      </div>
+      <h4>🎨 Keterangan Warna Syntax:</h4>
+      <ul>
+       <li><span style="color: #0066cc; font-weight: bold;">Biru:</span> Tag HTML</li>
+       <li><span style="color: #cc0000; font-weight: bold;">Merah:</span> Nilai atribut (string)</li>
+       <li><span style="color: #008000; font-weight: bold;">Hijau:</span> Komentar</li>
+       <li><span style="color: #000; font-weight: bold;">Hitam:</span> Konten teks</li>
+      </ul>
+     </div><button class="btn btn-next" onclick="showSection('mengaplikasi')">Selanjutnya →</button>
+     <div style="clear: both;"></div>
+    </div><!-- Mengaplikasi Section -->
+    <div id="mengaplikasi" class="section">
+     <div class="card">
+      <h3>🛠️ Project Based Learning: Membuat Halaman Web Pertama</h3>
+      <p><strong>Kerja Kelompok:</strong> 1-2 orang per kelompok</p>
+      <h4>📋 LKPD (Lembar Kerja Peserta Didik)</h4>
+      <p><strong>Project:</strong> Membuat halaman web sederhana tentang diri sendiri</p>
+     </div>
+     <div class="card">
+      <h3>👨‍🏫 Demonstrasi Langkah-langkah</h3>
+      <h4>Langkah 1: Struktur Dasar HTML</h4>
+      <div class="code-example">
+       <pre><span style="color: #0066cc;">&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;</span>Halaman Saya<span style="color: #0066cc;">&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;</span></pre>
+      </div>
+      <h4>Langkah 2: Menambahkan Konten</h4>
+      <div class="code-example">
+       <pre><span style="color: #0066cc;">&lt;body&gt;
+    &lt;h1&gt;</span>Selamat Datang di Website Saya<span style="color: #0066cc;">&lt;/h1&gt;
+    &lt;h2&gt;</span>Tentang Saya<span style="color: #0066cc;">&lt;/h2&gt;
+    &lt;p&gt;</span>Nama saya adalah...<span style="color: #0066cc;">&lt;/p&gt;
+    &lt;p&gt;</span>Hobi saya adalah...<span style="color: #0066cc;">&lt;/p&gt;
+&lt;/body&gt;</span></pre>
+      </div>
+      <h4>Langkah 3: Menambahkan Link dan Gambar</h4>
+      <div class="code-example">
+       <pre><span style="color: #0066cc;">&lt;a href=<span style="color: #cc0000;">"mailto:email@example.com"</span>&gt;</span>Hubungi Saya<span style="color: #0066cc;">&lt;/a&gt;
+&lt;br&gt;
+&lt;img src=<span style="color: #cc0000;">"foto.jpg"</span> alt=<span style="color: #cc0000;">"Foto Saya"</span> width=<span style="color: #cc0000;">"200"</span>&gt;</span></pre>
+      </div>
+     </div>
+     <div class="card">
+      <h3>🔧 Alat dan Bahan yang Dibutuhkan</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+       <div>
+        <h4>💻 Software:</h4>
+        <ul>
+         <li>Text Editor (Notepad++, VS Code)</li>
+         <li>XAMPP (untuk server lokal)</li>
+         <li>Google Chrome (untuk testing)</li>
+        </ul>
+       </div>
+       <div>
+        <h4>📁 File yang Dibutuhkan:</h4>
+        <ul>
+         <li>File HTML (.html)</li>
+         <li>Gambar (opsional)</li>
+         <li>Folder project</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="card">
+      <h3>✅ Checklist Pengerjaan Project</h3>
+      <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;"><label style="display: block; margin: 10px 0;"> <input type="checkbox"> 1. Buat struktur dasar HTML </label> <label style="display: block; margin: 10px 0;"> <input type="checkbox"> 2. Tambahkan judul halaman </label> <label style="display: block; margin: 10px 0;"> <input type="checkbox"> 3. Buat heading dan paragraf </label> <label style="display: block; margin: 10px 0;"> <input type="checkbox"> 4. Tambahkan link </label> <label style="display: block; margin: 10px 0;"> <input type="checkbox"> 5. Test di XAMPP dan Chrome </label>
+      </div>
+      <p><strong>💡 Tips:</strong> Jangan lupa untuk menyimpan file dengan ekstensi .html dan test secara berkala!</p>
+     </div><button class="btn btn-next" onclick="showSection('merefleksi')">Selanjutnya →</button>
+     <div style="clear: both;"></div>
+    </div><!-- Merefleksi Section -->
+    <div id="merefleksi" class="section">
+     <div class="card">
+      <h3>📝 Kuis Refleksi Pembelajaran</h3>
+      <p>Mari uji pemahaman kalian tentang HTML dengan kuis berikut!</p>
+     </div>
+     <div class="quiz-container">
+      <form id="quizForm" onsubmit="submitQuiz(event)">
+       <div style="margin-bottom: 20px;"><label for="studentName" style="display: block; font-weight: bold; margin-bottom: 5px;"> Nama Lengkap: </label> <input type="text" id="studentName" name="studentName" required placeholder="Masukkan nama lengkap Anda">
+       </div>
+       <div class="question">
+        <h4>1. Apa kepanjangan dari HTML?</h4><label><input type="radio" name="q1" value="a"> A. Hyper Text Markup Language</label> <label><input type="radio" name="q1" value="b"> B. High Tech Modern Language</label> <label><input type="radio" name="q1" value="c"> C. Home Tool Markup Language</label> <label><input type="radio" name="q1" value="d"> D. Hyperlink Text Management Language</label> <label><input type="radio" name="q1" value="e"> E. HTML Transfer Markup Language</label>
+       </div>
+       <div class="question">
+        <h4>2. Tag HTML mana yang digunakan untuk membuat judul utama?</h4><label><input type="radio" name="q2" value="a"> A. &lt;title&gt;</label> <label><input type="radio" name="q2" value="b"> B. &lt;h1&gt;</label> <label><input type="radio" name="q2" value="c"> C. &lt;header&gt;</label> <label><input type="radio" name="q2" value="d"> D. &lt;head&gt;</label> <label><input type="radio" name="q2" value="e"> E. &lt;main&gt;</label>
+       </div>
+       <div class="question">
+        <h4>3. Struktur dasar dokumen HTML dimulai dengan tag apa?</h4><label><input type="radio" name="q3" value="a"> A. &lt;html&gt;</label> <label><input type="radio" name="q3" value="b"> B. &lt;!DOCTYPE html&gt;</label> <label><input type="radio" name="q3" value="c"> C. &lt;head&gt;</label> <label><input type="radio" name="q3" value="d"> D. &lt;body&gt;</label> <label><input type="radio" name="q3" value="e"> E. &lt;document&gt;</label>
+       </div>
+       <div class="question">
+        <h4>4. Tag HTML untuk membuat link adalah?</h4><label><input type="radio" name="q4" value="a"> A. &lt;link&gt;</label> <label><input type="radio" name="q4" value="b"> B. &lt;a&gt;</label> <label><input type="radio" name="q4" value="c"> C. &lt;url&gt;</label> <label><input type="radio" name="q4" value="d"> D. &lt;href&gt;</label> <label><input type="radio" name="q4" value="e"> E. &lt;connect&gt;</label>
+       </div>
+       <div class="question">
+        <h4>5. Perbedaan utama antara HTML dan CSS adalah?</h4><label><input type="radio" name="q5" value="a"> A. HTML untuk styling, CSS untuk struktur</label> <label><input type="radio" name="q5" value="b"> B. HTML untuk struktur, CSS untuk styling</label> <label><input type="radio" name="q5" value="c"> C. HTML dan CSS sama saja</label> <label><input type="radio" name="q5" value="d"> D. HTML untuk gambar, CSS untuk teks</label> <label><input type="radio" name="q5" value="e"> E. HTML untuk server, CSS untuk client</label>
+       </div><button type="submit" class="btn btn-submit" id="submitBtn"> Kirim Jawaban </button>
+      </form>
+      <div id="quizResult" style="display: none;"></div>
+     </div><button class="btn btn-next" onclick="showSection('penutup')" style="display: none;" id="nextToClosing"> Selanjutnya → </button>
+     <div style="clear: both;"></div>
+    </div><!-- Penutup Section -->
+    <div id="penutup" class="section">
+     <div class="card">
+      <h3>🎉 Selamat! Pembelajaran Selesai</h3>
+      <p>Terima kasih telah mengikuti pembelajaran coding HTML hari ini dengan antusias!</p>
+     </div>
+     <div class="card">
+      <h3>📚 Rangkuman Pembelajaran</h3>
+      <ul>
+       <li>✅ Memahami konsep dasar HTML dan perbedaannya dengan CSS</li>
+       <li>✅ Mengenal struktur dan syntax HTML</li>
+       <li>✅ Membuat halaman web sederhana</li>
+       <li>✅ Menggunakan tag-tag dasar HTML</li>
+       <li>✅ Testing website dengan XAMPP dan browser</li>
+      </ul>
+     </div>
+     <div class="card">
+      <h3>🔮 Pembelajaran Selanjutnya</h3>
+      <p>Pada pertemuan berikutnya, kita akan belajar:</p>
+      <ul>
+       <li>CSS untuk styling website</li>
+       <li>Layout dan positioning</li>
+       <li>Responsive design</li>
+       <li>JavaScript dasar</li>
+      </ul>
+     </div>
+     <div class="card">
+      <h3>💝 Pesan Penutup</h3>
+      <p style="font-style: italic; text-align: center; font-size: 1.1rem; color: #666;">"Coding adalah seni memecahkan masalah dengan kreativitas. Terus berlatih dan jangan takut untuk bereksperimen!"</p>
+      <p style="text-align: center; margin-top: 20px;"><strong>Sampai jumpa di pembelajaran berikutnya! 🚀</strong></p>
+     </div>
+    </div>
+   </div>
+  </div><!-- Floating Back to Top Button --> <button class="float-btn" onclick="scrollToTop()" title="Kembali ke atas"> ↑ </button>
+  <script>
+        // Configuration object
+        const defaultConfig = {
+            course_title: "Pembelajaran Coding HTML Interaktif",
+            teacher_name: "Pak/Bu Guru",
+            motivation_quote: "Everybody should learn to program a computer, because it teaches you how to think."
+        };
+
+        let config = { ...defaultConfig };
+        let currentRecordCount = 0;
+        let quizData = [];
+
+        // Data handler for SDK
+        const dataHandler = {
+            onDataChanged(data) {
+                currentRecordCount = data.length;
+                quizData = data;
+                // Update UI if needed
+                console.log(`Total quiz submissions: ${data.length}`);
+            }
+        };
+
+        // Initialize SDKs
+        async function initializeApp() {
+            try {
+                // Initialize Data SDK
+                const initResult = await window.dataSdk.init(dataHandler);
+                if (!initResult.isOk) {
+                    console.error("Failed to initialize data SDK");
+                }
+
+                // Initialize Element SDK
+                if (window.elementSdk) {
+                    window.elementSdk.init({
+                        defaultConfig,
+                        onConfigChange: async (newConfig) => {
+                            config = { ...config, ...newConfig };
+                            updateUI();
+                        },
+                        mapToCapabilities: (config) => ({
+                            recolorables: [],
+                            borderables: [],
+                            fontEditable: undefined,
+                            fontSizeable: undefined
+                        }),
+                        mapToEditPanelValues: (config) => new Map([
+                            ["course_title", config.course_title || defaultConfig.course_title],
+                            ["teacher_name", config.teacher_name || defaultConfig.teacher_name],
+                            ["motivation_quote", config.motivation_quote || defaultConfig.motivation_quote]
+                        ])
+                    });
+                }
+            } catch (error) {
+                console.error("Error initializing app:", error);
+            }
+        }
+
+        // Update UI based on config
+        function updateUI() {
+            const titleElement = document.getElementById('course-title');
+            const teacherElement = document.getElementById('teacher-name');
+            const quoteElement = document.getElementById('motivation-quote');
+
+            if (titleElement) {
+                titleElement.textContent = config.course_title || defaultConfig.course_title;
+            }
+            if (teacherElement) {
+                teacherElement.textContent = config.teacher_name || defaultConfig.teacher_name;
+            }
+            if (quoteElement) {
+                quoteElement.textContent = config.motivation_quote || defaultConfig.motivation_quote;
+            }
+        }
+
+        // Navigation functions
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update navigation active state
+            updateNavActive(sectionId);
+
+            // Scroll to top
+            scrollToTop();
+        }
+
+        function updateNavActive(activeSection) {
+            // Desktop navigation
+            const desktopButtons = document.querySelectorAll('.nav-desktop button');
+            desktopButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.onclick.toString().includes(activeSection)) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Mobile navigation
+            const mobileButtons = document.querySelectorAll('.nav-mobile button');
+            mobileButtons.forEach(button => {
+                button.classList.remove('active');
+                if (button.onclick.toString().includes(activeSection)) {
+                    button.classList.add('active');
+                }
+            });
+        }
+
+        function toggleMobileNav() {
+            const navMobile = document.getElementById('navMobile');
+            navMobile.classList.toggle('show');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Quiz functions
+        async function submitQuiz(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const resultDiv = document.getElementById('quizResult');
+            
+            // Show loading state
+            submitBtn.innerHTML = '<div class="spinner"></div> Mengirim...';
+            submitBtn.disabled = true;
+
+            try {
+                // Check data limit
+                if (currentRecordCount >= 999) {
+                    resultDiv.innerHTML = `
+                        <div class="error-message">
+                            <strong>Batas maksimum tercapai!</strong><br>
+                            Maksimal 999 pengiriman kuis telah tercapai. Silakan hubungi guru untuk informasi lebih lanjut.
+                        </div>
+                    `;
+                    resultDiv.style.display = 'block';
+                    return;
+                }
+
+                const formData = new FormData(event.target);
+                const studentName = formData.get('studentName');
+                
+                // Calculate score
+                const correctAnswers = ['a', 'b', 'b', 'b', 'b'];
+                let score = 0;
+                let answers = [];
+                
+                for (let i = 1; i <= 5; i++) {
+                    const answer = formData.get(`q${i}`);
+                    answers.push(answer || '');
+                    if (answer === correctAnswers[i-1]) {
+                        score += 20;
+                    }
+                }
+
+                // Save to Data SDK
+                const quizResult = {
+                    student_name: studentName,
+                    quiz_score: score,
+                    quiz_answers: answers.join(','),
+                    completed_at: new Date().toISOString()
+                };
+
+                const saveResult = await window.dataSdk.create(quizResult);
+                
+                if (saveResult.isOk) {
+                    // Show success message
+                    resultDiv.innerHTML = `
+                        <div class="success-message">
+                            <h4>🎉 Kuis berhasil dikirim!</h4>
+                            <p><strong>Nama:</strong> ${studentName}</p>
+                            <p><strong>Skor:</strong> ${score}/100</p>
+                            <p><strong>Grade:</strong> ${getGrade(score)}</p>
+                            ${score >= 70 ? '<p>✅ Selamat! Anda lulus kuis ini.</p>' : '<p>📚 Silakan pelajari materi lagi untuk hasil yang lebih baik.</p>'}
+                        </div>
+                    `;
+                    
+                    // Hide form and show next button
+                    document.getElementById('quizForm').style.display = 'none';
+                    document.getElementById('nextToClosing').style.display = 'inline-block';
+                } else {
+                    throw new Error('Gagal menyimpan hasil kuis');
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error-message">
+                        <strong>Terjadi kesalahan!</strong><br>
+                        ${error.message}. Silakan coba lagi.
+                    </div>
+                `;
+            } finally {
+                submitBtn.innerHTML = 'Kirim Jawaban';
+                submitBtn.disabled = false;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        function getGrade(score) {
+            if (score >= 90) return 'A (Sangat Baik)';
+            if (score >= 80) return 'B (Baik)';
+            if (score >= 70) return 'C (Cukup)';
+            if (score >= 60) return 'D (Kurang)';
+            return 'E (Sangat Kurang)';
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            updateUI();
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMobile = document.getElementById('navMobile');
+            const burgerMenu = document.querySelector('.burger-menu');
+            
+            if (!navMobile.contains(event.target) && !burgerMenu.contains(event.target)) {
+                navMobile.classList.remove('show');
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994ab5b115f8df97',t:'MTc2MTQ4OTYzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

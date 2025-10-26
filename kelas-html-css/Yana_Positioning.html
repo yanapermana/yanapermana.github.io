@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigasi Fixed - GameLab Style</title>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        /* Navigasi Fixed */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            color: #4f46e5;
+            background: rgba(79, 70, 229, 0.15);
+        }
+
+        /* Konten utama dengan padding top untuk navigasi */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Navigasi Fixed -->
+  <nav class="navbar">
+   <div class="nav-container"><a href="#" class="logo">🎮 GameLab</a>
+    <ul class="nav-menu">
+     <li class="nav-item"><a href="#home" class="nav-link active">Beranda</a></li>
+     <li class="nav-item"><a href="#courses" class="nav-link">Kursus</a></li>
+     <li class="nav-item"><a href="#bootcamp" class="nav-link">Bootcamp</a></li>
+     <li class="nav-item"><a href="#projects" class="nav-link">Proyek</a></li>
+     <li class="nav-item"><a href="#community" class="nav-link">Komunitas</a></li>
+     <li class="nav-item"><a href="#about" class="nav-link">Tentang</a></li>
+    </ul>
+   </div>
+  </nav><!-- Konten Utama -->
+  <main class="main-content"><!-- Hero Section -->
+   <section class="hero-section">
+    <h1 class="hero-title">Selamat Datang di GameLab</h1>
+    <p class="hero-subtitle">Platform pembelajaran game development terdepan di Indonesia</p>
+   </section><!-- Section 1: Tentang GameLab -->
+   <section class="content-section">
+    <h2 class="section-title">🚀 Tentang GameLab</h2>
+    <p class="section-content">GameLab adalah platform pembelajaran online yang fokus pada pengembangan game dan teknologi digital. Kami menyediakan berbagai kursus mulai dari pemrograman dasar hingga pengembangan game profesional. Dengan instruktur berpengalaman dan kurikulum yang selalu update, GameLab membantu ribuan siswa mencapai impian mereka di industri teknologi.</p>
+    <p class="section-content">Platform kami dilengkapi dengan berbagai fitur interaktif seperti live coding, project-based learning, dan mentoring langsung dari para ahli industri. Setiap siswa akan mendapatkan pengalaman belajar yang personal dan mendalam untuk memastikan pemahaman yang optimal.</p>
+   </section><!-- Section 2: Fitur Unggulan -->
+   <section class="content-section">
+    <h2 class="section-title">✨ Fitur Unggulan</h2>
+    <div class="feature-grid">
+     <div class="feature-card">
+      <div class="feature-icon">
+       💻
+      </div>
+      <h3 class="feature-title">Live Coding</h3>
+      <p class="feature-description">Belajar coding secara real-time dengan instruktur berpengalaman</p>
+     </div>
+     <div class="feature-card">
+      <div class="feature-icon">
+       🎯
+      </div>
+      <h3 class="feature-title">Project Based</h3>
+      <p class="feature-description">Setiap materi dilengkapi dengan proyek nyata untuk portfolio</p>
+     </div>
+     <div class="feature-card">
+      <div class="feature-icon">
+       👥
+      </div>
+      <h3 class="feature-title">Mentoring</h3>
+      <p class="feature-description">Bimbingan personal dari mentor industri berpengalaman</p>
+     </div>
+     <div class="feature-card">
+      <div class="feature-icon">
+       🏆
+      </div>
+      <h3 class="feature-title">Sertifikat</h3>
+      <p class="feature-description">Dapatkan sertifikat yang diakui industri setelah menyelesaikan kursus</p>
+     </div>
+    </div>
+   </section><!-- Section 3: Kursus Populer -->
+   <section class="content-section">
+    <h2 class="section-title">📚 Kursus Populer</h2>
+    <p class="section-content">GameLab menawarkan berbagai kursus yang dirancang khusus untuk memenuhi kebutuhan industri saat ini. Mulai dari pengembangan game mobile menggunakan Unity, pemrograman web dengan JavaScript dan React, hingga kursus advanced seperti machine learning dan artificial intelligence.</p>
+    <p class="section-content">Setiap kursus dilengkapi dengan materi video berkualitas tinggi, latihan interaktif, quiz, dan proyek akhir yang akan menjadi bagian dari portfolio profesional Anda. Kami juga menyediakan forum diskusi aktif dimana siswa dapat berinteraksi dan saling membantu dalam proses pembelajaran.</p>
+   </section><!-- Section 4: Bootcamp -->
+   <section class="content-section">
+    <h2 class="section-title">🔥 Program Bootcamp</h2>
+    <p class="section-content">Program bootcamp intensif kami dirancang untuk mengubah pemula menjadi developer profesional dalam waktu singkat. Dengan durasi 3-6 bulan, bootcamp GameLab mencakup pembelajaran intensif, proyek kolaboratif, dan persiapan karir yang komprehensif.</p>
+    <p class="section-content">Peserta bootcamp akan mendapatkan akses ke job placement assistance, career coaching, dan networking dengan alumni yang sudah bekerja di perusahaan teknologi terkemuka. Success rate alumni kami dalam mendapatkan pekerjaan mencapai 85% dalam 6 bulan setelah lulus.</p>
+   </section><!-- Section 5: Komunitas -->
+   <section class="content-section">
+    <h2 class="section-title">🌟 Komunitas GameLab</h2>
+    <p class="section-content">Bergabunglah dengan komunitas developer terbesar di Indonesia! Komunitas GameLab terdiri dari lebih dari 50,000 member aktif yang saling berbagi pengetahuan, pengalaman, dan peluang karir. Kami mengadakan meetup rutin, workshop gratis, dan kompetisi coding yang menarik.</p>
+    <p class="section-content">Melalui platform komunitas kami, Anda dapat menemukan partner untuk proyek kolaboratif, mendapatkan feedback untuk karya Anda, dan bahkan menemukan peluang kerja dari member lain yang sudah bekerja di industri. Komunitas ini adalah tempat yang tepat untuk networking dan pengembangan karir.</p>
+   </section><!-- Section 6: Testimoni -->
+   <section class="content-section">
+    <h2 class="section-title">💬 Testimoni Alumni</h2>
+    <p class="section-content">"GameLab benar-benar mengubah hidup saya. Dari yang tidak tahu apa-apa tentang programming, sekarang saya bekerja sebagai Full Stack Developer di startup unicorn. Materi yang diajarkan sangat praktis dan up-to-date dengan kebutuhan industri." - Sarah, Alumni Bootcamp Web Development</p>
+    <p class="section-content">"Instruktur di GameLab sangat sabar dan profesional. Mereka tidak hanya mengajar teori, tapi juga berbagi pengalaman nyata dari industri. Community support-nya juga luar biasa, selalu ada yang siap membantu ketika stuck di suatu problem." - Budi, Alumni Game Development Course</p>
+   </section><!-- Section 7: Kontak -->
+   <section class="content-section">
+    <h2 class="section-title">📞 Hubungi Kami</h2>
+    <p class="section-content">Punya pertanyaan tentang kursus atau program kami? Tim customer service GameLab siap membantu Anda 24/7. Anda dapat menghubungi kami melalui berbagai channel komunikasi yang tersedia.</p>
+    <p class="section-content">Email: info@gamelab.id | WhatsApp: +62 812-3456-7890 | Alamat: Jl. Teknologi No. 123, Jakarta Selatan 12345</p>
+    <p class="section-content">Ikuti juga media sosial kami untuk mendapatkan update terbaru tentang kursus, event, dan tips-tips menarik seputar dunia programming dan game development. Mari bergabung dengan revolusi digital bersama GameLab!</p>
+   </section>
+  </main>
+  <script>
+        // Smooth scrolling untuk navigasi
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Smooth scroll (simulasi karena tidak ada target section yang sebenarnya)
+                const targetId = this.getAttribute('href');
+                if (targetId === '#home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // Scroll ke posisi acak untuk demo
+                    const randomPosition = Math.random() * (document.body.scrollHeight - window.innerHeight);
+                    window.scrollTo({ top: randomPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Efek navbar saat scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Tambah shadow saat scroll
+            if (scrollTop > 50) {
+                navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            const defaultConfig = {
+                navbar_title: "🎮 GameLab",
+                hero_title: "Selamat Datang di GameLab",
+                hero_subtitle: "Platform pembelajaran game development terdepan di Indonesia"
+            };
+
+            const element = {
+                defaultConfig,
+                render: async (config) => {
+                    const navbarTitle = document.querySelector('.logo');
+                    const heroTitle = document.querySelector('.hero-title');
+                    const heroSubtitle = document.querySelector('.hero-subtitle');
+                    
+                    if (navbarTitle) navbarTitle.textContent = config.navbar_title || defaultConfig.navbar_title;
+                    if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+                    if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+                },
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["navbar_title", config.navbar_title || defaultConfig.navbar_title],
+                    ["hero_title", config.hero_title || defaultConfig.hero_title],
+                    ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle]
+                ])
+            };
+
+            window.elementSdk.init(element);
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9925565d07864083',t:'MTc2MTA5Nzc1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

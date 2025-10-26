@@ -1,0 +1,14 @@
+<html>
+<body> 
+Sekarang masih ... <p id="output"></p>
+<script>
+var x = "Siang Hari maka Matikan Lampu Jalan";
+var y = "Malam Hari maka Nyalakan Lampu Jalan";
+if(new Date().getHours() < 18){
+	document.getElementById("output").innerHTML = x;
+}else{
+	document.getElementById("output").innerHTML = y;
+}
+</script>
+</body>
+</html>

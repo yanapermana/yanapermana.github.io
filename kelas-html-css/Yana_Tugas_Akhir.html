@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #667eea;
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 300px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #eee;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #f8f9fa;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <header>
+   <nav>
+    <div class="logo" id="company-name">
+     TechSolution
+    </div>
+    <ul class="nav-links">
+     <li><a href="#home">Beranda</a></li>
+     <li><a href="#about">Tentang</a></li>
+     <li><a href="#services">Layanan</a></li>
+     <li><a href="#contact">Kontak</a></li>
+    </ul>
+   </nav>
+  </header>
+  <main>
+   <section id="home" class="hero">
+    <div class="hero-content">
+     <h1 id="hero-title">Solusi Digital Terdepan</h1>
+     <p id="hero-subtitle">Kami membantu bisnis Anda berkembang dengan teknologi terkini dan strategi digital yang efektif</p><a href="#contact" class="cta-button">Mulai Sekarang</a>
+    </div>
+   </section>
+   <section id="about" class="about">
+    <h2 class="section-title" id="about-title">Tentang Kami</h2>
+    <div class="about-content">
+     <div class="about-text">
+      <p id="about-description">Kami adalah tim profesional yang berpengalaman dalam memberikan solusi teknologi terbaik untuk bisnis Anda. Dengan dedikasi tinggi dan inovasi berkelanjutan, kami berkomitmen untuk membantu klien mencapai tujuan digital mereka.</p><br>
+      <p>Tim kami terdiri dari para ahli di bidang teknologi informasi, desain, dan strategi bisnis yang siap memberikan layanan terbaik untuk kesuksesan proyek Anda.</p>
+     </div>
+     <div class="about-image">
+      🚀
+     </div>
+    </div>
+   </section>
+   <section id="services">
+    <h2 class="section-title" id="services-title">Layanan Kami</h2>
+    <div class="services-grid">
+     <div class="service-card">
+      <div class="service-icon">
+       💻
+      </div>
+      <h3>Pengembangan Web</h3>
+      <p>Membangun website modern dan responsif yang sesuai dengan kebutuhan bisnis Anda dengan teknologi terkini.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       📱
+      </div>
+      <h3>Aplikasi Mobile</h3>
+      <p>Mengembangkan aplikasi mobile yang user-friendly untuk platform iOS dan Android dengan performa optimal.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       🎨
+      </div>
+      <h3>UI/UX Design</h3>
+      <p>Menciptakan desain antarmuka yang menarik dan pengalaman pengguna yang luar biasa untuk produk digital Anda.</p>
+     </div>
+    </div>
+   </section>
+   <section id="contact" class="contact">
+    <h2 class="section-title" id="contact-title">Hubungi Kami</h2>
+    <div class="contact-content">
+     <div class="contact-info">
+      <div class="contact-item">
+       <div class="contact-icon">
+        📧
+       </div>
+       <div>
+        <h4>Email</h4>
+        <p id="contact-email">info@techsolution.com</p>
+       </div>
+      </div>
+      <div class="contact-item">
+       <div class="contact-icon">
+        📞
+       </div>
+       <div>
+        <h4>Telepon</h4>
+        <p id="contact-phone">+62 812 3456 7890</p>
+       </div>
+      </div>
+      <div class="contact-item">
+       <div class="contact-icon">
+        📍
+       </div>
+       <div>
+        <h4>Alamat</h4>
+        <p>Jakarta, Indonesia</p>
+       </div>
+      </div>
+     </div>
+     <form class="contact-form" id="contact-form">
+      <div class="form-group"><label for="name">Nama Lengkap</label> <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group"><label for="email">Email</label> <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group"><label for="message">Pesan</label> <textarea id="message" name="message" placeholder="Tulis pesan Anda di sini..." required></textarea>
+      </div><button type="submit" class="submit-btn">Kirim Pesan</button>
+     </form>
+    </div>
+   </section>
+  </main>
+  <footer>
+   <p>© 2024 <span id="footer-company">TechSolution</span>. Semua hak dilindungi.</p>
+  </footer>
+  <script>
+        const defaultConfig = {
+            company_name: "TechSolution",
+            hero_title: "Solusi Digital Terdepan",
+            hero_subtitle: "Kami membantu bisnis Anda berkembang dengan teknologi terkini dan strategi digital yang efektif",
+            about_title: "Tentang Kami",
+            about_description: "Kami adalah tim profesional yang berpengalaman dalam memberikan solusi teknologi terbaik untuk bisnis Anda. Dengan dedikasi tinggi dan inovasi berkelanjutan, kami berkomitmen untuk membantu klien mencapai tujuan digital mereka.",
+            services_title: "Layanan Kami",
+            contact_title: "Hubungi Kami",
+            contact_email: "info@techsolution.com",
+            contact_phone: "+62 812 3456 7890",
+            primary_color: "#667eea",
+            secondary_color: "#764ba2",
+            accent_color: "#ff6b6b",
+            background_color: "#f8f9fa",
+            text_color: "#333333",
+            font_family: "Segoe UI",
+            font_size: 16
+        };
+
+        async function render(config) {
+            const primaryColor = config.primary_color || defaultConfig.primary_color;
+            const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+            const accentColor = config.accent_color || defaultConfig.accent_color;
+            const backgroundColor = config.background_color || defaultConfig.background_color;
+            const textColor = config.text_color || defaultConfig.text_color;
+            const fontFamily = config.font_family || defaultConfig.font_family;
+            const fontSize = config.font_size || defaultConfig.font_size;
+
+            // Update text content
+            document.getElementById('company-name').textContent = config.company_name || defaultConfig.company_name;
+            document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
+            document.getElementById('hero-subtitle').textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+            document.getElementById('about-title').textContent = config.about_title || defaultConfig.about_title;
+            document.getElementById('about-description').textContent = config.about_description || defaultConfig.about_description;
+            document.getElementById('services-title').textContent = config.services_title || defaultConfig.services_title;
+            document.getElementById('contact-title').textContent = config.contact_title || defaultConfig.contact_title;
+            document.getElementById('contact-email').textContent = config.contact_email || defaultConfig.contact_email;
+            document.getElementById('contact-phone').textContent = config.contact_phone || defaultConfig.contact_phone;
+            document.getElementById('footer-company').textContent = config.company_name || defaultConfig.company_name;
+
+            // Update colors
+            const header = document.querySelector('header');
+            const hero = document.querySelector('.hero');
+            const ctaButton = document.querySelector('.cta-button');
+            const aboutSection = document.querySelector('.about');
+            const contactSection = document.querySelector('.contact');
+            
+            header.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            hero.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            ctaButton.style.backgroundColor = accentColor;
+            aboutSection.style.backgroundColor = backgroundColor;
+            contactSection.style.backgroundColor = backgroundColor;
+
+            // Update section title underlines
+            const sectionTitles = document.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => {
+                title.style.color = textColor;
+            });
+
+            // Update service icons and contact icons
+            const serviceIcons = document.querySelectorAll('.service-icon');
+            const contactIcons = document.querySelectorAll('.contact-icon');
+            const aboutImage = document.querySelector('.about-image');
+            
+            serviceIcons.forEach(icon => {
+                icon.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            });
+            
+            contactIcons.forEach(icon => {
+                icon.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            });
+            
+            aboutImage.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+
+            // Update submit button
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+
+            // Update fonts
+            const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
+            document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+            document.body.style.fontSize = `${fontSize}px`;
+            document.body.style.color = textColor;
+
+            // Scale fonts proportionally
+            document.querySelector('.hero h1').style.fontSize = `${fontSize * 2.2}px`;
+            document.querySelector('.hero p').style.fontSize = `${fontSize * 1.1}px`;
+            document.querySelectorAll('.section-title').forEach(title => {
+                title.style.fontSize = `${fontSize * 1.6}px`;
+            });
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            config.primary_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.secondary_color || defaultConfig.secondary_color,
+                        set: (value) => {
+                            config.secondary_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            config.accent_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["company_name", config.company_name || defaultConfig.company_name],
+                ["hero_title", config.hero_title || defaultConfig.hero_title],
+                ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+                ["about_title", config.about_title || defaultConfig.about_title],
+                ["about_description", config.about_description || defaultConfig.about_description],
+                ["services_title", config.services_title || defaultConfig.services_title],
+                ["contact_title", config.contact_title || defaultConfig.contact_title],
+                ["contact_email", config.contact_email || defaultConfig.contact_email],
+                ["contact_phone", config.contact_phone || defaultConfig.contact_phone]
+            ]);
+        }
+
+        // Contact form functionality
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            if (name && email && message) {
+                // Show success message
+                const submitBtn = document.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Pesan Terkirim! ✓';
+                submitBtn.style.backgroundColor = '#4CAF50';
+                
+                // Reset form
+                this.reset();
+                
+                // Reset button after 3 seconds
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.backgroundColor = '';
+                }, 3000);
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize Element SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                render,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9925c5da859eea77',t:'MTc2MTEwMjMyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
