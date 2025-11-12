@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis UX &amp; Aksesibilitas</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 1rem;
+      opacity: 0.95;
+    }
+
+    .progress-container {
+      background: #f0f0f0;
+      padding: 1.5rem 2rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      color: #555;
+      font-weight: 600;
+    }
+
+    .score {
+      font-size: 0.9rem;
+      color: #667eea;
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .quiz-content {
+      padding: 2rem;
+    }
+
+    .question-card {
+      margin-bottom: 2rem;
+    }
+
+    .question-number {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .question-text {
+      font-size: 1.15rem;
+      color: #222;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .option:hover {
+      background: #f0f0f0;
+      border-color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .option-letter {
+      background: #667eea;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .option-text {
+      color: #333;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .option.selected {
+      background: #e8eaf6;
+      border-color: #667eea;
+    }
+
+    .option.correct {
+      background: #d4edda;
+      border-color: #28a745;
+      pointer-events: none;
+    }
+
+    .option.correct .option-letter {
+      background: #28a745;
+    }
+
+    .option.incorrect {
+      background: #f8d7da;
+      border-color: #dc3545;
+      pointer-events: none;
+    }
+
+    .option.incorrect .option-letter {
+      background: #dc3545;
+    }
+
+    .option.disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .feedback {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct {
+      background: #d4edda;
+      border: 2px solid #28a745;
+      color: #155724;
+    }
+
+    .feedback.incorrect {
+      background: #f8d7da;
+      border: 2px solid #dc3545;
+      color: #721c24;
+    }
+
+    .feedback-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .next-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+      display: none;
+    }
+
+    .next-button.show {
+      display: inline-block;
+    }
+
+    .next-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .result-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      display: none;
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    .result-icon {
+      font-size: 5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .result-title {
+      font-size: 2rem;
+      color: #222;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .result-score {
+      font-size: 3rem;
+      color: #667eea;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .result-message {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .restart-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 3rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .restart-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 640px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .header p {
+        font-size: 0.9rem;
+      }
+
+      .quiz-content {
+        padding: 1.5rem;
+      }
+
+      .question-text {
+        font-size: 1rem;
+      }
+
+      .option {
+        padding: 0.875rem 1rem;
+      }
+
+      .option-text {
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <header class="header">
+    <h1 id="quiz-title">Kuis UX &amp; Aksesibilitas</h1>
+    <p id="quiz-subtitle">Uji pemahaman Anda tentang UX Design, CTA, Usability, dan Aksesibilitas</p>
+   </header>
+   <div class="progress-container">
+    <div class="progress-info"><span class="progress-text">Pertanyaan <span id="current-question">1</span> dari <span id="total-questions">20</span></span> <span class="score">Skor: <span id="score">0</span>/20</span>
+    </div>
+    <div class="progress-bar">
+     <div class="progress-fill" id="progress-fill"></div>
+    </div>
+   </div>
+   <main class="quiz-content" id="quiz-content"><!-- Questions will be rendered here -->
+   </main>
+   <div class="result-card" id="result-card">
+    <div class="result-icon" id="result-icon">
+     🎉
+    </div>
+    <h2 class="result-title">Kuis Selesai!</h2>
+    <div class="result-score" id="final-score">
+     0/20
+    </div>
+    <p class="result-message" id="result-message">Kerja bagus!</p><button class="restart-button" onclick="restartQuiz()">Mulai Ulang Kuis</button>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      quiz_title: "Kuis UX & Aksesibilitas",
+      quiz_subtitle: "Uji pemahaman Anda tentang UX Design, CTA, Usability, dan Aksesibilitas"
+    };
+
+    const quizData = [
+      {
+        question: "Apa tujuan utama dari CTA (Call-to-Action) yang efektif dalam desain UX?",
+        options: [
+          "Membuat tampilan website lebih menarik secara visual",
+          "Mengarahkan pengguna untuk melakukan tindakan spesifik yang diinginkan",
+          "Menambah jumlah teks pada halaman",
+          "Mengisi ruang kosong pada layout",
+          "Menampilkan semua fitur produk sekaligus"
+        ],
+        correct: 1,
+        explanation: "CTA yang efektif dirancang untuk mengarahkan pengguna melakukan tindakan spesifik seperti 'Daftar Sekarang', 'Beli', atau 'Download'. Ini adalah elemen kunci dalam konversi dan user journey."
+      },
+      {
+        question: "Ketika menulis pesan error (UX Writing), pendekatan mana yang paling baik?",
+        options: [
+          "Gunakan bahasa teknis agar terlihat profesional",
+          "Jelaskan apa yang salah dan berikan solusi yang jelas",
+          "Tampilkan kode error untuk transparansi",
+          "Buat pesan sesingkat mungkin tanpa penjelasan",
+          "Salahkan pengguna atas kesalahan yang terjadi"
+        ],
+        correct: 1,
+        explanation: "Pesan error yang baik harus menjelaskan masalah dengan bahasa yang mudah dipahami dan memberikan langkah solusi yang jelas. Contoh: 'Email tidak valid. Pastikan format email Anda benar (contoh@email.com)'"
+      },
+      {
+        question: "Jika konversi di halaman checkout rendah, solusi UX mana yang paling efektif?",
+        options: [
+          "Menambah lebih banyak pilihan pembayaran",
+          "Menyederhanakan form dan mengurangi jumlah field yang wajib diisi",
+          "Menambah animasi yang menarik",
+          "Mengubah warna tombol checkout",
+          "Menampilkan lebih banyak produk rekomendasi"
+        ],
+        correct: 1,
+        explanation: "Form yang terlalu panjang adalah penyebab utama cart abandonment. Menyederhanakan form dengan hanya meminta informasi esensial dapat meningkatkan konversi secara signifikan."
+      },
+      {
+        question: "Pengguna sering mengalami error saat login. Apa solusi desain UX yang paling tepat?",
+        options: [
+          "Menghapus fitur login",
+          "Menambahkan pesan error yang jelas, opsi 'Lupa Password', dan validasi real-time",
+          "Membuat password requirement lebih kompleks",
+          "Mengurangi ukuran tombol login",
+          "Menyembunyikan field password"
+        ],
+        correct: 1,
+        explanation: "Solusi komprehensif mencakup feedback yang jelas (pesan error spesifik), recovery option (lupa password), dan validasi real-time untuk mencegah error sebelum submit."
+      },
+      {
+        question: "Apa elemen penting dalam onboarding yang efektif untuk pengguna baru?",
+        options: [
+          "Menampilkan semua fitur sekaligus dalam satu layar",
+          "Progressive disclosure: tunjukkan fitur secara bertahap sesuai kebutuhan",
+          "Memaksa pengguna menonton video tutorial panjang",
+          "Langsung mengarahkan ke halaman settings",
+          "Menampilkan pop-up iklan produk premium"
+        ],
+        correct: 1,
+        explanation: "Progressive disclosure membantu pengguna belajar secara bertahap tanpa overwhelmed. Tunjukkan fitur core terlebih dahulu, lalu perkenalkan fitur advanced seiring penggunaan."
+      },
+      {
+        question: "Dalam konteks usability, apa yang dimaksud dengan 'affordance'?",
+        options: [
+          "Harga yang terjangkau untuk produk",
+          "Petunjuk visual yang menunjukkan bagaimana suatu elemen dapat digunakan",
+          "Kemampuan website untuk diakses secara gratis",
+          "Kecepatan loading halaman",
+          "Jumlah fitur yang tersedia"
+        ],
+        correct: 1,
+        explanation: "Affordance adalah karakteristik desain yang menunjukkan fungsinya. Contoh: tombol yang terlihat 'clickable' dengan shadow dan hover effect, atau handle yang terlihat bisa 'di-drag'."
+      },
+      {
+        question: "Mengapa penting untuk tidak hanya mengandalkan warna dalam desain untuk pengguna buta warna?",
+        options: [
+          "Karena warna membuat desain terlalu ramai",
+          "Karena 8% pria dan 0.5% wanita mengalami buta warna dan tidak bisa membedakan informasi hanya dari warna",
+          "Karena warna tidak penting dalam desain",
+          "Karena semua orang lebih suka desain hitam putih",
+          "Karena warna membuat website lebih lambat"
+        ],
+        correct: 1,
+        explanation: "Buta warna (terutama red-green colorblindness) cukup umum. Desain harus menggunakan indikator tambahan seperti ikon, pattern, label teks, atau perbedaan bentuk selain warna."
+      },
+      {
+        question: "Apa standar kontras warna minimum menurut WCAG 2.0 Level AA untuk teks normal?",
+        options: [
+          "2:1",
+          "3:1",
+          "4.5:1",
+          "7:1",
+          "10:1"
+        ],
+        correct: 2,
+        explanation: "WCAG 2.0 Level AA mensyaratkan rasio kontras minimal 4.5:1 untuk teks normal dan 3:1 untuk teks besar (18pt+ atau 14pt+ bold). Ini memastikan keterbacaan untuk pengguna dengan low vision."
+      },
+      {
+        question: "Bagaimana cara terbaik mendesain status 'error' dan 'success' untuk pengguna buta warna?",
+        options: [
+          "Hanya gunakan warna merah untuk error dan hijau untuk success",
+          "Gunakan kombinasi warna + ikon + teks label yang jelas",
+          "Gunakan warna yang lebih terang",
+          "Tidak perlu membedakan error dan success",
+          "Gunakan animasi berkedip"
+        ],
+        correct: 1,
+        explanation: "Kombinasi multi-sensory (warna + ikon ✓/✗ + teks 'Berhasil'/'Error') memastikan semua pengguna dapat memahami status, termasuk yang buta warna atau menggunakan screen reader."
+      },
+      {
+        question: "Apa manfaat utama menggunakan HTML semantik (semantic HTML) untuk aksesibilitas?",
+        options: [
+          "Membuat kode lebih pendek",
+          "Membantu screen reader memahami struktur dan navigasi konten dengan benar",
+          "Membuat website loading lebih cepat",
+          "Mengurangi ukuran file HTML",
+          "Membuat desain lebih menarik"
+        ],
+        correct: 1,
+        explanation: "Tag semantik seperti <header>, <nav>, <main>, <article> memberikan konteks struktural yang membantu screen reader dan assistive technology memahami hierarki dan tujuan konten."
+      },
+      {
+        question: "Bagaimana HTML semantik juga membantu SEO (Search Engine Optimization)?",
+        options: [
+          "Membuat website lebih cepat",
+          "Search engine dapat lebih baik memahami struktur dan konteks konten",
+          "Mengurangi biaya hosting",
+          "Membuat website lebih aman",
+          "Menambah jumlah pengunjung otomatis"
+        ],
+        correct: 1,
+        explanation: "Search engine seperti Google menggunakan struktur semantik untuk memahami hierarki informasi. Tag seperti <article>, <section>, <h1>-<h6> membantu crawler mengindeks konten dengan lebih akurat."
+      },
+      {
+        question: "Apa yang dimaksud dengan 'keyboard navigation' dalam konteks aksesibilitas?",
+        options: [
+          "Shortcut keyboard untuk developer",
+          "Kemampuan mengoperasikan semua fungsi website hanya dengan keyboard tanpa mouse",
+          "Fitur untuk mengetik lebih cepat",
+          "Desain keyboard virtual",
+          "Animasi saat menekan tombol"
+        ],
+        correct: 1,
+        explanation: "Keyboard navigation sangat penting untuk pengguna dengan disabilitas motorik atau pengguna screen reader. Semua elemen interaktif harus dapat diakses dengan Tab, Enter, dan arrow keys."
+      },
+      {
+        question: "Dalam skenario A/B testing untuk meningkatkan konversi, apa yang sebaiknya diuji terlebih dahulu?",
+        options: [
+          "Warna background seluruh halaman",
+          "Elemen dengan impact tinggi seperti headline, CTA button, atau form fields",
+          "Font yang digunakan",
+          "Animasi loading",
+          "Footer design"
+        ],
+        correct: 1,
+        explanation: "Fokus pada elemen high-impact yang langsung mempengaruhi keputusan pengguna. Headline yang jelas, CTA yang menonjol, dan form yang sederhana biasanya memberikan hasil paling signifikan."
+      },
+      {
+        question: "Apa prinsip 'F-pattern' dalam desain UX dan bagaimana penerapannya?",
+        options: [
+          "Desain berbentuk huruf F",
+          "Pola membaca pengguna yang berbentuk F: horizontal di atas, lalu vertikal di kiri",
+          "Font yang digunakan harus dimulai dengan huruf F",
+          "Fitur harus diawali huruf F",
+          "Form harus berbentuk F"
+        ],
+        correct: 1,
+        explanation: "Eye-tracking studies menunjukkan pengguna membaca web dalam pola F: scan horizontal di bagian atas, lalu vertikal di sisi kiri. Tempatkan informasi penting di area ini untuk visibility maksimal."
+      },
+      {
+        question: "Mengapa 'alt text' pada gambar penting untuk aksesibilitas?",
+        options: [
+          "Untuk membuat gambar loading lebih cepat",
+          "Untuk mendeskripsikan gambar kepada pengguna screen reader dan saat gambar gagal load",
+          "Untuk SEO saja",
+          "Untuk menambah teks di halaman",
+          "Untuk membuat gambar lebih menarik"
+        ],
+        correct: 1,
+        explanation: "Alt text memberikan deskripsi tekstual gambar untuk pengguna screen reader (tunanetra) dan ditampilkan saat gambar gagal load. Alt text yang baik deskriptif dan kontekstual."
+      },
+      {
+        question: "Apa yang dimaksud dengan 'cognitive load' dalam UX design?",
+        options: [
+          "Kecepatan loading website",
+          "Jumlah usaha mental yang dibutuhkan pengguna untuk memahami dan menggunakan interface",
+          "Ukuran file website",
+          "Jumlah halaman dalam website",
+          "Kompleksitas kode programming"
+        ],
+        correct: 1,
+        explanation: "Cognitive load adalah beban mental pengguna. Desain yang baik meminimalkan cognitive load dengan interface yang intuitif, informasi yang jelas, dan mengurangi pilihan yang tidak perlu (Hick's Law)."
+      },
+      {
+        question: "Dalam desain form, apa praktik terbaik untuk label input field?",
+        options: [
+          "Letakkan label di dalam field sebagai placeholder",
+          "Letakkan label di atas field dan tetap visible saat user mengetik",
+          "Tidak perlu label jika field sudah jelas",
+          "Gunakan ikon saja tanpa teks",
+          "Sembunyikan label setelah user mulai mengetik"
+        ],
+        correct: 1,
+        explanation: "Label yang persistent (tetap terlihat) di atas field membantu pengguna mengingat apa yang harus diisi, terutama saat review form. Placeholder yang hilang saat mengetik dapat menyebabkan kebingungan."
+      },
+      {
+        question: "Apa yang dimaksud dengan 'focus indicator' dan mengapa penting?",
+        options: [
+          "Indikator loading",
+          "Visual outline yang menunjukkan elemen mana yang sedang aktif saat navigasi keyboard",
+          "Indikator jumlah fokus pengguna",
+          "Fitur untuk meningkatkan konsentrasi",
+          "Animasi saat hover"
+        ],
+        correct: 1,
+        explanation: "Focus indicator (biasanya outline atau border) menunjukkan elemen mana yang sedang aktif saat navigasi dengan keyboard. Ini krusial untuk aksesibilitas dan tidak boleh dihilangkan dengan CSS."
+      },
+      {
+        question: "Dalam konteks mobile UX, apa ukuran minimum yang direkomendasikan untuk touch target?",
+        options: [
+          "24x24 pixels",
+          "32x32 pixels",
+          "44x44 pixels (atau 48x48 dp)",
+          "64x64 pixels",
+          "100x100 pixels"
+        ],
+        correct: 2,
+        explanation: "Apple HIG merekomendasikan 44x44 points, Material Design merekomendasikan 48x48 dp. Ukuran ini memastikan target cukup besar untuk disentuh dengan jari tanpa error, terutama untuk pengguna dengan keterbatasan motorik."
+      },
+      {
+        question: "Apa prinsip 'progressive enhancement' dalam web design yang accessible?",
+        options: [
+          "Menambah fitur premium secara bertahap",
+          "Membangun core functionality yang bekerja untuk semua, lalu menambah enhancement untuk browser modern",
+          "Meningkatkan harga secara bertahap",
+          "Menambah animasi secara progresif",
+          "Upgrade server secara berkala"
+        ],
+        correct: 1,
+        explanation: "Progressive enhancement memastikan konten dan fungsi dasar dapat diakses semua pengguna (termasuk assistive technology dan browser lama), lalu menambahkan fitur enhanced untuk browser yang mendukung."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      const quizContent = document.getElementById('quiz-content');
+      const question = quizData[currentQuestionIndex];
+      
+      quizContent.innerHTML = `
+        <div class="question-card">
+          <span class="question-number">Pertanyaan ${currentQuestionIndex + 1}</span>
+          <h2 class="question-text">${question.question}</h2>
+          <div class="options" id="options">
+            ${question.options.map((option, index) => `
+              <div class="option" onclick="selectOption(${index})" data-index="${index}">
+                <span class="option-letter">${String.fromCharCode(65 + index)}</span>
+                <span class="option-text">${option}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <button class="next-button" id="next-button" onclick="nextQuestion()">
+            ${currentQuestionIndex < quizData.length - 1 ? 'Pertanyaan Berikutnya →' : 'Lihat Hasil'}
+          </button>
+        </div>
+      `;
+
+      updateProgress();
+      answered = false;
+    }
+
+    function selectOption(selectedIndex) {
+      if (answered) return;
+
+      const question = quizData[currentQuestionIndex];
+      const options = document.querySelectorAll('.option');
+      const feedback = document.getElementById('feedback');
+      const nextButton = document.getElementById('next-button');
+
+      answered = true;
+
+      options.forEach((option, index) => {
+        option.classList.add('disabled');
+        if (index === question.correct) {
+          option.classList.add('correct');
+        }
+        if (index === selectedIndex && selectedIndex !== question.correct) {
+          option.classList.add('incorrect');
+        }
+      });
+
+      if (selectedIndex === question.correct) {
+        score++;
+        feedback.className = 'feedback correct show';
+        feedback.innerHTML = `
+          <div class="feedback-title">✓ Benar!</div>
+          <div>${question.explanation}</div>
+        `;
+      } else {
+        feedback.className = 'feedback incorrect show';
+        feedback.innerHTML = `
+          <div class="feedback-title">✗ Kurang Tepat</div>
+          <div>Jawaban yang benar adalah: <strong>${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}</strong></div>
+          <div style="margin-top: 0.75rem;">${question.explanation}</div>
+        `;
+      }
+
+      nextButton.classList.add('show');
+      updateScore();
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      
+      if (currentQuestionIndex < quizData.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function updateProgress() {
+      document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+      document.getElementById('total-questions').textContent = quizData.length;
+      
+      const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+      document.getElementById('progress-fill').style.width = progress + '%';
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = score;
+    }
+
+    function showResults() {
+      document.getElementById('quiz-content').style.display = 'none';
+      document.querySelector('.progress-container').style.display = 'none';
+      
+      const resultCard = document.getElementById('result-card');
+      const resultIcon = document.getElementById('result-icon');
+      const finalScore = document.getElementById('final-score');
+      const resultMessage = document.getElementById('result-message');
+      
+      const percentage = (score / quizData.length) * 100;
+      
+      finalScore.textContent = `${score}/${quizData.length}`;
+      
+      if (percentage >= 90) {
+        resultIcon.textContent = '🏆';
+        resultMessage.textContent = 'Luar biasa! Anda menguasai materi UX dan Aksesibilitas dengan sangat baik!';
+      } else if (percentage >= 75) {
+        resultIcon.textContent = '🎉';
+        resultMessage.textContent = 'Bagus sekali! Pemahaman Anda tentang UX dan Aksesibilitas sudah sangat baik!';
+      } else if (percentage >= 60) {
+        resultIcon.textContent = '👍';
+        resultMessage.textContent = 'Cukup baik! Terus belajar untuk meningkatkan pemahaman Anda.';
+      } else {
+        resultIcon.textContent = '📚';
+        resultMessage.textContent = 'Tetap semangat! Pelajari kembali materi untuk hasil yang lebih baik.';
+      }
+      
+      resultCard.classList.add('show');
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      answered = false;
+      
+      document.getElementById('quiz-content').style.display = 'block';
+      document.querySelector('.progress-container').style.display = 'block';
+      document.getElementById('result-card').classList.remove('show');
+      
+      updateScore();
+      renderQuestion();
+    }
+
+    async function onConfigChange(config) {
+      const titleElement = document.getElementById('quiz-title');
+      const subtitleElement = document.getElementById('quiz-subtitle');
+      
+      if (titleElement) {
+        titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+      }
+      if (subtitleElement) {
+        subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
+        ])
+      });
+    }
+
+    renderQuestion();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d3352de3958093',t:'MTc2MjkyMDkyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
