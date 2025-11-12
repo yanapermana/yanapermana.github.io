@@ -5,787 +5,701 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuis HTML &amp; CSS</title>
   <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
   <style>
-        body {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+    }
 
-        .container {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            width: 90%;
-            margin: 20px;
-            overflow: hidden;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            padding: 40px 30px;
-            text-align: center;
-        }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2em;
-        }
+    .header {
+      text-align: center;
+      color: white;
+      padding: 30px 20px;
+      margin-bottom: 30px;
+    }
 
-        .header p {
-            margin: 0;
-            font-size: 1em;
-            opacity: 0.9;
-        }
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 42px;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
 
-        .content {
-            padding: 40px 30px;
-        }
+    .header p {
+      margin: 0;
+      font-size: 18px;
+      opacity: 0.95;
+    }
 
-        .start-screen {
-            text-align: center;
-        }
+    .quiz-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
 
-        .start-screen h2 {
-            color: #333333;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
+    .quiz-card:hover {
+      transform: translateY(-2px);
+    }
 
-        .start-screen p {
-            color: #666666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 0.95em;
-        }
+    .question-number {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
 
-        .question-container {
-            display: none;
-        }
+    .question-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
 
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-        .question-number {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1em;
-        }
+    .option {
+      background: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 16px;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .question-text {
-            color: #333333;
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
+    .option:hover {
+      background: #edf2f7;
+      border-color: #cbd5e0;
+      transform: translateX(4px);
+    }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .option-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: white;
+      border: 2px solid #cbd5e0;
+      border-radius: 50%;
+      font-weight: 600;
+      color: #667eea;
+      flex-shrink: 0;
+    }
 
-        .option {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .option.selected {
+      background: #667eea;
+      border-color: #667eea;
+      color: white;
+    }
 
-        .option:hover {
-            background: #e9ecef;
-            border-color: #667eea;
-            transform: translateX(5px);
-        }
+    .option.selected .option-label {
+      background: white;
+      border-color: white;
+      color: #667eea;
+    }
 
-        .option.selected {
-            background: #667eea;
-            border-color: #667eea;
-            color: #ffffff;
-        }
+    .option.correct {
+      background: #48bb78;
+      border-color: #48bb78;
+      color: white;
+      animation: correctPulse 0.5s;
+    }
 
-        .option-label {
-            background: #ffffff;
-            color: #667eea;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
+    .option.correct .option-label {
+      background: white;
+      border-color: white;
+      color: #48bb78;
+    }
 
-        .option.selected .option-label {
-            background: #ffffff;
-            color: #667eea;
-        }
+    .option.wrong {
+      background: #f56565;
+      border-color: #f56565;
+      color: white;
+      animation: wrongShake 0.5s;
+    }
 
-        .option-text {
-            flex: 1;
-            font-size: 0.95em;
-        }
+    .option.wrong .option-label {
+      background: white;
+      border-color: white;
+      color: #f56565;
+    }
 
-        .button {
-            background: #667eea;
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            padding: 15px 40px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 30px;
-        }
+    .option.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
 
-        .button:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
+    .feedback {
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.6;
+      display: none;
+    }
 
-        .button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+    .feedback.show {
+      display: block;
+      animation: slideDown 0.3s;
+    }
 
-        .button-container {
-            display: flex;
-            justify-content: center;
-        }
+    .feedback.correct {
+      background: #c6f6d5;
+      color: #22543d;
+      border-left: 4px solid #48bb78;
+    }
 
-        .result-screen {
-            display: none;
-            text-align: center;
-        }
+    .feedback.wrong {
+      background: #fed7d7;
+      color: #742a2a;
+      border-left: 4px solid #f56565;
+    }
 
-        .score-display {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-        }
+    .feedback strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
 
-        .score-display h2 {
-            margin: 0 0 10px 0;
-            font-size: 2.5em;
-        }
+    .score-summary {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      margin-top: 30px;
+    }
 
-        .score-display p {
-            margin: 0;
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
+    .score-summary h2 {
+      color: #2d3748;
+      font-size: 32px;
+      margin: 0 0 20px 0;
+    }
 
-        .result-message {
-            color: #333333;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+    .score-display {
+      font-size: 72px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 20px 0;
+    }
 
-        .loading {
-            text-align: center;
-            color: #667eea;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
+    .score-message {
+      font-size: 20px;
+      color: #4a5568;
+      margin-bottom: 10px;
+    }
 
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
 
-            .content {
-                padding: 30px 20px;
-            }
+    @keyframes wrongShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
 
-            .question-text {
-                font-size: 1.05em;
-            }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-            .option {
-                padding: 15px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
+      .quiz-card {
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 18px;
+      }
+
+      .option {
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+
+      .score-display {
+        font-size: 56px;
+      }
+    }
+  </style>
   <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
   <div class="container">
    <header class="header">
     <h1 id="quiz-title">Kuis HTML &amp; CSS</h1>
-    <p id="quiz-subtitle">Uji Pemahaman Anda tentang HTML Semantik dan CSS</p>
+    <p id="quiz-subtitle">Uji pemahaman Anda tentang HTML Semantik dan CSS</p>
    </header>
-   <main class="content">
-    <div class="start-screen" id="start-screen">
-     <h2>Selamat Datang! 👋</h2>
-     <p>Kuis ini berisi 20 soal pilihan ganda tentang HTML Semantik dan CSS. Setiap soal memiliki 5 pilihan jawaban. Pilih jawaban yang paling tepat untuk setiap pertanyaan.</p>
-     <p><strong>Topik yang diujikan:</strong><br>
-       • Struktur &amp; Semantik HTML<br>
-       • Tag HTML Semantik<br>
-       • Fungsi &amp; Metode CSS<br>
-       • CSS Specificity</p>
-     <div class="button-container"><button class="button" id="start-button">Mulai Kuis</button>
-     </div>
-    </div>
-    <div class="question-container" id="question-container">
-     <div class="question-header"><span class="question-number" id="question-number">Soal 1 dari 20</span>
-     </div>
-     <div class="question-text" id="question-text"></div>
-     <div class="options" id="options"></div>
-     <div class="button-container"><button class="button" id="next-button" disabled>Selanjutnya</button>
-     </div>
-     <div class="loading" id="loading" style="display: none;">
-      Menyimpan jawaban...
-     </div>
-    </div>
-    <div class="result-screen" id="result-screen">
-     <div class="score-display">
-      <h2 id="score-text">0/20</h2>
-      <p>Skor Anda</p>
-     </div>
-     <div class="result-message" id="result-message"></div>
-     <div class="button-container"><button class="button" id="restart-button">Ulangi Kuis</button>
-     </div>
-    </div>
-   </main>
+   <div id="quiz-container"></div>
+   <div id="score-container"></div>
   </div>
   <script>
-        const questions = [
-            {
-                question: "Apa fungsi utama dari tag <head> dalam dokumen HTML?",
-                options: [
-                    "Menampilkan konten utama halaman web",
-                    "Menyimpan metadata dan informasi dokumen yang tidak ditampilkan",
-                    "Membuat navigasi website",
-                    "Menampilkan footer halaman",
-                    "Membuat sidebar konten"
-                ],
-                correct: 1
-            },
-            {
-                question: "Tag HTML semantik mana yang paling tepat untuk membuat menu navigasi website?",
-                options: [
-                    "<div>",
-                    "<section>",
-                    "<nav>",
-                    "<header>",
-                    "<aside>"
-                ],
-                correct: 2
-            },
-            {
-                question: "Tag <article> paling tepat digunakan untuk:",
-                options: [
-                    "Membuat navigasi halaman",
-                    "Konten independen yang dapat berdiri sendiri seperti postingan blog",
-                    "Membuat footer website",
-                    "Menyimpan metadata",
-                    "Membuat sidebar"
-                ],
-                correct: 1
-            },
-            {
-                question: "Apa fungsi dari tag <footer> dalam HTML semantik?",
-                options: [
-                    "Membuat header halaman",
-                    "Menampilkan navigasi utama",
-                    "Menampilkan informasi penutup seperti copyright dan kontak",
-                    "Membuat konten utama",
-                    "Menyimpan script JavaScript"
-                ],
-                correct: 2
-            },
-            {
-                question: "Tag <aside> paling cocok digunakan untuk:",
-                options: [
-                    "Konten utama halaman",
-                    "Navigasi website",
-                    "Konten sampingan atau sidebar yang terkait dengan konten utama",
-                    "Footer halaman",
-                    "Header halaman"
-                ],
-                correct: 2
-            },
-            {
-                question: "Tag <q> dalam HTML digunakan untuk:",
-                options: [
-                    "Membuat paragraf panjang",
-                    "Membuat kutipan pendek inline",
-                    "Membuat judul halaman",
-                    "Membuat daftar",
-                    "Membuat tabel"
-                ],
-                correct: 1
-            },
-            {
-                question: "Untuk membuat postingan blog yang lengkap dengan judul, tanggal, dan konten, tag semantik yang paling tepat adalah:",
-                options: [
-                    "<div>",
-                    "<section>",
-                    "<article>",
-                    "<aside>",
-                    "<nav>"
-                ],
-                correct: 2
-            },
-            {
-                question: "Manakah struktur HTML semantik yang paling tepat untuk sidebar yang berisi widget dan iklan?",
-                options: [
-                    "<nav>",
-                    "<article>",
-                    "<footer>",
-                    "<aside>",
-                    "<header>"
-                ],
-                correct: 3
-            },
-            {
-                question: "Apa fungsi utama dari CSS (Cascading Style Sheets)?",
-                options: [
-                    "Membuat struktur halaman web",
-                    "Mengatur tampilan dan styling elemen HTML",
-                    "Membuat interaksi dinamis",
-                    "Menyimpan data pengguna",
-                    "Mengelola database"
-                ],
-                correct: 1
-            },
-            {
-                question: "Apa kelebihan utama menggunakan External CSS dibandingkan Inline CSS?",
-                options: [
-                    "Lebih cepat dimuat browser",
-                    "Tidak perlu file terpisah",
-                    "Dapat digunakan di banyak halaman dan mudah maintenance",
-                    "Lebih spesifik",
-                    "Tidak bisa di-cache"
-                ],
-                correct: 2
-            },
-            {
-                question: "Bagaimana cara menghubungkan file CSS eksternal ke HTML?",
-                options: [
-                    "<style src='style.css'>",
-                    "<css href='style.css'>",
-                    "<link rel='stylesheet' href='style.css'>",
-                    "<script src='style.css'>",
-                    "<import css='style.css'>"
-                ],
-                correct: 2
-            },
-            {
-                question: "Dalam CSS Specificity, manakah yang memiliki prioritas TERTINGGI?",
-                options: [
-                    "Element selector (p, div)",
-                    "Class selector (.class)",
-                    "ID selector (#id)",
-                    "Inline style",
-                    "Universal selector (*)"
-                ],
-                correct: 3
-            },
-            {
-                question: "Jika ada konflik style antara class dan ID selector, mana yang akan diterapkan?",
-                options: [
-                    "Class selector karena lebih umum",
-                    "ID selector karena lebih spesifik",
-                    "Yang ditulis terakhir",
-                    "Keduanya digabungkan",
-                    "Tidak ada yang diterapkan"
-                ],
-                correct: 1
-            },
-            {
-                question: "Sintaks CSS yang benar untuk mengubah warna teks menjadi merah adalah:",
-                options: [
-                    "color: red;",
-                    "text-color: red;",
-                    "font-color: red;",
-                    "text: red;",
-                    "color = red;"
-                ],
-                correct: 0
-            },
-            {
-                question: "Anda menggunakan framework CSS yang membuat tombol berwarna biru, tetapi ingin mengubahnya menjadi merah. Cara terbaik adalah:",
-                options: [
-                    "Menghapus framework",
-                    "Menggunakan !important",
-                    "Membuat selector yang lebih spesifik",
-                    "Mengubah file framework",
-                    "Tidak bisa diubah"
-                ],
-                correct: 2
-            },
-            {
-                question: "Manakah penulisan selector CSS yang PALING spesifik?",
-                options: [
-                    "p { }",
-                    ".text { }",
-                    "#main { }",
-                    "div.text { }",
-                    "#main .text p { }"
-                ],
-                correct: 4
-            },
-            {
-                question: "Tag semantik mana yang paling tepat untuk menampilkan kutipan panjang dari sumber lain?",
-                options: [
-                    "<q>",
-                    "<blockquote>",
-                    "<cite>",
-                    "<quote>",
-                    "<text>"
-                ],
-                correct: 1
-            },
-            {
-                question: "Dalam struktur halaman berita, tag mana yang paling tepat untuk bagian 'Berita Terkait' di samping artikel utama?",
-                options: [
-                    "<nav>",
-                    "<article>",
-                    "<footer>",
-                    "<aside>",
-                    "<section>"
-                ],
-                correct: 3
-            },
-            {
-                question: "Jika Anda memiliki style: #header { color: blue; } dan .header { color: red; }, elemen <div id='header' class='header'> akan berwarna:",
-                options: [
-                    "Merah",
-                    "Biru",
-                    "Hitam (default)",
-                    "Keduanya",
-                    "Error"
-                ],
-                correct: 1
-            },
-            {
-                question: "Manakah yang BUKAN keuntungan menggunakan tag HTML semantik?",
-                options: [
-                    "Meningkatkan SEO",
-                    "Memudahkan maintenance kode",
-                    "Lebih mudah dibaca oleh developer",
-                    "Membuat website lebih cepat",
-                    "Meningkatkan aksesibilitas"
-                ],
-                correct: 3
-            }
-        ];
+    const defaultConfig = {
+      quiz_title: "Kuis HTML & CSS",
+      quiz_subtitle: "Uji pemahaman Anda tentang HTML Semantik dan CSS"
+    };
 
-        const defaultConfig = {
-            quiz_title: "Kuis HTML & CSS",
-            quiz_subtitle: "Uji Pemahaman Anda tentang HTML Semantik dan CSS",
-            start_button_text: "Mulai Kuis",
-            next_button_text: "Selanjutnya",
-            finish_button_text: "Selesai",
-            restart_button_text: "Ulangi Kuis",
-            background_color: "#667eea",
-            surface_color: "#ffffff",
-            text_color: "#333333",
-            primary_action_color: "#667eea",
-            secondary_action_color: "#764ba2",
-            font_family: "Segoe UI",
-            font_size: 16
-        };
+    const quizData = [
+      {
+        question: "Apa fungsi utama dari tag <head> dalam HTML?",
+        options: [
+          "Menampilkan konten utama halaman",
+          "Menyimpan metadata dan informasi dokumen",
+          "Membuat navigasi website",
+          "Menampilkan footer halaman",
+          "Membuat sidebar"
+        ],
+        correct: 1,
+        explanation: "Tag <head> digunakan untuk menyimpan metadata seperti title, link CSS, meta tags, dan informasi lain yang tidak ditampilkan langsung di halaman."
+      },
+      {
+        question: "Tag HTML mana yang paling tepat untuk membuat menu navigasi website?",
+        options: [
+          "<div>",
+          "<section>",
+          "<nav>",
+          "<header>",
+          "<menu>"
+        ],
+        correct: 2,
+        explanation: "Tag <nav> adalah tag semantik yang dirancang khusus untuk menandai bagian navigasi utama website."
+      },
+      {
+        question: "Tag apa yang paling tepat untuk menandai postingan blog atau artikel?",
+        options: [
+          "<div>",
+          "<section>",
+          "<article>",
+          "<content>",
+          "<post>"
+        ],
+        correct: 2,
+        explanation: "Tag <article> digunakan untuk konten independen yang dapat berdiri sendiri, seperti postingan blog, artikel berita, atau komentar."
+      },
+      {
+        question: "Fungsi utama dari tag <footer> adalah?",
+        options: [
+          "Membuat header halaman",
+          "Menampilkan navigasi utama",
+          "Menampilkan informasi penutup seperti copyright dan kontak",
+          "Membuat sidebar",
+          "Menampilkan konten utama"
+        ],
+        correct: 2,
+        explanation: "Tag <footer> digunakan untuk bagian penutup halaman atau section yang biasanya berisi informasi copyright, kontak, atau link tambahan."
+      },
+      {
+        question: "Tag <aside> paling tepat digunakan untuk?",
+        options: [
+          "Konten utama halaman",
+          "Navigasi website",
+          "Konten sampingan atau sidebar",
+          "Footer halaman",
+          "Header halaman"
+        ],
+        correct: 2,
+        explanation: "Tag <aside> digunakan untuk konten yang berhubungan tapi terpisah dari konten utama, seperti sidebar, widget, atau informasi tambahan."
+      },
+      {
+        question: "Tag HTML mana yang digunakan untuk menandai kutipan pendek dalam teks?",
+        options: [
+          "<quote>",
+          "<q>",
+          "<cite>",
+          "<blockquote>",
+          "<quotation>"
+        ],
+        correct: 1,
+        explanation: "Tag <q> digunakan untuk kutipan pendek inline yang secara otomatis menambahkan tanda kutip. Untuk kutipan panjang gunakan <blockquote>."
+      },
+      {
+        question: "Apa fungsi utama CSS dalam pengembangan web?",
+        options: [
+          "Membuat struktur halaman",
+          "Mengatur tampilan dan styling halaman",
+          "Menambahkan interaktivitas",
+          "Menyimpan data",
+          "Membuat database"
+        ],
+        correct: 1,
+        explanation: "CSS (Cascading Style Sheets) berfungsi untuk mengatur tampilan visual halaman web seperti warna, layout, font, dan spacing."
+      },
+      {
+        question: "Apa kelebihan utama menggunakan External CSS dibanding Inline CSS?",
+        options: [
+          "Lebih cepat loading",
+          "Tidak perlu file terpisah",
+          "Dapat digunakan di banyak halaman dan mudah maintenance",
+          "Lebih spesifik",
+          "Tidak perlu link tag"
+        ],
+        correct: 2,
+        explanation: "External CSS memungkinkan satu file CSS digunakan di banyak halaman HTML, membuat kode lebih terorganisir dan mudah di-maintain."
+      },
+      {
+        question: "Bagaimana cara menghubungkan file CSS eksternal ke HTML?",
+        options: [
+          "<style src='style.css'>",
+          "<css href='style.css'>",
+          "<link rel='stylesheet' href='style.css'>",
+          "<import css='style.css'>",
+          "<include css='style.css'>"
+        ],
+        correct: 2,
+        explanation: "Tag <link> dengan atribut rel='stylesheet' dan href digunakan di dalam <head> untuk menghubungkan file CSS eksternal."
+      },
+      {
+        question: "Dalam CSS Specificity, mana yang memiliki prioritas tertinggi?",
+        options: [
+          "Element selector (p)",
+          "Class selector (.class)",
+          "ID selector (#id)",
+          "Inline style",
+          "Universal selector (*)"
+        ],
+        correct: 3,
+        explanation: "Urutan specificity dari tertinggi: Inline style > ID > Class/Attribute > Element > Universal. Inline style memiliki prioritas tertinggi."
+      },
+      {
+        question: "Sintaks CSS yang benar untuk mengubah warna teks adalah?",
+        options: [
+          "text-color: red;",
+          "color: red;",
+          "font-color: red;",
+          "text: red;",
+          "color = red;"
+        ],
+        correct: 1,
+        explanation: "Properti 'color' digunakan untuk mengubah warna teks dalam CSS dengan sintaks: color: nilai;"
+      },
+      {
+        question: "Jika style dari framework Bootstrap tertimpa, solusi terbaik adalah?",
+        options: [
+          "Hapus framework",
+          "Gunakan !important di semua style",
+          "Tingkatkan specificity selector atau gunakan !important dengan bijak",
+          "Ubah file framework",
+          "Gunakan inline style saja"
+        ],
+        correct: 2,
+        explanation: "Tingkatkan specificity dengan selector yang lebih spesifik (misal: .container .my-class) atau gunakan !important hanya jika diperlukan."
+      },
+      {
+        question: "Perbedaan antara <article> dan <section> adalah?",
+        options: [
+          "Tidak ada perbedaan",
+          "<article> untuk konten independen, <section> untuk pengelompokan tematik",
+          "<section> untuk konten independen, <article> untuk pengelompokan",
+          "<article> hanya untuk blog",
+          "<section> hanya untuk sidebar"
+        ],
+        correct: 1,
+        explanation: "<article> untuk konten yang dapat berdiri sendiri (artikel, post), sedangkan <section> untuk mengelompokkan konten berdasarkan tema."
+      },
+      {
+        question: "Manakah yang BUKAN metode implementasi CSS?",
+        options: [
+          "Inline CSS",
+          "Internal CSS",
+          "External CSS",
+          "Embedded CSS",
+          "Remote CSS"
+        ],
+        correct: 4,
+        explanation: "Tiga metode implementasi CSS adalah: Inline (di atribut style), Internal (di tag <style>), dan External (file .css terpisah)."
+      },
+      {
+        question: "Selector CSS mana yang memiliki specificity paling rendah?",
+        options: [
+          "#header",
+          ".container",
+          "div",
+          "div.container",
+          "*"
+        ],
+        correct: 4,
+        explanation: "Universal selector (*) memiliki specificity paling rendah (0,0,0,0), bahkan lebih rendah dari element selector."
+      },
+      {
+        question: "Tag semantik mana yang tepat untuk bagian header website?",
+        options: [
+          "<top>",
+          "<header>",
+          "<head>",
+          "<banner>",
+          "<title>"
+        ],
+        correct: 1,
+        explanation: "Tag <header> digunakan untuk bagian header/kepala dari halaman atau section yang biasanya berisi logo, judul, dan navigasi."
+      },
+      {
+        question: "Dalam CSS, apa arti dari 'Cascading'?",
+        options: [
+          "Style mengalir dari atas ke bawah",
+          "Style dapat diwariskan dan ditimpa berdasarkan prioritas",
+          "Style harus berurutan",
+          "Style harus di file terpisah",
+          "Style harus menggunakan class"
+        ],
+        correct: 1,
+        explanation: "'Cascading' berarti style dapat diwariskan dari parent ke child dan dapat ditimpa berdasarkan specificity dan urutan penulisan."
+      },
+      {
+        question: "Bagaimana cara meningkatkan specificity tanpa menggunakan !important?",
+        options: [
+          "Tambahkan lebih banyak selector",
+          "Gunakan ID selector",
+          "Kombinasikan class dan element selector",
+          "Semua jawaban benar",
+          "Tidak bisa ditingkatkan"
+        ],
+        correct: 3,
+        explanation: "Specificity dapat ditingkatkan dengan menambah selector, menggunakan ID, atau mengombinasikan selector (misal: div.container #header)."
+      },
+      {
+        question: "Tag <q> secara otomatis menambahkan?",
+        options: [
+          "Garis bawah",
+          "Tanda kutip",
+          "Italic",
+          "Bold",
+          "Background color"
+        ],
+        correct: 1,
+        explanation: "Tag <q> secara otomatis menambahkan tanda kutip (\" \") di sekitar teks yang dikutip sesuai dengan bahasa dokumen."
+      },
+      {
+        question: "Apa keuntungan menggunakan tag semantik HTML5?",
+        options: [
+          "Membuat website lebih cepat",
+          "Meningkatkan SEO dan aksesibilitas",
+          "Mengurangi ukuran file",
+          "Tidak perlu CSS",
+          "Otomatis responsive"
+        ],
+        correct: 1,
+        explanation: "Tag semantik membantu search engine dan screen reader memahami struktur konten, meningkatkan SEO dan aksesibilitas website."
+      }
+    ];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let selectedAnswer = null;
-        let currentRecordCount = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
 
-        const dataHandler = {
-            onDataChanged(data) {
-                currentRecordCount = data.length;
-            }
-        };
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
 
-        async function initializeApp() {
-            const initResult = await window.dataSdk.init(dataHandler);
-            if (!initResult.isOk) {
-                console.error("Failed to initialize data SDK");
-            }
+      quizData.forEach((quiz, index) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        card.id = `question-${index}`;
 
-            if (window.elementSdk) {
-                window.elementSdk.init({
-                    defaultConfig,
-                    onConfigChange: async (config) => {
-                        const titleElement = document.getElementById('quiz-title');
-                        const subtitleElement = document.getElementById('quiz-subtitle');
-                        const startButton = document.getElementById('start-button');
-                        const nextButton = document.getElementById('next-button');
-                        const restartButton = document.getElementById('restart-button');
+        const questionNumber = document.createElement('span');
+        questionNumber.className = 'question-number';
+        questionNumber.textContent = `Soal ${index + 1}`;
 
-                        if (titleElement) titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
-                        if (subtitleElement) subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
-                        if (startButton) startButton.textContent = config.start_button_text || defaultConfig.start_button_text;
-                        if (restartButton) restartButton.textContent = config.restart_button_text || defaultConfig.restart_button_text;
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+        questionText.textContent = quiz.question;
 
-                        if (nextButton) {
-                            if (currentQuestion === questions.length - 1) {
-                                nextButton.textContent = config.finish_button_text || defaultConfig.finish_button_text;
-                            } else {
-                                nextButton.textContent = config.next_button_text || defaultConfig.next_button_text;
-                            }
-                        }
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'options';
 
-                        const customFont = config.font_family || defaultConfig.font_family;
-                        const baseFontStack = 'Tahoma, Geneva, Verdana, sans-serif';
-                        const baseSize = config.font_size || defaultConfig.font_size;
+        const labels = ['A', 'B', 'C', 'D', 'E'];
+        quiz.options.forEach((option, optIndex) => {
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'option';
+          optionDiv.dataset.questionIndex = index;
+          optionDiv.dataset.optionIndex = optIndex;
 
-                        document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
-                        document.body.style.fontSize = `${baseSize}px`;
+          const optionLabel = document.createElement('span');
+          optionLabel.className = 'option-label';
+          optionLabel.textContent = labels[optIndex];
 
-                        const backgroundColor = config.background_color || defaultConfig.background_color;
-                        const surfaceColor = config.surface_color || defaultConfig.surface_color;
-                        const textColor = config.text_color || defaultConfig.text_color;
-                        const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+          const optionText = document.createElement('span');
+          optionText.textContent = option;
 
-                        document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${config.secondary_action_color || defaultConfig.secondary_action_color} 100%)`;
-                        
-                        const container = document.querySelector('.container');
-                        if (container) container.style.background = surfaceColor;
+          optionDiv.appendChild(optionLabel);
+          optionDiv.appendChild(optionText);
+          optionDiv.addEventListener('click', handleOptionClick);
 
-                        const header = document.querySelector('.header');
-                        if (header) {
-                            header.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${config.secondary_action_color || defaultConfig.secondary_action_color} 100%)`;
-                        }
-
-                        const allText = document.querySelectorAll('.question-text, .start-screen h2, .result-message');
-                        allText.forEach(el => el.style.color = textColor);
-
-                        const buttons = document.querySelectorAll('.button');
-                        buttons.forEach(btn => {
-                            if (!btn.disabled) {
-                                btn.style.background = primaryActionColor;
-                            }
-                        });
-
-                        const scoreDisplay = document.querySelector('.score-display');
-                        if (scoreDisplay) {
-                            scoreDisplay.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${config.secondary_action_color || defaultConfig.secondary_action_color} 100%)`;
-                        }
-
-                        const questionNumber = document.querySelector('.question-number');
-                        if (questionNumber) questionNumber.style.color = primaryActionColor;
-                    },
-                    mapToCapabilities: (config) => ({
-                        recolorables: [
-                            {
-                                get: () => config.background_color || defaultConfig.background_color,
-                                set: (value) => {
-                                    config.background_color = value;
-                                    if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
-                                }
-                            },
-                            {
-                                get: () => config.surface_color || defaultConfig.surface_color,
-                                set: (value) => {
-                                    config.surface_color = value;
-                                    if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
-                                }
-                            },
-                            {
-                                get: () => config.text_color || defaultConfig.text_color,
-                                set: (value) => {
-                                    config.text_color = value;
-                                    if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
-                                }
-                            },
-                            {
-                                get: () => config.primary_action_color || defaultConfig.primary_action_color,
-                                set: (value) => {
-                                    config.primary_action_color = value;
-                                    if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
-                                }
-                            },
-                            {
-                                get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
-                                set: (value) => {
-                                    config.secondary_action_color = value;
-                                    if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
-                                }
-                            }
-                        ],
-                        borderables: [],
-                        fontEditable: {
-                            get: () => config.font_family || defaultConfig.font_family,
-                            set: (value) => {
-                                config.font_family = value;
-                                if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
-                            }
-                        },
-                        fontSizeable: {
-                            get: () => config.font_size || defaultConfig.font_size,
-                            set: (value) => {
-                                config.font_size = value;
-                                if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
-                            }
-                        }
-                    }),
-                    mapToEditPanelValues: (config) => new Map([
-                        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-                        ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
-                        ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
-                        ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
-                        ["finish_button_text", config.finish_button_text || defaultConfig.finish_button_text],
-                        ["restart_button_text", config.restart_button_text || defaultConfig.restart_button_text]
-                    ])
-                });
-            }
-        }
-
-        function showScreen(screenId) {
-            document.getElementById('start-screen').style.display = 'none';
-            document.getElementById('question-container').style.display = 'none';
-            document.getElementById('result-screen').style.display = 'none';
-            document.getElementById(screenId).style.display = 'block';
-        }
-
-        function displayQuestion() {
-            const question = questions[currentQuestion];
-            document.getElementById('question-number').textContent = `Soal ${currentQuestion + 1} dari ${questions.length}`;
-            document.getElementById('question-text').textContent = question.question;
-
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-
-            const labels = ['A', 'B', 'C', 'D', 'E'];
-            question.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'option';
-                optionDiv.innerHTML = `
-                    <div class="option-label">${labels[index]}</div>
-                    <div class="option-text">${option}</div>
-                `;
-                optionDiv.onclick = () => selectOption(index, optionDiv);
-                optionsContainer.appendChild(optionDiv);
-            });
-
-            const nextButton = document.getElementById('next-button');
-            nextButton.disabled = true;
-            
-            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
-            if (currentQuestion === questions.length - 1) {
-                nextButton.textContent = config.finish_button_text || defaultConfig.finish_button_text;
-            } else {
-                nextButton.textContent = config.next_button_text || defaultConfig.next_button_text;
-            }
-        }
-
-        function selectOption(index, optionElement) {
-            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-            optionElement.classList.add('selected');
-            selectedAnswer = index;
-            document.getElementById('next-button').disabled = false;
-        }
-
-        async function nextQuestion() {
-            if (selectedAnswer === null) return;
-
-            if (selectedAnswer === questions[currentQuestion].correct) {
-                score++;
-            }
-
-            currentQuestion++;
-
-            if (currentQuestion < questions.length) {
-                selectedAnswer = null;
-                displayQuestion();
-            } else {
-                await showResults();
-            }
-        }
-
-        async function showResults() {
-            const loadingElement = document.getElementById('loading');
-            loadingElement.style.display = 'block';
-
-            if (currentRecordCount >= 999) {
-                loadingElement.textContent = 'Batas maksimum 999 hasil tercapai. Tidak dapat menyimpan hasil baru.';
-                loadingElement.style.color = '#dc3545';
-            } else {
-                const result = await window.dataSdk.create({
-                    id: Date.now().toString(),
-                    score: score,
-                    total_questions: questions.length,
-                    completed_at: new Date().toISOString()
-                });
-
-                if (!result.isOk) {
-                    loadingElement.textContent = 'Gagal menyimpan hasil';
-                    loadingElement.style.color = '#dc3545';
-                }
-            }
-
-            setTimeout(() => {
-                loadingElement.style.display = 'none';
-                showScreen('result-screen');
-                
-                document.getElementById('score-text').textContent = `${score}/${questions.length}`;
-                
-                const percentage = (score / questions.length) * 100;
-                let message = '';
-                
-                if (percentage >= 90) {
-                    message = '🎉 Luar biasa! Anda menguasai materi HTML dan CSS dengan sangat baik!';
-                } else if (percentage >= 75) {
-                    message = '👏 Bagus sekali! Pemahaman Anda tentang HTML dan CSS sudah sangat baik!';
-                } else if (percentage >= 60) {
-                    message = '👍 Cukup baik! Terus belajar untuk meningkatkan pemahaman Anda.';
-                } else {
-                    message = '💪 Jangan menyerah! Pelajari kembali materi dan coba lagi.';
-                }
-                
-                document.getElementById('result-message').textContent = message;
-            }, 1000);
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            selectedAnswer = null;
-            showScreen('start-screen');
-        }
-
-        document.getElementById('start-button').addEventListener('click', () => {
-            showScreen('question-container');
-            displayQuestion();
+          optionsContainer.appendChild(optionDiv);
         });
 
-        document.getElementById('next-button').addEventListener('click', nextQuestion);
-        document.getElementById('restart-button').addEventListener('click', restartQuiz);
+        const feedback = document.createElement('div');
+        feedback.className = 'feedback';
+        feedback.id = `feedback-${index}`;
 
-        initializeApp();
-    </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d2feb685aee416',t:'MTc2MjkxODY5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        card.appendChild(questionNumber);
+        card.appendChild(questionText);
+        card.appendChild(optionsContainer);
+        card.appendChild(feedback);
+
+        container.appendChild(card);
+      });
+    }
+
+    function handleOptionClick(e) {
+      const optionDiv = e.currentTarget;
+      const questionIndex = parseInt(optionDiv.dataset.questionIndex);
+      const optionIndex = parseInt(optionDiv.dataset.optionIndex);
+
+      if (userAnswers[questionIndex] !== null) {
+        return;
+      }
+
+      userAnswers[questionIndex] = optionIndex;
+
+      const allOptions = document.querySelectorAll(`[data-question-index="${questionIndex}"]`);
+      allOptions.forEach(opt => {
+        opt.classList.add('disabled');
+        const optIdx = parseInt(opt.dataset.optionIndex);
+        
+        if (optIdx === quizData[questionIndex].correct) {
+          opt.classList.add('correct');
+        } else if (optIdx === optionIndex && optionIndex !== quizData[questionIndex].correct) {
+          opt.classList.add('wrong');
+        }
+      });
+
+      showFeedback(questionIndex, optionIndex === quizData[questionIndex].correct);
+
+      if (userAnswers.every(answer => answer !== null)) {
+        setTimeout(showScore, 500);
+      }
+    }
+
+    function showFeedback(questionIndex, isCorrect) {
+      const feedback = document.getElementById(`feedback-${questionIndex}`);
+      feedback.className = `feedback show ${isCorrect ? 'correct' : 'wrong'}`;
+      
+      const labels = ['A', 'B', 'C', 'D', 'E'];
+      const correctLabel = labels[quizData[questionIndex].correct];
+      
+      feedback.innerHTML = `
+        <strong>${isCorrect ? '✓ Benar!' : '✗ Salah!'}</strong>
+        ${!isCorrect ? `Jawaban yang benar adalah <strong>${correctLabel}</strong>. ` : ''}
+        ${quizData[questionIndex].explanation}
+      `;
+    }
+
+    function showScore() {
+      const correctCount = userAnswers.filter((answer, index) => answer === quizData[index].correct).length;
+      const percentage = Math.round((correctCount / quizData.length) * 100);
+      
+      let message = '';
+      if (percentage >= 90) {
+        message = 'Luar biasa! Anda sangat menguasai materi! 🎉';
+      } else if (percentage >= 75) {
+        message = 'Bagus sekali! Pemahaman Anda sangat baik! 👏';
+      } else if (percentage >= 60) {
+        message = 'Cukup baik! Terus belajar dan berlatih! 💪';
+      } else {
+        message = 'Tetap semangat! Pelajari kembali materinya! 📚';
+      }
+
+      const scoreContainer = document.getElementById('score-container');
+      scoreContainer.innerHTML = `
+        <div class="score-summary">
+          <h2>Hasil Kuis Anda</h2>
+          <div class="score-display">${correctCount}/${quizData.length}</div>
+          <div class="score-message">${message}</div>
+          <p style="color: #718096; margin-top: 10px;">Persentase: ${percentage}%</p>
+        </div>
+      `;
+
+      scoreContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    async function onConfigChange(config) {
+      const titleElement = document.getElementById('quiz-title');
+      const subtitleElement = document.getElementById('quiz-subtitle');
+      
+      if (titleElement) {
+        titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+      }
+      if (subtitleElement) {
+        subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+        ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    renderQuiz();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d33d9515598093',t:'MTc2MjkyMTI2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

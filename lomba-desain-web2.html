@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuis HTML &amp; CSS</title>
+  <title>Kuis CSS Modern &amp; Desain Responsif</title>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
     body {
@@ -22,35 +22,33 @@
     .container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 2rem 1.5rem;
     }
 
-    .header {
+    header {
       text-align: center;
       color: white;
-      padding: 30px 20px;
-      margin-bottom: 30px;
+      margin-bottom: 2.5rem;
     }
 
-    .header h1 {
-      margin: 0 0 10px 0;
-      font-size: 42px;
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
       font-weight: 700;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
 
-    .header p {
-      margin: 0;
-      font-size: 18px;
+    .subtitle {
+      font-size: 1.1rem;
       opacity: 0.95;
+      margin: 0;
     }
 
     .quiz-card {
       background: white;
       border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       transition: transform 0.2s;
     }
 
@@ -60,118 +58,74 @@
 
     .question-number {
       display: inline-block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #667eea;
       color: white;
-      padding: 8px 16px;
+      padding: 0.4rem 1rem;
       border-radius: 20px;
+      font-size: 0.9rem;
       font-weight: 600;
-      font-size: 14px;
-      margin-bottom: 15px;
+      margin-bottom: 1rem;
     }
 
     .question-text {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 1.15rem;
       color: #2d3748;
-      margin-bottom: 20px;
-      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      font-weight: 500;
     }
 
     .options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0.75rem;
     }
 
-    .option {
+    .option-btn {
       background: #f7fafc;
       border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px 20px;
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      text-align: left;
       cursor: pointer;
       transition: all 0.2s;
-      font-size: 16px;
+      font-size: 1rem;
       color: #2d3748;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-weight: 500;
     }
 
-    .option:hover {
+    .option-btn:hover:not(:disabled) {
       background: #edf2f7;
       border-color: #cbd5e0;
       transform: translateX(4px);
     }
 
-    .option-label {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      background: white;
-      border: 2px solid #cbd5e0;
-      border-radius: 50%;
-      font-weight: 600;
-      color: #667eea;
-      flex-shrink: 0;
-    }
-
-    .option.selected {
-      background: #667eea;
-      border-color: #667eea;
-      color: white;
-    }
-
-    .option.selected .option-label {
-      background: white;
-      border-color: white;
-      color: #667eea;
-    }
-
-    .option.correct {
-      background: #48bb78;
-      border-color: #48bb78;
-      color: white;
-      animation: correctPulse 0.5s;
-    }
-
-    .option.correct .option-label {
-      background: white;
-      border-color: white;
-      color: #48bb78;
-    }
-
-    .option.wrong {
-      background: #f56565;
-      border-color: #f56565;
-      color: white;
-      animation: wrongShake 0.5s;
-    }
-
-    .option.wrong .option-label {
-      background: white;
-      border-color: white;
-      color: #f56565;
-    }
-
-    .option.disabled {
+    .option-btn:disabled {
       cursor: not-allowed;
-      opacity: 0.7;
+    }
+
+    .option-btn.correct {
+      background: #c6f6d5;
+      border-color: #48bb78;
+      color: #22543d;
+    }
+
+    .option-btn.incorrect {
+      background: #fed7d7;
+      border-color: #f56565;
+      color: #742a2a;
     }
 
     .feedback {
-      margin-top: 20px;
-      padding: 16px 20px;
-      border-radius: 12px;
-      font-size: 15px;
-      line-height: 1.6;
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 500;
       display: none;
     }
 
     .feedback.show {
       display: block;
-      animation: slideDown 0.3s;
     }
 
     .feedback.correct {
@@ -180,95 +134,63 @@
       border-left: 4px solid #48bb78;
     }
 
-    .feedback.wrong {
+    .feedback.incorrect {
       background: #fed7d7;
       color: #742a2a;
       border-left: 4px solid #f56565;
     }
 
-    .feedback strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 16px;
-    }
-
-    .score-summary {
+    .score-section {
       background: white;
       border-radius: 16px;
-      padding: 40px;
+      padding: 2rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 1rem;
+      z-index: 10;
     }
 
-    .score-summary h2 {
+    .score-text {
+      font-size: 1.25rem;
       color: #2d3748;
-      font-size: 32px;
-      margin: 0 0 20px 0;
+      margin: 0;
+      font-weight: 600;
     }
 
-    .score-display {
-      font-size: 72px;
+    .score-number {
+      font-size: 2.5rem;
+      color: #667eea;
       font-weight: 700;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 20px 0;
+      margin: 0.5rem 0;
     }
 
-    .score-message {
-      font-size: 20px;
-      color: #4a5568;
-      margin-bottom: 10px;
-    }
-
-    @keyframes correctPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-    }
-
-    @keyframes wrongShake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    footer {
+      text-align: center;
+      color: white;
+      padding: 2rem 0;
+      margin-top: 3rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
     }
 
     @media (max-width: 768px) {
-      .header h1 {
-        font-size: 32px;
-      }
-
-      .header p {
-        font-size: 16px;
+      h1 {
+        font-size: 2rem;
       }
 
       .quiz-card {
-        padding: 20px;
+        padding: 1.5rem;
       }
 
       .question-text {
-        font-size: 18px;
+        font-size: 1.05rem;
       }
 
-      .option {
-        padding: 14px 16px;
-        font-size: 15px;
-      }
-
-      .score-display {
-        font-size: 56px;
+      .option-btn {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -278,263 +200,271 @@
  </head>
  <body>
   <div class="container">
-   <header class="header">
-    <h1 id="quiz-title">Kuis HTML &amp; CSS</h1>
-    <p id="quiz-subtitle">Uji pemahaman Anda tentang HTML Semantik dan CSS</p>
+   <header>
+    <h1 id="quiz-title">Kuis CSS Modern &amp; Desain Responsif</h1>
+    <p class="subtitle" id="quiz-subtitle">Uji pemahaman Anda tentang CSS Layout Modern dan Desain Responsif</p>
    </header>
-   <div id="quiz-container"></div>
-   <div id="score-container"></div>
+   <div class="score-section">
+    <p class="score-text">Skor Anda</p>
+    <p class="score-number" id="score">0 / 20</p>
+   </div>
+   <main id="quiz-container"></main>
+   <footer>
+    <p id="footer-text">© 2024 Kuis Interaktif CSS - Belajar dengan Menyenangkan</p>
+   </footer>
   </div>
   <script>
     const defaultConfig = {
-      quiz_title: "Kuis HTML & CSS",
-      quiz_subtitle: "Uji pemahaman Anda tentang HTML Semantik dan CSS"
+      quiz_title: "Kuis CSS Modern & Desain Responsif",
+      quiz_subtitle: "Uji pemahaman Anda tentang CSS Layout Modern dan Desain Responsif",
+      footer_text: "© 2024 Kuis Interaktif CSS - Belajar dengan Menyenangkan"
     };
 
     const quizData = [
       {
-        question: "Apa fungsi utama dari tag <head> dalam HTML?",
+        question: "Apa perbedaan utama antara CSS Flexbox dan CSS Grid?",
         options: [
-          "Menampilkan konten utama halaman",
-          "Menyimpan metadata dan informasi dokumen",
-          "Membuat navigasi website",
-          "Menampilkan footer halaman",
-          "Membuat sidebar"
+          "Flexbox untuk layout 1 dimensi, Grid untuk layout 2 dimensi",
+          "Flexbox lebih cepat dari Grid",
+          "Grid hanya untuk desktop, Flexbox untuk mobile",
+          "Flexbox tidak mendukung responsive design",
+          "Grid tidak bisa digunakan bersama Flexbox"
+        ],
+        correct: 0,
+        explanation: "Flexbox dirancang untuk layout satu dimensi (baris atau kolom), sedangkan Grid untuk layout dua dimensi (baris dan kolom sekaligus)."
+      },
+      {
+        question: "Properti Flexbox 'align-items: center' berfungsi untuk?",
+        options: [
+          "Meratakan item secara horizontal",
+          "Meratakan item di tengah sumbu silang (cross axis)",
+          "Membuat item memiliki ukuran yang sama",
+          "Mengatur jarak antar item",
+          "Membalik urutan item"
         ],
         correct: 1,
-        explanation: "Tag <head> digunakan untuk menyimpan metadata seperti title, link CSS, meta tags, dan informasi lain yang tidak ditampilkan langsung di halaman."
+        explanation: "align-items mengatur perataan item pada sumbu silang (cross axis). Dengan nilai 'center', item akan berada di tengah sumbu silang."
       },
       {
-        question: "Tag HTML mana yang paling tepat untuk membuat menu navigasi website?",
+        question: "Kapan sebaiknya menggunakan CSS Grid dibanding Flexbox?",
         options: [
-          "<div>",
-          "<section>",
-          "<nav>",
-          "<header>",
-          "<menu>"
-        ],
-        correct: 2,
-        explanation: "Tag <nav> adalah tag semantik yang dirancang khusus untuk menandai bagian navigasi utama website."
-      },
-      {
-        question: "Tag apa yang paling tepat untuk menandai postingan blog atau artikel?",
-        options: [
-          "<div>",
-          "<section>",
-          "<article>",
-          "<content>",
-          "<post>"
-        ],
-        correct: 2,
-        explanation: "Tag <article> digunakan untuk konten independen yang dapat berdiri sendiri, seperti postingan blog, artikel berita, atau komentar."
-      },
-      {
-        question: "Fungsi utama dari tag <footer> adalah?",
-        options: [
-          "Membuat header halaman",
-          "Menampilkan navigasi utama",
-          "Menampilkan informasi penutup seperti copyright dan kontak",
-          "Membuat sidebar",
-          "Menampilkan konten utama"
-        ],
-        correct: 2,
-        explanation: "Tag <footer> digunakan untuk bagian penutup halaman atau section yang biasanya berisi informasi copyright, kontak, atau link tambahan."
-      },
-      {
-        question: "Tag <aside> paling tepat digunakan untuk?",
-        options: [
-          "Konten utama halaman",
-          "Navigasi website",
-          "Konten sampingan atau sidebar",
-          "Footer halaman",
-          "Header halaman"
-        ],
-        correct: 2,
-        explanation: "Tag <aside> digunakan untuk konten yang berhubungan tapi terpisah dari konten utama, seperti sidebar, widget, atau informasi tambahan."
-      },
-      {
-        question: "Tag HTML mana yang digunakan untuk menandai kutipan pendek dalam teks?",
-        options: [
-          "<quote>",
-          "<q>",
-          "<cite>",
-          "<blockquote>",
-          "<quotation>"
+          "Ketika membuat navigation bar horizontal",
+          "Ketika membuat layout kompleks dengan baris dan kolom",
+          "Ketika hanya ada 2-3 elemen",
+          "Ketika membuat button group",
+          "Ketika membuat list vertikal sederhana"
         ],
         correct: 1,
-        explanation: "Tag <q> digunakan untuk kutipan pendek inline yang secara otomatis menambahkan tanda kutip. Untuk kutipan panjang gunakan <blockquote>."
+        explanation: "CSS Grid ideal untuk layout kompleks yang memerlukan kontrol baris dan kolom sekaligus, seperti dashboard atau gallery dengan struktur grid."
       },
       {
-        question: "Apa fungsi utama CSS dalam pengembangan web?",
+        question: "Apa fungsi properti 'justify-content: space-between' di Flexbox?",
         options: [
-          "Membuat struktur halaman",
-          "Mengatur tampilan dan styling halaman",
-          "Menambahkan interaktivitas",
-          "Menyimpan data",
-          "Membuat database"
+          "Membuat jarak sama di dalam setiap item",
+          "Mendistribusikan item dengan jarak sama, item pertama di awal dan terakhir di akhir",
+          "Meratakan item ke tengah",
+          "Membuat semua item memiliki lebar yang sama",
+          "Membalik urutan item"
         ],
         correct: 1,
-        explanation: "CSS (Cascading Style Sheets) berfungsi untuk mengatur tampilan visual halaman web seperti warna, layout, font, dan spacing."
+        explanation: "justify-content: space-between mendistribusikan item dengan jarak yang sama di antara mereka, dengan item pertama di awal dan item terakhir di akhir container."
       },
       {
-        question: "Apa kelebihan utama menggunakan External CSS dibanding Inline CSS?",
+        question: "Properti CSS Grid 'grid-template-columns: repeat(3, 1fr)' artinya?",
         options: [
-          "Lebih cepat loading",
-          "Tidak perlu file terpisah",
-          "Dapat digunakan di banyak halaman dan mudah maintenance",
-          "Lebih spesifik",
-          "Tidak perlu link tag"
-        ],
-        correct: 2,
-        explanation: "External CSS memungkinkan satu file CSS digunakan di banyak halaman HTML, membuat kode lebih terorganisir dan mudah di-maintain."
-      },
-      {
-        question: "Bagaimana cara menghubungkan file CSS eksternal ke HTML?",
-        options: [
-          "<style src='style.css'>",
-          "<css href='style.css'>",
-          "<link rel='stylesheet' href='style.css'>",
-          "<import css='style.css'>",
-          "<include css='style.css'>"
-        ],
-        correct: 2,
-        explanation: "Tag <link> dengan atribut rel='stylesheet' dan href digunakan di dalam <head> untuk menghubungkan file CSS eksternal."
-      },
-      {
-        question: "Dalam CSS Specificity, mana yang memiliki prioritas tertinggi?",
-        options: [
-          "Element selector (p)",
-          "Class selector (.class)",
-          "ID selector (#id)",
-          "Inline style",
-          "Universal selector (*)"
-        ],
-        correct: 3,
-        explanation: "Urutan specificity dari tertinggi: Inline style > ID > Class/Attribute > Element > Universal. Inline style memiliki prioritas tertinggi."
-      },
-      {
-        question: "Sintaks CSS yang benar untuk mengubah warna teks adalah?",
-        options: [
-          "text-color: red;",
-          "color: red;",
-          "font-color: red;",
-          "text: red;",
-          "color = red;"
+          "Membuat 3 baris dengan lebar sama",
+          "Membuat 3 kolom dengan lebar yang sama",
+          "Membuat 1 kolom yang diulang 3 kali",
+          "Membuat grid dengan 3 pixel",
+          "Membuat 3 container terpisah"
         ],
         correct: 1,
-        explanation: "Properti 'color' digunakan untuk mengubah warna teks dalam CSS dengan sintaks: color: nilai;"
+        explanation: "repeat(3, 1fr) membuat 3 kolom dengan lebar yang sama, di mana 1fr berarti 1 fraksi dari ruang yang tersedia."
       },
       {
-        question: "Jika style dari framework Bootstrap tertimpa, solusi terbaik adalah?",
+        question: "Apa yang dimaksud dengan 'position: fixed' dalam CSS?",
         options: [
-          "Hapus framework",
-          "Gunakan !important di semua style",
-          "Tingkatkan specificity selector atau gunakan !important dengan bijak",
-          "Ubah file framework",
-          "Gunakan inline style saja"
-        ],
-        correct: 2,
-        explanation: "Tingkatkan specificity dengan selector yang lebih spesifik (misal: .container .my-class) atau gunakan !important hanya jika diperlukan."
-      },
-      {
-        question: "Perbedaan antara <article> dan <section> adalah?",
-        options: [
-          "Tidak ada perbedaan",
-          "<article> untuk konten independen, <section> untuk pengelompokan tematik",
-          "<section> untuk konten independen, <article> untuk pengelompokan",
-          "<article> hanya untuk blog",
-          "<section> hanya untuk sidebar"
+          "Elemen mengikuti scroll halaman",
+          "Elemen tetap di posisi relatif terhadap viewport",
+          "Elemen tidak bisa dipindahkan",
+          "Elemen selalu di tengah halaman",
+          "Elemen tersembunyi dari halaman"
         ],
         correct: 1,
-        explanation: "<article> untuk konten yang dapat berdiri sendiri (artikel, post), sedangkan <section> untuk mengelompokkan konten berdasarkan tema."
+        explanation: "position: fixed membuat elemen tetap di posisi yang sama relatif terhadap viewport browser, tidak terpengaruh oleh scrolling."
       },
       {
-        question: "Manakah yang BUKAN metode implementasi CSS?",
+        question: "Untuk membuat modal overlay yang menutupi seluruh layar, positioning apa yang tepat?",
         options: [
-          "Inline CSS",
-          "Internal CSS",
-          "External CSS",
-          "Embedded CSS",
-          "Remote CSS"
-        ],
-        correct: 4,
-        explanation: "Tiga metode implementasi CSS adalah: Inline (di atribut style), Internal (di tag <style>), dan External (file .css terpisah)."
-      },
-      {
-        question: "Selector CSS mana yang memiliki specificity paling rendah?",
-        options: [
-          "#header",
-          ".container",
-          "div",
-          "div.container",
-          "*"
-        ],
-        correct: 4,
-        explanation: "Universal selector (*) memiliki specificity paling rendah (0,0,0,0), bahkan lebih rendah dari element selector."
-      },
-      {
-        question: "Tag semantik mana yang tepat untuk bagian header website?",
-        options: [
-          "<top>",
-          "<header>",
-          "<head>",
-          "<banner>",
-          "<title>"
+          "position: relative",
+          "position: absolute dengan top: 0, left: 0, width: 100%, height: 100%",
+          "position: static",
+          "position: sticky",
+          "Tidak perlu positioning"
         ],
         correct: 1,
-        explanation: "Tag <header> digunakan untuk bagian header/kepala dari halaman atau section yang biasanya berisi logo, judul, dan navigasi."
+        explanation: "position: absolute dengan koordinat top: 0, left: 0 dan ukuran 100% akan membuat overlay menutupi seluruh area parent atau viewport."
       },
       {
-        question: "Dalam CSS, apa arti dari 'Cascading'?",
+        question: "Properti Flexbox mana yang membuat semua item memiliki tinggi yang sama?",
         options: [
-          "Style mengalir dari atas ke bawah",
-          "Style dapat diwariskan dan ditimpa berdasarkan prioritas",
-          "Style harus berurutan",
-          "Style harus di file terpisah",
-          "Style harus menggunakan class"
+          "justify-content: stretch",
+          "align-items: stretch (default)",
+          "flex-direction: column",
+          "flex-wrap: wrap",
+          "align-content: stretch"
         ],
         correct: 1,
-        explanation: "'Cascading' berarti style dapat diwariskan dari parent ke child dan dapat ditimpa berdasarkan specificity dan urutan penulisan."
+        explanation: "align-items: stretch (nilai default) membuat semua flex item meregang untuk mengisi tinggi container, sehingga memiliki tinggi yang sama."
       },
       {
-        question: "Bagaimana cara meningkatkan specificity tanpa menggunakan !important?",
-        options: [
-          "Tambahkan lebih banyak selector",
-          "Gunakan ID selector",
-          "Kombinasikan class dan element selector",
-          "Semua jawaban benar",
-          "Tidak bisa ditingkatkan"
-        ],
-        correct: 3,
-        explanation: "Specificity dapat ditingkatkan dengan menambah selector, menggunakan ID, atau mengombinasikan selector (misal: div.container #header)."
-      },
-      {
-        question: "Tag <q> secara otomatis menambahkan?",
-        options: [
-          "Garis bawah",
-          "Tanda kutip",
-          "Italic",
-          "Bold",
-          "Background color"
-        ],
-        correct: 1,
-        explanation: "Tag <q> secara otomatis menambahkan tanda kutip (\" \") di sekitar teks yang dikutip sesuai dengan bahasa dokumen."
-      },
-      {
-        question: "Apa keuntungan menggunakan tag semantik HTML5?",
+        question: "Apa tujuan utama dari Desain Responsif?",
         options: [
           "Membuat website lebih cepat",
-          "Meningkatkan SEO dan aksesibilitas",
-          "Mengurangi ukuran file",
-          "Tidak perlu CSS",
-          "Otomatis responsive"
+          "Membuat website terlihat dan berfungsi baik di berbagai ukuran layar",
+          "Mengurangi ukuran file CSS",
+          "Membuat animasi lebih smooth",
+          "Meningkatkan keamanan website"
         ],
         correct: 1,
-        explanation: "Tag semantik membantu search engine dan screen reader memahami struktur konten, meningkatkan SEO dan aksesibilitas website."
+        explanation: "Desain Responsif bertujuan agar website dapat menyesuaikan tampilan dan fungsinya dengan baik di berbagai perangkat dan ukuran layar."
+      },
+      {
+        question: "Apa yang dimaksud dengan prinsip 'Mobile-First'?",
+        options: [
+          "Website hanya untuk mobile",
+          "Mendesain untuk mobile terlebih dahulu, lalu menambahkan fitur untuk layar lebih besar",
+          "Mobile lebih penting dari desktop",
+          "Menggunakan aplikasi mobile saja",
+          "Menghapus fitur desktop"
+        ],
+        correct: 1,
+        explanation: "Mobile-First adalah pendekatan desain yang dimulai dari layar kecil (mobile) sebagai base, kemudian menambahkan kompleksitas untuk layar lebih besar."
+      },
+      {
+        question: "Apa perbedaan strategis antara 'Desktop-First' dan 'Mobile-First'?",
+        options: [
+          "Desktop-First lebih modern",
+          "Desktop-First mulai dari layar besar lalu menyederhanakan, Mobile-First sebaliknya",
+          "Tidak ada perbedaan",
+          "Mobile-First tidak mendukung desktop",
+          "Desktop-First lebih cepat"
+        ],
+        correct: 1,
+        explanation: "Desktop-First dimulai dari desain kompleks untuk layar besar lalu disederhanakan untuk mobile, sedangkan Mobile-First dimulai dari desain sederhana untuk mobile lalu ditingkatkan untuk desktop."
+      },
+      {
+        question: "Apa saja tiga pilar utama Desain Responsif?",
+        options: [
+          "HTML, CSS, JavaScript",
+          "Fluid Grids, Flexible Images, Media Queries",
+          "Mobile, Tablet, Desktop",
+          "Header, Content, Footer",
+          "Colors, Fonts, Spacing"
+        ],
+        correct: 1,
+        explanation: "Tiga pilar Desain Responsif adalah Fluid Grids (grid fleksibel), Flexible Images (gambar fleksibel), dan Media Queries (query media)."
+      },
+      {
+        question: "Apa yang dimaksud dengan 'Fluid Grids'?",
+        options: [
+          "Grid yang menggunakan air",
+          "Layout dengan ukuran relatif (%, em) bukan fixed (px)",
+          "Grid yang bergerak",
+          "Grid dengan warna transparan",
+          "Grid yang bisa dihapus"
+        ],
+        correct: 1,
+        explanation: "Fluid Grids menggunakan unit relatif seperti persentase atau em, bukan unit tetap seperti pixel, sehingga dapat menyesuaikan dengan ukuran layar."
+      },
+      {
+        question: "Apa fungsi dari 'Breakpoint' dalam desain responsif?",
+        options: [
+          "Titik di mana website berhenti bekerja",
+          "Titik ukuran layar di mana layout berubah",
+          "Titik untuk menghentikan animasi",
+          "Titik error dalam kode",
+          "Titik untuk loading page"
+        ],
+        correct: 1,
+        explanation: "Breakpoint adalah titik ukuran layar tertentu di mana layout website berubah untuk menyesuaikan dengan ukuran layar yang berbeda."
+      },
+      {
+        question: "Sintaks media query yang benar untuk layar minimal 768px adalah?",
+        options: [
+          "@media (width: 768px)",
+          "@media (min-width: 768px)",
+          "@media screen and (768px)",
+          "@media (max-width: 768px)",
+          "@media mobile (768px)"
+        ],
+        correct: 1,
+        explanation: "@media (min-width: 768px) adalah sintaks yang benar untuk menerapkan style pada layar dengan lebar minimal 768px."
+      },
+      {
+        question: "Dalam pendekatan Mobile-First, media query mana yang digunakan?",
+        options: [
+          "max-width untuk layar lebih kecil",
+          "min-width untuk layar lebih besar",
+          "max-height untuk layar pendek",
+          "Tidak perlu media query",
+          "only screen"
+        ],
+        correct: 1,
+        explanation: "Mobile-First menggunakan min-width karena dimulai dari style mobile (base), lalu menambahkan style untuk layar yang lebih besar."
+      },
+      {
+        question: "Properti CSS mana yang membuat gambar responsif?",
+        options: [
+          "width: 100%",
+          "max-width: 100% dan height: auto",
+          "display: block",
+          "position: relative",
+          "float: left"
+        ],
+        correct: 1,
+        explanation: "max-width: 100% memastikan gambar tidak melebihi lebar container, dan height: auto menjaga proporsi gambar tetap benar."
+      },
+      {
+        question: "Apa keuntungan menggunakan 'em' atau 'rem' dibanding 'px' untuk font size?",
+        options: [
+          "Lebih mudah ditulis",
+          "Dapat menyesuaikan dengan preferensi ukuran font user",
+          "Lebih cepat di-render",
+          "Warnanya lebih bagus",
+          "Tidak ada perbedaan"
+        ],
+        correct: 1,
+        explanation: "Unit relatif seperti em atau rem dapat menyesuaikan dengan pengaturan ukuran font browser user, meningkatkan aksesibilitas."
+      },
+      {
+        question: "Untuk membuat navigation bar yang berubah dari horizontal ke vertikal di mobile, teknik apa yang tepat?",
+        options: [
+          "Menggunakan JavaScript saja",
+          "Flexbox dengan flex-direction yang berubah via media query",
+          "Membuat dua navigation terpisah",
+          "Menggunakan table layout",
+          "Tidak bisa dilakukan"
+        ],
+        correct: 1,
+        explanation: "Flexbox dengan mengubah flex-direction dari 'row' (horizontal) ke 'column' (vertikal) melalui media query adalah solusi yang efisien dan responsif."
+      },
+      {
+        question: "Apa yang dimaksud dengan 'viewport' dalam konteks responsive design?",
+        options: [
+          "Ukuran monitor komputer",
+          "Area tampilan browser yang terlihat oleh user",
+          "Ukuran file website",
+          "Kecepatan loading website",
+          "Jumlah halaman website"
+        ],
+        correct: 1,
+        explanation: "Viewport adalah area tampilan browser yang terlihat oleh user, ukurannya bervariasi tergantung perangkat yang digunakan."
       }
     ];
 
-    let userAnswers = new Array(quizData.length).fill(null);
+    let score = 0;
+    let answeredQuestions = 0;
 
     function renderQuiz() {
       const container = document.getElementById('quiz-container');
@@ -543,163 +473,81 @@
       quizData.forEach((quiz, index) => {
         const card = document.createElement('div');
         card.className = 'quiz-card';
-        card.id = `question-${index}`;
-
-        const questionNumber = document.createElement('span');
-        questionNumber.className = 'question-number';
-        questionNumber.textContent = `Soal ${index + 1}`;
-
-        const questionText = document.createElement('div');
-        questionText.className = 'question-text';
-        questionText.textContent = quiz.question;
-
-        const optionsContainer = document.createElement('div');
-        optionsContainer.className = 'options';
-
-        const labels = ['A', 'B', 'C', 'D', 'E'];
-        quiz.options.forEach((option, optIndex) => {
-          const optionDiv = document.createElement('div');
-          optionDiv.className = 'option';
-          optionDiv.dataset.questionIndex = index;
-          optionDiv.dataset.optionIndex = optIndex;
-
-          const optionLabel = document.createElement('span');
-          optionLabel.className = 'option-label';
-          optionLabel.textContent = labels[optIndex];
-
-          const optionText = document.createElement('span');
-          optionText.textContent = option;
-
-          optionDiv.appendChild(optionLabel);
-          optionDiv.appendChild(optionText);
-          optionDiv.addEventListener('click', handleOptionClick);
-
-          optionsContainer.appendChild(optionDiv);
-        });
-
-        const feedback = document.createElement('div');
-        feedback.className = 'feedback';
-        feedback.id = `feedback-${index}`;
-
-        card.appendChild(questionNumber);
-        card.appendChild(questionText);
-        card.appendChild(optionsContainer);
-        card.appendChild(feedback);
-
+        card.innerHTML = `
+          <div class="question-number">Soal ${index + 1}</div>
+          <div class="question-text">${quiz.question}</div>
+          <div class="options" id="options-${index}">
+            ${quiz.options.map((option, optIndex) => `
+              <button class="option-btn" onclick="checkAnswer(${index}, ${optIndex})" id="option-${index}-${optIndex}">
+                ${String.fromCharCode(65 + optIndex)}. ${option}
+              </button>
+            `).join('')}
+          </div>
+          <div class="feedback" id="feedback-${index}"></div>
+        `;
         container.appendChild(card);
       });
     }
 
-    function handleOptionClick(e) {
-      const optionDiv = e.currentTarget;
-      const questionIndex = parseInt(optionDiv.dataset.questionIndex);
-      const optionIndex = parseInt(optionDiv.dataset.optionIndex);
+    function checkAnswer(questionIndex, selectedOption) {
+      const quiz = quizData[questionIndex];
+      const isCorrect = selectedOption === quiz.correct;
+      const optionsContainer = document.getElementById(`options-${questionIndex}`);
+      const buttons = optionsContainer.querySelectorAll('.option-btn');
+      const feedback = document.getElementById(`feedback-${questionIndex}`);
 
-      if (userAnswers[questionIndex] !== null) {
-        return;
-      }
-
-      userAnswers[questionIndex] = optionIndex;
-
-      const allOptions = document.querySelectorAll(`[data-question-index="${questionIndex}"]`);
-      allOptions.forEach(opt => {
-        opt.classList.add('disabled');
-        const optIdx = parseInt(opt.dataset.optionIndex);
-        
-        if (optIdx === quizData[questionIndex].correct) {
-          opt.classList.add('correct');
-        } else if (optIdx === optionIndex && optionIndex !== quizData[questionIndex].correct) {
-          opt.classList.add('wrong');
+      buttons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === quiz.correct) {
+          btn.classList.add('correct');
+        } else if (index === selectedOption && !isCorrect) {
+          btn.classList.add('incorrect');
         }
       });
 
-      showFeedback(questionIndex, optionIndex === quizData[questionIndex].correct);
-
-      if (userAnswers.every(answer => answer !== null)) {
-        setTimeout(showScore, 500);
-      }
-    }
-
-    function showFeedback(questionIndex, isCorrect) {
-      const feedback = document.getElementById(`feedback-${questionIndex}`);
-      feedback.className = `feedback show ${isCorrect ? 'correct' : 'wrong'}`;
-      
-      const labels = ['A', 'B', 'C', 'D', 'E'];
-      const correctLabel = labels[quizData[questionIndex].correct];
-      
-      feedback.innerHTML = `
-        <strong>${isCorrect ? '✓ Benar!' : '✗ Salah!'}</strong>
-        ${!isCorrect ? `Jawaban yang benar adalah <strong>${correctLabel}</strong>. ` : ''}
-        ${quizData[questionIndex].explanation}
-      `;
-    }
-
-    function showScore() {
-      const correctCount = userAnswers.filter((answer, index) => answer === quizData[index].correct).length;
-      const percentage = Math.round((correctCount / quizData.length) * 100);
-      
-      let message = '';
-      if (percentage >= 90) {
-        message = 'Luar biasa! Anda sangat menguasai materi! 🎉';
-      } else if (percentage >= 75) {
-        message = 'Bagus sekali! Pemahaman Anda sangat baik! 👏';
-      } else if (percentage >= 60) {
-        message = 'Cukup baik! Terus belajar dan berlatih! 💪';
+      feedback.classList.add('show');
+      if (isCorrect) {
+        feedback.classList.add('correct');
+        feedback.innerHTML = `<strong>✓ Benar!</strong> ${quiz.explanation}`;
+        score++;
       } else {
-        message = 'Tetap semangat! Pelajari kembali materinya! 📚';
+        feedback.classList.add('incorrect');
+        feedback.innerHTML = `<strong>✗ Salah!</strong> Jawaban yang benar adalah <strong>${String.fromCharCode(65 + quiz.correct)}</strong>. ${quiz.explanation}`;
       }
 
-      const scoreContainer = document.getElementById('score-container');
-      scoreContainer.innerHTML = `
-        <div class="score-summary">
-          <h2>Hasil Kuis Anda</h2>
-          <div class="score-display">${correctCount}/${quizData.length}</div>
-          <div class="score-message">${message}</div>
-          <p style="color: #718096; margin-top: 10px;">Persentase: ${percentage}%</p>
-        </div>
-      `;
+      answeredQuestions++;
+      updateScore();
+    }
 
-      scoreContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    function updateScore() {
+      document.getElementById('score').textContent = `${score} / ${answeredQuestions}`;
     }
 
     async function onConfigChange(config) {
-      const titleElement = document.getElementById('quiz-title');
-      const subtitleElement = document.getElementById('quiz-subtitle');
-      
-      if (titleElement) {
-        titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
-      }
-      if (subtitleElement) {
-        subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
-      }
-    }
-
-    function mapToCapabilities(config) {
-      return {
-        recolorables: [],
-        borderables: [],
-        fontEditable: undefined,
-        fontSizeable: undefined
-      };
-    }
-
-    function mapToEditPanelValues(config) {
-      return new Map([
-        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-        ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
-      ]);
+      document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('quiz-subtitle').textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
     }
 
     if (window.elementSdk) {
       window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
       });
     }
 
     renderQuiz();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d33d9515598093',t:'MTc2MjkyMTI2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d31a66c0a7959b',t:'MTc2MjkxOTgyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
