@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis IP Addressing &amp; Subnetting</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            padding: 40px 20px;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+            font-size: 32px;
+        }
+        
+        .header p {
+            margin: 0;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .progress-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 16px;
+            text-align: left;
+        }
+        
+        .option:hover:not(.correct):not(.incorrect):not(.disabled) {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(5px);
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: bold;
+        }
+        
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .score-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .score-card h2 {
+            color: #667eea;
+            margin: 0 0 20px 0;
+            font-size: 28px;
+        }
+        
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #764ba2;
+            margin: 20px 0;
+        }
+        
+        .score-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .restart-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            .option {
+                font-size: 14px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 id="quiz-title">Kuis IP Addressing &amp; Subnetting</h1>
+    <p id="quiz-subtitle">20 Soal Pilihan Ganda - Jawaban Langsung Ditampilkan</p>
+   </div>
+   <div class="progress-bar">
+    <div class="progress-text" id="progress-text">
+     Soal 0 dari 20
+    </div>
+    <div class="progress">
+     <div class="progress-fill" id="progress-fill"></div>
+    </div>
+   </div>
+   <div id="quiz-container"></div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis IP Addressing & Subnetting",
+            quiz_subtitle: "20 Soal Pilihan Ganda - Jawaban Langsung Ditampilkan"
+        };
+
+        const questions = [
+            {
+                question: "Berapa jumlah bit dalam satu alamat IPv4?",
+                options: ["16 bit", "24 bit", "32 bit", "64 bit", "128 bit"],
+                correct: 2,
+                explanation: "IPv4 menggunakan 32 bit yang dibagi menjadi 4 oktet (4 x 8 bit = 32 bit)."
+            },
+            {
+                question: "Manakah yang merupakan alamat IP kelas A?",
+                options: ["192.168.1.1", "172.16.0.1", "10.0.0.1", "224.0.0.1", "255.255.255.0"],
+                correct: 2,
+                explanation: "Kelas A memiliki range 1.0.0.0 - 126.255.255.255. IP 10.0.0.1 termasuk kelas A."
+            },
+            {
+                question: "Berapa range alamat IP kelas C?",
+                options: ["1.0.0.0 - 126.255.255.255", "128.0.0.0 - 191.255.255.255", "192.0.0.0 - 223.255.255.255", "224.0.0.0 - 239.255.255.255", "240.0.0.0 - 255.255.255.255"],
+                correct: 2,
+                explanation: "Kelas C memiliki range 192.0.0.0 hingga 223.255.255.255 dengan oktet pertama 192-223."
+            },
+            {
+                question: "Manakah yang merupakan alamat IP privat?",
+                options: ["8.8.8.8", "1.1.1.1", "192.168.1.1", "203.0.113.1", "198.51.100.1"],
+                correct: 2,
+                explanation: "192.168.0.0 - 192.168.255.255 adalah range IP privat kelas C yang tidak dapat diakses dari internet."
+            },
+            {
+                question: "Berapa jumlah host yang dapat digunakan dalam subnet /24?",
+                options: ["254", "256", "510", "512", "1024"],
+                correct: 0,
+                explanation: "Subnet /24 memiliki 256 alamat, dikurangi 2 (network address dan broadcast) = 254 host."
+            },
+            {
+                question: "Apa fungsi utama dari subnet mask?",
+                options: ["Mengenkripsi data", "Membagi network menjadi subnet", "Meningkatkan kecepatan", "Mengamankan jaringan", "Menghubungkan router"],
+                correct: 1,
+                explanation: "Subnet mask digunakan untuk membagi network menjadi subnet yang lebih kecil dan menentukan network ID."
+            },
+            {
+                question: "Berapa subnet mask untuk /26 dalam notasi desimal?",
+                options: ["255.255.255.0", "255.255.255.128", "255.255.255.192", "255.255.255.224", "255.255.255.240"],
+                correct: 2,
+                explanation: "/26 berarti 26 bit untuk network, sehingga subnet mask-nya adalah 255.255.255.192."
+            },
+            {
+                question: "Manakah yang bukan merupakan alamat IP privat?",
+                options: ["10.10.10.10", "172.16.5.5", "192.168.100.1", "172.32.1.1", "10.255.255.254"],
+                correct: 3,
+                explanation: "172.32.1.1 bukan IP privat. Range IP privat kelas B adalah 172.16.0.0 - 172.31.255.255."
+            },
+            {
+                question: "Berapa jumlah subnet yang dapat dibuat dari /24 jika di-subnet menjadi /26?",
+                options: ["2", "4", "8", "16", "32"],
+                correct: 1,
+                explanation: "Dari /24 ke /26 berarti meminjam 2 bit (26-24=2). 2^2 = 4 subnet."
+            },
+            {
+                question: "Apa yang dimaksud dengan broadcast address?",
+                options: ["Alamat pertama dalam subnet", "Alamat terakhir dalam subnet", "Alamat router", "Alamat DNS", "Alamat gateway"],
+                correct: 1,
+                explanation: "Broadcast address adalah alamat terakhir dalam subnet yang digunakan untuk mengirim data ke semua host."
+            },
+            {
+                question: "Berapa jumlah host per subnet pada /27?",
+                options: ["14", "30", "62", "126", "254"],
+                correct: 1,
+                explanation: "/27 memiliki 5 bit untuk host (32-27=5). 2^5 - 2 = 32 - 2 = 30 host."
+            },
+            {
+                question: "Manakah notasi CIDR yang benar untuk subnet mask 255.255.255.240?",
+                options: ["/26", "/27", "/28", "/29", "/30"],
+                correct: 2,
+                explanation: "255.255.255.240 dalam biner memiliki 28 bit '1', sehingga notasi CIDR-nya adalah /28."
+            },
+            {
+                question: "Apa keuntungan utama dari subnetting?",
+                options: ["Meningkatkan kecepatan internet", "Efisiensi penggunaan IP dan keamanan", "Mengurangi biaya hardware", "Meningkatkan bandwidth", "Menghilangkan virus"],
+                correct: 1,
+                explanation: "Subnetting meningkatkan efisiensi penggunaan IP address, mengurangi broadcast domain, dan meningkatkan keamanan."
+            },
+            {
+                question: "Berapa range IP privat kelas B?",
+                options: ["10.0.0.0 - 10.255.255.255", "172.16.0.0 - 172.31.255.255", "192.168.0.0 - 192.168.255.255", "169.254.0.0 - 169.254.255.255", "127.0.0.0 - 127.255.255.255"],
+                correct: 1,
+                explanation: "IP privat kelas B adalah 172.16.0.0 - 172.31.255.255, total 16 network kelas B."
+            },
+            {
+                question: "Apa fungsi dari protokol DHCP?",
+                options: ["Mengenkripsi data", "Memberikan IP address otomatis", "Routing paket data", "Mengamankan jaringan", "Menerjemahkan domain"],
+                correct: 1,
+                explanation: "DHCP (Dynamic Host Configuration Protocol) memberikan IP address secara otomatis kepada perangkat dalam jaringan."
+            },
+            {
+                question: "Berapa jumlah maksimal host dalam jaringan kelas C tanpa subnetting?",
+                options: ["126", "254", "510", "1022", "2046"],
+                correct: 1,
+                explanation: "Kelas C memiliki 8 bit untuk host. 2^8 - 2 = 256 - 2 = 254 host yang dapat digunakan."
+            },
+            {
+                question: "Manakah yang merupakan alamat loopback?",
+                options: ["192.168.1.1", "10.0.0.1", "127.0.0.1", "172.16.0.1", "0.0.0.0"],
+                correct: 2,
+                explanation: "127.0.0.1 adalah alamat loopback yang digunakan untuk testing pada komputer lokal."
+            },
+            {
+                question: "Apa yang dimaksud dengan network address?",
+                options: ["Alamat terakhir dalam subnet", "Alamat pertama dalam subnet", "Alamat broadcast", "Alamat gateway", "Alamat DNS"],
+                correct: 1,
+                explanation: "Network address adalah alamat pertama dalam subnet yang mengidentifikasi network itu sendiri."
+            },
+            {
+                question: "Berapa subnet mask default untuk kelas C?",
+                options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128", "255.255.255.255"],
+                correct: 2,
+                explanation: "Subnet mask default kelas C adalah 255.255.255.0 atau /24 dalam notasi CIDR."
+            },
+            {
+                question: "Apa fungsi dari protokol NAT (Network Address Translation)?",
+                options: ["Mengenkripsi data", "Menerjemahkan IP privat ke publik", "Memberikan IP otomatis", "Routing paket", "Mengamankan password"],
+                correct: 1,
+                explanation: "NAT menerjemahkan IP address privat menjadi IP publik sehingga perangkat dalam jaringan lokal dapat mengakses internet."
+            }
+        ];
+
+        let answeredQuestions = new Set();
+        let correctAnswers = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            if (answeredQuestions.size === questions.length) {
+                showResults();
+                return;
+            }
+
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `question-${index}`;
+
+                const isAnswered = answeredQuestions.has(index);
+
+                card.innerHTML = `
+                    <div class="question-number">Soal ${index + 1} dari ${questions.length}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options" id="options-${index}">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="option ${isAnswered ? 'disabled' : ''}" 
+                                 data-question="${index}" 
+                                 data-option="${optIndex}"
+                                 onclick="${isAnswered ? '' : `selectOption(${index}, ${optIndex})`}">
+                                ${String.fromCharCode(65 + optIndex)}. ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div id="feedback-${index}"></div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateProgress();
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            if (answeredQuestions.has(questionIndex)) return;
+
+            answeredQuestions.add(questionIndex);
+            const question = questions[questionIndex];
+            const isCorrect = optionIndex === question.correct;
+
+            if (isCorrect) {
+                correctAnswers++;
+            }
+
+            const optionsContainer = document.getElementById(`options-${questionIndex}`);
+            const options = optionsContainer.querySelectorAll('.option');
+
+            options.forEach((option, index) => {
+                option.classList.add('disabled');
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === optionIndex && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            const feedbackDiv = document.getElementById(`feedback-${questionIndex}`);
+            feedbackDiv.innerHTML = `
+                <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
+                    <strong>${isCorrect ? '✓ Benar!' : '✗ Salah!'}</strong><br>
+                    ${question.explanation}
+                </div>
+            `;
+
+            updateProgress();
+
+            if (answeredQuestions.size === questions.length) {
+                setTimeout(showResults, 1000);
+            }
+        }
+
+        function updateProgress() {
+            const progressText = document.getElementById('progress-text');
+            const progressFill = document.getElementById('progress-fill');
+            const percentage = (answeredQuestions.size / questions.length) * 100;
+
+            progressText.textContent = `Soal ${answeredQuestions.size} dari ${questions.length}`;
+            progressFill.style.width = `${percentage}%`;
+        }
+
+        function showResults() {
+            const container = document.getElementById('quiz-container');
+            const percentage = Math.round((correctAnswers / questions.length) * 100);
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Luar biasa! Anda sangat menguasai materi!';
+            } else if (percentage >= 75) {
+                message = 'Bagus! Pemahaman Anda sudah baik!';
+            } else if (percentage >= 60) {
+                message = 'Cukup baik, terus belajar!';
+            } else {
+                message = 'Perlu belajar lebih banyak lagi!';
+            }
+
+            container.innerHTML = `
+                <div class="score-card">
+                    <h2>🎉 Kuis Selesai!</h2>
+                    <div class="score-number">${correctAnswers}/${questions.length}</div>
+                    <div class="score-message">
+                        Skor Anda: ${percentage}%<br>
+                        ${message}
+                    </div>
+                    <button class="restart-btn" onclick="restartQuiz()">Ulangi Kuis</button>
+                </div>
+            `;
+        }
+
+        function restartQuiz() {
+            answeredQuestions.clear();
+            correctAnswers = 0;
+            renderQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('quiz-title');
+            const subtitleElement = document.getElementById('quiz-subtitle');
+            
+            if (titleElement) {
+                titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+            }
+            if (subtitleElement) {
+                subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+            }
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
+            ]);
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: () => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: mapToEditPanelValues
+            });
+        }
+
+        renderQuiz();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d3236bf5b64c64',t:'MTc2MjkyMDE5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
