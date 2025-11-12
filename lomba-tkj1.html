@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Jaringan Komputer</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .start-screen h2 {
+            color: #2d3748;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .start-screen p {
+            color: #718096;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .question-counter {
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .question-box {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            color: #2d3748;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 16px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .option.correct {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .option.incorrect {
+            border-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .option-label {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #4a5568;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-label {
+            background: #667eea;
+            color: white;
+        }
+
+        .option.correct .option-label {
+            background: #48bb78;
+            color: white;
+        }
+
+        .option.incorrect .option-label {
+            background: #f56565;
+            color: white;
+        }
+
+        .option-text {
+            color: #2d3748;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .result-screen h2 {
+            color: #2d3748;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            color: #718096;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .feedback {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .feedback-title {
+            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .feedback-text {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .question-text {
+                font-size: 16px;
+            }
+
+            .option-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 id="quiz-title">Kuis Jaringan Komputer</h1>
+    <p id="quiz-subtitle">Konsep Dasar Jaringan &amp; Perangkat Keras</p>
+   </div><!-- Start Screen -->
+   <div class="start-screen" id="start-screen">
+    <div class="icon">
+     🌐
+    </div>
+    <h2>Selamat Datang!</h2>
+    <p>Kuis ini berisi 20 soal pilihan ganda tentang konsep dasar jaringan komputer, perangkat keras, topologi, dan konfigurasi perangkat jaringan. Setiap soal memiliki 5 pilihan jawaban.</p><button class="btn" id="start-btn">Mulai Kuis</button>
+   </div><!-- Quiz Screen -->
+   <div class="quiz-screen" id="quiz-screen">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="question-counter" id="question-counter">
+     Soal 1 dari 20
+    </div>
+    <div class="question-box">
+     <div class="question-text" id="question-text"></div>
+    </div>
+    <div class="options" id="options"></div>
+    <div class="button-container"><button class="btn" id="next-btn" disabled>Selanjutnya</button>
+    </div>
+   </div><!-- Result Screen -->
+   <div class="result-screen" id="result-screen">
+    <div class="result-icon" id="result-icon">
+     🎉
+    </div>
+    <h2>Kuis Selesai!</h2>
+    <div class="score-display" id="score-display">
+     0/20
+    </div>
+    <div class="result-message" id="result-message"></div><button class="btn" id="retry-btn">Ulangi Kuis</button>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis Jaringan Komputer",
+            quiz_subtitle: "Konsep Dasar Jaringan & Perangkat Keras",
+            start_button_text: "Mulai Kuis",
+            next_button_text: "Selanjutnya",
+            finish_button_text: "Lihat Hasil",
+            retry_button_text: "Ulangi Kuis",
+            background_color: "#667eea",
+            surface_color: "#ffffff",
+            text_color: "#2d3748",
+            primary_action_color: "#667eea",
+            secondary_action_color: "#718096"
+        };
+
+        const quizData = [
+            {
+                question: "Apa fungsi utama dari Router dalam jaringan komputer?",
+                options: [
+                    "Menghubungkan perangkat dalam satu jaringan lokal",
+                    "Menguatkan sinyal jaringan yang lemah",
+                    "Menghubungkan dua atau lebih jaringan yang berbeda",
+                    "Mengubah sinyal kabel menjadi wireless",
+                    "Menyimpan data sementara dalam jaringan"
+                ],
+                correct: 2,
+                explanation: "Router berfungsi untuk menghubungkan dua atau lebih jaringan yang berbeda dan mengarahkan paket data ke tujuan yang tepat."
+            },
+            {
+                question: "Perangkat jaringan manakah yang bekerja pada Layer 2 (Data Link Layer) model OSI?",
+                options: [
+                    "Router",
+                    "Switch",
+                    "Repeater",
+                    "Modem",
+                    "Gateway"
+                ],
+                correct: 1,
+                explanation: "Switch bekerja pada Layer 2 (Data Link Layer) dan menggunakan MAC address untuk meneruskan frame data."
+            },
+            {
+                question: "Fungsi utama dari Repeater dalam jaringan adalah?",
+                options: [
+                    "Memfilter paket data berdasarkan MAC address",
+                    "Menghubungkan jaringan yang berbeda",
+                    "Menguatkan dan meregenerasi sinyal jaringan",
+                    "Mengatur lalu lintas data antar jaringan",
+                    "Mengkonversi protokol jaringan"
+                ],
+                correct: 2,
+                explanation: "Repeater berfungsi untuk menguatkan dan meregenerasi sinyal jaringan agar dapat menjangkau jarak yang lebih jauh."
+            },
+            {
+                question: "Access Point (AP) dalam jaringan wireless berfungsi untuk?",
+                options: [
+                    "Menghubungkan jaringan kabel dengan jaringan wireless",
+                    "Mengenkripsi data wireless",
+                    "Menyimpan konfigurasi jaringan",
+                    "Memblokir akses tidak sah",
+                    "Mengatur bandwidth jaringan"
+                ],
+                correct: 0,
+                explanation: "Access Point berfungsi sebagai jembatan antara jaringan kabel (wired) dengan perangkat wireless (nirkabel)."
+            },
+            {
+                question: "Perbedaan utama antara Switch dan Hub adalah?",
+                options: [
+                    "Switch lebih murah dari Hub",
+                    "Switch mengirim data ke semua port, Hub hanya ke port tujuan",
+                    "Switch mengirim data ke port tujuan, Hub ke semua port",
+                    "Switch hanya untuk jaringan wireless",
+                    "Hub lebih cepat dari Switch"
+                ],
+                correct: 2,
+                explanation: "Switch mengirim data hanya ke port tujuan berdasarkan MAC address, sedangkan Hub mengirim ke semua port (broadcast)."
+            },
+            {
+                question: "Media transmisi wireless menggunakan gelombang?",
+                options: [
+                    "Gelombang suara",
+                    "Gelombang cahaya inframerah saja",
+                    "Gelombang radio",
+                    "Gelombang ultrasonik",
+                    "Gelombang magnetik"
+                ],
+                correct: 2,
+                explanation: "Jaringan wireless menggunakan gelombang radio untuk mentransmisikan data tanpa kabel."
+            },
+            {
+                question: "Kabel UTP (Unshielded Twisted Pair) termasuk dalam kategori?",
+                options: [
+                    "Media transmisi wireless",
+                    "Media transmisi guided (terpandu)",
+                    "Media transmisi satelit",
+                    "Media transmisi optik",
+                    "Media transmisi infrared"
+                ],
+                correct: 1,
+                explanation: "Kabel UTP adalah media transmisi guided (terpandu) karena sinyal data ditransmisikan melalui kabel fisik."
+            },
+            {
+                question: "Keuntungan utama menggunakan kabel Fiber Optic dibanding kabel tembaga adalah?",
+                options: [
+                    "Lebih murah dan mudah dipasang",
+                    "Kecepatan transmisi lebih tinggi dan tidak terpengaruh interferensi elektromagnetik",
+                    "Lebih fleksibel dan tahan air",
+                    "Dapat digunakan untuk jarak pendek saja",
+                    "Tidak memerlukan perangkat khusus"
+                ],
+                correct: 1,
+                explanation: "Fiber Optic memiliki kecepatan transmisi sangat tinggi dan kebal terhadap interferensi elektromagnetik karena menggunakan cahaya."
+            },
+            {
+                question: "Standar kabel LAN yang paling umum digunakan saat ini adalah?",
+                options: [
+                    "Cat3",
+                    "Cat4",
+                    "Cat5",
+                    "Cat5e dan Cat6",
+                    "Cat1"
+                ],
+                correct: 3,
+                explanation: "Cat5e dan Cat6 adalah standar kabel UTP yang paling umum digunakan saat ini dengan kecepatan hingga 1 Gbps atau lebih."
+            },
+            {
+                question: "Pada topologi Bus, jika kabel utama (backbone) putus, maka?",
+                options: [
+                    "Hanya satu komputer yang terputus",
+                    "Seluruh jaringan akan down",
+                    "Jaringan tetap berfungsi normal",
+                    "Hanya komputer terdekat yang terpengaruh",
+                    "Router akan otomatis memperbaiki"
+                ],
+                correct: 1,
+                explanation: "Pada topologi Bus, jika kabel backbone putus, seluruh jaringan akan down karena semua perangkat terhubung pada satu kabel utama."
+            },
+            {
+                question: "Topologi jaringan yang paling toleran terhadap kegagalan adalah?",
+                options: [
+                    "Bus",
+                    "Ring",
+                    "Star",
+                    "Tree",
+                    "Linear"
+                ],
+                correct: 2,
+                explanation: "Topologi Star paling toleran terhadap kegagalan karena jika satu kabel putus, hanya perangkat tersebut yang terputus, tidak mempengaruhi yang lain."
+            },
+            {
+                question: "Pada topologi Ring, data bergerak dalam arah?",
+                options: [
+                    "Acak ke semua arah",
+                    "Dua arah secara bersamaan",
+                    "Satu arah melingkar",
+                    "Dari pusat ke pinggir",
+                    "Dari pinggir ke pusat"
+                ],
+                correct: 2,
+                explanation: "Pada topologi Ring, data bergerak dalam satu arah melingkar dari satu komputer ke komputer berikutnya hingga mencapai tujuan."
+            },
+            {
+                question: "Kelemahan utama topologi Star adalah?",
+                options: [
+                    "Sulit menambah komputer baru",
+                    "Jika hub/switch pusat rusak, seluruh jaringan down",
+                    "Kecepatan transfer data lambat",
+                    "Tidak bisa menggunakan kabel UTP",
+                    "Biaya kabel sangat murah"
+                ],
+                correct: 1,
+                explanation: "Kelemahan topologi Star adalah ketergantungan pada perangkat pusat (hub/switch). Jika rusak, seluruh jaringan akan down."
+            },
+            {
+                question: "Topologi Mesh memiliki karakteristik?",
+                options: [
+                    "Semua perangkat terhubung ke satu titik pusat",
+                    "Perangkat terhubung secara berurutan",
+                    "Setiap perangkat terhubung langsung ke semua perangkat lain",
+                    "Menggunakan satu kabel utama",
+                    "Hanya menggunakan koneksi wireless"
+                ],
+                correct: 2,
+                explanation: "Topologi Mesh memiliki koneksi langsung antara setiap perangkat dengan semua perangkat lainnya, memberikan redundansi tinggi."
+            },
+            {
+                question: "Untuk mengakses console switch Cisco secara langsung, kabel yang digunakan adalah?",
+                options: [
+                    "Kabel UTP straight",
+                    "Kabel UTP crossover",
+                    "Kabel console (rollover)",
+                    "Kabel fiber optic",
+                    "Kabel coaxial"
+                ],
+                correct: 2,
+                explanation: "Kabel console (rollover) digunakan untuk koneksi langsung ke port console switch atau router Cisco untuk konfigurasi awal."
+            },
+            {
+                question: "Port default untuk mengakses console pada perangkat Cisco adalah?",
+                options: [
+                    "FastEthernet 0/1",
+                    "GigabitEthernet 0/0",
+                    "Console port",
+                    "AUX port",
+                    "Serial port"
+                ],
+                correct: 2,
+                explanation: "Console port adalah port khusus pada perangkat Cisco yang digunakan untuk konfigurasi langsung menggunakan kabel console."
+            },
+            {
+                question: "Software yang umum digunakan untuk mengakses console switch/router Cisco dari komputer adalah?",
+                options: [
+                    "Microsoft Word",
+                    "PuTTY atau Tera Term",
+                    "Adobe Reader",
+                    "Google Chrome",
+                    "Windows Explorer"
+                ],
+                correct: 1,
+                explanation: "PuTTY dan Tera Term adalah software terminal emulator yang digunakan untuk mengakses console perangkat Cisco melalui koneksi serial."
+            },
+            {
+                question: "Mode privileged EXEC pada Cisco ditandai dengan prompt?",
+                options: [
+                    "Switch>",
+                    "Switch#",
+                    "Switch(config)#",
+                    "Switch(config-if)#",
+                    "Switch$"
+                ],
+                correct: 1,
+                explanation: "Mode privileged EXEC ditandai dengan tanda '#' setelah hostname (contoh: Switch#), memberikan akses penuh untuk konfigurasi."
+            },
+            {
+                question: "Perintah untuk masuk ke mode konfigurasi global pada Cisco adalah?",
+                options: [
+                    "enable",
+                    "configure terminal",
+                    "config mode",
+                    "setup",
+                    "admin mode"
+                ],
+                correct: 1,
+                explanation: "Perintah 'configure terminal' atau 'conf t' digunakan untuk masuk ke mode konfigurasi global dari mode privileged EXEC."
+            },
+            {
+                question: "Untuk menyimpan konfigurasi running-config ke startup-config pada Cisco, perintah yang digunakan adalah?",
+                options: [
+                    "save config",
+                    "write memory",
+                    "store config",
+                    "backup config",
+                    "save running"
+                ],
+                correct: 1,
+                explanation: "Perintah 'write memory' atau 'copy running-config startup-config' digunakan untuk menyimpan konfigurasi aktif ke memori permanen."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('quiz-title');
+            const subtitleElement = document.getElementById('quiz-subtitle');
+            const startBtn = document.getElementById('start-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const retryBtn = document.getElementById('retry-btn');
+
+            if (titleElement) titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+            if (subtitleElement) subtitleElement.textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+            if (startBtn) startBtn.textContent = config.start_button_text || defaultConfig.start_button_text;
+            if (retryBtn) retryBtn.textContent = config.retry_button_text || defaultConfig.retry_button_text;
+            
+            if (nextBtn) {
+                if (currentQuestion === quizData.length - 1) {
+                    nextBtn.textContent = config.finish_button_text || defaultConfig.finish_button_text;
+                } else {
+                    nextBtn.textContent = config.next_button_text || defaultConfig.next_button_text;
+                }
+            }
+
+            document.body.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #764ba2 100%)`;
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
+                    ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+                    ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+                    ["finish_button_text", config.finish_button_text || defaultConfig.finish_button_text],
+                    ["retry_button_text", config.retry_button_text || defaultConfig.retry_button_text]
+                ])
+            });
+        }
+
+        document.getElementById('start-btn').addEventListener('click', startQuiz);
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('retry-btn').addEventListener('click', resetQuiz);
+
+        function startQuiz() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('question-counter').textContent = `Soal ${currentQuestion + 1} dari ${quizData.length}`;
+            
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            const labels = ['A', 'B', 'C', 'D', 'E'];
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.innerHTML = `
+                    <div class="option-label">${labels[index]}</div>
+                    <div class="option-text">${option}</div>
+                `;
+                optionDiv.addEventListener('click', () => selectAnswer(index, optionDiv));
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            selectedAnswer = null;
+            answered = false;
+            document.getElementById('next-btn').disabled = true;
+            
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            if (currentQuestion === quizData.length - 1) {
+                document.getElementById('next-btn').textContent = config.finish_button_text || defaultConfig.finish_button_text;
+            } else {
+                document.getElementById('next-btn').textContent = config.next_button_text || defaultConfig.next_button_text;
+            }
+        }
+
+        function selectAnswer(index, optionElement) {
+            if (answered) return;
+
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            optionElement.classList.add('selected');
+            selectedAnswer = index;
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+
+            const question = quizData[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            
+            answered = true;
+            
+            options[question.correct].classList.add('correct');
+            if (selectedAnswer !== question.correct) {
+                options[selectedAnswer].classList.add('incorrect');
+            } else {
+                score++;
+            }
+
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 1500);
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            const percentage = (score / quizData.length) * 100;
+            document.getElementById('score-display').textContent = `${score}/${quizData.length}`;
+            
+            let message = '';
+            let icon = '';
+            
+            if (percentage >= 90) {
+                message = 'Luar biasa! Anda menguasai materi dengan sangat baik! 🌟';
+                icon = '🏆';
+            } else if (percentage >= 75) {
+                message = 'Bagus sekali! Pemahaman Anda sangat baik! 👏';
+                icon = '🎉';
+            } else if (percentage >= 60) {
+                message = 'Cukup baik! Terus tingkatkan pemahaman Anda! 💪';
+                icon = '👍';
+            } else {
+                message = 'Tetap semangat! Pelajari kembali materinya ya! 📚';
+                icon = '💡';
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            document.getElementById('result-icon').textContent = icon;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            answered = false;
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'block';
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d2f44bb72accfd',t:'MTc2MjkxODI2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
