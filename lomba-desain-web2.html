@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis HTML &amp; CSS</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f7fafc;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .option.correct {
+            background: #c6f6d5;
+            border-color: #48bb78;
+        }
+
+        .option.incorrect {
+            background: #fed7d7;
+            border-color: #f56565;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #c6f6d5;
+            color: #22543d;
+            border-left: 4px solid #48bb78;
+        }
+
+        .feedback.incorrect {
+            background: #fed7d7;
+            color: #742a2a;
+            border-left: 4px solid #f56565;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .submit-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .reset-btn {
+            background: #ed8936;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #dd6b20;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .score-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .score-card.show {
+            display: block;
+        }
+
+        .score-number {
+            font-size: 72px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .score-text {
+            font-size: 24px;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .score-message {
+            font-size: 18px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .quiz-card {
+                padding: 20px;
+            }
+
+            .question {
+                font-size: 16px;
+            }
+
+            .button-container {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <header>
+    <h1 id="quiz-title">Kuis HTML &amp; CSS</h1>
+    <p class="subtitle" id="quiz-subtitle">Uji pemahaman Anda tentang HTML Semantik dan CSS</p>
+   </header>
+   <div id="quiz-container"></div>
+   <div class="score-card" id="score-card">
+    <h2 class="score-text">Skor Anda</h2>
+    <div class="score-number" id="final-score">
+     0/20
+    </div>
+    <p class="score-message" id="score-message"></p>
+   </div>
+   <div class="button-container"><button class="submit-btn" id="submit-btn">Lihat Hasil</button> <button class="reset-btn" id="reset-btn">Ulangi Kuis</button>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis HTML & CSS",
+            quiz_subtitle: "Uji pemahaman Anda tentang HTML Semantik dan CSS",
+            submit_button_text: "Lihat Hasil",
+            reset_button_text: "Ulangi Kuis"
+        };
+
+        const quizData = [
+            {
+                question: "Apa fungsi utama dari tag <head> dalam HTML?",
+                options: [
+                    "Menampilkan konten utama halaman",
+                    "Menyimpan metadata dan informasi dokumen",
+                    "Membuat navigasi website",
+                    "Menampilkan footer halaman",
+                    "Membuat sidebar"
+                ],
+                correct: 1
+            },
+            {
+                question: "Tag HTML semantik mana yang paling tepat untuk membuat menu navigasi website?",
+                options: [
+                    "<div>",
+                    "<section>",
+                    "<nav>",
+                    "<header>",
+                    "<menu>"
+                ],
+                correct: 2
+            },
+            {
+                question: "Tag <article> paling tepat digunakan untuk:",
+                options: [
+                    "Membuat sidebar",
+                    "Konten independen seperti postingan blog",
+                    "Membuat footer",
+                    "Membuat header",
+                    "Membuat navigasi"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa fungsi dari tag <footer> dalam HTML semantik?",
+                options: [
+                    "Membuat header halaman",
+                    "Menampilkan konten utama",
+                    "Menampilkan informasi penutup seperti copyright",
+                    "Membuat navigasi",
+                    "Membuat sidebar"
+                ],
+                correct: 2
+            },
+            {
+                question: "Tag <aside> biasanya digunakan untuk:",
+                options: [
+                    "Konten utama halaman",
+                    "Navigasi utama",
+                    "Konten sampingan atau sidebar",
+                    "Footer halaman",
+                    "Header halaman"
+                ],
+                correct: 2
+            },
+            {
+                question: "Tag <q> dalam HTML digunakan untuk:",
+                options: [
+                    "Membuat paragraf",
+                    "Membuat kutipan pendek inline",
+                    "Membuat judul",
+                    "Membuat daftar",
+                    "Membuat tabel"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa fungsi utama CSS dalam pengembangan web?",
+                options: [
+                    "Membuat struktur halaman",
+                    "Mengatur tampilan dan styling halaman",
+                    "Menambahkan interaktivitas",
+                    "Menyimpan data",
+                    "Membuat database"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa kelebihan utama menggunakan External CSS dibanding Inline CSS?",
+                options: [
+                    "Lebih cepat loading",
+                    "Tidak perlu file terpisah",
+                    "Dapat digunakan di banyak halaman dan mudah maintenance",
+                    "Lebih aman",
+                    "Tidak perlu link tag"
+                ],
+                correct: 2
+            },
+            {
+                question: "Bagaimana cara menghubungkan file CSS eksternal ke HTML?",
+                options: [
+                    "<style src='style.css'>",
+                    "<css href='style.css'>",
+                    "<link rel='stylesheet' href='style.css'>",
+                    "<import css='style.css'>",
+                    "<include css='style.css'>"
+                ],
+                correct: 2
+            },
+            {
+                question: "Dalam CSS Specificity, mana yang memiliki prioritas tertinggi?",
+                options: [
+                    "Element selector",
+                    "Class selector",
+                    "ID selector",
+                    "Universal selector",
+                    "Attribute selector"
+                ],
+                correct: 2
+            },
+            {
+                question: "Sintaks CSS yang benar adalah:",
+                options: [
+                    "selector: property = value;",
+                    "selector { property: value; }",
+                    "selector (property: value)",
+                    "selector [property = value]",
+                    "selector property: value"
+                ],
+                correct: 1
+            },
+            {
+                question: "Tag mana yang paling tepat untuk konten postingan blog yang lengkap?",
+                options: [
+                    "<div>",
+                    "<section>",
+                    "<article>",
+                    "<aside>",
+                    "<main>"
+                ],
+                correct: 2
+            },
+            {
+                question: "Jika style dari framework CSS tertimpa, solusi terbaik adalah:",
+                options: [
+                    "Menggunakan !important di semua style",
+                    "Menghapus framework",
+                    "Meningkatkan specificity selector",
+                    "Menggunakan inline style",
+                    "Menulis ulang framework"
+                ],
+                correct: 2
+            },
+            {
+                question: "Selector CSS dengan specificity tertinggi ke terendah yang benar:",
+                options: [
+                    "element > class > id",
+                    "id > class > element",
+                    "class > id > element",
+                    "element > id > class",
+                    "class > element > id"
+                ],
+                correct: 1
+            },
+            {
+                question: "Tag semantik untuk bagian sidebar yang berisi widget adalah:",
+                options: [
+                    "<nav>",
+                    "<section>",
+                    "<aside>",
+                    "<div>",
+                    "<widget>"
+                ],
+                correct: 2
+            },
+            {
+                question: "Perbedaan <q> dan <blockquote> adalah:",
+                options: [
+                    "Tidak ada perbedaan",
+                    "<q> untuk kutipan pendek inline, <blockquote> untuk kutipan panjang blok",
+                    "<q> untuk judul, <blockquote> untuk paragraf",
+                    "<q> lebih modern dari <blockquote>",
+                    "<blockquote> sudah deprecated"
+                ],
+                correct: 1
+            },
+            {
+                question: "Keuntungan menggunakan tag semantik HTML adalah:",
+                options: [
+                    "Membuat website lebih cepat",
+                    "Meningkatkan SEO dan aksesibilitas",
+                    "Mengurangi ukuran file",
+                    "Membuat coding lebih cepat",
+                    "Tidak ada keuntungan khusus"
+                ],
+                correct: 1
+            },
+            {
+                question: "Cara mengatasi style yang tertimpa framework dengan specificity:",
+                options: [
+                    "Menggunakan selector yang lebih spesifik",
+                    "Menghapus framework CSS",
+                    "Menggunakan JavaScript",
+                    "Mengubah HTML",
+                    "Tidak bisa diatasi"
+                ],
+                correct: 0
+            },
+            {
+                question: "File CSS eksternal sebaiknya ditempatkan di:",
+                options: [
+                    "Di dalam <body>",
+                    "Di dalam <head>",
+                    "Di akhir dokumen",
+                    "Di dalam <footer>",
+                    "Dimana saja sama"
+                ],
+                correct: 1
+            },
+            {
+                question: "Manakah penulisan CSS selector yang paling spesifik?",
+                options: [
+                    "p { color: red; }",
+                    ".text { color: red; }",
+                    "#header .text { color: red; }",
+                    "div p { color: red; }",
+                    "* { color: red; }"
+                ],
+                correct: 2
+            }
+        ];
+
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizData.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `question-${index}`;
+
+                let optionsHTML = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHTML += `
+                        <div class="option" data-question="${index}" data-option="${optIndex}">
+                            <input type="radio" id="q${index}_opt${optIndex}" name="question${index}" value="${optIndex}">
+                            <label for="q${index}_opt${optIndex}">${option}</label>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question">
+                        <span class="question-number">Soal ${index + 1}</span>
+                        ${q.question}
+                    </div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            attachOptionListeners();
+        }
+
+        function attachOptionListeners() {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.dataset.question);
+                    const optionIndex = parseInt(this.dataset.option);
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                    userAnswers[questionIndex] = optionIndex;
+                });
+            });
+        }
+
+        function showResults() {
+            let correctCount = 0;
+
+            quizData.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const options = document.querySelectorAll(`[data-question="${index}"]`);
+                const feedback = document.getElementById(`feedback-${index}`);
+
+                options.forEach(option => {
+                    option.classList.add('disabled');
+                    const optIndex = parseInt(option.dataset.option);
+
+                    if (optIndex === q.correct) {
+                        option.classList.add('correct');
+                    }
+
+                    if (userAnswer !== null && optIndex === userAnswer && userAnswer !== q.correct) {
+                        option.classList.add('incorrect');
+                    }
+                });
+
+                if (userAnswer === q.correct) {
+                    correctCount++;
+                    feedback.className = 'feedback correct show';
+                    feedback.textContent = '✓ Benar! Jawaban Anda tepat.';
+                } else if (userAnswer !== null) {
+                    feedback.className = 'feedback incorrect show';
+                    feedback.textContent = `✗ Salah. Jawaban yang benar: ${q.options[q.correct]}`;
+                } else {
+                    feedback.className = 'feedback incorrect show';
+                    feedback.textContent = `✗ Tidak dijawab. Jawaban yang benar: ${q.options[q.correct]}`;
+                }
+            });
+
+            const scoreCard = document.getElementById('score-card');
+            const finalScore = document.getElementById('final-score');
+            const scoreMessage = document.getElementById('score-message');
+
+            finalScore.textContent = `${correctCount}/20`;
+
+            if (correctCount >= 18) {
+                scoreMessage.textContent = '🎉 Luar biasa! Anda menguasai materi dengan sangat baik!';
+            } else if (correctCount >= 15) {
+                scoreMessage.textContent = '👍 Bagus! Pemahaman Anda sudah sangat baik!';
+            } else if (correctCount >= 12) {
+                scoreMessage.textContent = '😊 Cukup baik! Terus belajar untuk meningkatkan pemahaman.';
+            } else if (correctCount >= 10) {
+                scoreMessage.textContent = '📚 Perlu belajar lebih banyak. Jangan menyerah!';
+            } else {
+                scoreMessage.textContent = '💪 Tetap semangat! Pelajari kembali materinya.';
+            }
+
+            scoreCard.classList.add('show');
+            document.getElementById('submit-btn').style.display = 'none';
+        }
+
+        function resetQuiz() {
+            userAnswers = new Array(quizData.length).fill(null);
+            document.getElementById('score-card').classList.remove('show');
+            document.getElementById('submit-btn').style.display = 'inline-block';
+            renderQuiz();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', showResults);
+        document.getElementById('reset-btn').addEventListener('click', resetQuiz);
+
+        async function onConfigChange(config) {
+            document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
+            document.getElementById('quiz-subtitle').textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+            document.getElementById('submit-btn').textContent = config.submit_button_text || defaultConfig.submit_button_text;
+            document.getElementById('reset-btn').textContent = config.reset_button_text || defaultConfig.reset_button_text;
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
+                    ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text],
+                    ["reset_button_text", config.reset_button_text || defaultConfig.reset_button_text]
+                ])
+            });
+        }
+
+        renderQuiz();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99d30ac72448e783',t:'MTc2MjkxOTE4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
