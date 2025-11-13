@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Jaringan Komputer</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .option-button {
+            transition: all 0.2s ease;
+        }
+        .option-button:hover {
+            transform: translateY(-1px);
+        }
+        .correct-answer {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .wrong-answer {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-full bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div class="container mx-auto px-4 py-8 max-w-4xl"><!-- Header -->
+   <header class="text-center mb-8">
+    <h1 id="quiz-title" class="text-4xl font-bold text-gray-800 mb-4">Kuis Jaringan Komputer</h1>
+    <p id="welcome-message" class="text-lg text-gray-600 mb-6">Uji pengetahuan Anda tentang OSI Layer, Routing, dan Konfigurasi Cisco</p>
+    <div class="bg-white rounded-lg shadow-md p-4 inline-block"><span class="text-sm text-gray-500">Progres: </span> <span id="progress" class="font-semibold text-indigo-600">0/20</span>
+    </div>
+   </header><!-- Quiz Container -->
+   <div id="quiz-container" class="bg-white rounded-xl shadow-lg p-8">
+    <div id="question-section">
+     <div class="mb-6"><span id="question-number" class="text-sm font-medium text-indigo-600 bg-indigo-100 px-3 py-1 rounded-full">Soal 1</span>
+     </div>
+     <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-6 leading-relaxed"></h2>
+     <div id="options-container" class="space-y-3"><!-- Options will be populated by JavaScript -->
+     </div>
+     <div id="feedback" class="mt-6 p-4 rounded-lg hidden">
+      <p id="feedback-text" class="font-medium"></p>
+     </div>
+     <div class="mt-8 flex justify-between items-center"><button id="prev-btn" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled> ← Sebelumnya </button> <button id="next-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled> Selanjutnya → </button>
+     </div>
+    </div><!-- Results Section -->
+    <div id="results-section" class="hidden text-center">
+     <div class="mb-8">
+      <div class="text-6xl mb-4">
+       🎉
+      </div>
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Kuis Selesai!</h2>
+      <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-6 inline-block">
+       <p class="text-lg mb-2">Skor Anda:</p>
+       <p id="final-score" class="text-4xl font-bold"></p>
+      </div>
+     </div><button id="restart-btn" class="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-lg font-medium"> Mulai Ulang </button>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis Jaringan Komputer",
+            welcome_message: "Uji pengetahuan Anda tentang OSI Layer, Routing, dan Konfigurasi Cisco"
+        };
+
+        const questions = [
+            {
+                question: "Berapa jumlah layer dalam model OSI?",
+                options: ["5 layer", "6 layer", "7 layer", "8 layer", "9 layer"],
+                correct: 2,
+                explanation: "Model OSI memiliki 7 layer: Physical, Data Link, Network, Transport, Session, Presentation, dan Application."
+            },
+            {
+                question: "Layer manakah yang bertanggung jawab untuk transmisi bit melalui media fisik?",
+                options: ["Data Link Layer", "Physical Layer", "Network Layer", "Transport Layer", "Session Layer"],
+                correct: 1,
+                explanation: "Physical Layer (Layer 1) bertanggung jawab untuk transmisi bit mentah melalui media fisik seperti kabel atau wireless."
+            },
+            {
+                question: "Protokol manakah yang bekerja di Data Link Layer?",
+                options: ["IP", "TCP", "HTTP", "Ethernet", "FTP"],
+                correct: 3,
+                explanation: "Ethernet adalah protokol yang bekerja di Data Link Layer (Layer 2) untuk mengatur akses ke media dan frame formatting."
+            },
+            {
+                question: "Fungsi utama Network Layer adalah:",
+                options: ["Error detection", "Flow control", "Routing", "Data encryption", "Session management"],
+                correct: 2,
+                explanation: "Network Layer (Layer 3) bertanggung jawab untuk routing, yaitu menentukan jalur terbaik untuk pengiriman data antar jaringan."
+            },
+            {
+                question: "Perangkat manakah yang bekerja di Physical Layer?",
+                options: ["Router", "Switch", "Hub", "Gateway", "Firewall"],
+                correct: 2,
+                explanation: "Hub bekerja di Physical Layer karena hanya memperkuat dan meneruskan sinyal tanpa memproses frame atau paket."
+            },
+            {
+                question: "MAC Address bekerja di layer manakah?",
+                options: ["Physical Layer", "Data Link Layer", "Network Layer", "Transport Layer", "Application Layer"],
+                correct: 1,
+                explanation: "MAC Address digunakan di Data Link Layer untuk identifikasi unik perangkat dalam jaringan lokal."
+            },
+            {
+                question: "Switch bekerja di layer manakah?",
+                options: ["Layer 1", "Layer 2", "Layer 3", "Layer 4", "Layer 7"],
+                correct: 1,
+                explanation: "Switch bekerja di Data Link Layer (Layer 2) dengan menggunakan MAC address untuk forwarding frame."
+            },
+            {
+                question: "Apa perbedaan utama antara static routing dan dynamic routing?",
+                options: [
+                    "Static lebih cepat, dynamic lebih lambat",
+                    "Static dikonfigurasi manual, dynamic otomatis",
+                    "Static untuk WAN, dynamic untuk LAN",
+                    "Static menggunakan IP, dynamic menggunakan MAC",
+                    "Tidak ada perbedaan"
+                ],
+                correct: 1,
+                explanation: "Static routing dikonfigurasi secara manual oleh administrator, sedangkan dynamic routing secara otomatis mempelajari dan memperbarui routing table."
+            },
+            {
+                question: "Keuntungan utama dynamic routing adalah:",
+                options: [
+                    "Lebih aman",
+                    "Lebih murah",
+                    "Adaptif terhadap perubahan topologi",
+                    "Tidak memerlukan bandwidth",
+                    "Lebih sederhana"
+                ],
+                correct: 2,
+                explanation: "Dynamic routing dapat secara otomatis beradaptasi dengan perubahan topologi jaringan dan menemukan jalur alternatif."
+            },
+            {
+                question: "RIP menggunakan metric berdasarkan:",
+                options: ["Bandwidth", "Delay", "Hop count", "Cost", "Load"],
+                correct: 2,
+                explanation: "RIP (Routing Information Protocol) menggunakan hop count sebagai metric untuk menentukan jalur terbaik."
+            },
+            {
+                question: "Berapa maksimum hop count yang didukung RIP?",
+                options: ["10", "15", "16", "20", "255"],
+                correct: 1,
+                explanation: "RIP mendukung maksimum 15 hop. Jarak 16 hop dianggap sebagai unreachable."
+            },
+            {
+                question: "OSPF menggunakan algoritma:",
+                options: ["Distance Vector", "Link State", "Path Vector", "Hybrid", "Static"],
+                correct: 1,
+                explanation: "OSPF menggunakan algoritma Link State yang membangun peta topologi lengkap dari jaringan."
+            },
+            {
+                question: "Keunggulan OSPF dibandingkan RIP adalah:",
+                options: [
+                    "Lebih sederhana",
+                    "Konvergensi lebih cepat",
+                    "Tidak memerlukan konfigurasi",
+                    "Hanya untuk jaringan kecil",
+                    "Tidak mendukung VLSM"
+                ],
+                correct: 1,
+                explanation: "OSPF memiliki konvergensi yang lebih cepat, mendukung VLSM, dan lebih efisien untuk jaringan besar."
+            },
+            {
+                question: "EIGRP dikembangkan oleh:",
+                options: ["Microsoft", "Cisco", "Juniper", "HP", "IBM"],
+                correct: 1,
+                explanation: "EIGRP (Enhanced Interior Gateway Routing Protocol) adalah protokol proprietary yang dikembangkan oleh Cisco."
+            },
+            {
+                question: "EIGRP menggunakan algoritma:",
+                options: ["Dijkstra", "Bellman-Ford", "DUAL", "SPF", "LSA"],
+                correct: 2,
+                explanation: "EIGRP menggunakan algoritma DUAL (Diffusing Update Algorithm) untuk menghitung jalur terbaik."
+            },
+            {
+                question: "Perintah untuk mengaktifkan routing di router Cisco adalah:",
+                options: [
+                    "enable routing",
+                    "router enable",
+                    "ip routing",
+                    "routing on",
+                    "start routing"
+                ],
+                correct: 2,
+                explanation: "Perintah 'ip routing' digunakan untuk mengaktifkan fungsi routing di router Cisco."
+            },
+            {
+                question: "Untuk mengkonfigurasi static route di Cisco, perintah yang digunakan adalah:",
+                options: [
+                    "route add",
+                    "ip route",
+                    "static route",
+                    "add route",
+                    "set route"
+                ],
+                correct: 1,
+                explanation: "Perintah 'ip route [destination] [mask] [next-hop]' digunakan untuk mengkonfigurasi static route."
+            },
+            {
+                question: "Perintah untuk melihat routing table di Cisco adalah:",
+                options: [
+                    "show route",
+                    "display route",
+                    "show ip route",
+                    "view routing",
+                    "list routes"
+                ],
+                correct: 2,
+                explanation: "Perintah 'show ip route' digunakan untuk menampilkan isi routing table di router Cisco."
+            },
+            {
+                question: "Untuk mengkonfigurasi RIP di router Cisco, perintah yang digunakan adalah:",
+                options: [
+                    "routing rip",
+                    "router rip",
+                    "enable rip",
+                    "rip enable",
+                    "start rip"
+                ],
+                correct: 1,
+                explanation: "Perintah 'router rip' digunakan untuk masuk ke mode konfigurasi RIP di router Cisco."
+            },
+            {
+                question: "Dalam konfigurasi OSPF, area 0 disebut juga:",
+                options: [
+                    "Normal area",
+                    "Stub area",
+                    "Backbone area",
+                    "NSSA area",
+                    "Transit area"
+                ],
+                correct: 2,
+                explanation: "Area 0 dalam OSPF disebut backbone area dan merupakan area pusat yang menghubungkan semua area lainnya."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        // Initialize Elements SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange: async (config) => {
+                    document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
+                    document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+                },
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["welcome_message", config.welcome_message || defaultConfig.welcome_message]
+                ])
+            });
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            
+            document.getElementById('question-number').textContent = `Soal ${currentQuestion + 1}`;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('progress').textContent = `${currentQuestion + 1}/20`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button w-full text-left p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-all';
+                button.innerHTML = `
+                    <span class="font-medium text-gray-700">${String.fromCharCode(65 + index)}.</span>
+                    <span class="ml-2 text-gray-800">${option}</span>
+                `;
+                button.onclick = () => selectAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('next-btn').disabled = true;
+            answered = false;
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+        }
+
+        function selectAnswer(selectedIndex, buttonElement) {
+            if (answered) return;
+            
+            answered = true;
+            const question = questions[currentQuestion];
+            const isCorrect = selectedIndex === question.correct;
+            
+            if (isCorrect) {
+                score++;
+                buttonElement.className = 'option-button w-full text-left p-4 correct-answer rounded-lg border border-green-500 transition-all';
+            } else {
+                buttonElement.className = 'option-button w-full text-left p-4 wrong-answer rounded-lg border border-red-500 transition-all';
+                
+                // Highlight correct answer
+                const correctButton = document.querySelectorAll('.option-button')[question.correct];
+                correctButton.className = 'option-button w-full text-left p-4 correct-answer rounded-lg border border-green-500 transition-all';
+            }
+            
+            // Disable all buttons
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+            
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            if (isCorrect) {
+                feedback.className = 'mt-6 p-4 rounded-lg bg-green-100 border border-green-300 fade-in';
+                feedbackText.innerHTML = `<span class="text-green-800">✓ Benar!</span><br><span class="text-green-700 text-sm mt-1">${question.explanation}</span>`;
+            } else {
+                feedback.className = 'mt-6 p-4 rounded-lg bg-red-100 border border-red-300 fade-in';
+                feedbackText.innerHTML = `<span class="text-red-800">✗ Salah!</span><br><span class="text-red-700 text-sm mt-1">${question.explanation}</span>`;
+            }
+            
+            feedback.classList.remove('hidden');
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-section').classList.add('hidden');
+            document.getElementById('results-section').classList.remove('hidden');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('final-score').textContent = `${score}/${questions.length} (${percentage}%)`;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            
+            document.getElementById('question-section').classList.remove('hidden');
+            document.getElementById('results-section').classList.add('hidden');
+            
+            displayQuestion();
+        }
+
+        // Event listeners
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+        document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+
+        // Initialize quiz
+        displayQuestion();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99db2f52243ee875',t:'MTc2MzAwNDU2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
