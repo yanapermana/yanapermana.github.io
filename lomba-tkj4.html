@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis VLAN &amp; Keamanan Jaringan</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .quiz-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
+
+        .welcome-message {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .progress-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .question-container {
+            padding: 30px;
+            min-height: 400px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .option:hover {
+            border-color: #4facfe;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.2);
+        }
+
+        .option.selected {
+            border-color: #4facfe;
+            background: #e3f2fd;
+        }
+
+        .option.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #4facfe;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .explanation h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.1em;
+            color: #495057;
+        }
+
+        .results {
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .final-score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4facfe;
+            margin: 20px 0;
+        }
+
+        .score-message {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .quiz-title {
+                font-size: 1.8em;
+            }
+            
+            .question {
+                font-size: 1.1em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 class="quiz-title">Kuis VLAN &amp; Keamanan Jaringan</h1>
+    <p class="welcome-message">Uji pengetahuan Anda tentang VLAN, ACL, dan konsep keamanan jaringan</p>
+   </div>
+   <div class="progress-container">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">
+     Soal 1 dari 20
+    </div>
+   </div>
+   <div class="question-container" id="questionContainer">
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="explanation" id="explanation">
+     <h4>Penjelasan:</h4>
+     <p id="explanationText"></p>
+    </div>
+   </div>
+   <div class="controls"><button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>Sebelumnya</button>
+    <div class="score-display">
+     Skor: <span id="currentScore">0</span>/20
+    </div><button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Selanjutnya</button>
+   </div>
+   <div class="results" id="results">
+    <h2>Kuis Selesai!</h2>
+    <div class="final-score" id="finalScore">
+     0/20
+    </div>
+    <div class="score-message" id="scoreMessage"></div><button class="btn restart-btn" onclick="restartQuiz()">Mulai Ulang</button>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis VLAN & Keamanan Jaringan",
+            welcome_message: "Uji pengetahuan Anda tentang VLAN, ACL, dan konsep keamanan jaringan"
+        };
+
+        const questions = [
+            {
+                question: "Apa kepanjangan dari VLAN?",
+                options: [
+                    "Virtual Local Area Network",
+                    "Variable Local Area Network", 
+                    "Verified Local Area Network",
+                    "Visual Local Area Network",
+                    "Volatile Local Area Network"
+                ],
+                correct: 0,
+                explanation: "VLAN adalah singkatan dari Virtual Local Area Network, yaitu teknologi yang memungkinkan pembagian jaringan fisik menjadi beberapa jaringan logis yang terpisah."
+            },
+            {
+                question: "Manakah yang BUKAN merupakan tujuan utama pembentukan VLAN?",
+                options: [
+                    "Meningkatkan keamanan jaringan",
+                    "Mengurangi broadcast domain",
+                    "Meningkatkan kecepatan internet",
+                    "Memudahkan manajemen jaringan",
+                    "Mengoptimalkan penggunaan bandwidth"
+                ],
+                correct: 2,
+                explanation: "VLAN tidak secara langsung meningkatkan kecepatan internet. Tujuan utama VLAN adalah meningkatkan keamanan, mengurangi broadcast domain, memudahkan manajemen, dan mengoptimalkan bandwidth dalam jaringan lokal."
+            },
+            {
+                question: "Pada layer OSI manakah VLAN beroperasi?",
+                options: [
+                    "Physical Layer (Layer 1)",
+                    "Data Link Layer (Layer 2)",
+                    "Network Layer (Layer 3)",
+                    "Transport Layer (Layer 4)",
+                    "Application Layer (Layer 7)"
+                ],
+                correct: 1,
+                explanation: "VLAN beroperasi pada Data Link Layer (Layer 2) dari model OSI, dimana frame Ethernet ditambahkan dengan VLAN tag untuk mengidentifikasi VLAN yang berbeda."
+            },
+            {
+                question: "Apa yang dimaksud dengan VLAN ID?",
+                options: [
+                    "Alamat IP dari VLAN",
+                    "Nomor identifikasi unik untuk setiap VLAN",
+                    "Password untuk mengakses VLAN",
+                    "Nama dari administrator VLAN",
+                    "Lokasi fisik dari VLAN"
+                ],
+                correct: 1,
+                explanation: "VLAN ID adalah nomor identifikasi unik (1-4094) yang digunakan untuk membedakan satu VLAN dengan VLAN lainnya dalam sebuah jaringan."
+            },
+            {
+                question: "Berapa range VLAN ID yang dapat digunakan?",
+                options: [
+                    "1 - 1024",
+                    "0 - 4095",
+                    "1 - 4094",
+                    "0 - 1023",
+                    "1 - 2048"
+                ],
+                correct: 2,
+                explanation: "VLAN ID memiliki range 1-4094. VLAN ID 0 dan 4095 adalah reserved dan tidak dapat digunakan untuk VLAN normal."
+            },
+            {
+                question: "Apa fungsi utama dari Access Control List (ACL)?",
+                options: [
+                    "Mengatur kecepatan jaringan",
+                    "Memfilter dan mengontrol akses jaringan",
+                    "Mengenkripsi data",
+                    "Mengatur alamat IP",
+                    "Mengelola bandwidth"
+                ],
+                correct: 1,
+                explanation: "ACL (Access Control List) berfungsi untuk memfilter dan mengontrol akses jaringan berdasarkan kriteria tertentu seperti alamat IP, port, atau protokol."
+            },
+            {
+                question: "Manakah yang merupakan jenis ACL berdasarkan penomoran?",
+                options: [
+                    "Standard dan Extended",
+                    "Numbered dan Named",
+                    "Static dan Dynamic",
+                    "Internal dan External",
+                    "Local dan Remote"
+                ],
+                correct: 1,
+                explanation: "ACL dapat dikategorikan menjadi Numbered ACL (menggunakan nomor) dan Named ACL (menggunakan nama) untuk identifikasi dan manajemen yang lebih mudah."
+            },
+            {
+                question: "Pada Standard ACL, filtering dilakukan berdasarkan?",
+                options: [
+                    "Source dan destination IP",
+                    "Hanya source IP address",
+                    "Port number saja",
+                    "Protocol type saja",
+                    "MAC address saja"
+                ],
+                correct: 1,
+                explanation: "Standard ACL hanya dapat memfilter berdasarkan source IP address saja, sedangkan Extended ACL dapat memfilter berdasarkan source, destination, port, dan protokol."
+            },
+            {
+                question: "Apa yang terjadi jika tidak ada rule yang cocok dalam ACL?",
+                options: [
+                    "Traffic akan diteruskan",
+                    "Traffic akan di-drop (implicit deny)",
+                    "Traffic akan di-redirect",
+                    "Traffic akan di-log",
+                    "Traffic akan di-encrypt"
+                ],
+                correct: 1,
+                explanation: "Jika tidak ada rule yang cocok dalam ACL, maka berlaku implicit deny, yaitu traffic akan secara otomatis ditolak atau di-drop."
+            },
+            {
+                question: "Untuk komunikasi antar VLAN, diperlukan?",
+                options: [
+                    "Hub",
+                    "Switch Layer 2",
+                    "Router atau Switch Layer 3",
+                    "Repeater",
+                    "Bridge"
+                ],
+                correct: 2,
+                explanation: "Komunikasi antar VLAN memerlukan Router atau Switch Layer 3 karena setiap VLAN merupakan broadcast domain yang terpisah dan membutuhkan routing untuk berkomunikasi."
+            },
+            {
+                question: "Apa yang dimaksud dengan VLAN Trunking?",
+                options: [
+                    "Menghapus VLAN",
+                    "Membawa multiple VLAN dalam satu link",
+                    "Mengenkripsi VLAN",
+                    "Memblokir VLAN",
+                    "Mengubah VLAN ID"
+                ],
+                correct: 1,
+                explanation: "VLAN Trunking adalah teknologi yang memungkinkan satu link fisik untuk membawa traffic dari multiple VLAN dengan menggunakan VLAN tagging."
+            },
+            {
+                question: "Protocol standar untuk VLAN tagging adalah?",
+                options: [
+                    "ISL (Inter-Switch Link)",
+                    "IEEE 802.1Q",
+                    "VTP (VLAN Trunking Protocol)",
+                    "STP (Spanning Tree Protocol)",
+                    "RSTP (Rapid Spanning Tree Protocol)"
+                ],
+                correct: 1,
+                explanation: "IEEE 802.1Q adalah protokol standar industri untuk VLAN tagging yang digunakan untuk mengidentifikasi VLAN dalam trunk link."
+            },
+            {
+                question: "Apa keuntungan utama menggunakan VLAN dalam hal keamanan?",
+                options: [
+                    "Enkripsi otomatis",
+                    "Isolasi traffic antar grup",
+                    "Firewall built-in",
+                    "Antivirus terintegrasi",
+                    "Password protection"
+                ],
+                correct: 1,
+                explanation: "Keuntungan utama VLAN dalam keamanan adalah isolasi traffic antar grup, sehingga pengguna di VLAN yang berbeda tidak dapat langsung berkomunikasi tanpa melalui router."
+            },
+            {
+                question: "Dalam Extended ACL, range nomor yang digunakan adalah?",
+                options: [
+                    "1-99",
+                    "100-199",
+                    "200-299",
+                    "1-99 dan 1300-1999",
+                    "100-199 dan 2000-2699"
+                ],
+                correct: 4,
+                explanation: "Extended ACL menggunakan range nomor 100-199 dan 2000-2699, yang memungkinkan filtering berdasarkan source, destination, port, dan protokol."
+            },
+            {
+                question: "Apa yang dimaksud dengan Native VLAN?",
+                options: [
+                    "VLAN pertama yang dibuat",
+                    "VLAN untuk management",
+                    "VLAN yang tidak di-tag pada trunk port",
+                    "VLAN dengan prioritas tertinggi",
+                    "VLAN default dari vendor"
+                ],
+                correct: 2,
+                explanation: "Native VLAN adalah VLAN yang tidak diberi tag pada trunk port. Traffic dari Native VLAN dikirim tanpa VLAN tag pada trunk link."
+            },
+            {
+                question: "Manakah yang BUKAN merupakan keuntungan implementasi VLAN?",
+                options: [
+                    "Mengurangi collision domain",
+                    "Meningkatkan fleksibilitas jaringan",
+                    "Mengurangi broadcast traffic",
+                    "Memudahkan troubleshooting",
+                    "Meningkatkan keamanan"
+                ],
+                correct: 0,
+                explanation: "VLAN tidak mengurangi collision domain. Collision domain dikurangi oleh switch, bukan VLAN. VLAN mengurangi broadcast domain, bukan collision domain."
+            },
+            {
+                question: "Dalam ACL, apa arti dari wildcard mask 0.0.0.255?",
+                options: [
+                    "Match semua host",
+                    "Match subnet /24",
+                    "Match 256 host terakhir",
+                    "Match host dalam subnet yang sama",
+                    "Match tidak ada host"
+                ],
+                correct: 3,
+                explanation: "Wildcard mask 0.0.0.255 berarti 3 oktet pertama harus exact match (0) dan oktet terakhir bisa apa saja (255), sehingga match semua host dalam subnet yang sama."
+            },
+            {
+                question: "Apa yang dimaksud dengan Inter-VLAN Routing?",
+                options: [
+                    "Routing dalam satu VLAN",
+                    "Routing antara VLAN yang berbeda",
+                    "Routing ke internet",
+                    "Routing ke VLAN management",
+                    "Routing broadcast traffic"
+                ],
+                correct: 1,
+                explanation: "Inter-VLAN Routing adalah proses routing yang memungkinkan komunikasi antara VLAN yang berbeda, biasanya dilakukan oleh router atau switch layer 3."
+            },
+            {
+                question: "Manakah yang merupakan metode Inter-VLAN Routing?",
+                options: [
+                    "Router-on-a-stick dan SVI",
+                    "Hub dan Switch",
+                    "Bridge dan Repeater",
+                    "Firewall dan Proxy",
+                    "Load Balancer dan Gateway"
+                ],
+                correct: 0,
+                explanation: "Metode Inter-VLAN Routing meliputi Router-on-a-stick (menggunakan subinterface) dan SVI (Switch Virtual Interface) pada switch layer 3."
+            },
+            {
+                question: "Dalam konteks keamanan VLAN, apa yang dimaksud dengan VLAN Hopping?",
+                options: [
+                    "Berpindah antar VLAN secara normal",
+                    "Serangan untuk mengakses VLAN lain secara ilegal",
+                    "Konfigurasi multiple VLAN",
+                    "Backup VLAN configuration",
+                    "Monitoring VLAN traffic"
+                ],
+                correct: 1,
+                explanation: "VLAN Hopping adalah jenis serangan dimana penyerang mencoba mengakses VLAN lain yang seharusnya tidak dapat diakses, biasanya melalui manipulasi VLAN tagging."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Soal ${currentQuestion + 1} dari ${questions.length}`;
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = `${currentQuestion + 1}. ${question.question}`;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionElement.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('explanation').classList.remove('show');
+            selectedAnswer = null;
+            answered = false;
+            
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectAnswer(answerIndex) {
+            if (answered) return;
+            
+            selectedAnswer = answerIndex;
+            const options = document.querySelectorAll('.option');
+            const question = questions[currentQuestion];
+            
+            options.forEach((option, index) => {
+                option.classList.add('disabled');
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === answerIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                } else if (index === answerIndex) {
+                    option.classList.add('selected');
+                }
+            });
+
+            if (answerIndex === question.correct) {
+                score++;
+                document.getElementById('currentScore').textContent = score;
+            }
+
+            document.getElementById('explanationText').textContent = question.explanation;
+            document.getElementById('explanation').classList.add('show');
+            
+            answered = true;
+            updateButtons();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = answered ? 'Lihat Hasil' : 'Pilih Jawaban';
+                nextBtn.disabled = !answered;
+            } else {
+                nextBtn.textContent = answered ? 'Selanjutnya' : 'Pilih Jawaban';
+                nextBtn.disabled = !answered;
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionContainer').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+            document.getElementById('results').classList.add('show');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🎉 Luar biasa! Anda menguasai materi VLAN dengan sangat baik!';
+            } else if (percentage >= 80) {
+                message = '👏 Bagus sekali! Pemahaman Anda tentang VLAN sudah sangat baik!';
+            } else if (percentage >= 70) {
+                message = '👍 Baik! Anda memiliki pemahaman yang cukup tentang VLAN!';
+            } else if (percentage >= 60) {
+                message = '📚 Cukup baik, tapi masih perlu belajar lebih dalam tentang VLAN!';
+            } else {
+                message = '💪 Jangan menyerah! Pelajari kembali materi VLAN dan coba lagi!';
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            answered = false;
+            
+            document.getElementById('currentScore').textContent = '0';
+            document.getElementById('questionContainer').style.display = 'block';
+            document.querySelector('.controls').style.display = 'flex';
+            document.getElementById('results').classList.remove('show');
+            
+            displayQuestion();
+        }
+
+        async function onConfigChange(config) {
+            const titleElement = document.querySelector('.quiz-title');
+            const messageElement = document.querySelector('.welcome-message');
+            
+            titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+            messageElement.textContent = config.welcome_message || defaultConfig.welcome_message;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.primary_color || "#4facfe",
+                        set: (value) => {
+                            config.primary_color = value;
+                            window.elementSdk.setConfig({ primary_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                ["welcome_message", config.welcome_message || defaultConfig.welcome_message]
+            ]);
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange,
+                    mapToCapabilities,
+                    mapToEditPanelValues
+                });
+            }
+            
+            displayQuestion();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99db39bfa4c0aa34',t:'MTc2MzAwNDk5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
