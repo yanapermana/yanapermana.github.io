@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Cisco CLI &amp; Troubleshoot</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        
+        .option-button {
+            transition: all 0.2s ease;
+        }
+        
+        .option-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .correct-answer {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-color: #059669;
+        }
+        
+        .wrong-answer {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-color: #dc2626;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-blue-50 to-indigo-100 font-sans">
+  <main class="min-h-full py-8 px-4">
+   <div class="max-w-4xl mx-auto"><!-- Header -->
+    <header class="text-center mb-8">
+     <h1 id="quiz-title" class="text-4xl font-bold text-gray-800 mb-4">Kuis Cisco CLI &amp; Troubleshoot</h1>
+     <p id="welcome-message" class="text-lg text-gray-600 max-w-2xl mx-auto">Uji pengetahuan Anda tentang konfigurasi Cisco CLI, troubleshooting, dan perintah jaringan dengan 20 soal pilihan ganda.</p>
+    </header><!-- Progress Bar -->
+    <div class="mb-8">
+     <div class="flex justify-between items-center mb-2"><span class="text-sm font-medium text-gray-700">Progress</span> <span id="progress-text" class="text-sm font-medium text-gray-700">0/20</span>
+     </div>
+     <div class="w-full bg-gray-200 rounded-full h-3">
+      <div id="progress-bar" class="progress-bar bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full" style="width: 0%"></div>
+     </div>
+    </div><!-- Quiz Container -->
+    <div id="quiz-container" class="question-card bg-white rounded-xl shadow-lg p-8 mb-6">
+     <div id="question-header" class="mb-6">
+      <div class="flex items-center justify-between mb-4"><span id="question-number" class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">Soal 1</span> <span id="category-badge" class="bg-indigo-100 text-indigo-800 text-sm font-medium px-3 py-1 rounded-full">Cisco CLI</span>
+      </div>
+      <h2 id="question-text" class="text-xl font-semibold text-gray-800 leading-relaxed"></h2>
+     </div>
+     <div id="options-container" class="space-y-3 mb-6"><!-- Options will be inserted here -->
+     </div>
+     <div id="feedback-container" class="hidden">
+      <div id="feedback-message" class="p-4 rounded-lg mb-4"></div><button id="next-button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"> Soal Berikutnya </button>
+     </div>
+    </div><!-- Results Container -->
+    <div id="results-container" class="hidden bg-white rounded-xl shadow-lg p-8 text-center">
+     <div class="mb-6">
+      <div id="score-circle" class="w-32 h-32 mx-auto mb-4 rounded-full flex items-center justify-center text-3xl font-bold text-white" style="background: conic-gradient(#10b981 0deg, #e5e7eb 0deg);"><span id="score-percentage">0%</span>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">Kuis Selesai!</h2>
+      <p id="final-score" class="text-lg text-gray-600"></p>
+     </div>
+     <div id="performance-message" class="mb-6 p-4 rounded-lg"></div><button id="restart-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors"> Mulai Ulang Kuis </button>
+    </div>
+   </div>
+  </main>
+  <script>
+        // Quiz data
+        const quizData = [
+            {
+                question: "Perintah apa yang digunakan untuk masuk ke mode konfigurasi global pada Cisco router?",
+                options: ["config terminal", "configure terminal", "conf t", "enable configure", "global config"],
+                correct: 1,
+                category: "Cisco CLI",
+                explanation: "Perintah 'configure terminal' atau 'conf t' digunakan untuk masuk ke mode konfigurasi global."
+            },
+            {
+                question: "Perintah mana yang digunakan untuk melihat konfigurasi yang sedang berjalan?",
+                options: ["show config", "show running-config", "display config", "view running", "show startup-config"],
+                correct: 1,
+                category: "Cisco CLI",
+                explanation: "Perintah 'show running-config' menampilkan konfigurasi yang sedang aktif di memori."
+            },
+            {
+                question: "Untuk menguji konektivitas ke host tertentu, perintah yang paling umum digunakan adalah:",
+                options: ["traceroute", "ping", "telnet", "nslookup", "netstat"],
+                correct: 1,
+                category: "Uji Konektivitas",
+                explanation: "Perintah 'ping' adalah cara paling umum untuk menguji konektivitas dasar ke host lain."
+            },
+            {
+                question: "Perintah untuk melihat tabel routing pada Cisco router adalah:",
+                options: ["show route", "show ip routing", "show ip route", "display routing", "show routing-table"],
+                correct: 2,
+                category: "Routing",
+                explanation: "Perintah 'show ip route' menampilkan tabel routing IP pada router Cisco."
+            },
+            {
+                question: "Untuk mengaktifkan DHCP server pada router Cisco, perintah yang digunakan adalah:",
+                options: ["dhcp enable", "service dhcp", "ip dhcp service", "enable dhcp", "dhcp server enable"],
+                correct: 1,
+                category: "DHCP",
+                explanation: "Perintah 'service dhcp' mengaktifkan layanan DHCP server pada router Cisco."
+            },
+            {
+                question: "Perintah untuk membuat DHCP pool bernama 'LAN_POOL' adalah:",
+                options: ["dhcp pool LAN_POOL", "ip dhcp pool LAN_POOL", "create dhcp LAN_POOL", "dhcp create LAN_POOL", "ip dhcp create LAN_POOL"],
+                correct: 1,
+                category: "DHCP",
+                explanation: "Perintah 'ip dhcp pool LAN_POOL' membuat pool DHCP dengan nama LAN_POOL."
+            },
+            {
+                question: "Untuk mengecualikan alamat IP 192.168.1.1 sampai 192.168.1.10 dari DHCP pool, perintah yang digunakan:",
+                options: ["ip dhcp exclude 192.168.1.1 192.168.1.10", "dhcp exclude 192.168.1.1 192.168.1.10", "ip dhcp excluded-address 192.168.1.1 192.168.1.10", "exclude dhcp 192.168.1.1 192.168.1.10", "dhcp reservation 192.168.1.1 192.168.1.10"],
+                correct: 2,
+                category: "DHCP Exclusion",
+                explanation: "Perintah 'ip dhcp excluded-address' digunakan untuk mengecualikan range alamat IP dari pool DHCP."
+            },
+            {
+                question: "Perintah traceroute pada Cisco router ditulis sebagai:",
+                options: ["traceroute", "tracert", "trace", "track", "tracer"],
+                correct: 0,
+                category: "Uji Konektivitas",
+                explanation: "Pada Cisco router, perintah 'traceroute' digunakan untuk melacak jalur paket ke tujuan."
+            },
+            {
+                question: "Untuk menyimpan konfigurasi running ke startup-config, perintah yang digunakan adalah:",
+                options: ["save config", "write memory", "copy running-config startup-config", "save running", "write config"],
+                correct: 2,
+                category: "Menyimpan Konfigurasi",
+                explanation: "Perintah 'copy running-config startup-config' menyalin konfigurasi aktif ke startup config."
+            },
+            {
+                question: "Perintah untuk mengkonfigurasi static route ke network 10.0.0.0/8 via gateway 192.168.1.1 adalah:",
+                options: ["route add 10.0.0.0 255.0.0.0 192.168.1.1", "ip route 10.0.0.0 255.0.0.0 192.168.1.1", "static route 10.0.0.0/8 192.168.1.1", "add route 10.0.0.0 255.0.0.0 192.168.1.1", "route 10.0.0.0 255.0.0.0 via 192.168.1.1"],
+                correct: 1,
+                category: "Static Routing",
+                explanation: "Perintah 'ip route' digunakan untuk mengkonfigurasi static routing pada Cisco router."
+            },
+            {
+                question: "Untuk mengaktifkan RIP routing protocol, perintah yang digunakan adalah:",
+                options: ["routing rip", "router rip", "enable rip", "rip enable", "protocol rip"],
+                correct: 1,
+                category: "Dynamic Routing",
+                explanation: "Perintah 'router rip' masuk ke mode konfigurasi RIP routing protocol."
+            },
+            {
+                question: "Perintah untuk melihat interface yang aktif dan statusnya adalah:",
+                options: ["show interfaces", "show ip interface", "show interface status", "display interfaces", "show int brief"],
+                correct: 0,
+                category: "Troubleshoot",
+                explanation: "Perintah 'show interfaces' menampilkan status dan statistik semua interface."
+            },
+            {
+                question: "Dalam konfigurasi DHCP pool, perintah untuk mengatur default gateway adalah:",
+                options: ["gateway", "default-router", "default-gateway", "router", "ip gateway"],
+                correct: 1,
+                category: "DHCP",
+                explanation: "Perintah 'default-router' dalam DHCP pool mengatur default gateway untuk client."
+            },
+            {
+                question: "Perintah untuk melihat tabel ARP adalah:",
+                options: ["show arp table", "show ip arp", "show arp", "display arp", "show mac-address"],
+                correct: 2,
+                category: "Troubleshoot",
+                explanation: "Perintah 'show arp' menampilkan tabel ARP yang berisi mapping IP ke MAC address."
+            },
+            {
+                question: "Untuk mengkonfigurasi DNS server dalam DHCP pool, perintah yang digunakan adalah:",
+                options: ["dns-server", "name-server", "dns", "domain-name-server", "ip dns"],
+                correct: 0,
+                category: "DHCP",
+                explanation: "Perintah 'dns-server' dalam DHCP pool mengatur DNS server untuk client DHCP."
+            },
+            {
+                question: "Perintah untuk menghapus konfigurasi startup adalah:",
+                options: ["delete startup-config", "erase startup-config", "clear startup-config", "remove startup-config", "reset startup-config"],
+                correct: 1,
+                category: "Menyimpan Konfigurasi",
+                explanation: "Perintah 'erase startup-config' menghapus file konfigurasi startup dari NVRAM."
+            },
+            {
+                question: "Dalam RIP configuration, perintah untuk mengiklankan network 192.168.1.0 adalah:",
+                options: ["advertise 192.168.1.0", "network 192.168.1.0", "route 192.168.1.0", "add network 192.168.1.0", "rip network 192.168.1.0"],
+                correct: 1,
+                category: "Dynamic Routing",
+                explanation: "Perintah 'network' dalam mode router RIP mengiklankan network yang akan di-route."
+            },
+            {
+                question: "Perintah untuk melihat log sistem pada Cisco router adalah:",
+                options: ["show logs", "show logging", "show system log", "display log", "show syslog"],
+                correct: 1,
+                category: "Troubleshoot",
+                explanation: "Perintah 'show logging' menampilkan log sistem dan pesan error pada router."
+            },
+            {
+                question: "Untuk mengatur lease time 24 jam dalam DHCP pool, perintah yang digunakan adalah:",
+                options: ["lease 24 hours", "lease-time 24", "lease 1 0 0", "lease-duration 24", "ip lease 24"],
+                correct: 2,
+                category: "DHCP",
+                explanation: "Perintah 'lease 1 0 0' mengatur lease time 1 hari (24 jam) dalam format hari jam menit."
+            },
+            {
+                question: "Perintah untuk keluar dari mode konfigurasi dan kembali ke privileged mode adalah:",
+                options: ["quit", "exit", "end", "back", "return"],
+                correct: 2,
+                category: "Cisco CLI",
+                explanation: "Perintah 'end' atau Ctrl+Z keluar dari mode konfigurasi langsung ke privileged mode."
+            }
+        ];
+
+        // Quiz state
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        // Default configuration
+        const defaultConfig = {
+            quiz_title: "Kuis Cisco CLI & Troubleshoot",
+            welcome_message: "Uji pengetahuan Anda tentang konfigurasi Cisco CLI, troubleshooting, dan perintah jaringan dengan 20 soal pilihan ganda."
+        };
+
+        // Initialize Elements SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: async (config) => {
+                    const titleElement = document.getElementById('quiz-title');
+                    const messageElement = document.getElementById('welcome-message');
+                    
+                    if (titleElement) {
+                        titleElement.textContent = config.quiz_title || defaultConfig.quiz_title;
+                    }
+                    if (messageElement) {
+                        messageElement.textContent = config.welcome_message || defaultConfig.welcome_message;
+                    }
+                },
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                    ["welcome_message", config.welcome_message || defaultConfig.welcome_message]
+                ])
+            });
+        }
+
+        // DOM elements
+        const questionNumberEl = document.getElementById('question-number');
+        const categoryBadgeEl = document.getElementById('category-badge');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackContainerEl = document.getElementById('feedback-container');
+        const feedbackMessageEl = document.getElementById('feedback-message');
+        const nextButtonEl = document.getElementById('next-button');
+        const progressBarEl = document.getElementById('progress-bar');
+        const progressTextEl = document.getElementById('progress-text');
+        const quizContainerEl = document.getElementById('quiz-container');
+        const resultsContainerEl = document.getElementById('results-container');
+        const restartButtonEl = document.getElementById('restart-button');
+
+        // Initialize quiz
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            quizContainerEl.classList.remove('hidden');
+            resultsContainerEl.classList.add('hidden');
+            loadQuestion();
+        }
+
+        // Load current question
+        function loadQuestion() {
+            const question = quizData[currentQuestion];
+            answered = false;
+
+            // Update question info
+            questionNumberEl.textContent = `Soal ${currentQuestion + 1}`;
+            categoryBadgeEl.textContent = question.category;
+            questionTextEl.textContent = question.question;
+
+            // Update progress
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            progressBarEl.style.width = `${progress}%`;
+            progressTextEl.textContent = `${currentQuestion}/${quizData.length}`;
+
+            // Clear options
+            optionsContainerEl.innerHTML = '';
+            feedbackContainerEl.classList.add('hidden');
+
+            // Create option buttons
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-all';
+                button.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="w-8 h-8 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold mr-3">
+                            ${String.fromCharCode(65 + index)}
+                        </span>
+                        <span class="text-gray-800">${option}</span>
+                    </div>
+                `;
+                button.addEventListener('click', () => selectAnswer(index));
+                optionsContainerEl.appendChild(button);
+            });
+
+            // Add fade-in animation
+            quizContainerEl.classList.remove('fade-in');
+            setTimeout(() => quizContainerEl.classList.add('fade-in'), 10);
+        }
+
+        // Handle answer selection
+        function selectAnswer(selectedIndex) {
+            if (answered) return;
+            
+            answered = true;
+            const question = quizData[currentQuestion];
+            const isCorrect = selectedIndex === question.correct;
+            
+            if (isCorrect) {
+                score++;
+            }
+
+            // Update option buttons
+            const buttons = optionsContainerEl.querySelectorAll('.option-button');
+            buttons.forEach((button, index) => {
+                button.disabled = true;
+                button.classList.remove('hover:border-blue-300', 'hover:bg-blue-50');
+                
+                if (index === question.correct) {
+                    button.classList.add('correct-answer');
+                } else if (index === selectedIndex && !isCorrect) {
+                    button.classList.add('wrong-answer');
+                } else {
+                    button.classList.add('opacity-50');
+                }
+            });
+
+            // Show feedback
+            feedbackMessageEl.className = `p-4 rounded-lg mb-4 ${isCorrect ? 'bg-green-100 border border-green-200' : 'bg-red-100 border border-red-200'}`;
+            feedbackMessageEl.innerHTML = `
+                <div class="flex items-start">
+                    <span class="text-2xl mr-3">${isCorrect ? '✅' : '❌'}</span>
+                    <div>
+                        <p class="font-semibold ${isCorrect ? 'text-green-800' : 'text-red-800'} mb-2">
+                            ${isCorrect ? 'Benar!' : 'Salah!'}
+                        </p>
+                        <p class="text-gray-700">${question.explanation}</p>
+                    </div>
+                </div>
+            `;
+            
+            feedbackContainerEl.classList.remove('hidden');
+            
+            // Update next button text
+            nextButtonEl.textContent = currentQuestion === quizData.length - 1 ? 'Lihat Hasil' : 'Soal Berikutnya';
+        }
+
+        // Handle next question
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= quizData.length) {
+                showResults();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            quizContainerEl.classList.add('hidden');
+            resultsContainerEl.classList.remove('hidden');
+            
+            const percentage = Math.round((score / quizData.length) * 100);
+            const scoreCircle = document.getElementById('score-circle');
+            const scorePercentage = document.getElementById('score-percentage');
+            const finalScore = document.getElementById('final-score');
+            const performanceMessage = document.getElementById('performance-message');
+            
+            // Update progress bar
+            progressBarEl.style.width = '100%';
+            progressTextEl.textContent = `${quizData.length}/${quizData.length}`;
+            
+            // Animate score circle
+            const degrees = (percentage / 100) * 360;
+            scoreCircle.style.background = `conic-gradient(#10b981 ${degrees}deg, #e5e7eb ${degrees}deg)`;
+            scorePercentage.textContent = `${percentage}%`;
+            
+            // Update score text
+            finalScore.textContent = `Anda menjawab ${score} dari ${quizData.length} soal dengan benar`;
+            
+            // Performance message
+            let message, messageClass;
+            if (percentage >= 90) {
+                message = "🎉 Luar biasa! Anda menguasai materi Cisco CLI dengan sangat baik!";
+                messageClass = "bg-green-100 border border-green-200 text-green-800";
+            } else if (percentage >= 75) {
+                message = "👍 Bagus! Pengetahuan Anda tentang Cisco CLI sudah cukup baik.";
+                messageClass = "bg-blue-100 border border-blue-200 text-blue-800";
+            } else if (percentage >= 60) {
+                message = "📚 Tidak buruk, tapi masih perlu belajar lebih banyak tentang Cisco CLI.";
+                messageClass = "bg-yellow-100 border border-yellow-200 text-yellow-800";
+            } else {
+                message = "💪 Jangan menyerah! Pelajari lagi materi Cisco CLI dan coba lagi.";
+                messageClass = "bg-red-100 border border-red-200 text-red-800";
+            }
+            
+            performanceMessage.textContent = message;
+            performanceMessage.className = `mb-6 p-4 rounded-lg ${messageClass}`;
+            
+            // Add fade-in animation
+            resultsContainerEl.classList.add('fade-in');
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            resultsContainerEl.classList.remove('fade-in');
+            initQuiz();
+        }
+
+        // Event listeners
+        nextButtonEl.addEventListener('click', nextQuestion);
+        restartButtonEl.addEventListener('click', restartQuiz);
+
+        // Start quiz when page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99db458f03ec6d03',t:'MTc2MzAwNTQ3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
