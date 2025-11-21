@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Desain Grafis</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 20px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            margin-right: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .question-text {
+            font-size: 21px;
+            font-weight: 600;
+            color: #1a202c;
+            line-height: 1.6;
+            padding-top: 4px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .option {
+            background: #ffffff;
+            border: 2.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 18px 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 17px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            line-height: 1.5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .option:hover {
+            background: #f7fafc;
+            border-color: #667eea;
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+        }
+
+        .option.selected {
+            background: #ebf4ff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4f4dd;
+            border-color: #38a169;
+            color: #1c4532;
+            font-weight: 500;
+        }
+
+        .option.incorrect {
+            background: #ffe5e5;
+            border-color: #e53e3e;
+            color: #742a2a;
+            font-weight: 500;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+        }
+
+        .option.disabled:hover {
+            transform: none;
+        }
+
+        .option-letter {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .option.correct .option-letter {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+        }
+
+        .option.incorrect .option-letter {
+            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            display: none;
+            line-height: 1.6;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, #d4f4dd 0%, #c6f6d5 100%);
+            color: #1c4532;
+            border-left: 5px solid #38a169;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #ffe5e5 0%, #fed7d7 100%);
+            color: #742a2a;
+            border-left: 5px solid #e53e3e;
+            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        .progress-track {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .score-display {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .header {
+                margin-bottom: 24px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+                line-height: 1.2;
+            }
+
+            .header p {
+                font-size: 15px;
+            }
+
+            .progress-bar {
+                padding: 16px;
+                margin-bottom: 20px;
+            }
+
+            .progress-info {
+                font-size: 14px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .quiz-card {
+                padding: 20px;
+                margin-bottom: 16px;
+            }
+
+            .question-header {
+                flex-direction: row;
+                align-items: flex-start;
+                margin-bottom: 20px;
+                padding-bottom: 16px;
+            }
+
+            .question-number {
+                min-width: 42px;
+                height: 42px;
+                font-size: 18px;
+                margin-right: 12px;
+                border-radius: 10px;
+            }
+
+            .question-text {
+                font-size: 18px;
+                line-height: 1.5;
+            }
+
+            .options {
+                gap: 12px;
+            }
+
+            .option {
+                padding: 16px 18px;
+                font-size: 16px;
+            }
+
+            .option-letter {
+                min-width: 32px;
+                height: 32px;
+                font-size: 15px;
+                margin-right: 12px;
+                border-radius: 8px;
+            }
+
+            .feedback {
+                padding: 14px;
+                font-size: 14px;
+                margin-top: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 12px;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .progress-bar {
+                padding: 14px;
+            }
+
+            .progress-info {
+                font-size: 13px;
+            }
+
+            .quiz-card {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .question-number {
+                min-width: 38px;
+                height: 38px;
+                font-size: 16px;
+                margin-right: 10px;
+                border-radius: 8px;
+            }
+
+            .question-text {
+                font-size: 17px;
+            }
+
+            .option {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+
+            .option-letter {
+                min-width: 30px;
+                height: 30px;
+                font-size: 14px;
+                margin-right: 10px;
+                border-radius: 8px;
+            }
+
+            .feedback {
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            .header h1 {
+                font-size: 56px;
+            }
+
+            .header p {
+                font-size: 22px;
+            }
+
+            .quiz-card {
+                padding: 36px;
+            }
+
+            .question-text {
+                font-size: 22px;
+            }
+
+            .option {
+                padding: 18px 24px;
+                font-size: 17px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 id="quiz-title">Kuis Desain Grafis</h1>
+    <p id="quiz-subtitle">Uji pengetahuan Anda tentang prinsip dan elemen desain grafis</p>
+   </div>
+   <div class="progress-bar">
+    <div class="progress-info"><span id="progress-text">Soal Terjawab: 0/20</span> <span id="score-text">Skor: 0/20</span>
+    </div>
+    <div class="progress-track">
+     <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+   </div>
+   <div id="quiz-container"></div>
+  </div>
+  <script>
+        const defaultConfig = {
+            quiz_title: "Kuis Desain Grafis",
+            quiz_subtitle: "Uji pengetahuan Anda tentang prinsip dan elemen desain grafis"
+        };
+
+        const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+
+        const quizData = [
+            {
+                question: "Apa yang dimaksud dengan prinsip Balance dalam desain grafis?",
+                options: [
+                    "Penggunaan warna yang seimbang",
+                    "Distribusi visual yang merata antara elemen-elemen desain",
+                    "Penggunaan font yang sama di seluruh desain",
+                    "Penempatan elemen di tengah halaman",
+                    "Menggunakan jumlah gambar yang sama dengan teks"
+                ],
+                correct: 1
+            },
+            {
+                question: "Prinsip Contrast dalam desain digunakan untuk?",
+                options: [
+                    "Membuat semua elemen terlihat sama",
+                    "Mengurangi perbedaan antar elemen",
+                    "Menciptakan perbedaan yang jelas antara elemen untuk menarik perhatian",
+                    "Menggunakan satu warna saja",
+                    "Menyembunyikan elemen penting"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa fungsi utama dari prinsip Emphasis dalam desain?",
+                options: [
+                    "Membuat semua elemen sama pentingnya",
+                    "Mengurangi fokus visual",
+                    "Menciptakan titik fokus atau elemen yang paling menarik perhatian",
+                    "Menghilangkan hierarki visual",
+                    "Menggunakan warna yang sama untuk semua elemen"
+                ],
+                correct: 2
+            },
+            {
+                question: "Prinsip Repetition dalam desain membantu untuk?",
+                options: [
+                    "Membuat desain membosankan",
+                    "Menciptakan konsistensi dan memperkuat identitas visual",
+                    "Mengurangi keselarasan",
+                    "Menggunakan elemen yang berbeda-beda",
+                    "Membuat desain tidak terstruktur"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa yang dimaksud dengan Unity dalam desain grafis?",
+                options: [
+                    "Menggunakan satu elemen saja",
+                    "Membuat semua elemen terpisah",
+                    "Keharmonisan dan kesatuan seluruh elemen desain",
+                    "Menggunakan banyak warna berbeda",
+                    "Menghindari penggunaan grid"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa itu Color Wheel (Roda Warna)?",
+                options: [
+                    "Alat untuk mengukur kecerahan warna",
+                    "Diagram lingkaran yang menunjukkan hubungan antar warna",
+                    "Software untuk mengedit warna",
+                    "Jenis printer khusus",
+                    "Format file untuk menyimpan warna"
+                ],
+                correct: 1
+            },
+            {
+                question: "Skema warna Complementary menggunakan warna yang?",
+                options: [
+                    "Berdekatan di color wheel",
+                    "Berseberangan di color wheel",
+                    "Sama persis",
+                    "Monokromatik",
+                    "Hitam dan putih saja"
+                ],
+                correct: 1
+            },
+            {
+                question: "Dalam psikologi warna, warna biru umumnya diasosiasikan dengan?",
+                options: [
+                    "Energi dan keberanian",
+                    "Bahaya dan peringatan",
+                    "Kepercayaan dan ketenangan",
+                    "Keceriaan dan kehangatan",
+                    "Kemarahan dan agresi"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa fungsi Hierarki Teks dalam desain?",
+                options: [
+                    "Membuat semua teks berukuran sama",
+                    "Mengatur tingkat kepentingan informasi melalui ukuran, weight, dan warna",
+                    "Menghilangkan judul",
+                    "Menggunakan satu jenis font saja",
+                    "Membuat teks sulit dibaca"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa perbedaan utama antara Ikon dan Ilustrasi?",
+                options: [
+                    "Tidak ada perbedaan",
+                    "Ikon lebih sederhana dan simbolis, ilustrasi lebih detail dan naratif",
+                    "Ikon selalu berwarna, ilustrasi hitam putih",
+                    "Ilustrasi hanya untuk buku anak-anak",
+                    "Ikon tidak bisa digunakan dalam desain digital"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa karakteristik utama gambar Vektor?",
+                options: [
+                    "Terdiri dari pixel",
+                    "Kualitas menurun saat diperbesar",
+                    "Berbasis matematika dan dapat diperbesar tanpa kehilangan kualitas",
+                    "Hanya bisa dibuat di Photoshop",
+                    "Ukuran file selalu besar"
+                ],
+                correct: 2
+            },
+            {
+                question: "Gambar Raster terdiri dari?",
+                options: [
+                    "Garis dan kurva matematika",
+                    "Kode HTML",
+                    "Pixel atau titik-titik warna",
+                    "Vektor path",
+                    "Text layer"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa pentingnya Spacing (White Space) dalam desain?",
+                options: [
+                    "Membuang-buang ruang kosong",
+                    "Membuat desain terlihat kosong",
+                    "Memberikan ruang bernapas, meningkatkan keterbacaan dan fokus",
+                    "Harus dihindari sebisa mungkin",
+                    "Hanya untuk desain minimalis"
+                ],
+                correct: 2
+            },
+            {
+                question: "Format file PNG cocok digunakan untuk?",
+                options: [
+                    "Foto dengan banyak warna",
+                    "Gambar dengan transparansi dan grafis sederhana",
+                    "Video",
+                    "Audio",
+                    "Dokumen teks"
+                ],
+                correct: 1
+            },
+            {
+                question: "Kapan sebaiknya menggunakan format JPEG?",
+                options: [
+                    "Untuk logo dengan transparansi",
+                    "Untuk foto dan gambar dengan banyak gradasi warna",
+                    "Untuk icon sederhana",
+                    "Untuk animasi",
+                    "Untuk grafis vektor"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa keunggulan format SVG?",
+                options: [
+                    "Ukuran file besar",
+                    "Tidak bisa diperbesar",
+                    "Format vektor yang scalable dan ringan",
+                    "Hanya untuk print",
+                    "Tidak didukung browser"
+                ],
+                correct: 2
+            },
+            {
+                question: "Apa yang dimaksud dengan Resolusi dalam desain grafis?",
+                options: [
+                    "Ukuran file",
+                    "Jumlah warna dalam gambar",
+                    "Jumlah pixel per inch (PPI/DPI) yang menentukan ketajaman gambar",
+                    "Format file",
+                    "Jenis font"
+                ],
+                correct: 2
+            },
+            {
+                question: "Transparansi dalam desain grafis memungkinkan?",
+                options: [
+                    "Gambar menjadi tidak terlihat",
+                    "Bagian gambar terlihat tembus pandang atau menunjukkan layer di bawahnya",
+                    "Warna menjadi lebih cerah",
+                    "File menjadi lebih besar",
+                    "Menghapus semua warna"
+                ],
+                correct: 1
+            },
+            {
+                question: "Figma adalah tool desain yang berbasis?",
+                options: [
+                    "Desktop application saja",
+                    "Mobile app saja",
+                    "Cloud/browser dengan kolaborasi real-time",
+                    "Command line",
+                    "Virtual reality"
+                ],
+                correct: 2
+            },
+            {
+                question: "Adobe Photoshop terutama digunakan untuk?",
+                options: [
+                    "Membuat presentasi",
+                    "Editing video panjang",
+                    "Manipulasi foto dan desain berbasis raster",
+                    "Coding website",
+                    "Membuat spreadsheet"
+                ],
+                correct: 2
+            }
+        ];
+
+        let answeredCount = 0;
+        let correctCount = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizData.forEach((quiz, index) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `quiz-${index}`;
+
+                const questionHeader = document.createElement('div');
+                questionHeader.className = 'question-header';
+
+                const questionNumber = document.createElement('div');
+                questionNumber.className = 'question-number';
+                questionNumber.textContent = index + 1;
+
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = quiz.question;
+
+                questionHeader.appendChild(questionNumber);
+                questionHeader.appendChild(questionText);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+
+                quiz.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.dataset.index = optIndex;
+
+                    const optionLetter = document.createElement('div');
+                    optionLetter.className = 'option-letter';
+                    optionLetter.textContent = String.fromCharCode(65 + optIndex);
+
+                    const optionText = document.createElement('span');
+                    optionText.className = 'option-text';
+                    optionText.textContent = option;
+
+                    optionDiv.appendChild(optionLetter);
+                    optionDiv.appendChild(optionText);
+
+                    optionDiv.addEventListener('click', () => handleAnswer(index, optIndex));
+
+                    optionsContainer.appendChild(optionDiv);
+                });
+
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback';
+                feedback.id = `feedback-${index}`;
+
+                card.appendChild(questionHeader);
+                card.appendChild(optionsContainer);
+                card.appendChild(feedback);
+
+                container.appendChild(card);
+            });
+        }
+
+        function handleAnswer(quizIndex, selectedOption) {
+            const card = document.getElementById(`quiz-${quizIndex}`);
+            const options = card.querySelectorAll('.option');
+            const feedback = document.getElementById(`feedback-${quizIndex}`);
+
+            if (options[0].classList.contains('disabled')) {
+                return;
+            }
+
+            const correctIndex = quizData[quizIndex].correct;
+            const isCorrect = selectedOption === correctIndex;
+
+            options.forEach((option, index) => {
+                option.classList.add('disabled');
+                if (index === correctIndex) {
+                    option.classList.add('correct');
+                } else if (index === selectedOption) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            feedback.classList.add('show');
+            if (isCorrect) {
+                feedback.classList.add('correct');
+                feedback.innerHTML = '<strong>✓ Benar!</strong> Jawaban Anda tepat.';
+                correctCount++;
+            } else {
+                feedback.classList.add('incorrect');
+                feedback.innerHTML = `<strong>✗ Salah!</strong> Jawaban yang benar adalah: <strong>${String.fromCharCode(65 + correctIndex)}. ${quizData[quizIndex].options[correctIndex]}</strong>`;
+            }
+
+            answeredCount++;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progressText = document.getElementById('progress-text');
+            const scoreText = document.getElementById('score-text');
+            const progressFill = document.getElementById('progress-fill');
+
+            progressText.textContent = `Soal Terjawab: ${answeredCount}/20`;
+            scoreText.textContent = `Skor: ${correctCount}/20`;
+
+            const percentage = (answeredCount / 20) * 100;
+            progressFill.style.width = percentage + '%';
+        }
+
+        async function onConfigChange(newConfig) {
+            const titleElement = document.getElementById('quiz-title');
+            const subtitleElement = document.getElementById('quiz-subtitle');
+
+            if (titleElement) {
+                titleElement.textContent = newConfig.quiz_title || defaultConfig.quiz_title;
+            }
+            if (subtitleElement) {
+                subtitleElement.textContent = newConfig.quiz_subtitle || defaultConfig.quiz_subtitle;
+            }
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => {
+                    return new Map([
+                        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                        ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
+                    ]);
+                }
+            });
+        }
+
+        renderQuiz();
+        onConfigChange(config);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1ddb75b3d6b5c3',t:'MTc2MzcwMzY3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
