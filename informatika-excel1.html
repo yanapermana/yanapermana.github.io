@@ -52,34 +52,34 @@
   <div id="app" class="w-full h-full overflow-auto">
    <div class="min-h-full py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto"><!-- Header -->
-     <div class="text-center mb-8">
-      <h1 id="quiz-title" class="text-4xl font-bold mb-2">Kuis Rumus Excel</h1>
-      <p id="quiz-subtitle" class="text-xl">Uji Pengetahuan Anda tentang Rumus Excel</p>
+     <div class="text-center mb-6 lg:mb-10">
+      <h1 id="quiz-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-2 lg:mb-3">Kuis Rumus Excel</h1>
+      <p id="quiz-subtitle" class="text-lg sm:text-xl lg:text-2xl">Uji Pengetahuan Anda tentang Rumus Excel</p>
      </div><!-- Progress Bar -->
-     <div class="mb-8">
-      <div class="flex justify-between mb-2"><span id="progress-text" class="text-sm font-semibold">Soal 1 dari 20</span> <span id="score-text" class="text-sm font-semibold">Skor: 0/0</span>
+     <div class="mb-6 lg:mb-10">
+      <div class="flex justify-between mb-3"><span id="progress-text" class="text-sm lg:text-base font-semibold">Soal 1 dari 20</span> <span id="score-text" class="text-sm lg:text-base font-semibold">Skor: 0/0</span>
       </div>
-      <div class="w-full h-3 rounded-full overflow-hidden">
+      <div class="w-full h-4 lg:h-5 rounded-full overflow-hidden shadow-inner">
        <div id="progress-bar" class="h-full transition-all duration-300" style="width: 5%"></div>
       </div>
      </div><!-- Question Card -->
-     <div id="question-card" class="rounded-2xl shadow-xl p-8 mb-6">
-      <div class="mb-6">
-       <h2 id="question-text" class="text-2xl font-bold mb-4"></h2>
+     <div id="question-card" class="rounded-2xl shadow-2xl p-6 sm:p-8 lg:p-12 mb-6 lg:mb-8">
+      <div class="mb-8 lg:mb-10">
+       <h2 id="question-text" class="text-xl sm:text-2xl lg:text-3xl font-bold leading-relaxed"></h2>
       </div>
-      <div id="options-container" class="space-y-3"><!-- Options will be inserted here -->
+      <div id="options-container" class="space-y-3 lg:space-y-4"><!-- Options will be inserted here -->
       </div>
-      <div id="feedback" class="mt-6 p-4 rounded-lg hidden">
-       <p id="feedback-text" class="font-semibold mb-2"></p>
-       <p id="explanation-text" class="text-sm"></p>
+      <div id="feedback" class="mt-8 lg:mt-10 p-5 lg:p-6 rounded-xl hidden shadow-md">
+       <p id="feedback-text" class="font-bold text-lg lg:text-xl mb-3"></p>
+       <p id="explanation-text" class="text-base lg:text-lg leading-relaxed"></p>
       </div>
      </div><!-- Navigation -->
-     <div class="flex justify-between items-center"><button id="prev-btn" class="px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> ← Sebelumnya </button> <button id="next-btn" class="px-6 py-3 rounded-lg font-semibold transition-all hidden"> Selanjutnya → </button> <button id="finish-btn" class="px-6 py-3 rounded-lg font-semibold transition-all hidden"> Lihat Hasil </button>
+     <div class="flex justify-between items-center gap-4"><button id="prev-btn" class="px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl" disabled> ← Sebelumnya </button> <button id="next-btn" class="px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg transition-all hidden shadow-lg hover:shadow-xl"> Selanjutnya → </button> <button id="finish-btn" class="px-6 lg:px-8 py-3 lg:py-4 rounded-xl font-semibold text-base lg:text-lg transition-all hidden shadow-lg hover:shadow-xl"> Lihat Hasil </button>
      </div><!-- Results Screen -->
-     <div id="results-screen" class="hidden rounded-2xl shadow-xl p-8 text-center">
-      <h2 class="text-3xl font-bold mb-4">Kuis Selesai! 🎉</h2>
-      <div id="final-score" class="text-6xl font-bold mb-6"></div>
-      <p id="final-message" class="text-xl mb-8"></p><button id="restart-btn" class="px-8 py-4 rounded-lg font-semibold text-lg transition-all"> Ulangi Kuis </button>
+     <div id="results-screen" class="hidden rounded-2xl shadow-2xl p-8 lg:p-16 text-center">
+      <h2 class="text-3xl lg:text-5xl font-bold mb-6 lg:mb-8">Kuis Selesai! 🎉</h2>
+      <div id="final-score" class="text-6xl lg:text-8xl font-bold mb-6 lg:mb-10"></div>
+      <p id="final-message" class="text-xl lg:text-3xl mb-8 lg:mb-12 leading-relaxed"></p><button id="restart-btn" class="px-8 lg:px-12 py-4 lg:py-5 rounded-xl font-semibold text-lg lg:text-xl transition-all shadow-lg hover:shadow-xl"> 🔄 Ulangi Kuis </button>
      </div>
     </div>
    </div>
@@ -254,13 +254,16 @@
             const baseFontStack = 'system-ui, -apple-system, sans-serif';
             document.body.style.fontFamily = `${baseFont}, ${baseFontStack}`;
             
-            // Update font sizes
+            // Update font sizes - responsive to viewport
             const baseSize = config.font_size || defaultConfig.font_size;
-            document.getElementById('quiz-title').style.fontSize = `${baseSize * 2.5}px`;
-            document.getElementById('quiz-subtitle').style.fontSize = `${baseSize * 1.25}px`;
-            document.getElementById('question-text').style.fontSize = `${baseSize * 1.5}px`;
-            document.getElementById('progress-text').style.fontSize = `${baseSize * 0.875}px`;
-            document.getElementById('score-text').style.fontSize = `${baseSize * 0.875}px`;
+            const isLargeScreen = window.innerWidth >= 1024;
+            const sizeFactor = isLargeScreen ? 1.2 : 1;
+            
+            document.getElementById('quiz-title').style.fontSize = `${baseSize * 2.5 * sizeFactor}px`;
+            document.getElementById('quiz-subtitle').style.fontSize = `${baseSize * 1.25 * sizeFactor}px`;
+            document.getElementById('question-text').style.fontSize = `${baseSize * 1.5 * sizeFactor}px`;
+            document.getElementById('progress-text').style.fontSize = `${baseSize * 0.875 * sizeFactor}px`;
+            document.getElementById('score-text').style.fontSize = `${baseSize * 0.875 * sizeFactor}px`;
             
             // Update editable text
             document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
@@ -276,7 +279,7 @@
             
             question.options.forEach((option, index) => {
                 const button = document.createElement('button');
-                button.className = 'option-btn w-full text-left p-4 rounded-lg border-2 font-semibold';
+                button.className = 'option-btn w-full text-left p-4 lg:p-5 rounded-xl border-2 lg:border-3 font-semibold text-base lg:text-lg';
                 button.style.backgroundColor = window.elementSdk.config.card_color || defaultConfig.card_color;
                 button.style.borderColor = window.elementSdk.config.accent_color || defaultConfig.accent_color;
                 button.style.color = window.elementSdk.config.text_color || defaultConfig.text_color;
@@ -476,5 +479,5 @@
         renderQuestion();
         updateUI();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac1520e90c47324',t:'MTc2NTQxNzcxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac159f264d07324',t:'MTc2NTQxODAzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
