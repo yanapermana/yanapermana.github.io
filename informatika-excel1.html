@@ -9,581 +9,509 @@
   <style>
         body {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .question-card {
+        .answer-option {
             transition: all 0.3s ease;
         }
         
-        .option-button {
-            transition: all 0.2s ease;
-        }
-        
-        .option-button:hover:not(:disabled) {
+        .answer-option:hover:not(.correct):not(.incorrect):not(:disabled) {
             transform: translateX(8px);
         }
         
-        .correct-answer {
-            background-color: #10b981 !important;
-            color: white !important;
-            border-color: #059669 !important;
+        .correct {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #059669;
         }
         
-        .wrong-answer {
-            background-color: #ef4444 !important;
-            color: white !important;
-            border-color: #dc2626 !important;
+        .incorrect {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-color: #dc2626;
         }
         
-        .disabled-option {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .progress-bar {
+            transition: width 0.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         .fade-in {
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
     </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
-  <div id="app" class="w-full h-full overflow-auto"></div>
+  <div id="app-wrapper" class="w-full h-full overflow-auto">
+   <div id="quiz-container" class="min-h-full w-full"></div>
+  </div>
   <script>
         const defaultConfig = {
-            quiz_title: "Kuis Excel Interaktif",
-            quiz_subtitle: "Uji Pengetahuan Anda tentang Rumus-Rumus Excel",
-            background_color: "#f0f9ff",
-            card_background: "#ffffff",
-            primary_color: "#0284c7",
+            background_color: "#f0f4f8",
+            card_color: "#ffffff",
             text_color: "#1e293b",
-            accent_color: "#06b6d4"
+            primary_button_color: "#3b82f6",
+            secondary_button_color: "#8b5cf6",
+            font_family: "Inter",
+            font_size: 16,
+            quiz_title: "Kuis Excel Interaktif",
+            quiz_subtitle: "Uji pengetahuan Anda tentang rumus-rumus Excel",
+            start_button_text: "Mulai Kuis",
+            next_button_text: "Soal Selanjutnya",
+            finish_button_text: "Lihat Hasil"
         };
 
-        const questions = [
+        const quizData = [
             {
-                id: 1,
-                question: "Rumus yang benar untuk menjumlahkan sel A1 dan B1 di Excel adalah:",
-                options: [
-                    "=A1+B1",
-                    "=SUM(A1+B1)",
-                    "A1+B1",
-                    "=ADD(A1,B1)",
-                    "=A1&B1"
-                ],
-                correct: 0,
-                explanation: "Gunakan operator + dengan tanda = di awal untuk penjumlahan sederhana"
+                question: "Rumus Excel yang digunakan untuk penjumlahan adalah?",
+                options: ["=ADD()", "=SUM()", "=PLUS()", "=TOTAL()", "=TAMBAH()"],
+                correct: 1
             },
             {
-                id: 2,
-                question: "Untuk mengalikan sel A1 dengan B1, rumus yang tepat adalah:",
-                options: [
-                    "=A1xB1",
-                    "=A1*B1",
-                    "=MULTIPLY(A1,B1)",
-                    "=A1×B1",
-                    "=PRODUCT(A1+B1)"
-                ],
-                correct: 1,
-                explanation: "Operator perkalian di Excel menggunakan tanda asterisk (*)"
+                question: "Rumus untuk pengurangan di Excel adalah?",
+                options: ["=MINUS()", "=SUB()", "Menggunakan operator -", "=KURANG()", "=SUBTRACT()"],
+                correct: 2
             },
             {
-                id: 3,
-                question: "Rumus untuk menjumlahkan sel A1 sampai A10 adalah:",
-                options: [
-                    "=A1+A2+A3+A4+A5+A6+A7+A8+A9+A10",
-                    "=SUM(A1:A10)",
-                    "=ADD(A1:A10)",
-                    "=TOTAL(A1:A10)",
-                    "=SUM(A1-A10)"
-                ],
-                correct: 1,
-                explanation: "Fungsi SUM() dengan range A1:A10 adalah cara paling efisien"
+                question: "Operator yang digunakan untuk perkalian di Excel adalah?",
+                options: ["x", "+", "/", "*", "^"],
+                correct: 3
             },
             {
-                id: 4,
-                question: "Untuk menjumlahkan data dari sheet lain (Sheet2 sel A1), rumus yang benar adalah:",
-                options: [
-                    "=SUM(Sheet2A1)",
-                    "=Sheet2->A1",
-                    "=Sheet2!A1",
-                    "=Sheet2.A1",
-                    "=A1[Sheet2]"
-                ],
-                correct: 2,
-                explanation: "Gunakan tanda ! (exclamation mark) untuk mereferensi sheet lain"
+                question: "Operator pembagian di Excel adalah?",
+                options: [":", "\\", "/", "%", "÷"],
+                correct: 2
             },
             {
-                id: 5,
-                question: "Rumus untuk menjumlahkan data dengan satu kriteria adalah:",
-                options: [
-                    "=SUM(IF)",
-                    "=SUMIF(range,kriteria,sum_range)",
-                    "=COUNTIF(range,kriteria)",
-                    "=SUMCRITERIA(range,kriteria)",
-                    "=SUM(range,kriteria)"
-                ],
-                correct: 1,
-                explanation: "SUMIF digunakan untuk menjumlahkan dengan satu kriteria tertentu"
+                question: "Untuk menjumlahkan sel A1 sampai A10, rumus yang tepat adalah?",
+                options: ["=SUM(A1-A10)", "=SUM(A1:A10)", "=SUM(A1+A10)", "=ADD(A1:A10)", "=TOTAL(A1-A10)"],
+                correct: 1
             },
             {
-                id: 6,
-                question: "Untuk menjumlahkan data dengan banyak kriteria, fungsi yang tepat adalah:",
-                options: [
-                    "=SUMIF()",
-                    "=SUMIFS()",
-                    "=COUNTIFS()",
-                    "=SUMCRITERIA()",
-                    "=SUMALL()"
-                ],
-                correct: 1,
-                explanation: "SUMIFS memungkinkan penggunaan beberapa kriteria sekaligus"
+                question: "Rumus untuk menjumlahkan data dari Sheet1 ke Sheet2 adalah?",
+                options: ["=SUM(Sheet1+Sheet2!A1)", "=Sheet1!A1+Sheet2!A1", "=SUM(Sheet1:Sheet2)", "=ADD(Sheet1,Sheet2)", "=COMBINE(Sheet1:Sheet2)"],
+                correct: 1
             },
             {
-                id: 7,
-                question: "Rumus untuk membulatkan angka 15.678 menjadi 2 desimal adalah:",
-                options: [
-                    "=ROUND(15.678,2)",
-                    "=ROUNDUP(15.678,2)",
-                    "=INT(15.678)",
-                    "=CEILING(15.678,2)",
-                    "=TRUNC(15.678,2)"
-                ],
-                correct: 0,
-                explanation: "ROUND(angka,jumlah_desimal) membulatkan secara matematis"
+                question: "Rumus SUMIF digunakan untuk?",
+                options: ["Menjumlahkan semua data", "Menjumlahkan data dengan kriteria tertentu", "Menghitung rata-rata", "Mencari nilai maksimum", "Mengurutkan data"],
+                correct: 1
             },
             {
-                id: 8,
-                question: "Untuk menghilangkan angka di belakang koma dari 25.75, gunakan:",
-                options: [
-                    "=ROUND(25.75,0)",
-                    "=INT(25.75)",
-                    "=TRUNC(25.75)",
-                    "=ROUNDDOWN(25.75,0)",
-                    "Semua jawaban benar"
-                ],
-                correct: 4,
-                explanation: "INT, TRUNC, ROUND, dan ROUNDDOWN dapat menghilangkan desimal"
+                question: "Rumus yang digunakan untuk menjumlahkan data dengan banyak kriteria adalah?",
+                options: ["SUMIF", "SUMIFS", "COUNTIF", "AVERAGEIF", "MULTISUM"],
+                correct: 1
             },
             {
-                id: 9,
-                question: "Rumus untuk membulatkan 23 ke kelipatan 5 terdekat adalah:",
-                options: [
-                    "=ROUND(23,5)",
-                    "=MROUND(23,5)",
-                    "=ROUNDUP(23,5)",
-                    "=CEILING(23,5)",
-                    "=MULTIPLE(23,5)"
-                ],
-                correct: 1,
-                explanation: "MROUND membulatkan ke kelipatan tertentu (hasilnya 25)"
+                question: "Rumus ROUND digunakan untuk?",
+                options: ["Menghapus angka", "Membulatkan angka", "Menambah angka", "Mengalikan angka", "Membagi angka"],
+                correct: 1
             },
             {
-                id: 10,
-                question: "Untuk membuat angka acak antara 1-100, rumus yang tepat adalah:",
-                options: [
-                    "=RANDOM(1,100)",
-                    "=RAND()*100",
-                    "=RANDBETWEEN(1,100)",
-                    "=RND(1,100)",
-                    "=RANDNUM(1,100)"
-                ],
-                correct: 2,
-                explanation: "RANDBETWEEN menghasilkan bilangan bulat acak dalam range tertentu"
+                question: "Untuk menghilangkan angka di belakang koma, fungsi yang tepat adalah?",
+                options: ["ROUND", "TRUNC atau INT", "DELETE", "REMOVE", "CLEAR"],
+                correct: 1
             },
             {
-                id: 11,
-                question: "Fungsi yang menghasilkan angka desimal acak antara 0 sampai 1 adalah:",
-                options: [
-                    "=RANDOM()",
-                    "=RAND()",
-                    "=RANDBETWEEN(0,1)",
-                    "=RND()",
-                    "=RANDOMIZE()"
-                ],
-                correct: 1,
-                explanation: "RAND() menghasilkan angka desimal acak antara 0 dan 1"
+                question: "Rumus MROUND digunakan untuk?",
+                options: ["Membulatkan ke atas", "Membulatkan ke bawah", "Membulatkan pada kelipatan tertentu", "Menghapus desimal", "Membuat angka acak"],
+                correct: 2
             },
             {
-                id: 12,
-                question: "Untuk membuat angka random unik (tidak kembar), kombinasi fungsi yang digunakan:",
-                options: [
-                    "=RAND() + UNIQUE()",
-                    "=RANDBETWEEN() dengan COUNTIF()",
-                    "=UNIQUE(RANDBETWEEN())",
-                    "=DISTINCT(RAND())",
-                    "=RANDOMONCE()"
-                ],
-                correct: 1,
-                explanation: "Kombinasi RANDBETWEEN dengan COUNTIF untuk cek duplikasi"
+                question: "Fungsi untuk membuat angka acak (random) di Excel adalah?",
+                options: ["=RANDOM()", "=RAND()", "=RND()", "=ACAK()", "=NUMBER()"],
+                correct: 1
             },
             {
-                id: 13,
-                question: "Untuk membuat pola 1,1,1,2,2,2,3,3,3 di kolom, rumus yang tepat adalah:",
-                options: [
-                    "=INT((ROW()-1)/3)+1",
-                    "=ROUNDUP(ROW()/3,0)",
-                    "=CEILING(ROW()/3,1)",
-                    "Semua jawaban A, B, dan C benar",
-                    "=REPEAT(ROW(),3)"
-                ],
-                correct: 3,
-                explanation: "Ketiga rumus tersebut menghasilkan pola yang sama"
+                question: "Untuk membuat angka random integer antara 1-100, rumus yang tepat adalah?",
+                options: ["=RAND(1,100)", "=RANDOM(1:100)", "=RANDBETWEEN(1,100)", "=INT(RAND(100))", "=RANDINT(1,100)"],
+                correct: 2
             },
             {
-                id: 14,
-                question: "Untuk membuat pola 1,2,3,1,2,3,1,2,3, fungsi yang digunakan adalah:",
-                options: [
-                    "=MOD(ROW()-1,3)+1",
-                    "=REPEAT(1,2,3)",
-                    "=CYCLE(ROW(),3)",
-                    "=INT(ROW()/3)",
-                    "=SEQUENCE(ROW(),3)"
-                ],
-                correct: 0,
-                explanation: "MOD menghasilkan sisa pembagian untuk pola berulang"
+                question: "Cara membuat angka random yang tidak kembar menggunakan kombinasi fungsi?",
+                options: ["RAND + UNIQUE", "RANDBETWEEN + IF", "RAND + RANK", "RANDOM + DISTINCT", "RANDBETWEEN + COUNT"],
+                correct: 2
             },
             {
-                id: 15,
-                question: "Rumus untuk menghitung sisa pembagian 17 dibagi 5 adalah:",
-                options: [
-                    "=REMAINDER(17,5)",
-                    "=MOD(17,5)",
-                    "=17%5",
-                    "=MODULUS(17,5)",
-                    "Semua jawaban A dan B benar"
-                ],
-                correct: 4,
-                explanation: "Baik MOD maupun REMAINDER dapat menghitung sisa pembagian"
+                question: "Untuk membuat pola angka berulang (1,1,1,2,2,2,3,3,3), fungsi yang bisa digunakan adalah?",
+                options: ["REPEAT", "SEQUENCE + REPT", "INT + CEILING", "LOOP + COUNT", "DUPLICATE"],
+                correct: 1
             },
             {
-                id: 16,
-                question: "Hasil dari =MOD(20,6) adalah:",
-                options: [
-                    "3",
-                    "2",
-                    "4",
-                    "6",
-                    "14"
-                ],
-                correct: 1,
-                explanation: "20 dibagi 6 = 3 sisa 2, jadi MOD(20,6) = 2"
+                question: "Untuk membuat pola (1,2,3,1,2,3,1,2,3), fungsi yang tepat adalah?",
+                options: ["CYCLE", "MOD + SEQUENCE", "REPEAT + LOOP", "PATTERN", "ITERATE"],
+                correct: 1
             },
             {
-                id: 17,
-                question: "Untuk menghitung 25% dari nilai di sel A1, rumus yang benar adalah:",
-                options: [
-                    "=A1*25%",
-                    "=A1*0.25",
-                    "=A1/100*25",
-                    "=PERCENTAGE(A1,25)",
-                    "Semua jawaban A, B, dan C benar"
-                ],
-                correct: 4,
-                explanation: "Ketiga cara tersebut menghasilkan hasil yang sama"
+                question: "Rumus untuk menghitung sisa pembagian di Excel adalah?",
+                options: ["REMAINDER", "MOD", "REST", "SISA", "DIVIDE"],
+                correct: 1
             },
             {
-                id: 18,
-                question: "Untuk menghitung persentase kenaikan dari 80 ke 100, rumusnya:",
-                options: [
-                    "=(100-80)/100*100%",
-                    "=(100-80)/80*100%",
-                    "=(100/80)*100%",
-                    "=(100-80)*100%",
-                    "=100/80-1"
-                ],
-                correct: 1,
-                explanation: "Persentase kenaikan = (nilai baru - nilai lama) / nilai lama × 100%"
+                question: "Untuk menghitung 15 MOD 4, hasilnya adalah?",
+                options: ["1", "2", "3", "4", "0"],
+                correct: 2
             },
             {
-                id: 19,
-                question: "Rumus untuk pembagian sel A1 dengan B1 yang benar adalah:",
-                options: [
-                    "=A1:B1",
-                    "=A1÷B1",
-                    "=A1/B1",
-                    "=DIVIDE(A1,B1)",
-                    "=A1\\B1"
-                ],
-                correct: 2,
-                explanation: "Operator pembagian di Excel menggunakan forward slash (/)"
+                question: "Untuk menghitung persentase di Excel, rumus yang tepat adalah?",
+                options: ["=nilai*100", "=(nilai/total)*100", "=PERCENT(nilai)", "=nilai%total", "=PERCENTAGE(nilai,total)"],
+                correct: 1
             },
             {
-                id: 20,
-                question: "Untuk menjumlahkan sel B2 dari Sheet1, Sheet2, dan Sheet3, rumus 3D yang tepat adalah:",
-                options: [
-                    "=SUM(Sheet1:Sheet3!B2)",
-                    "=SUM(Sheet1,Sheet2,Sheet3!B2)",
-                    "=Sheet1!B2+Sheet2!B2+Sheet3!B2",
-                    "Jawaban A dan C benar",
-                    "=SUM(Sheet1-Sheet3!B2)"
-                ],
-                correct: 3,
-                explanation: "Bisa menggunakan rumus 3D atau penjumlahan eksplisit"
+                question: "Jika A1=80 dan B1=100, rumus untuk menghitung persentase A1 dari B1 adalah?",
+                options: ["=A1/B1", "=(A1/B1)*100%", "=A1/B1*100", "Semua benar untuk menampilkan persen", "=PERCENT(A1,B1)"],
+                correct: 3
             }
         ];
 
-        let userAnswers = {};
+        let currentQuestion = 0;
+        let score = 0;
+        let answeredQuestions = 0;
+        let quizStarted = false;
 
-        async function onConfigChange(config) {
-            const app = document.getElementById('app');
-            const bgColor = config.background_color || defaultConfig.background_color;
-            const cardBg = config.card_background || defaultConfig.card_background;
-            const primaryColor = config.primary_color || defaultConfig.primary_color;
-            const textColor = config.text_color || defaultConfig.text_color;
-            const accentColor = config.accent_color || defaultConfig.accent_color;
-            const title = config.quiz_title || defaultConfig.quiz_title;
-            const subtitle = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+        function onConfigChange(config) {
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+            
+            document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+            document.body.style.color = config.text_color || defaultConfig.text_color;
+            document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.body.style.fontSize = `${baseFontSize}px`;
+            
+            renderQuiz();
+        }
 
-            document.body.style.backgroundColor = bgColor;
-
-            app.innerHTML = `
-                <div style="background-color: ${bgColor}; min-height: 100%; padding: 24px;">
-                    <div style="max-width: 900px; margin: 0 auto;">
-                        <!-- Header -->
-                        <div style="background-color: ${primaryColor}; color: white; padding: 32px; border-radius: 16px; margin-bottom: 32px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                            <h1 style="font-size: 32px; font-weight: bold; margin: 0 0 12px 0;">${title}</h1>
-                            <p style="font-size: 18px; margin: 0; opacity: 0.95;">${subtitle}</p>
-                            <div style="margin-top: 20px; padding: 16px; background-color: rgba(255,255,255,0.15); border-radius: 8px;">
-                                <p style="margin: 0; font-size: 16px;">📊 Total Soal: <strong>20</strong> | ⏱️ Tidak ada batas waktu | ✅ Jawaban langsung ditampilkan</p>
+        function renderQuiz() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const container = document.getElementById('quiz-container');
+            
+            if (!quizStarted) {
+                container.innerHTML = `
+                    <div class="flex items-center justify-center min-h-full p-6">
+                        <div class="w-full max-w-2xl fade-in" style="background-color: ${config.card_color || defaultConfig.card_color}; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 3rem;">
+                            <div class="text-center">
+                                <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 2}px; font-weight: 700; color: ${config.text_color || defaultConfig.text_color}; margin-bottom: 1rem;">
+                                    ${config.quiz_title || defaultConfig.quiz_title}
+                                </div>
+                                <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1.125}px; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.7; margin-bottom: 2rem;">
+                                    ${config.quiz_subtitle || defaultConfig.quiz_subtitle}
+                                </div>
+                                <div style="background: linear-gradient(135deg, ${config.secondary_button_color || defaultConfig.secondary_button_color}20 0%, ${config.primary_button_color || defaultConfig.primary_button_color}20 100%); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1.25}px; font-weight: 600; color: ${config.text_color || defaultConfig.text_color}; margin-bottom: 1rem;">
+                                        📊 Informasi Kuis
+                                    </div>
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1}px; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.8;">
+                                        ✅ 20 soal pilihan ganda<br>
+                                        ✅ Jawaban langsung ditampilkan<br>
+                                        ✅ Skor akhir di tampilan hasil
+                                    </div>
+                                </div>
+                                <button id="start-btn" style="background: linear-gradient(135deg, ${config.primary_button_color || defaultConfig.primary_button_color} 0%, ${config.secondary_button_color || defaultConfig.secondary_button_color} 100%); color: white; font-size: ${(config.font_size || defaultConfig.font_size) * 1.125}px; font-weight: 600; padding: 1rem 3rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); transition: transform 0.2s;">
+                                    ${config.start_button_text || defaultConfig.start_button_text} 🚀
+                                </button>
                             </div>
                         </div>
+                    </div>
+                `;
+                
+                const startBtn = document.getElementById('start-btn');
+                startBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                startBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+                startBtn.addEventListener('click', startQuiz);
+            } else if (currentQuestion < quizData.length) {
+                renderQuestion();
+            } else {
+                renderResults();
+            }
+        }
 
-                        <!-- Questions -->
-                        <div id="questions-container"></div>
+        function startQuiz() {
+            quizStarted = true;
+            currentQuestion = 0;
+            score = 0;
+            answeredQuestions = 0;
+            renderQuiz();
+        }
 
-                        <!-- Score Summary -->
-                        <div id="score-summary" style="background-color: ${cardBg}; padding: 24px; border-radius: 12px; margin-top: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: none;">
-                            <h2 style="color: ${primaryColor}; font-size: 24px; margin: 0 0 16px 0;">📈 Ringkasan Nilai</h2>
-                            <div id="score-content"></div>
+        function renderQuestion() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const container = document.getElementById('quiz-container');
+            const question = quizData[currentQuestion];
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            
+            container.innerHTML = `
+                <div class="flex items-center justify-center min-h-full p-6">
+                    <div class="w-full max-w-3xl fade-in">
+                        <div style="background-color: ${config.card_color || defaultConfig.card_color}; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 2.5rem; margin-bottom: 1.5rem;">
+                            <div style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: ${(config.font_size || defaultConfig.font_size) * 0.875}px; font-weight: 600; color: ${config.primary_button_color || defaultConfig.primary_button_color};">
+                                        Soal ${currentQuestion + 1} dari ${quizData.length}
+                                    </span>
+                                    <span style="font-size: ${(config.font_size || defaultConfig.font_size) * 0.875}px; font-weight: 600; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.6;">
+                                        ${Math.round(progress)}%
+                                    </span>
+                                </div>
+                                <div style="width: 100%; height: 8px; background-color: ${config.background_color || defaultConfig.background_color}; border-radius: 4px; overflow: hidden;">
+                                    <div class="progress-bar" style="width: ${progress}%; height: 100%; background: linear-gradient(90deg, ${config.primary_button_color || defaultConfig.primary_button_color} 0%, ${config.secondary_button_color || defaultConfig.secondary_button_color} 100%);"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1.25}px; font-weight: 600; color: ${config.text_color || defaultConfig.text_color}; margin-bottom: 2rem; line-height: 1.6;">
+                                ${question.question}
+                            </div>
+                            
+                            <div id="options-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                                ${question.options.map((option, index) => `
+                                    <button 
+                                        class="answer-option" 
+                                        data-index="${index}"
+                                        style="background-color: ${config.background_color || defaultConfig.background_color}; color: ${config.text_color || defaultConfig.text_color}; font-size: ${(config.font_size || defaultConfig.font_size) * 1}px; padding: 1.25rem; border-radius: 12px; border: 2px solid transparent; cursor: pointer; text-align: left; font-weight: 500; width: 100%;">
+                                        <span style="display: inline-block; width: 2rem; height: 2rem; background-color: ${config.card_color || defaultConfig.card_color}; border-radius: 50%; text-align: center; line-height: 2rem; margin-right: 1rem; font-weight: 600; color: ${config.primary_button_color || defaultConfig.primary_button_color};">
+                                            ${String.fromCharCode(65 + index)}
+                                        </span>
+                                        ${option}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            
+                            <div id="feedback-container" style="margin-top: 1.5rem; min-height: 60px;"></div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button id="next-btn" style="display: none; background: linear-gradient(135deg, ${config.primary_button_color || defaultConfig.primary_button_color} 0%, ${config.secondary_button_color || defaultConfig.secondary_button_color} 100%); color: white; font-size: ${(config.font_size || defaultConfig.font_size) * 1}px; font-weight: 600; padding: 1rem 2.5rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">
+                                ${currentQuestion < quizData.length - 1 ? (config.next_button_text || defaultConfig.next_button_text) : (config.finish_button_text || defaultConfig.finish_button_text)} →
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
-
-            const questionsContainer = document.getElementById('questions-container');
             
-            questions.forEach((q, index) => {
-                const questionDiv = document.createElement('div');
-                questionDiv.className = 'question-card fade-in';
-                questionDiv.style.cssText = `
-                    background-color: ${cardBg};
-                    padding: 24px;
-                    border-radius: 12px;
-                    margin-bottom: 24px;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                `;
-
-                let optionsHTML = '';
-                q.options.forEach((option, optIndex) => {
-                    optionsHTML += `
-                        <button 
-                            class="option-button"
-                            data-question="${q.id}"
-                            data-option="${optIndex}"
-                            style="
-                                width: 100%;
-                                text-align: left;
-                                padding: 16px;
-                                margin: 8px 0;
-                                border: 2px solid #e2e8f0;
-                                border-radius: 8px;
-                                background-color: white;
-                                color: ${textColor};
-                                font-size: 16px;
-                                cursor: pointer;
-                            ">
-                            <span style="font-weight: bold; color: ${accentColor};">${String.fromCharCode(65 + optIndex)}.</span> ${option}
-                        </button>
-                    `;
-                });
-
-                questionDiv.innerHTML = `
-                    <div style="display: flex; align-items: start; margin-bottom: 20px;">
-                        <div style="background-color: ${primaryColor}; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; flex-shrink: 0; margin-right: 16px;">
-                            ${index + 1}
-                        </div>
-                        <h3 style="color: ${textColor}; font-size: 18px; font-weight: 600; margin: 6px 0 0 0; line-height: 1.5;">
-                            ${q.question}
-                        </h3>
-                    </div>
-                    <div class="options-container">
-                        ${optionsHTML}
-                    </div>
-                    <div id="feedback-${q.id}" style="margin-top: 16px; padding: 16px; border-radius: 8px; display: none;"></div>
-                `;
-
-                questionsContainer.appendChild(questionDiv);
+            const options = container.querySelectorAll('.answer-option');
+            options.forEach(option => {
+                option.addEventListener('click', handleAnswer);
             });
-
-            // Add event listeners
-            document.querySelectorAll('.option-button').forEach(button => {
-                button.addEventListener('click', (e) => handleAnswer(e, primaryColor, accentColor, textColor));
-            });
-
-            updateScoreSummary(primaryColor, accentColor, cardBg);
+            
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.addEventListener('click', nextQuestion);
         }
 
-        function handleAnswer(e, primaryColor, accentColor, textColor) {
-            const button = e.currentTarget;
-            const questionId = parseInt(button.dataset.question);
-            const selectedOption = parseInt(button.dataset.option);
-            const question = questions.find(q => q.id === questionId);
-
-            // Prevent multiple answers
-            if (userAnswers[questionId] !== undefined) return;
-
-            userAnswers[questionId] = selectedOption;
-            const isCorrect = selectedOption === question.correct;
-
-            // Disable all options for this question
-            const allOptions = document.querySelectorAll(`[data-question="${questionId}"]`);
-            allOptions.forEach(opt => {
-                opt.disabled = true;
-                opt.classList.add('disabled-option');
-                const optIndex = parseInt(opt.dataset.option);
+        function handleAnswer(e) {
+            const config = window.elementSdk?.config || defaultConfig;
+            const selectedIndex = parseInt(e.currentTarget.dataset.index);
+            const question = quizData[currentQuestion];
+            const isCorrect = selectedIndex === question.correct;
+            
+            if (isCorrect) {
+                score++;
+            }
+            answeredQuestions++;
+            
+            const options = document.querySelectorAll('.answer-option');
+            options.forEach((option, index) => {
+                option.disabled = true;
+                option.style.cursor = 'not-allowed';
                 
-                if (optIndex === question.correct) {
-                    opt.classList.add('correct-answer');
-                } else if (optIndex === selectedOption && !isCorrect) {
-                    opt.classList.add('wrong-answer');
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && !isCorrect) {
+                    option.classList.add('incorrect');
+                } else {
+                    option.style.opacity = '0.5';
                 }
             });
-
-            // Show feedback
-            const feedback = document.getElementById(`feedback-${questionId}`);
-            feedback.style.display = 'block';
-            feedback.style.backgroundColor = isCorrect ? '#d1fae5' : '#fee2e2';
-            feedback.style.borderLeft = `4px solid ${isCorrect ? '#10b981' : '#ef4444'}`;
-            feedback.innerHTML = `
-                <div style="font-weight: bold; color: ${isCorrect ? '#065f46' : '#991b1b'}; margin-bottom: 8px; font-size: 16px;">
-                    ${isCorrect ? '✅ Benar!' : '❌ Kurang Tepat'}
-                </div>
-                <div style="color: ${textColor}; line-height: 1.6;">
-                    <strong>Penjelasan:</strong> ${question.explanation}
-                    ${!isCorrect ? `<br><strong>Jawaban yang benar:</strong> ${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}` : ''}
+            
+            const feedbackContainer = document.getElementById('feedback-container');
+            feedbackContainer.innerHTML = `
+                <div style="background-color: ${isCorrect ? '#10b98120' : '#ef444420'}; border-left: 4px solid ${isCorrect ? '#10b981' : '#ef4444'}; padding: 1rem; border-radius: 8px;">
+                    <div style="font-weight: 600; font-size: ${(config.font_size || defaultConfig.font_size) * 1.125}px; color: ${isCorrect ? '#059669' : '#dc2626'}; margin-bottom: 0.5rem;">
+                        ${isCorrect ? '✓ Benar!' : '✗ Salah'}
+                    </div>
+                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 0.875}px; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.8;">
+                        ${isCorrect ? 'Jawaban Anda tepat!' : `Jawaban yang benar: <strong>${question.options[question.correct]}</strong>`}
+                    </div>
                 </div>
             `;
-
-            updateScoreSummary(primaryColor, accentColor, '#ffffff');
+            
+            document.getElementById('next-btn').style.display = 'inline-block';
         }
 
-        function updateScoreSummary(primaryColor, accentColor, cardBg) {
-            const answeredCount = Object.keys(userAnswers).length;
-            if (answeredCount === 0) return;
+        function nextQuestion() {
+            currentQuestion++;
+            renderQuiz();
+        }
 
-            const correctCount = Object.entries(userAnswers).filter(([qId, answer]) => {
-                const question = questions.find(q => q.id === parseInt(qId));
-                return answer === question.correct;
-            }).length;
-
-            const percentage = Math.round((correctCount / answeredCount) * 100);
-
-            const scoreSummary = document.getElementById('score-summary');
-            const scoreContent = document.getElementById('score-content');
+        function renderResults() {
+            const config = window.elementSdk?.config || defaultConfig;
+            const container = document.getElementById('quiz-container');
+            const percentage = (score / quizData.length) * 100;
+            let grade = '';
+            let message = '';
             
-            scoreSummary.style.display = 'block';
-            scoreSummary.style.backgroundColor = cardBg;
-            
-            let resultMessage = '';
-            let resultColor = '';
-            
-            if (percentage >= 80) {
-                resultMessage = '🎉 Luar Biasa!';
-                resultColor = '#10b981';
+            if (percentage >= 90) {
+                grade = 'A';
+                message = 'Luar Biasa! 🌟';
+            } else if (percentage >= 80) {
+                grade = 'B';
+                message = 'Bagus Sekali! 👏';
+            } else if (percentage >= 70) {
+                grade = 'C';
+                message = 'Baik! 👍';
             } else if (percentage >= 60) {
-                resultMessage = '👍 Bagus!';
-                resultColor = '#3b82f6';
-            } else if (percentage >= 40) {
-                resultMessage = '📚 Terus Belajar!';
-                resultColor = '#f59e0b';
+                grade = 'D';
+                message = 'Cukup! 📚';
             } else {
-                resultMessage = '💪 Jangan Menyerah!';
-                resultColor = '#ef4444';
+                grade = 'E';
+                message = 'Perlu Belajar Lagi! 💪';
             }
-
-            scoreContent.innerHTML = `
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                    <div style="background-color: #f0f9ff; padding: 16px; border-radius: 8px; border-left: 4px solid ${primaryColor};">
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Soal Dijawab</div>
-                        <div style="font-size: 28px; font-weight: bold; color: ${primaryColor};">${answeredCount} / 20</div>
+            
+            container.innerHTML = `
+                <div class="flex items-center justify-center min-h-full p-6">
+                    <div class="w-full max-w-2xl fade-in">
+                        <div class="score-card" style="border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); padding: 3rem; margin-bottom: 2rem; text-align: center;">
+                            <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 3}px; font-weight: 700; color: white; margin-bottom: 1rem;">
+                                ${percentage.toFixed(0)}%
+                            </div>
+                            <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 2}px; font-weight: 600; color: white; margin-bottom: 0.5rem;">
+                                ${message}
+                            </div>
+                            <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1.25}px; color: white; opacity: 0.9;">
+                                Nilai: ${grade}
+                            </div>
+                        </div>
+                        
+                        <div style="background-color: ${config.card_color || defaultConfig.card_color}; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 2.5rem;">
+                            <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 1.5}px; font-weight: 700; color: ${config.text_color || defaultConfig.text_color}; margin-bottom: 2rem; text-align: center;">
+                                Hasil Detail
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                                <div style="background-color: ${config.background_color || defaultConfig.background_color}; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 2}px; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;">
+                                        ${score}
+                                    </div>
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 0.875}px; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.7;">
+                                        Jawaban Benar
+                                    </div>
+                                </div>
+                                
+                                <div style="background-color: ${config.background_color || defaultConfig.background_color}; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 2}px; font-weight: 700; color: #ef4444; margin-bottom: 0.5rem;">
+                                        ${quizData.length - score}
+                                    </div>
+                                    <div style="font-size: ${(config.font_size || defaultConfig.font_size) * 0.875}px; color: ${config.text_color || defaultConfig.text_color}; opacity: 0.7;">
+                                        Jawaban Salah
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <button id="restart-btn" style="background: linear-gradient(135deg, ${config.primary_button_color || defaultConfig.primary_button_color} 0%, ${config.secondary_button_color || defaultConfig.secondary_button_color} 100%); color: white; font-size: ${(config.font_size || defaultConfig.font_size) * 1.125}px; font-weight: 600; padding: 1rem 3rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);">
+                                    🔄 Coba Lagi
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div style="background-color: #f0fdf4; padding: 16px; border-radius: 8px; border-left: 4px solid #10b981;">
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Jawaban Benar</div>
-                        <div style="font-size: 28px; font-weight: bold; color: #10b981;">${correctCount}</div>
-                    </div>
-                    <div style="background-color: ${resultColor}15; padding: 16px; border-radius: 8px; border-left: 4px solid ${resultColor};">
-                        <div style="font-size: 14px; color: #64748b; margin-bottom: 4px;">Nilai</div>
-                        <div style="font-size: 28px; font-weight: bold; color: ${resultColor};">${percentage}%</div>
-                    </div>
-                </div>
-                <div style="margin-top: 16px; padding: 16px; background-color: ${resultColor}15; border-radius: 8px; text-align: center;">
-                    <div style="font-size: 24px; font-weight: bold; color: ${resultColor};">${resultMessage}</div>
                 </div>
             `;
+            
+            document.getElementById('restart-btn').addEventListener('click', () => {
+                quizStarted = false;
+                currentQuestion = 0;
+                score = 0;
+                answeredQuestions = 0;
+                renderQuiz();
+            });
         }
 
-        // Initialize SDK
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities: (config) => ({
-                    recolorables: [
-                        {
-                            get: () => config.background_color || defaultConfig.background_color,
+        async function init() {
+            if (window.elementSdk) {
+                await window.elementSdk.init({
+                    defaultConfig: defaultConfig,
+                    onConfigChange: onConfigChange,
+                    mapToCapabilities: (config) => ({
+                        recolorables: [
+                            {
+                                get: () => config.background_color || defaultConfig.background_color,
+                                set: (value) => {
+                                    config.background_color = value;
+                                    window.elementSdk.setConfig({ background_color: value });
+                                }
+                            },
+                            {
+                                get: () => config.card_color || defaultConfig.card_color,
+                                set: (value) => {
+                                    config.card_color = value;
+                                    window.elementSdk.setConfig({ card_color: value });
+                                }
+                            },
+                            {
+                                get: () => config.text_color || defaultConfig.text_color,
+                                set: (value) => {
+                                    config.text_color = value;
+                                    window.elementSdk.setConfig({ text_color: value });
+                                }
+                            },
+                            {
+                                get: () => config.primary_button_color || defaultConfig.primary_button_color,
+                                set: (value) => {
+                                    config.primary_button_color = value;
+                                    window.elementSdk.setConfig({ primary_button_color: value });
+                                }
+                            },
+                            {
+                                get: () => config.secondary_button_color || defaultConfig.secondary_button_color,
+                                set: (value) => {
+                                    config.secondary_button_color = value;
+                                    window.elementSdk.setConfig({ secondary_button_color: value });
+                                }
+                            }
+                        ],
+                        borderables: [],
+                        fontEditable: {
+                            get: () => config.font_family || defaultConfig.font_family,
                             set: (value) => {
-                                config.background_color = value;
-                                window.elementSdk.setConfig({ background_color: value });
+                                config.font_family = value;
+                                window.elementSdk.setConfig({ font_family: value });
                             }
                         },
-                        {
-                            get: () => config.card_background || defaultConfig.card_background,
+                        fontSizeable: {
+                            get: () => config.font_size || defaultConfig.font_size,
                             set: (value) => {
-                                config.card_background = value;
-                                window.elementSdk.setConfig({ card_background: value });
-                            }
-                        },
-                        {
-                            get: () => config.primary_color || defaultConfig.primary_color,
-                            set: (value) => {
-                                config.primary_color = value;
-                                window.elementSdk.setConfig({ primary_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.text_color || defaultConfig.text_color,
-                            set: (value) => {
-                                config.text_color = value;
-                                window.elementSdk.setConfig({ text_color: value });
-                            }
-                        },
-                        {
-                            get: () => config.accent_color || defaultConfig.accent_color,
-                            set: (value) => {
-                                config.accent_color = value;
-                                window.elementSdk.setConfig({ accent_color: value });
+                                config.font_size = value;
+                                window.elementSdk.setConfig({ font_size: value });
                             }
                         }
-                    ],
-                    borderables: [],
-                    fontEditable: undefined,
-                    fontSizeable: undefined
-                }),
-                mapToEditPanelValues: (config) => new Map([
-                    ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
-                    ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
-                ])
-            });
-
-            onConfigChange(window.elementSdk.config);
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                        ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
+                        ["start_button_text", config.start_button_text || defaultConfig.start_button_text],
+                        ["next_button_text", config.next_button_text || defaultConfig.next_button_text],
+                        ["finish_button_text", config.finish_button_text || defaultConfig.finish_button_text]
+                    ])
+                });
+            }
+            
+            onConfigChange(window.elementSdk?.config || defaultConfig);
         }
+
+        init();
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac16228a3327324',t:'MTc2NTQxODM3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac1891046d49de3',t:'MTc2NTQxOTk2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
