@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Excel</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .option-btn:hover:not(:disabled) {
+            transform: translateX(5px);
+        }
+        
+        .correct-answer {
+            background-color: #10b981 !important;
+            color: white !important;
+            border-color: #059669 !important;
+        }
+        
+        .wrong-answer {
+            background-color: #ef4444 !important;
+            color: white !important;
+            border-color: #dc2626 !important;
+        }
+        
+        .disabled-option {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto">
+   <div class="min-h-full py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto"><!-- Header -->
+     <div class="text-center mb-8">
+      <h1 id="quiz-title" class="text-4xl font-bold mb-2">Kuis Rumus Excel</h1>
+      <p id="quiz-subtitle" class="text-xl">Uji Pengetahuan Anda tentang Rumus Excel</p>
+     </div><!-- Progress Bar -->
+     <div class="mb-8">
+      <div class="flex justify-between mb-2"><span id="progress-text" class="text-sm font-semibold">Soal 1 dari 20</span> <span id="score-text" class="text-sm font-semibold">Skor: 0/0</span>
+      </div>
+      <div class="w-full h-3 rounded-full overflow-hidden">
+       <div id="progress-bar" class="h-full transition-all duration-300" style="width: 5%"></div>
+      </div>
+     </div><!-- Question Card -->
+     <div id="question-card" class="rounded-2xl shadow-xl p-8 mb-6">
+      <div class="mb-6">
+       <h2 id="question-text" class="text-2xl font-bold mb-4"></h2>
+      </div>
+      <div id="options-container" class="space-y-3"><!-- Options will be inserted here -->
+      </div>
+      <div id="feedback" class="mt-6 p-4 rounded-lg hidden">
+       <p id="feedback-text" class="font-semibold mb-2"></p>
+       <p id="explanation-text" class="text-sm"></p>
+      </div>
+     </div><!-- Navigation -->
+     <div class="flex justify-between items-center"><button id="prev-btn" class="px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> ← Sebelumnya </button> <button id="next-btn" class="px-6 py-3 rounded-lg font-semibold transition-all hidden"> Selanjutnya → </button> <button id="finish-btn" class="px-6 py-3 rounded-lg font-semibold transition-all hidden"> Lihat Hasil </button>
+     </div><!-- Results Screen -->
+     <div id="results-screen" class="hidden rounded-2xl shadow-xl p-8 text-center">
+      <h2 class="text-3xl font-bold mb-4">Kuis Selesai! 🎉</h2>
+      <div id="final-score" class="text-6xl font-bold mb-6"></div>
+      <p id="final-message" class="text-xl mb-8"></p><button id="restart-btn" class="px-8 py-4 rounded-lg font-semibold text-lg transition-all"> Ulangi Kuis </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            background_color: "#f0f9ff",
+            card_color: "#ffffff",
+            primary_color: "#3b82f6",
+            text_color: "#1e293b",
+            accent_color: "#8b5cf6",
+            quiz_title: "Kuis Rumus Excel",
+            quiz_subtitle: "Uji Pengetahuan Anda tentang Rumus Excel",
+            font_family: "system-ui",
+            font_size: 16
+        };
+
+        const questions = [
+            {
+                question: "Rumus apa yang digunakan untuk penjumlahan di Excel?",
+                options: ["=ADD()", "=SUM()", "=PLUS()", "=TOTAL()", "=JUMLAH()"],
+                correct: 1,
+                explanation: "Rumus =SUM() digunakan untuk menjumlahkan data di Excel. Contoh: =SUM(A1:A10)"
+            },
+            {
+                question: "Bagaimana cara melakukan pengurangan di Excel?",
+                options: ["=SUBTRACT(A1,B1)", "=MINUS(A1,B1)", "=A1-B1", "=KURANG(A1,B1)", "=A1 MINUS B1"],
+                correct: 2,
+                explanation: "Pengurangan di Excel menggunakan operator minus (-). Contoh: =A1-B1"
+            },
+            {
+                question: "Rumus perkalian di Excel menggunakan operator apa?",
+                options: ["=A1 x B1", "=A1*B1", "=MULTIPLY(A1,B1)", "=A1.B1", "=KALI(A1,B1)"],
+                correct: 1,
+                explanation: "Perkalian di Excel menggunakan operator asterisk (*). Contoh: =A1*B1"
+            },
+            {
+                question: "Bagaimana cara membagi di Excel?",
+                options: ["=A1:B1", "=DIVIDE(A1,B1)", "=A1\\B1", "=A1/B1", "=BAGI(A1,B1)"],
+                correct: 3,
+                explanation: "Pembagian di Excel menggunakan operator slash (/). Contoh: =A1/B1"
+            },
+            {
+                question: "Rumus untuk menjumlahkan data dari A1 sampai A10 adalah?",
+                options: ["=SUM(A1+A10)", "=TOTAL(A1:A10)", "=SUM(A1:A10)", "=ADD(A1-A10)", "=JUMLAH(A1,A10)"],
+                correct: 2,
+                explanation: "Gunakan =SUM(A1:A10) untuk menjumlahkan range sel dari A1 hingga A10"
+            },
+            {
+                question: "Bagaimana cara menjumlahkan data antar kolom (A1 dan B1)?",
+                options: ["=SUM(A1:B1)", "=A1+B1", "=ADD(A1,B1)", "=TOTAL(A1,B1)", "Semua benar"],
+                correct: 4,
+                explanation: "Untuk menjumlahkan antar kolom, bisa menggunakan =A1+B1 atau =SUM(A1:B1)"
+            },
+            {
+                question: "Rumus untuk menjumlahkan data antar sheet (Sheet1 dan Sheet2)?",
+                options: ["=Sheet1!A1+Sheet2!A1", "=SUM(Sheet1:Sheet2!A1)", "=Sheet1.A1+Sheet2.A1", "=A1[Sheet1]+A1[Sheet2]", "=SUMSHEET(A1)"],
+                correct: 0,
+                explanation: "Gunakan =Sheet1!A1+Sheet2!A1 untuk menjumlahkan sel yang sama di sheet berbeda"
+            },
+            {
+                question: "Rumus apa yang digunakan untuk menjumlahkan data dengan satu kriteria?",
+                options: ["=SUMCRITERIA()", "=SUMIF()", "=SUMONE()", "=COUNTIF()", "=SUMWITH()"],
+                correct: 1,
+                explanation: "=SUMIF() digunakan untuk menjumlahkan data dengan satu kriteria. Contoh: =SUMIF(A1:A10,\">100\",B1:B10)"
+            },
+            {
+                question: "Rumus untuk menghitung jumlah data dengan banyak kriteria adalah?",
+                options: ["=SUMIF()", "=COUNTIFS()", "=SUMCRITERIA()", "=COUNTMANY()", "=COUNTALL()"],
+                correct: 1,
+                explanation: "=COUNTIFS() digunakan untuk menghitung jumlah data dengan banyak kriteria. Contoh: =COUNTIFS(A1:A10,\">100\",B1:B10,\"Lulus\")"
+            },
+            {
+                question: "Rumus apa yang digunakan untuk membulatkan angka di Excel?",
+                options: ["=BULAT()", "=ROUNDED()", "=ROUND()", "=CIRCLE()", "=PEMBULATAN()"],
+                correct: 2,
+                explanation: "=ROUND() digunakan untuk membulatkan angka. Contoh: =ROUND(3.456,2) menghasilkan 3.46"
+            },
+            {
+                question: "Bagaimana cara menghilangkan angka di belakang koma?",
+                options: ["=ROUND(A1,0)", "=INT(A1)", "=TRUNC(A1)", "Semua benar", "A dan B benar"],
+                correct: 3,
+                explanation: "Bisa menggunakan =ROUND(A1,0), =INT(A1), atau =TRUNC(A1) untuk menghilangkan angka di belakang koma"
+            },
+            {
+                question: "Rumus untuk membulatkan ke atas adalah?",
+                options: ["=ROUNDUP()", "=CEILING()", "=UP()", "A dan B benar", "Semua benar"],
+                correct: 3,
+                explanation: "Bisa menggunakan =ROUNDUP() atau =CEILING() untuk membulatkan angka ke atas"
+            },
+            {
+                question: "Rumus untuk membulatkan angka ke kelipatan tertentu (misal kelipatan 5)?",
+                options: ["=ROUND(A1/5,0)*5", "=MROUND(A1,5)", "=ROUNDMULTIPLE(A1,5)", "=KELIPATAN(A1,5)", "A dan B benar"],
+                correct: 4,
+                explanation: "Gunakan =MROUND(A1,5) atau =ROUND(A1/5,0)*5 untuk membulatkan ke kelipatan tertentu"
+            },
+            {
+                question: "Rumus untuk membuat angka acak (random) adalah?",
+                options: ["=RANDOM()", "=RAND()", "=ACAK()", "=RND()", "=RANDBETWEEN()"],
+                correct: 1,
+                explanation: "=RAND() menghasilkan angka acak antara 0 dan 1. =RANDBETWEEN() untuk angka acak dalam range tertentu"
+            },
+            {
+                question: "Rumus untuk membuat angka random antara 1-100 adalah?",
+                options: ["=RAND(1,100)", "=RANDOM(1:100)", "=RANDBETWEEN(1,100)", "=RND(1-100)", "=ACAK(1,100)"],
+                correct: 2,
+                explanation: "Gunakan =RANDBETWEEN(1,100) untuk menghasilkan angka acak antara 1 hingga 100"
+            },
+            {
+                question: "Bagaimana cara membuat angka random yang tidak kembar?",
+                options: ["=RANDUNIQUE()", "=RAND() lalu Remove Duplicates", "=RANDBETWEEN() + UNIQUE()", "Gunakan RAND() dengan Sort", "Semua bisa digunakan"],
+                correct: 4,
+                explanation: "Bisa menggunakan kombinasi RAND() dengan Sort dan Remove Duplicates, atau fungsi RANDARRAY() di Excel versi baru"
+            },
+            {
+                question: "Rumus untuk membuat pola 1,1,1,2,2,2,3,3,3 adalah?",
+                options: ["=QUOTIENT(ROW()-1,3)+1", "=INT((ROW()-1)/3)+1", "=ROUNDUP(ROW()/3,0)", "A dan B benar", "Semua benar"],
+                correct: 4,
+                explanation: "Bisa menggunakan =INT((ROW()-1)/3)+1 atau =QUOTIENT(ROW()-1,3)+1 atau =ROUNDUP(ROW()/3,0)"
+            },
+            {
+                question: "Rumus untuk membuat pola 1,2,3,1,2,3,1,2,3 adalah?",
+                options: ["=MOD(ROW()-1,3)+1", "=REMAINDER(ROW(),3)", "=SISA(ROW(),3)+1", "=REPEAT(1:3)", "=CYCLE(1,2,3)"],
+                correct: 0,
+                explanation: "Gunakan =MOD(ROW()-1,3)+1 untuk membuat pola berulang 1,2,3"
+            },
+            {
+                question: "Rumus untuk menghitung sisa pembagian adalah?",
+                options: ["=REMAINDER()", "=MOD()", "=SISA()", "=DIVISION()", "A dan B benar"],
+                correct: 4,
+                explanation: "Gunakan =MOD(angka,pembagi) atau =REMAINDER() untuk menghitung sisa pembagian. Contoh: =MOD(10,3) = 1"
+            },
+            {
+                question: "Bagaimana cara menghitung persen di Excel (misal 20% dari 100)?",
+                options: ["=100*20%", "=100*0.2", "=100*20/100", "Semua benar", "A dan B benar"],
+                correct: 3,
+                explanation: "Semua rumus benar: =100*20%, =100*0.2, atau =100*20/100 menghasilkan 20"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = 0;
+        let selectedAnswer = null;
+
+        function updateUI() {
+            const config = window.elementSdk.config;
+            
+            // Update colors
+            document.getElementById('app').style.backgroundColor = config.background_color || defaultConfig.background_color;
+            document.getElementById('question-card').style.backgroundColor = config.card_color || defaultConfig.card_color;
+            document.getElementById('results-screen').style.backgroundColor = config.card_color || defaultConfig.card_color;
+            
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.backgroundColor = config.primary_color || defaultConfig.primary_color;
+            
+            // Update text colors
+            const textElements = document.querySelectorAll('#quiz-title, #quiz-subtitle, #question-text, #progress-text, #score-text, #feedback-text, #explanation-text, h2, p');
+            textElements.forEach(el => {
+                el.style.color = config.text_color || defaultConfig.text_color;
+            });
+            
+            // Update button colors
+            const buttons = document.querySelectorAll('#prev-btn, #next-btn, #finish-btn, #restart-btn');
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = config.primary_color || defaultConfig.primary_color;
+                btn.style.color = '#ffffff';
+            });
+            
+            // Update font
+            const baseFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+            document.body.style.fontFamily = `${baseFont}, ${baseFontStack}`;
+            
+            // Update font sizes
+            const baseSize = config.font_size || defaultConfig.font_size;
+            document.getElementById('quiz-title').style.fontSize = `${baseSize * 2.5}px`;
+            document.getElementById('quiz-subtitle').style.fontSize = `${baseSize * 1.25}px`;
+            document.getElementById('question-text').style.fontSize = `${baseSize * 1.5}px`;
+            document.getElementById('progress-text').style.fontSize = `${baseSize * 0.875}px`;
+            document.getElementById('score-text').style.fontSize = `${baseSize * 0.875}px`;
+            
+            // Update editable text
+            document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
+            document.getElementById('quiz-subtitle').textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+        }
+
+        function renderQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn w-full text-left p-4 rounded-lg border-2 font-semibold';
+                button.style.backgroundColor = window.elementSdk.config.card_color || defaultConfig.card_color;
+                button.style.borderColor = window.elementSdk.config.accent_color || defaultConfig.accent_color;
+                button.style.color = window.elementSdk.config.text_color || defaultConfig.text_color;
+                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+            
+            document.getElementById('progress-text').textContent = `Soal ${currentQuestion + 1} dari ${questions.length}`;
+            document.getElementById('score-text').textContent = `Skor: ${score}/${answered}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('finish-btn').classList.add('hidden');
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+        }
+
+        function selectAnswer(index) {
+            if (selectedAnswer !== null) return;
+            
+            selectedAnswer = index;
+            const question = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            buttons.forEach((btn, i) => {
+                btn.disabled = true;
+                btn.classList.add('disabled-option');
+                
+                if (i === question.correct) {
+                    btn.classList.add('correct-answer');
+                }
+                
+                if (i === index && i !== question.correct) {
+                    btn.classList.add('wrong-answer');
+                }
+            });
+            
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('hidden');
+            feedback.classList.add('fade-in');
+            
+            if (index === question.correct) {
+                score++;
+                feedback.style.backgroundColor = '#d1fae5';
+                feedback.style.borderLeft = '4px solid #10b981';
+                document.getElementById('feedback-text').textContent = '✅ Benar!';
+                document.getElementById('feedback-text').style.color = '#065f46';
+            } else {
+                feedback.style.backgroundColor = '#fee2e2';
+                feedback.style.borderLeft = '4px solid #ef4444';
+                document.getElementById('feedback-text').textContent = '❌ Salah!';
+                document.getElementById('feedback-text').style.color = '#991b1b';
+            }
+            
+            document.getElementById('explanation-text').textContent = question.explanation;
+            document.getElementById('explanation-text').style.color = window.elementSdk.config.text_color || defaultConfig.text_color;
+            answered++;
+            
+            document.getElementById('score-text').textContent = `Skor: ${score}/${answered}`;
+            
+            if (currentQuestion < questions.length - 1) {
+                document.getElementById('next-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('finish-btn').classList.remove('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                selectedAnswer = null;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                selectedAnswer = null;
+                renderQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('question-card').classList.add('hidden');
+            document.querySelector('.flex.justify-between').classList.add('hidden');
+            document.querySelector('.mb-8').classList.add('hidden');
+            
+            const resultsScreen = document.getElementById('results-screen');
+            resultsScreen.classList.remove('hidden');
+            resultsScreen.classList.add('fade-in');
+            
+            const percentage = (score / questions.length * 100).toFixed(0);
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+            document.getElementById('final-score').style.color = window.elementSdk.config.primary_color || defaultConfig.primary_color;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = 'Luar biasa! Anda menguasai rumus Excel! 🏆';
+            } else if (percentage >= 75) {
+                message = 'Bagus sekali! Pengetahuan Excel Anda sangat baik! 🌟';
+            } else if (percentage >= 60) {
+                message = 'Cukup baik! Terus belajar untuk lebih mahir! 📚';
+            } else {
+                message = 'Semangat! Terus berlatih dan belajar! 💪';
+            }
+            
+            document.getElementById('final-message').textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answered = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('question-card').classList.remove('hidden');
+            document.querySelector('.flex.justify-between').classList.remove('hidden');
+            document.querySelector('.mb-8').classList.remove('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+            
+            renderQuestion();
+        }
+
+        document.getElementById('next-btn').onclick = nextQuestion;
+        document.getElementById('prev-btn').onclick = prevQuestion;
+        document.getElementById('finish-btn').onclick = showResults;
+        document.getElementById('restart-btn').onclick = restartQuiz;
+
+        const element = {
+            defaultConfig: defaultConfig,
+            onConfigChange: async (config) => {
+                updateUI();
+            },
+            mapToCapabilities: (config) => ({
+                recolorables: [
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            window.elementSdk.setConfig({ background_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.card_color || defaultConfig.card_color,
+                        set: (value) => {
+                            config.card_color = value;
+                            window.elementSdk.setConfig({ card_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            window.elementSdk.setConfig({ text_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.primary_color || defaultConfig.primary_color,
+                        set: (value) => {
+                            config.primary_color = value;
+                            window.elementSdk.setConfig({ primary_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            config.accent_color = value;
+                            window.elementSdk.setConfig({ accent_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        window.elementSdk.setConfig({ font_family: value });
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        window.elementSdk.setConfig({ font_size: value });
+                    }
+                }
+            }),
+            mapToEditPanelValues: (config) => new Map([
+                ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+                ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle]
+            ])
+        };
+
+        window.elementSdk.init(element);
+        renderQuestion();
+        updateUI();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac1520e90c47324',t:'MTc2NTQxNzcxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
