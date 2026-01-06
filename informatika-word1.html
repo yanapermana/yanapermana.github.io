@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Microsoft Word</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+    
+    * {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    
+    .option-btn {
+      transition: all 0.3s ease;
+    }
+    
+    .option-btn:hover:not(.correct):not(.incorrect):not(:disabled) {
+      transform: translateX(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .correct {
+      animation: correctPulse 0.5s ease;
+    }
+    
+    .incorrect {
+      animation: shake 0.5s ease;
+    }
+    
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    
+    .score-badge {
+      animation: fadeInScale 0.6s ease;
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+   <div class="min-h-full py-8 px-4">
+    <div class="max-w-3xl mx-auto"><!-- Header -->
+     <div class="text-center mb-8">
+      <h1 id="quiz-title" class="text-4xl md:text-5xl font-bold text-white mb-3">Kuis Microsoft Word</h1>
+      <p id="quiz-subtitle" class="text-lg md:text-xl text-white/90">Uji pengetahuan Anda tentang Microsoft Word</p>
+     </div><!-- Score Display -->
+     <div id="score-display" class="bg-white/20 backdrop-blur-md rounded-2xl p-6 mb-6 text-center">
+      <div class="flex justify-between items-center text-white">
+       <div>
+        <p class="text-sm font-semibold opacity-90">Soal</p>
+        <p id="current-question" class="text-2xl font-bold">1/20</p>
+       </div>
+       <div>
+        <p class="text-sm font-semibold opacity-90">Skor</p>
+        <p id="score" class="text-2xl font-bold">0</p>
+       </div>
+       <div>
+        <p class="text-sm font-semibold opacity-90">Benar</p>
+        <p id="correct-count" class="text-2xl font-bold text-green-300">0</p>
+       </div>
+      </div>
+     </div><!-- Quiz Container -->
+     <div id="quiz-container" class="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
+      <div id="question-container"></div><!-- Navigation Buttons -->
+      <div class="flex gap-4 mt-8"><button id="prev-btn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> ← Sebelumnya </button> <button id="next-btn" class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> Selanjutnya → </button>
+      </div>
+     </div><!-- Results -->
+     <div id="results" class="hidden bg-white rounded-3xl shadow-2xl p-8 mt-6 text-center">
+      <div class="score-badge mb-6">
+       <div class="inline-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full w-32 h-32 flex items-center justify-center mb-4">
+        <div>
+         <p class="text-5xl font-bold" id="final-score">0</p>
+         <p class="text-sm">dari 20</p>
+        </div>
+       </div>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Kuis Selesai! 🎉</h2>
+      <p class="text-xl text-gray-600 mb-2">Jawaban Benar: <span id="final-correct" class="font-bold text-green-600">0</span></p>
+      <p class="text-xl text-gray-600 mb-6">Jawaban Salah: <span id="final-incorrect" class="font-bold text-red-600">0</span></p><button id="restart-btn" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-xl transition-all"> Ulangi Kuis </button>
+     </div><!-- Footer -->
+     <div class="text-center mt-8">
+      <p id="footer-text" class="text-white/80 text-sm">© 2024 Kuis Microsoft Word. Semua hak dilindungi.</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      quiz_title: "Kuis Microsoft Word",
+      quiz_subtitle: "Uji pengetahuan Anda tentang Microsoft Word",
+      footer_text: "© 2024 Kuis Microsoft Word. Semua hak dilindungi.",
+      background_color: "#667eea",
+      card_color: "#ffffff",
+      text_color: "#1f2937",
+      primary_button_color: "#7c3aed",
+      secondary_button_color: "#e5e7eb",
+      font_family: "Plus Jakarta Sans",
+      font_size: 16
+    };
+
+    const quizData = [
+      {
+        question: "Apa ekstensi file default untuk dokumen Microsoft Word yang dibuat di Word 2007 atau versi lebih baru?",
+        options: [".doc", ".docx", ".txt", ".pdf", ".rtf"],
+        correct: 1
+      },
+      {
+        question: "Shortcut keyboard untuk menyimpan dokumen adalah?",
+        options: ["Ctrl + P", "Ctrl + S", "Ctrl + O", "Ctrl + N", "Ctrl + W"],
+        correct: 1
+      },
+      {
+        question: "Fitur yang digunakan untuk memeriksa ejaan dan tata bahasa adalah?",
+        options: ["Thesaurus", "Spelling & Grammar", "Find & Replace", "Word Count", "Track Changes"],
+        correct: 1
+      },
+      {
+        question: "Tab menu yang berisi perintah untuk mengatur margin halaman adalah?",
+        options: ["Home", "Insert", "Layout", "References", "View"],
+        correct: 2
+      },
+      {
+        question: "Shortcut untuk membuat teks menjadi Bold (tebal) adalah?",
+        options: ["Ctrl + I", "Ctrl + U", "Ctrl + B", "Ctrl + E", "Ctrl + L"],
+        correct: 2
+      },
+      {
+        question: "Fitur yang memungkinkan Anda melihat perubahan yang dibuat pada dokumen adalah?",
+        options: ["Compare", "Protect Document", "Track Changes", "Comments", "Restrict Editing"],
+        correct: 2
+      },
+      {
+        question: "Untuk membuat daftar bernomor otomatis, kita menggunakan fitur?",
+        options: ["Bullets", "Numbering", "Multilevel List", "Sort", "Outline"],
+        correct: 1
+      },
+      {
+        question: "Mail Merge digunakan untuk?",
+        options: ["Menggabungkan dokumen", "Membuat surat massal", "Mengedit gambar", "Membuat tabel", "Mengatur header"],
+        correct: 1
+      },
+      {
+        question: "Shortcut untuk membuka dokumen yang sudah ada adalah?",
+        options: ["Ctrl + N", "Ctrl + S", "Ctrl + O", "Ctrl + P", "Ctrl + W"],
+        correct: 2
+      },
+      {
+        question: "Fitur untuk menambahkan catatan kaki (footnote) berada di tab?",
+        options: ["Home", "Insert", "References", "Review", "View"],
+        correct: 2
+      },
+      {
+        question: "Untuk membuat teks menjadi rata kanan, shortcut yang digunakan adalah?",
+        options: ["Ctrl + L", "Ctrl + E", "Ctrl + R", "Ctrl + J", "Ctrl + M"],
+        correct: 2
+      },
+      {
+        question: "Fitur yang digunakan untuk membuat daftar isi otomatis adalah?",
+        options: ["Index", "Table of Contents", "Bibliography", "Caption", "Cross-reference"],
+        correct: 1
+      },
+      {
+        question: "Shortcut untuk mencetak dokumen adalah?",
+        options: ["Ctrl + S", "Ctrl + P", "Ctrl + O", "Ctrl + N", "Ctrl + W"],
+        correct: 1
+      },
+      {
+        question: "Orientasi halaman yang membuat dokumen lebih lebar dari tingginya disebut?",
+        options: ["Portrait", "Landscape", "Narrow", "Wide", "Custom"],
+        correct: 1
+      },
+      {
+        question: "Untuk membatalkan perintah terakhir, shortcut yang digunakan adalah?",
+        options: ["Ctrl + Y", "Ctrl + Z", "Ctrl + X", "Ctrl + C", "Ctrl + V"],
+        correct: 1
+      },
+      {
+        question: "Fitur untuk menambahkan watermark pada dokumen berada di tab?",
+        options: ["Home", "Insert", "Design", "Layout", "View"],
+        correct: 2
+      },
+      {
+        question: "Shortcut untuk membuat dokumen baru adalah?",
+        options: ["Ctrl + O", "Ctrl + S", "Ctrl + N", "Ctrl + P", "Ctrl + W"],
+        correct: 2
+      },
+      {
+        question: "Tab yang berisi perintah untuk menyisipkan gambar, tabel, dan chart adalah?",
+        options: ["Home", "Insert", "Design", "Layout", "References"],
+        correct: 1
+      },
+      {
+        question: "Fitur yang memungkinkan Anda bekerja sama dengan orang lain secara real-time adalah?",
+        options: ["Track Changes", "Comments", "Compare", "Share & Co-author", "Protect Document"],
+        correct: 3
+      },
+      {
+        question: "Untuk membuat teks miring (italic), shortcut yang digunakan adalah?",
+        options: ["Ctrl + B", "Ctrl + I", "Ctrl + U", "Ctrl + E", "Ctrl + L"],
+        correct: 1
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let correctCount = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      const questionData = quizData[currentQuestion];
+      const container = document.getElementById('question-container');
+      
+      container.innerHTML = `
+        <div class="mb-6">
+          <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">${currentQuestion + 1}. ${questionData.question}</h2>
+          <div class="space-y-3">
+            ${questionData.options.map((option, index) => `
+              <button class="option-btn w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-purple-400 transition-all font-semibold text-gray-700" data-index="${index}">
+                <span class="inline-block w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full text-center leading-8 mr-3">${String.fromCharCode(65 + index)}</span>
+                ${option}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+        <div id="feedback" class="hidden mt-6 p-4 rounded-xl"></div>
+      `;
+
+      const optionButtons = container.querySelectorAll('.option-btn');
+      optionButtons.forEach(btn => {
+        btn.addEventListener('click', () => handleAnswer(parseInt(btn.dataset.index)));
+      });
+
+      document.getElementById('current-question').textContent = `${currentQuestion + 1}/20`;
+      document.getElementById('prev-btn').disabled = currentQuestion === 0;
+      answered = false;
+      document.getElementById('next-btn').disabled = true;
+    }
+
+    function handleAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const questionData = quizData[currentQuestion];
+      const optionButtons = document.querySelectorAll('.option-btn');
+      const feedback = document.getElementById('feedback');
+      
+      optionButtons.forEach((btn, index) => {
+        btn.disabled = true;
+        if (index === questionData.correct) {
+          btn.classList.add('correct');
+          btn.style.backgroundColor = '#10b981';
+          btn.style.borderColor = '#10b981';
+          btn.style.color = 'white';
+        }
+        if (index === selectedIndex && index !== questionData.correct) {
+          btn.classList.add('incorrect');
+          btn.style.backgroundColor = '#ef4444';
+          btn.style.borderColor = '#ef4444';
+          btn.style.color = 'white';
+        }
+      });
+
+      if (selectedIndex === questionData.correct) {
+        score += 5;
+        correctCount++;
+        feedback.className = 'mt-6 p-4 rounded-xl bg-green-100 border-2 border-green-400';
+        feedback.innerHTML = '<p class="text-green-800 font-semibold">✓ Benar! Jawaban Anda tepat.</p>';
+      } else {
+        feedback.className = 'mt-6 p-4 rounded-xl bg-red-100 border-2 border-red-400';
+        feedback.innerHTML = `<p class="text-red-800 font-semibold">✗ Salah! Jawaban yang benar adalah: <strong>${questionData.options[questionData.correct]}</strong></p>`;
+      }
+      
+      feedback.classList.remove('hidden');
+      document.getElementById('score').textContent = score;
+      document.getElementById('correct-count').textContent = correctCount;
+      document.getElementById('next-btn').disabled = false;
+    }
+
+    function showResults() {
+      document.getElementById('quiz-container').classList.add('hidden');
+      document.getElementById('score-display').classList.add('hidden');
+      document.getElementById('results').classList.remove('hidden');
+      
+      document.getElementById('final-score').textContent = score;
+      document.getElementById('final-correct').textContent = correctCount;
+      document.getElementById('final-incorrect').textContent = 20 - correctCount;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      correctCount = 0;
+      answered = false;
+      
+      document.getElementById('quiz-container').classList.remove('hidden');
+      document.getElementById('score-display').classList.remove('hidden');
+      document.getElementById('results').classList.add('hidden');
+      document.getElementById('score').textContent = '0';
+      document.getElementById('correct-count').textContent = '0';
+      
+      renderQuestion();
+    }
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    });
+
+    document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+
+    async function onConfigChange(config) {
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+      document.getElementById('quiz-title').textContent = config.quiz_title || defaultConfig.quiz_title;
+      document.getElementById('quiz-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('quiz-title').style.fontSize = `${baseSize * 2}px`;
+
+      document.getElementById('quiz-subtitle').textContent = config.quiz_subtitle || defaultConfig.quiz_subtitle;
+      document.getElementById('quiz-subtitle').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('quiz-subtitle').style.fontSize = `${baseSize * 1.25}px`;
+
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+      document.getElementById('footer-text').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('footer-text').style.fontSize = `${baseSize * 0.875}px`;
+
+      const app = document.getElementById('app');
+      app.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #764ba2 100%)`;
+
+      document.body.style.fontSize = `${baseSize}px`;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                config.card_color = value;
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_button_color || defaultConfig.primary_button_color,
+              set: (value) => {
+                config.primary_button_color = value;
+                window.elementSdk.setConfig({ primary_button_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_button_color || defaultConfig.secondary_button_color,
+              set: (value) => {
+                config.secondary_button_color = value;
+                window.elementSdk.setConfig({ secondary_button_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["quiz_title", config.quiz_title || defaultConfig.quiz_title],
+          ["quiz_subtitle", config.quiz_subtitle || defaultConfig.quiz_subtitle],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+
+    renderQuestion();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b990efc62b21c0e',t:'MTc2NzY3OTg5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
