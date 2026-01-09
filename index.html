@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Link Directory</title>
+  <title>Yana Permana</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
@@ -74,6 +74,7 @@
             link_2_title: "Microsoft Excel",
             link_3_title: "Cyber Security",
             link_4_title: "Coding",
+            link_5_title: "TKJ",
             footer_text: "© 2025 Link Directory. Semua hak dilindungi.",
             primary_color: "#667eea",
             secondary_color: "#764ba2",
@@ -108,6 +109,13 @@
                 id: 'link-4',
                 title: 'Coding',
                 url: 'coding',
+                icon: 'M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14',
+                keywords: ['empty']
+            },
+            {
+                id: 'link-5',
+                title: 'TKJ',
+                url: 'tkj',
                 icon: 'M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14',
                 keywords: ['empty']
             }
@@ -146,12 +154,14 @@
             linksData[1].title = config.link_2_title || defaultConfig.link_2_title;
             linksData[2].title = config.link_3_title || defaultConfig.link_3_title;
             linksData[3].title = config.link_4_title || defaultConfig.link_4_title;
+            linksData[4].title = config.link_5_title || defaultConfig.link_5_title;
 
             // Update keywords based on titles
             linksData[0].keywords = ['website', 'utama', 'home', 'beranda', config.link_1_title?.toLowerCase() || ''];
             linksData[1].keywords = ['email', 'kontak', 'contact', 'mail', 'surat', config.link_2_title?.toLowerCase() || ''];
             linksData[2].keywords = ['media', 'sosial', 'social', 'facebook', 'instagram', 'twitter', config.link_3_title?.toLowerCase() || ''];
             linksData[3].keywords = ['dokumentasi', 'docs', 'panduan', 'guide', 'manual', 'help', config.link_4_title?.toLowerCase() || ''];
+            linksData[4].keywords = ['dokumentasi', 'docs', 'panduan', 'guide', 'manual', 'help', config.link_5_title?.toLowerCase() || ''];
 
             filteredLinks = [...linksData];
         }
@@ -299,6 +309,7 @@
                 ["link_2_title", config.link_2_title || defaultConfig.link_2_title],
                 ["link_3_title", config.link_3_title || defaultConfig.link_3_title],
                 ["link_4_title", config.link_4_title || defaultConfig.link_4_title],
+                ["link_5_title", config.link_5_title || defaultConfig.link_5_title],
                 ["footer_text", config.footer_text || defaultConfig.footer_text]
             ]);
         }
