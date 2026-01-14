@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Keamanan Jaringan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .quiz-option {
+      transition: all 0.3s ease;
+    }
+    .quiz-option:hover:not(.answered) {
+      transform: translateX(8px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .correct-answer {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: white !important;
+      border-color: #059669 !important;
+    }
+    .wrong-answer {
+      background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      color: white !important;
+      border-color: #dc2626 !important;
+    }
+    .progress-bar {
+      transition: width 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    .pulse {
+      animation: pulse 0.5s ease;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+    }
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full gradient-bg overflow-auto"><!-- Start Screen -->
+   <div id="start-screen" class="min-h-full flex items-center justify-center p-4">
+    <div class="card-glass rounded-3xl shadow-2xl p-8 md:p-12 max-w-lg w-full fade-in">
+     <div class="text-center">
+      <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+       <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+       </svg>
+      </div>
+      <h1 id="quiz-title" class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">Kuis Keamanan Jaringan</h1>
+      <p id="welcome-message" class="text-gray-600 mb-8">Uji pemahaman Anda tentang keamanan jaringan komputer dengan 30 soal pilihan ganda!</p>
+      <form id="name-form" class="space-y-4">
+       <div class="text-left"><label for="student-name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label> <input type="text" id="student-name" required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all" placeholder="Masukkan nama Anda">
+       </div><button type="submit" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"> Mulai Kuis 🚀 </button>
+      </form>
+      <div class="mt-6 flex items-center justify-center gap-4 text-sm text-gray-500"><span class="flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+        </svg> 30 Soal </span> <span class="flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg> Hasil Langsung </span>
+      </div>
+     </div>
+    </div>
+   </div><!-- Quiz Screen -->
+   <div id="quiz-screen" class="min-h-full p-4 hidden">
+    <div class="max-w-3xl mx-auto"><!-- Header -->
+     <div class="card-glass rounded-2xl p-4 mb-4 fade-in">
+      <div class="flex items-center justify-between mb-3">
+       <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+         </svg>
+        </div>
+        <div>
+         <p class="text-xs text-gray-500">Peserta</p>
+         <p id="display-name" class="font-semibold text-gray-800">-</p>
+        </div>
+       </div>
+       <div class="text-right">
+        <p class="text-xs text-gray-500">Skor</p>
+        <p class="font-bold text-xl text-indigo-600"><span id="current-score">0</span>/30</p>
+       </div>
+      </div>
+      <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+       <div id="progress-bar" class="progress-bar bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full" style="width: 0%"></div>
+      </div>
+      <p class="text-center text-sm text-gray-500 mt-2">Soal <span id="current-question">1</span> dari 30</p>
+     </div><!-- Question Card -->
+     <div id="question-container" class="card-glass rounded-2xl p-6 md:p-8 fade-in"><!-- Question content will be injected here -->
+     </div><!-- Navigation -->
+     <div class="flex justify-center mt-4"><button id="next-btn" class="hidden px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"> Soal Berikutnya → </button>
+     </div>
+    </div>
+   </div><!-- Result Screen -->
+   <div id="result-screen" class="min-h-full flex items-center justify-center p-4 hidden">
+    <div class="card-glass rounded-3xl shadow-2xl p-8 md:p-12 max-w-lg w-full fade-in text-center">
+     <div id="result-icon" class="w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center"><!-- Icon will be injected -->
+     </div>
+     <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Kuis Selesai!</h2>
+     <p id="result-name" class="text-gray-600 mb-6">-</p>
+     <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 mb-6">
+      <p class="text-sm text-gray-500 mb-1">Skor Akhir</p>
+      <p class="text-5xl font-bold text-indigo-600 mb-2"><span id="final-score">0</span>/30</p>
+      <p id="score-percentage" class="text-lg text-gray-600">0%</p>
+     </div>
+     <div id="result-message" class="text-gray-600 mb-6 p-4 rounded-xl"><!-- Message will be injected -->
+     </div><button id="restart-btn" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"> Ulangi Kuis 🔄 </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Quiz Questions Data
+    const quizQuestions = [
+      {
+        question: "Apa tujuan utama dari kebijakan penggunaan jaringan (Network Usage Policy)?",
+        options: [
+          "Mempercepat koneksi internet",
+          "Mengatur hak dan tanggung jawab pengguna dalam menggunakan jaringan",
+          "Menambah bandwidth jaringan",
+          "Mengurangi biaya listrik",
+          "Memperbanyak jumlah komputer"
+        ],
+        correct: 1
+      },
+      {
+        question: "Serangan yang bertujuan membuat layanan tidak tersedia bagi pengguna yang sah disebut?",
+        options: [
+          "Phishing",
+          "Spoofing",
+          "Denial of Service (DoS)",
+          "Sniffing",
+          "Brute Force"
+        ],
+        correct: 2
+      },
+      {
+        question: "Firewall berfungsi untuk?",
+        options: [
+          "Menyimpan data",
+          "Mengontrol lalu lintas jaringan berdasarkan aturan keamanan",
+          "Mempercepat internet",
+          "Membuat website",
+          "Mengenkripsi semua data"
+        ],
+        correct: 1
+      },
+      {
+        question: "Jenis firewall yang bekerja pada lapisan aplikasi OSI adalah?",
+        options: [
+          "Packet Filter Firewall",
+          "Stateful Inspection Firewall",
+          "Application Layer Firewall",
+          "Circuit Level Gateway",
+          "Network Address Translation"
+        ],
+        correct: 2
+      },
+      {
+        question: "Apa yang dimaksud dengan Man-in-the-Middle Attack?",
+        options: [
+          "Serangan dengan menebak password",
+          "Penyerang menyisipkan diri di antara komunikasi dua pihak",
+          "Mengirim email palsu",
+          "Merusak hardware komputer",
+          "Menginstal malware"
+        ],
+        correct: 1
+      },
+      {
+        question: "Server autentikasi berfungsi untuk?",
+        options: [
+          "Menyimpan file",
+          "Memverifikasi identitas pengguna sebelum memberikan akses",
+          "Mengirim email",
+          "Membuat website",
+          "Mempercepat koneksi"
+        ],
+        correct: 1
+      },
+      {
+        question: "Protokol yang umum digunakan untuk autentikasi pada jaringan adalah?",
+        options: [
+          "HTTP",
+          "FTP",
+          "RADIUS",
+          "SMTP",
+          "POP3"
+        ],
+        correct: 2
+      },
+      {
+        question: "IDS (Intrusion Detection System) berfungsi untuk?",
+        options: [
+          "Memblokir serangan secara otomatis",
+          "Mendeteksi dan melaporkan aktivitas mencurigakan",
+          "Mengenkripsi data",
+          "Membuat backup",
+          "Menghapus virus"
+        ],
+        correct: 1
+      },
+      {
+        question: "Perbedaan utama IDS dan IPS adalah?",
+        options: [
+          "IDS lebih mahal",
+          "IPS hanya mendeteksi, IDS memblokir",
+          "IDS hanya mendeteksi, IPS dapat memblokir serangan",
+          "Tidak ada perbedaan",
+          "IPS tidak memerlukan jaringan"
+        ],
+        correct: 2
+      },
+      {
+        question: "Teknik kriptografi yang menggunakan kunci yang sama untuk enkripsi dan dekripsi disebut?",
+        options: [
+          "Asymmetric Encryption",
+          "Symmetric Encryption",
+          "Hashing",
+          "Digital Signature",
+          "SSL/TLS"
+        ],
+        correct: 1
+      },
+      {
+        question: "Contoh algoritma enkripsi simetris adalah?",
+        options: [
+          "RSA",
+          "AES",
+          "DSA",
+          "ECC",
+          "Diffie-Hellman"
+        ],
+        correct: 1
+      },
+      {
+        question: "Fungsi hash digunakan untuk?",
+        options: [
+          "Mengenkripsi data dua arah",
+          "Menghasilkan nilai unik tetap dari data input",
+          "Membuat kunci enkripsi",
+          "Mengirim email",
+          "Mempercepat transfer data"
+        ],
+        correct: 1
+      },
+      {
+        question: "SSL/TLS digunakan untuk?",
+        options: [
+          "Menyimpan password",
+          "Mengamankan komunikasi data melalui internet",
+          "Membuat website",
+          "Menghapus virus",
+          "Mempercepat download"
+        ],
+        correct: 1
+      },
+      {
+        question: "Port default untuk HTTPS adalah?",
+        options: [
+          "80",
+          "21",
+          "443",
+          "22",
+          "25"
+        ],
+        correct: 2
+      },
+      {
+        question: "Apa yang dimaksud dengan DMZ (Demilitarized Zone) dalam keamanan jaringan?",
+        options: [
+          "Area tanpa jaringan",
+          "Zona netral antara jaringan internal dan eksternal",
+          "Tempat penyimpanan data",
+          "Ruang server utama",
+          "Area untuk backup"
+        ],
+        correct: 1
+      },
+      {
+        question: "Serangan Phishing bertujuan untuk?",
+        options: [
+          "Merusak hardware",
+          "Menipu korban agar memberikan informasi sensitif",
+          "Memperlambat jaringan",
+          "Menghapus file",
+          "Menginstal antivirus"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa fungsi dari VPN (Virtual Private Network)?",
+        options: [
+          "Mempercepat internet",
+          "Membuat koneksi aman melalui jaringan publik",
+          "Menghapus virus",
+          "Membuat website",
+          "Menyimpan file"
+        ],
+        correct: 1
+      },
+      {
+        question: "Stateful Inspection Firewall bekerja dengan cara?",
+        options: [
+          "Hanya memeriksa header paket",
+          "Memantau status koneksi dan konteks paket",
+          "Hanya memeriksa port",
+          "Mengenkripsi semua data",
+          "Memblokir semua traffic"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa yang dimaksud dengan Social Engineering?",
+        options: [
+          "Teknik pemrograman",
+          "Manipulasi psikologis untuk mendapatkan informasi rahasia",
+          "Desain jaringan sosial",
+          "Pembuatan aplikasi",
+          "Analisis data"
+        ],
+        correct: 1
+      },
+      {
+        question: "Algoritma RSA termasuk jenis enkripsi?",
+        options: [
+          "Simetris",
+          "Asimetris",
+          "Hashing",
+          "Steganografi",
+          "Compression"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa fungsi Digital Certificate?",
+        options: [
+          "Menyimpan password",
+          "Memverifikasi identitas dan keaslian entitas digital",
+          "Mempercepat internet",
+          "Menghapus malware",
+          "Membuat backup"
+        ],
+        correct: 1
+      },
+      {
+        question: "LDAP (Lightweight Directory Access Protocol) digunakan untuk?",
+        options: [
+          "Transfer file",
+          "Mengakses dan mengelola direktori informasi",
+          "Mengirim email",
+          "Streaming video",
+          "Membuat website"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa yang dimaksud dengan Brute Force Attack?",
+        options: [
+          "Serangan dengan virus",
+          "Mencoba semua kombinasi password secara sistematis",
+          "Mengirim spam",
+          "Merusak hardware",
+          "Mencuri kabel jaringan"
+        ],
+        correct: 1
+      },
+      {
+        question: "NAT (Network Address Translation) berfungsi untuk?",
+        options: [
+          "Mengenkripsi data",
+          "Menerjemahkan alamat IP privat ke publik",
+          "Menghapus virus",
+          "Membuat website",
+          "Menyimpan file"
+        ],
+        correct: 1
+      },
+      {
+        question: "Honeypot dalam keamanan jaringan adalah?",
+        options: [
+          "Sistem untuk menyimpan madu",
+          "Sistem umpan untuk menarik dan mempelajari penyerang",
+          "Firewall khusus",
+          "Antivirus",
+          "Backup server"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa fungsi dari Access Control List (ACL)?",
+        options: [
+          "Menyimpan password",
+          "Mengatur izin akses ke sumber daya jaringan",
+          "Mempercepat internet",
+          "Membuat website",
+          "Menghapus file"
+        ],
+        correct: 1
+      },
+      {
+        question: "Kerberos adalah protokol yang digunakan untuk?",
+        options: [
+          "Transfer file",
+          "Autentikasi jaringan menggunakan tiket",
+          "Email",
+          "Streaming",
+          "Backup data"
+        ],
+        correct: 1
+      },
+      {
+        question: "Apa yang dimaksud dengan Zero-Day Attack?",
+        options: [
+          "Serangan di hari pertama kerja",
+          "Serangan yang memanfaatkan kerentanan yang belum diketahui",
+          "Serangan pada tengah malam",
+          "Serangan tanpa internet",
+          "Serangan tanpa komputer"
+        ],
+        correct: 1
+      },
+      {
+        question: "SHA-256 termasuk dalam kategori?",
+        options: [
+          "Enkripsi simetris",
+          "Enkripsi asimetris",
+          "Fungsi hash kriptografi",
+          "Firewall",
+          "Antivirus"
+        ],
+        correct: 2
+      },
+      {
+        question: "Apa tujuan dari penetration testing?",
+        options: [
+          "Merusak sistem",
+          "Menguji keamanan sistem dengan mensimulasikan serangan",
+          "Menginstal software",
+          "Membuat website",
+          "Menghapus data"
+        ],
+        correct: 1
+      }
+    ];
+
+    // Application State
+    let currentQuestion = 0;
+    let score = 0;
+    let studentName = '';
+    let answered = false;
+
+    // Default Config
+    const defaultConfig = {
+      quiz_title: 'Kuis Keamanan Jaringan',
+      welcome_message: 'Uji pemahaman Anda tentang keamanan jaringan komputer dengan 30 soal pilihan ganda!',
+      primary_color: '#4f46e5',
+      secondary_color: '#7c3aed',
+      background_color: '#1e1b4b',
+      text_color: '#1f2937',
+      accent_color: '#10b981'
+    };
+
+    // DOM Elements
+    const startScreen = document.getElementById('start-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const nameForm = document.getElementById('name-form');
+    const studentNameInput = document.getElementById('student-name');
+    const displayName = document.getElementById('display-name');
+    const questionContainer = document.getElementById('question-container');
+    const progressBar = document.getElementById('progress-bar');
+    const currentQuestionSpan = document.getElementById('current-question');
+    const currentScoreSpan = document.getElementById('current-score');
+    const nextBtn = document.getElementById('next-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const quizTitleEl = document.getElementById('quiz-title');
+    const welcomeMessageEl = document.getElementById('welcome-message');
+
+    // Initialize SDK
+    async function initApp() {
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            quizTitleEl.textContent = config.quiz_title || defaultConfig.quiz_title;
+            welcomeMessageEl.textContent = config.welcome_message || defaultConfig.welcome_message;
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['quiz_title', config.quiz_title || defaultConfig.quiz_title],
+            ['welcome_message', config.welcome_message || defaultConfig.welcome_message]
+          ])
+        });
+      }
+    }
+
+    // Start Quiz
+    nameForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      studentName = studentNameInput.value.trim();
+      if (studentName) {
+        displayName.textContent = studentName;
+        startScreen.classList.add('hidden');
+        quizScreen.classList.remove('hidden');
+        showQuestion();
+      }
+    });
+
+    // Show Question
+    function showQuestion() {
+      answered = false;
+      nextBtn.classList.add('hidden');
+      const q = quizQuestions[currentQuestion];
+      
+      const optionsHTML = q.options.map((opt, idx) => `
+        <button 
+          class="quiz-option w-full p-4 text-left border-2 border-gray-200 rounded-xl hover:border-indigo-400 hover:bg-indigo-50 transition-all flex items-center gap-3"
+          data-index="${idx}"
+        >
+          <span class="w-8 h-8 flex-shrink-0 flex items-center justify-center bg-gray-100 rounded-lg font-semibold text-gray-600">
+            ${String.fromCharCode(65 + idx)}
+          </span>
+          <span class="text-gray-700">${opt}</span>
+        </button>
+      `).join('');
+
+      questionContainer.innerHTML = `
+        <div class="mb-6">
+          <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-4">
+            Soal ${currentQuestion + 1}
+          </span>
+          <h2 class="text-lg md:text-xl font-semibold text-gray-800 leading-relaxed">
+            ${q.question}
+          </h2>
+        </div>
+        <div class="space-y-3" id="options-container">
+          ${optionsHTML}
+        </div>
+        <div id="feedback" class="mt-6 hidden"></div>
+      `;
+
+      // Add click handlers
+      const optionBtns = questionContainer.querySelectorAll('.quiz-option');
+      optionBtns.forEach(btn => {
+        btn.addEventListener('click', () => handleAnswer(parseInt(btn.dataset.index)));
+      });
+
+      // Update progress
+      progressBar.style.width = `${((currentQuestion) / quizQuestions.length) * 100}%`;
+      currentQuestionSpan.textContent = currentQuestion + 1;
+    }
+
+    // Handle Answer
+    function handleAnswer(selectedIndex) {
+      if (answered) return;
+      answered = true;
+
+      const q = quizQuestions[currentQuestion];
+      const isCorrect = selectedIndex === q.correct;
+      const optionBtns = questionContainer.querySelectorAll('.quiz-option');
+      const feedback = document.getElementById('feedback');
+
+      optionBtns.forEach((btn, idx) => {
+        btn.classList.add('answered');
+        btn.disabled = true;
+        
+        if (idx === q.correct) {
+          btn.classList.add('correct-answer');
+        } else if (idx === selectedIndex && !isCorrect) {
+          btn.classList.add('wrong-answer');
+        }
+      });
+
+      if (isCorrect) {
+        score++;
+        currentScoreSpan.textContent = score;
+        feedback.innerHTML = `
+          <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 flex items-center gap-3">
+            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-green-800">Benar! 🎉</p>
+              <p class="text-green-600 text-sm">Jawaban yang tepat adalah: ${q.options[q.correct]}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        feedback.innerHTML = `
+          <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </div>
+            <div>
+              <p class="font-semibold text-red-800">Kurang Tepat</p>
+              <p class="text-red-600 text-sm">Jawaban yang benar adalah: ${q.options[q.correct]}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      feedback.classList.remove('hidden');
+      
+      if (currentQuestion < quizQuestions.length - 1) {
+        nextBtn.textContent = 'Soal Berikutnya →';
+      } else {
+        nextBtn.textContent = 'Lihat Hasil 📊';
+      }
+      nextBtn.classList.remove('hidden');
+    }
+
+    // Next Question
+    nextBtn.addEventListener('click', () => {
+      currentQuestion++;
+      if (currentQuestion < quizQuestions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    // Show Result
+    function showResult() {
+      quizScreen.classList.add('hidden');
+      resultScreen.classList.remove('hidden');
+
+      const percentage = Math.round((score / quizQuestions.length) * 100);
+      document.getElementById('result-name').textContent = studentName;
+      document.getElementById('final-score').textContent = score;
+      document.getElementById('score-percentage').textContent = `${percentage}%`;
+
+      const resultIcon = document.getElementById('result-icon');
+      const resultMessage = document.getElementById('result-message');
+
+      if (percentage >= 80) {
+        resultIcon.className = 'w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-green-400 to-green-600';
+        resultIcon.innerHTML = `<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        resultMessage.innerHTML = `<div class="bg-green-50 text-green-800 p-4 rounded-xl"><strong>Luar Biasa! 🏆</strong><br>Anda memiliki pemahaman yang sangat baik tentang keamanan jaringan!</div>`;
+      } else if (percentage >= 60) {
+        resultIcon.className = 'w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500';
+        resultIcon.innerHTML = `<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        resultMessage.innerHTML = `<div class="bg-yellow-50 text-yellow-800 p-4 rounded-xl"><strong>Bagus! 👍</strong><br>Pemahaman Anda cukup baik, tetapi masih bisa ditingkatkan lagi!</div>`;
+      } else {
+        resultIcon.className = 'w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center bg-gradient-to-br from-red-400 to-red-600';
+        resultIcon.innerHTML = `<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+        resultMessage.innerHTML = `<div class="bg-red-50 text-red-800 p-4 rounded-xl"><strong>Perlu Belajar Lagi 📚</strong><br>Jangan menyerah! Pelajari kembali materi keamanan jaringan dan coba lagi.</div>`;
+      }
+    }
+
+    // Restart Quiz
+    restartBtn.addEventListener('click', () => {
+      currentQuestion = 0;
+      score = 0;
+      answered = false;
+      currentScoreSpan.textContent = '0';
+      resultScreen.classList.add('hidden');
+      startScreen.classList.remove('hidden');
+      studentNameInput.value = '';
+    });
+
+    // Initialize
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bda4577f16c9a70',t:'MTc2ODM2MzY5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
