@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Keamanan Jaringan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .quiz-option {
+      transition: all 0.3s ease;
+    }
+    .quiz-option:hover:not(.answered) {
+      transform: translateX(8px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .correct-answer {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      color: white !important;
+      border-color: #059669 !important;
+    }
+    .wrong-answer {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      color: white !important;
+      border-color: #dc2626 !important;
+    }
+    .progress-bar {
+      transition: width 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .pulse-animation {
+      animation: pulse 0.5s ease;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1e293b 100%);
+    }
+    .card-gradient {
+      background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg">
+  <div id="app-container" class="w-full h-full overflow-auto"><!-- Start Screen -->
+   <div id="start-screen" class="min-h-full flex items-center justify-center p-4">
+    <div class="card-gradient rounded-3xl p-8 md:p-12 max-w-2xl w-full text-center shadow-2xl border border-slate-700 fade-in">
+     <div class="mb-6">
+      <svg class="w-20 h-20 mx-auto text-cyan-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+     </div>
+     <h1 id="quiz-title" class="text-3xl md:text-4xl font-bold text-white mb-4">Kuis Keamanan Jaringan</h1>
+     <p id="quiz-subtitle" class="text-slate-400 text-lg mb-8">Fase F - Keamanan Jaringan Komputer</p>
+     <div class="bg-slate-800/50 rounded-2xl p-6 mb-8 text-left border border-slate-600">
+      <h3 class="text-cyan-400 font-semibold mb-3 flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg> Informasi Kuis</h3>
+      <ul class="text-slate-300 space-y-2 text-sm">
+       <li>📝 Jumlah Soal: <span class="text-white font-medium">30 Soal</span></li>
+       <li>⏱️ Waktu: <span class="text-white font-medium">Tidak Dibatasi</span></li>
+       <li>✅ Jawaban benar ditampilkan langsung</li>
+       <li>📊 Skor akhir ditampilkan setelah selesai</li>
+      </ul>
+     </div><button onclick="startQuiz()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 shadow-lg hover:shadow-cyan-500/25"> Mulai Kuis 🚀 </button>
+    </div>
+   </div><!-- Quiz Screen -->
+   <div id="quiz-screen" class="min-h-full p-4 hidden">
+    <div class="max-w-4xl mx-auto"><!-- Header -->
+     <div class="card-gradient rounded-2xl p-4 mb-6 border border-slate-700 shadow-xl">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+       <div class="flex items-center gap-3">
+        <div class="bg-cyan-500/20 p-2 rounded-lg">
+         <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+         </svg>
+        </div>
+        <div>
+         <p class="text-slate-400 text-xs">Soal</p>
+         <p id="question-counter" class="text-white font-bold text-lg">1 / 30</p>
+        </div>
+       </div>
+       <div class="flex items-center gap-3">
+        <div class="bg-emerald-500/20 p-2 rounded-lg">
+         <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+         </svg>
+        </div>
+        <div>
+         <p class="text-slate-400 text-xs">Skor</p>
+         <p id="score-display" class="text-emerald-400 font-bold text-lg">0</p>
+        </div>
+       </div>
+      </div>
+      <div class="mt-4 bg-slate-700 rounded-full h-3 overflow-hidden">
+       <div id="progress-bar" class="progress-bar bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full" style="width: 3.33%"></div>
+      </div>
+     </div><!-- Question Card -->
+     <div class="card-gradient rounded-2xl p-6 md:p-8 border border-slate-700 shadow-xl fade-in">
+      <div class="mb-6"><span id="category-badge" class="inline-block bg-cyan-500/20 text-cyan-400 text-xs font-medium px-3 py-1 rounded-full mb-4">Keamanan Jaringan</span>
+       <h2 id="question-text" class="text-xl md:text-2xl font-semibold text-white leading-relaxed"></h2>
+      </div>
+      <div id="options-container" class="space-y-3"><!-- Options will be inserted here -->
+      </div><!-- Feedback -->
+      <div id="feedback-container" class="hidden mt-6 p-4 rounded-xl border">
+       <div class="flex items-start gap-3">
+        <div id="feedback-icon" class="flex-shrink-0"></div>
+        <div>
+         <p id="feedback-title" class="font-bold text-lg"></p>
+         <p id="feedback-text" class="text-sm mt-1"></p>
+        </div>
+       </div>
+      </div><!-- Next Button --> <button id="next-btn" onclick="nextQuestion()" class="hidden w-full mt-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 shadow-lg"> Soal Berikutnya → </button>
+     </div>
+    </div>
+   </div><!-- Result Screen -->
+   <div id="result-screen" class="min-h-full flex items-center justify-center p-4 hidden">
+    <div class="card-gradient rounded-3xl p-8 md:p-12 max-w-2xl w-full text-center shadow-2xl border border-slate-700 fade-in">
+     <div id="result-icon" class="mb-6"></div>
+     <h2 id="result-title" class="text-3xl md:text-4xl font-bold text-white mb-4"></h2>
+     <p id="result-subtitle" class="text-slate-400 text-lg mb-8"></p>
+     <div class="bg-slate-800/50 rounded-2xl p-6 mb-8 border border-slate-600">
+      <div class="grid grid-cols-2 gap-6">
+       <div class="text-center">
+        <p class="text-slate-400 text-sm mb-1">Skor Akhir</p>
+        <p id="final-score" class="text-4xl font-bold text-cyan-400"></p>
+       </div>
+       <div class="text-center">
+        <p class="text-slate-400 text-sm mb-1">Persentase</p>
+        <p id="percentage" class="text-4xl font-bold text-emerald-400"></p>
+       </div>
+      </div>
+      <div class="mt-6 pt-6 border-t border-slate-600">
+       <div class="flex justify-center gap-8">
+        <div class="text-center">
+         <p class="text-emerald-400 text-2xl font-bold" id="correct-count">0</p>
+         <p class="text-slate-400 text-sm">Benar</p>
+        </div>
+        <div class="text-center">
+         <p class="text-red-400 text-2xl font-bold" id="wrong-count">0</p>
+         <p class="text-slate-400 text-sm">Salah</p>
+        </div>
+       </div>
+      </div>
+     </div><button onclick="restartQuiz()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 shadow-lg hover:shadow-cyan-500/25"> Ulangi Kuis 🔄 </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      quiz_title: 'Kuis Keamanan Jaringan',
+      subtitle: 'Fase F - Keamanan Jaringan Komputer'
+    };
+
+    let config = { ...defaultConfig };
+
+    const questions = [
+      {
+        question: "Apa tujuan utama dari kebijakan penggunaan jaringan (Network Usage Policy)?",
+        options: [
+          "Meningkatkan kecepatan internet",
+          "Mengatur dan membatasi penggunaan sumber daya jaringan secara bertanggung jawab",
+          "Mengurangi biaya listrik",
+          "Menambah jumlah pengguna jaringan",
+          "Mempercantik tampilan jaringan"
+        ],
+        correct: 1,
+        explanation: "Kebijakan penggunaan jaringan bertujuan untuk mengatur dan membatasi penggunaan sumber daya jaringan agar digunakan secara bertanggung jawab dan sesuai aturan."
+      },
+      {
+        question: "Ancaman keamanan jaringan yang dilakukan dengan menyadap komunikasi data disebut?",
+        options: [
+          "Spoofing",
+          "Sniffing",
+          "Phishing",
+          "Malware",
+          "DDoS"
+        ],
+        correct: 1,
+        explanation: "Sniffing adalah teknik menyadap paket data yang melewati jaringan untuk mendapatkan informasi sensitif."
+      },
+      {
+        question: "Serangan yang membanjiri server dengan request palsu hingga tidak bisa melayani pengguna asli disebut?",
+        options: [
+          "Man in the Middle",
+          "SQL Injection",
+          "Distributed Denial of Service (DDoS)",
+          "Cross-Site Scripting",
+          "Brute Force"
+        ],
+        correct: 2,
+        explanation: "DDoS (Distributed Denial of Service) adalah serangan yang membanjiri target dengan traffic berlebihan sehingga layanan menjadi tidak tersedia."
+      },
+      {
+        question: "Firewall berfungsi sebagai?",
+        options: [
+          "Antivirus jaringan",
+          "Penyimpan data",
+          "Pengatur kecepatan internet",
+          "Penghalang antara jaringan internal dan eksternal",
+          "Server email"
+        ],
+        correct: 3,
+        explanation: "Firewall berfungsi sebagai penghalang (barrier) yang memfilter lalu lintas antara jaringan internal yang aman dan jaringan eksternal yang tidak dipercaya."
+      },
+      {
+        question: "Jenis firewall yang bekerja pada layer aplikasi OSI adalah?",
+        options: [
+          "Packet Filtering Firewall",
+          "Stateful Inspection Firewall",
+          "Application Layer Firewall (Proxy)",
+          "Circuit Level Gateway",
+          "Network Address Translation Firewall"
+        ],
+        correct: 2,
+        explanation: "Application Layer Firewall atau Proxy Firewall bekerja pada layer 7 (aplikasi) dan dapat memeriksa isi paket data secara mendalam."
+      },
+      {
+        question: "Apa fungsi utama dari server autentikasi?",
+        options: [
+          "Menyimpan file pengguna",
+          "Memverifikasi identitas pengguna sebelum memberikan akses",
+          "Mengirim email otomatis",
+          "Mengkompresi data",
+          "Membuat backup data"
+        ],
+        correct: 1,
+        explanation: "Server autentikasi bertugas memverifikasi identitas pengguna untuk memastikan bahwa yang mengakses sistem adalah pengguna yang sah."
+      },
+      {
+        question: "Protokol autentikasi yang menggunakan sistem tiket adalah?",
+        options: [
+          "RADIUS",
+          "LDAP",
+          "Kerberos",
+          "TACACS+",
+          "OAuth"
+        ],
+        correct: 2,
+        explanation: "Kerberos menggunakan sistem tiket untuk autentikasi, di mana pengguna mendapat tiket dari Key Distribution Center (KDC) untuk mengakses layanan."
+      },
+      {
+        question: "IDS (Intrusion Detection System) berfungsi untuk?",
+        options: [
+          "Mencegah serangan masuk",
+          "Mendeteksi dan melaporkan aktivitas mencurigakan",
+          "Mengenkripsi data",
+          "Membuat firewall",
+          "Mempercepat koneksi"
+        ],
+        correct: 1,
+        explanation: "IDS berfungsi mendeteksi aktivitas mencurigakan atau serangan dan memberikan peringatan kepada administrator, tapi tidak memblokir serangan."
+      },
+      {
+        question: "Perbedaan utama antara IDS dan IPS adalah?",
+        options: [
+          "IDS lebih mahal",
+          "IPS hanya mendeteksi, IDS mencegah",
+          "IDS hanya mendeteksi, IPS dapat mencegah serangan",
+          "Tidak ada perbedaan",
+          "IDS untuk wireless, IPS untuk wired"
+        ],
+        correct: 2,
+        explanation: "IDS (Intrusion Detection System) hanya mendeteksi dan melaporkan, sedangkan IPS (Intrusion Prevention System) dapat mendeteksi sekaligus memblokir serangan."
+      },
+      {
+        question: "Teknik kriptografi yang menggunakan kunci yang sama untuk enkripsi dan dekripsi disebut?",
+        options: [
+          "Asymmetric Encryption",
+          "Public Key Encryption",
+          "Symmetric Encryption",
+          "Hash Function",
+          "Digital Signature"
+        ],
+        correct: 2,
+        explanation: "Symmetric Encryption menggunakan satu kunci yang sama untuk proses enkripsi dan dekripsi, seperti AES dan DES."
+      },
+      {
+        question: "Contoh algoritma kriptografi asimetris adalah?",
+        options: [
+          "AES",
+          "DES",
+          "RSA",
+          "Blowfish",
+          "3DES"
+        ],
+        correct: 2,
+        explanation: "RSA adalah algoritma kriptografi asimetris yang menggunakan sepasang kunci: public key untuk enkripsi dan private key untuk dekripsi."
+      },
+      {
+        question: "SSL/TLS digunakan untuk?",
+        options: [
+          "Mempercepat transfer data",
+          "Mengamankan komunikasi data melalui enkripsi",
+          "Menyimpan password",
+          "Membuat virus",
+          "Mengkompresi file"
+        ],
+        correct: 1,
+        explanation: "SSL/TLS (Secure Sockets Layer/Transport Layer Security) digunakan untuk mengenkripsi komunikasi data antara client dan server, seperti pada HTTPS."
+      },
+      {
+        question: "Port default untuk layanan SSH adalah?",
+        options: [
+          "21",
+          "22",
+          "23",
+          "80",
+          "443"
+        ],
+        correct: 1,
+        explanation: "SSH (Secure Shell) menggunakan port 22 sebagai default untuk koneksi remote yang terenkripsi."
+      },
+      {
+        question: "Apa kepanjangan dari VPN?",
+        options: [
+          "Virtual Private Network",
+          "Very Protected Network",
+          "Visual Private Node",
+          "Verified Public Network",
+          "Virtual Public Node"
+        ],
+        correct: 0,
+        explanation: "VPN adalah Virtual Private Network, teknologi yang membuat koneksi aman melalui jaringan publik dengan enkripsi."
+      },
+      {
+        question: "Serangan yang menyamar sebagai entitas terpercaya untuk mencuri informasi sensitif disebut?",
+        options: [
+          "Sniffing",
+          "Spoofing",
+          "Phishing",
+          "Flooding",
+          "Hijacking"
+        ],
+        correct: 2,
+        explanation: "Phishing adalah teknik social engineering yang menyamar sebagai entitas terpercaya (seperti bank atau layanan populer) untuk mencuri data sensitif."
+      },
+      {
+        question: "DMZ (Demilitarized Zone) dalam keamanan jaringan adalah?",
+        options: [
+          "Area tanpa firewall",
+          "Zona netral antara jaringan internal dan eksternal",
+          "Area penyimpanan data",
+          "Ruangan server",
+          "Zona WiFi gratis"
+        ],
+        correct: 1,
+        explanation: "DMZ adalah zona netral yang memisahkan jaringan internal dari jaringan publik, biasanya digunakan untuk menempatkan server yang perlu diakses publik."
+      },
+      {
+        question: "Perangkat lunak berbahaya yang dapat mereplikasi diri dan menyebar ke komputer lain disebut?",
+        options: [
+          "Trojan",
+          "Worm",
+          "Spyware",
+          "Adware",
+          "Rootkit"
+        ],
+        correct: 1,
+        explanation: "Worm adalah malware yang dapat mereplikasi diri sendiri dan menyebar ke komputer lain melalui jaringan tanpa memerlukan host program."
+      },
+      {
+        question: "Apa fungsi dari Access Control List (ACL) pada firewall?",
+        options: [
+          "Menyimpan daftar pengguna",
+          "Mendefinisikan aturan izin atau penolakan akses",
+          "Mencatat aktivitas jaringan",
+          "Mengenkripsi data",
+          "Membuat backup"
+        ],
+        correct: 1,
+        explanation: "ACL adalah daftar aturan yang mendefinisikan traffic mana yang diizinkan atau ditolak berdasarkan kriteria seperti IP address, port, atau protokol."
+      },
+      {
+        question: "RADIUS adalah protokol yang digunakan untuk?",
+        options: [
+          "Transfer file",
+          "Autentikasi, autorisasi, dan accounting (AAA)",
+          "Pengiriman email",
+          "Browsing web",
+          "Video streaming"
+        ],
+        correct: 1,
+        explanation: "RADIUS (Remote Authentication Dial-In User Service) adalah protokol AAA yang menyediakan autentikasi terpusat untuk pengguna yang terhubung ke jaringan."
+      },
+      {
+        question: "Teknik untuk mendeteksi serangan berdasarkan pola yang sudah diketahui disebut?",
+        options: [
+          "Anomaly-based Detection",
+          "Signature-based Detection",
+          "Behavior-based Detection",
+          "Heuristic Detection",
+          "Protocol-based Detection"
+        ],
+        correct: 1,
+        explanation: "Signature-based Detection mendeteksi serangan dengan mencocokkan pola (signature) serangan yang sudah diketahui dan tersimpan dalam database."
+      },
+      {
+        question: "Apa yang dimaksud dengan Man-in-the-Middle Attack?",
+        options: [
+          "Serangan dari dalam organisasi",
+          "Penyerang menyisipkan diri di antara komunikasi dua pihak",
+          "Serangan menggunakan malware",
+          "Serangan brute force",
+          "Serangan pada server fisik"
+        ],
+        correct: 1,
+        explanation: "Man-in-the-Middle Attack adalah serangan di mana penyerang menyisipkan diri di antara komunikasi dua pihak untuk menyadap atau memodifikasi data."
+      },
+      {
+        question: "Hash function seperti SHA-256 digunakan untuk?",
+        options: [
+          "Mengenkripsi file",
+          "Memverifikasi integritas data",
+          "Mempercepat transfer",
+          "Mengkompresi data",
+          "Membuat koneksi"
+        ],
+        correct: 1,
+        explanation: "Hash function menghasilkan nilai hash unik dari data yang digunakan untuk memverifikasi bahwa data tidak diubah (integritas data)."
+      },
+      {
+        question: "Apa fungsi dari Certificate Authority (CA)?",
+        options: [
+          "Menyimpan password",
+          "Menerbitkan dan memverifikasi sertifikat digital",
+          "Mengenkripsi email",
+          "Membuat firewall",
+          "Mendeteksi virus"
+        ],
+        correct: 1,
+        explanation: "Certificate Authority adalah entitas terpercaya yang menerbitkan sertifikat digital untuk memverifikasi identitas dalam komunikasi terenkripsi seperti HTTPS."
+      },
+      {
+        question: "Stateful Inspection Firewall melakukan pemeriksaan berdasarkan?",
+        options: [
+          "Hanya IP address",
+          "Hanya port",
+          "Status koneksi dan konteks paket",
+          "Hanya isi paket",
+          "Hanya waktu akses"
+        ],
+        correct: 2,
+        explanation: "Stateful Inspection Firewall memeriksa paket berdasarkan status koneksi (state) dan konteks, melacak sesi komunikasi yang sedang berlangsung."
+      },
+      {
+        question: "Apa keuntungan menggunakan Two-Factor Authentication (2FA)?",
+        options: [
+          "Lebih cepat login",
+          "Menambah lapisan keamanan dengan dua metode verifikasi",
+          "Mengurangi penggunaan password",
+          "Mempercepat jaringan",
+          "Mengurangi biaya"
+        ],
+        correct: 1,
+        explanation: "2FA menambah keamanan dengan mengharuskan dua bentuk verifikasi berbeda (misalnya password + OTP), sehingga lebih sulit bagi penyerang untuk mendapat akses."
+      },
+      {
+        question: "Port yang digunakan untuk HTTPS adalah?",
+        options: [
+          "80",
+          "21",
+          "22",
+          "443",
+          "25"
+        ],
+        correct: 3,
+        explanation: "HTTPS (HTTP Secure) menggunakan port 443 sebagai default untuk komunikasi web yang terenkripsi dengan SSL/TLS."
+      },
+      {
+        question: "Honeypot dalam keamanan jaringan adalah?",
+        options: [
+          "Server utama",
+          "Sistem umpan untuk menarik dan mempelajari serangan",
+          "Firewall khusus",
+          "Router canggih",
+          "Antivirus"
+        ],
+        correct: 1,
+        explanation: "Honeypot adalah sistem umpan yang sengaja dibuat rentan untuk menarik penyerang, sehingga dapat mempelajari teknik serangan dan melindungi sistem asli."
+      },
+      {
+        question: "Apa fungsi Network Address Translation (NAT)?",
+        options: [
+          "Mengenkripsi data",
+          "Menerjemahkan alamat IP private ke public",
+          "Mendeteksi virus",
+          "Mempercepat koneksi",
+          "Menyimpan log"
+        ],
+        correct: 1,
+        explanation: "NAT menerjemahkan alamat IP private ke alamat IP public, memungkinkan banyak perangkat berbagi satu alamat IP public untuk mengakses internet."
+      },
+      {
+        question: "Serangan yang mencoba semua kombinasi password hingga menemukan yang benar disebut?",
+        options: [
+          "Dictionary Attack",
+          "Brute Force Attack",
+          "Rainbow Table Attack",
+          "Social Engineering",
+          "Phishing"
+        ],
+        correct: 1,
+        explanation: "Brute Force Attack mencoba semua kombinasi karakter yang mungkin untuk menebak password sampai menemukan kombinasi yang benar."
+      },
+      {
+        question: "Apa tujuan dari Security Audit pada jaringan?",
+        options: [
+          "Mempercepat jaringan",
+          "Mengevaluasi dan mengidentifikasi kerentanan keamanan",
+          "Menambah bandwidth",
+          "Menginstal software baru",
+          "Mengganti hardware"
+        ],
+        correct: 1,
+        explanation: "Security Audit bertujuan untuk mengevaluasi sistem keamanan, mengidentifikasi kerentanan, dan memastikan kepatuhan terhadap kebijakan keamanan."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function startQuiz() {
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      currentQuestion = 0;
+      score = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q = questions[currentQuestion];
+      
+      document.getElementById('question-counter').textContent = `${currentQuestion + 1} / ${questions.length}`;
+      document.getElementById('score-display').textContent = score;
+      document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+      document.getElementById('question-text').textContent = q.question;
+      
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      
+      const optionLabels = ['A', 'B', 'C', 'D', 'E'];
+      
+      q.options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'quiz-option bg-slate-800/50 hover:bg-slate-700/50 border border-slate-600 hover:border-cyan-500/50 rounded-xl p-4 cursor-pointer transition-all duration-300';
+        optionDiv.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="flex-shrink-0 w-10 h-10 bg-slate-700 rounded-lg flex items-center justify-center text-cyan-400 font-bold">${optionLabels[index]}</span>
+            <span class="text-slate-200">${option}</span>
+          </div>
+        `;
+        optionDiv.onclick = () => selectAnswer(index, optionDiv);
+        optionsContainer.appendChild(optionDiv);
+      });
+
+      document.getElementById('feedback-container').classList.add('hidden');
+      document.getElementById('next-btn').classList.add('hidden');
+      
+      const questionCard = document.querySelector('.card-gradient.rounded-2xl');
+      questionCard.classList.remove('fade-in');
+      void questionCard.offsetWidth;
+      questionCard.classList.add('fade-in');
+    }
+
+    function selectAnswer(selectedIndex, element) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentQuestion];
+      const options = document.querySelectorAll('.quiz-option');
+      
+      options.forEach((opt, idx) => {
+        opt.classList.add('answered');
+        opt.style.cursor = 'default';
+        
+        if (idx === q.correct) {
+          opt.classList.add('correct-answer');
+        } else if (idx === selectedIndex && selectedIndex !== q.correct) {
+          opt.classList.add('wrong-answer');
+        }
+      });
+
+      const feedbackContainer = document.getElementById('feedback-container');
+      const feedbackIcon = document.getElementById('feedback-icon');
+      const feedbackTitle = document.getElementById('feedback-title');
+      const feedbackText = document.getElementById('feedback-text');
+
+      if (selectedIndex === q.correct) {
+        score++;
+        document.getElementById('score-display').textContent = score;
+        feedbackContainer.className = 'mt-6 p-4 rounded-xl border bg-emerald-500/10 border-emerald-500/30';
+        feedbackIcon.innerHTML = `<svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+        feedbackTitle.className = 'font-bold text-lg text-emerald-400';
+        feedbackTitle.textContent = '✅ Benar!';
+        feedbackText.className = 'text-sm mt-1 text-emerald-300';
+      } else {
+        feedbackContainer.className = 'mt-6 p-4 rounded-xl border bg-red-500/10 border-red-500/30';
+        feedbackIcon.innerHTML = `<svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+        feedbackTitle.className = 'font-bold text-lg text-red-400';
+        feedbackTitle.textContent = '❌ Salah!';
+        feedbackText.className = 'text-sm mt-1 text-red-300';
+      }
+      
+      feedbackText.textContent = q.explanation;
+      feedbackContainer.classList.remove('hidden');
+
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.classList.remove('hidden');
+      nextBtn.textContent = currentQuestion === questions.length - 1 ? 'Lihat Hasil 🏆' : 'Soal Berikutnya →';
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion >= questions.length) {
+        showResults();
+      } else {
+        showQuestion();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      const percentage = Math.round((score / questions.length) * 100);
+      
+      document.getElementById('final-score').textContent = `${score} / ${questions.length}`;
+      document.getElementById('percentage').textContent = `${percentage}%`;
+      document.getElementById('correct-count').textContent = score;
+      document.getElementById('wrong-count').textContent = questions.length - score;
+
+      const resultIcon = document.getElementById('result-icon');
+      const resultTitle = document.getElementById('result-title');
+      const resultSubtitle = document.getElementById('result-subtitle');
+
+      if (percentage >= 80) {
+        resultIcon.innerHTML = `<div class="text-8xl">🏆</div>`;
+        resultTitle.textContent = 'Luar Biasa!';
+        resultSubtitle.textContent = 'Kamu menguasai materi Keamanan Jaringan dengan sangat baik!';
+      } else if (percentage >= 60) {
+        resultIcon.innerHTML = `<div class="text-8xl">👍</div>`;
+        resultTitle.textContent = 'Bagus!';
+        resultSubtitle.textContent = 'Pemahaman yang baik, terus tingkatkan pengetahuanmu!';
+      } else if (percentage >= 40) {
+        resultIcon.innerHTML = `<div class="text-8xl">📚</div>`;
+        resultTitle.textContent = 'Cukup Baik';
+        resultSubtitle.textContent = 'Masih perlu belajar lebih banyak tentang Keamanan Jaringan.';
+      } else {
+        resultIcon.innerHTML = `<div class="text-8xl">💪</div>`;
+        resultTitle.textContent = 'Jangan Menyerah!';
+        resultSubtitle.textContent = 'Pelajari kembali materi dan coba lagi!';
+      }
+    }
+
+    function restartQuiz() {
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+      currentQuestion = 0;
+      score = 0;
+    }
+
+    async function onConfigChange(newConfig) {
+      const title = newConfig.quiz_title || defaultConfig.quiz_title;
+      const subtitle = newConfig.subtitle || defaultConfig.subtitle;
+      
+      document.getElementById('quiz-title').textContent = title;
+      document.getElementById('quiz-subtitle').textContent = subtitle;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['quiz_title', cfg.quiz_title || defaultConfig.quiz_title],
+        ['subtitle', cfg.subtitle || defaultConfig.subtitle]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bda236fc69f5c61',t:'MTc2ODM2MjMwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
