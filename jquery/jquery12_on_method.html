@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 12 ON METHOD</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // on() method bisa digunakan dengan berbagai handler
+            $("p").on("click", function () {
+                // Fungsi akan dijalankan ketika klik pada area paragraf
+                $(this).css("color", "blue");
+            });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 12 ON METHOD</h2>
+        <p>Paragraf ke-1</p>
+        <p>Paragraf ke-2</p>
+    </body>
+</html>

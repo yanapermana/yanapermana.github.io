@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 13 ON METHOD VARIASI</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            // on() method bisa digunakan dengan berbagai handler
+           $("p").on({
+            mouseenter: function(){
+                $(this).css("color","red");
+            },
+            mouseleave: function(){
+                $(this).css("color","green");
+            },
+            click: function(){
+                $(this).css("color","blue");
+            }
+           })
+        });
+    </script>
+    <body>
+        <h2>JQUERY 13 ON METHOD VARIASI</h2>
+        <p>Paragraf ke-1</p>
+        <p>Paragraf ke-2</p>
+        <p>Paragraf ke-3</p>
+        <p>Paragraf ke-4</p>
+    </body>
+</html>

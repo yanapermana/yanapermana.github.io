@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 17 FADE IN</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("button").click(function(){
+            $("#div1").fadeIn(); // no animation
+            $("#div2").fadeIn("slow"); // slow animation
+            $("#div3").fadeIn(3000); // advanced slow animation
+           });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 17 FADE IN</h2>
+        <p>Demonstrasi fadeIn() dengan berbagai parameter</p>
+        <button>Klik untuk fade in box dibawah ini</button>
+        <div id="div1" style="width:80px; height: 80px; display: none; background-color: maroon;">
+        </div><br/>
+        <div id="div2" style="width:80px; height: 80px; display: none; background-color: cyan;">
+        </div><br/>
+        <div id="div3" style="width:80px; height: 80px; display: none; background-color: orange;">
+        </div><br/>
+    </body>
+</html>

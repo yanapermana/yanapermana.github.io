@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 16 TOGGLE</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("#toggle1").click(function(){
+            $("p").toggle(); // no animation
+           });
+           $("#toggle2").click(function(){
+            $("p").toggle(1000); // with animation
+           });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 16 TOGGLE</h2>
+        <p>Jika kamu klik button "Toggle" maka paragraf bisa disembunyikan maupun sebaliknya</p>
+        <button id="toggle1">Toggle 1</button>
+        <button id="toggle2">Toggle 2</button>
+    </body>
+</html>

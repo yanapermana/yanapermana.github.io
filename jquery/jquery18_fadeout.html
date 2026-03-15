@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 18 FADE OUT</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("button").click(function(){
+            $("#div1").fadeOut(); // no animation
+            $("#div2").fadeOut("slow"); // slow animation
+            $("#div3").fadeOut(3000); // advanced slow animation
+           });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 18 FADE OUT</h2>
+        <p>Demonstrasi fadeOut() dengan berbagai parameter</p>
+        <button>Klik untuk fade out box dibawah ini</button>
+        <div id="div1" style="width:80px; height: 80px; background-color: maroon;">
+        </div><br/>
+        <div id="div2" style="width:80px; height: 80px; background-color: cyan;">
+        </div><br/>
+        <div id="div3" style="width:80px; height: 80px; background-color: orange;">
+        </div><br/>
+    </body>
+</html>

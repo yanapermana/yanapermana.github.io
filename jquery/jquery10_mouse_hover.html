@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 10 MOUSE HOVER</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#btn1").hover(function () {
+                // Fungsi akan dijalankan ketika mouse ada diatas area tertentu
+                alert("Mouse hover ke area button ke-1");
+            },
+            function () {
+                alert("Dah! kamu sudah meninggalkan area button ke-1");
+            });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 10 MOUSE HOVER</h2>
+        <button id="btn1">Button 1</button>
+        <button>Button 2</button>
+        <button>Button 3</button>
+    </body>
+</html>

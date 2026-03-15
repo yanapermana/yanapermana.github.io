@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 14 HIDE OR SHOW</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("#hide").click(function(){
+            $("p").hide();
+           });
+           $("#show").click(function(){
+            $("p").show();
+           });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 14 HIDE OR SHOW</h2>
+        <p>Jika kamu klik button "Hide" maka paragraf akan hilang</p>
+        <button id="hide">Hide</button>
+        <button id="show">Show</button>
+    </body>
+</html>

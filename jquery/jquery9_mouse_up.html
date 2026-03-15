@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 9 MOUSE UP</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#btn1").mouseup(function () {
+                // fungsi akan dijalankan ketika button mouse dilepas di area tertentu
+                alert("Mouse up ke area button ke-1");
+            });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 9 MOUSE UP</h2>
+        <button id="btn1">Button 1</button>
+        <button>Button 2</button>
+        <button>Button 3</button>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 15 HIDE OR SHOW ANIMATION</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+           $("#hide").click(function(){
+            $("p").hide(1000); // millisecond
+           });
+           $("#show").click(function(){
+            $("p").show(1000); // millisecond
+           });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 15 HIDE OR SHOW ANIMATION</h2>
+        <p>Jika kamu klik button "Hide" maka paragraf akan hilang</p>
+        <button id="hide">Hide</button>
+        <button id="show">Show</button>
+    </body>
+</html>

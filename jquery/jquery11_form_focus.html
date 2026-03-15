@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 11 FORM FOCUS OR BLUR</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("input").focus(function () {
+                // Fungsi akan dijalankan ketika form mendapatkan focus pada input
+                $(this).css("background-color", "red");
+            });
+            $("input").blur(function () {
+                // Fungsi akan dijalankan ketika form kehilangan focus pada input
+                $(this).css("background-color", "green");
+            });
+        });
+    </script>
+    <body>
+        <h2>JQUERY 11 FORM FOCUS OR BLUR</h2>
+        Nama: <input type="text" name="fullname"/><br/>
+        E-Mail: <input type="text" name="email"/>
+    </body>
+</html>
