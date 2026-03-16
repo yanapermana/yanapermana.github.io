@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 29 ANIMATION QUEUE PART 2</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+          $("button").click(function(){
+            var mydiv = $("#animate");
+            mydiv.animate({left: '50px'}, "slow");
+            mydiv.animate({fontSize: '2em'}, "slow");
+          });
+        });
+    </script>
+    <style>
+        #animate{
+            background: green;
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            color: white;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 29 ANIMATION QUEUE PART 2</h2>
+        <button>Start Animation</button>
+        <p>Semua elemen HTML punya static position dan tidak bisa dipindah. Untuk manipulasi posisi, atur saja CSS pada position property elemen menjadi relative, fixed, atau absolute!</p>
+        <div id="animate">Halo Indonesia!</div>
+    </body>
+</html>
