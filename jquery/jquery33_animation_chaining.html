@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 33 ANIMATION CHAINING</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        // Chaining berguna untuk menjalankan fungsi multiple jQuery berurutan
+        $(document).ready(function () {
+         $("button").click(function(){
+            $("#p1").css("color","maroon").slideUp(2000).slideDown(2000);
+         });
+        });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 33 ANIMATION CHAINING</h2>
+        <button>Start animation</button>
+        <p id="p1">jQuery itu bagus untuk front-end website!</p>
+    </body>
+</html>

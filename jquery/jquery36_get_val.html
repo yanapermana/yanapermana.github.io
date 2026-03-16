@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 36 GET VAL</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        // Get content dengan manipulasi DOM (Document Object Model)
+        // Mendapatkan value input dengan method val()
+        $(document).ready(function () {
+         $("button").click(function(){
+            alert("Value: " + $("#test").val());
+         });
+        });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 36 GET VAL</h2>
+        <p>Nama: <input type="text" id="test" value="Yansen Permansen"></p>
+        <button>Tampilkan value input!</button>
+    </body>
+</html>

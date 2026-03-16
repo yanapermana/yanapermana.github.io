@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 30 ANIMATION STOP</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+         $("#flip").click(function(){
+            $("#panel").slideDown(5000);
+         });
+         $("#stop").click(function(){
+            $("#panel").stop();
+         });
+        });
+    </script>
+    <style>
+        #panel, #flip{
+            padding: 5px;
+            font-size: 18px;
+            text-align: center;
+            background-color: greenyellow;
+            color: black;
+            border: solid 1px darkgreen;
+            border-radius: 3px;
+        }
+
+        #panel {
+            padding: 50px;
+            display: none;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 30 ANIMATION STOP</h2>
+        <button id="stop">Stop Sliding</button>
+        <div id="flip">Klik untuk slide down panel ini</div>
+        <div id="panel">Halo Indonesia!</div>
+    </body>
+</html>

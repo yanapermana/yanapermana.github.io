@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 37 GET ATTRIBUTE</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        // Get content dengan manipulasi DOM (Document Object Model)
+        // Mendapatkan value href attribute dengan method attr()
+        $(document).ready(function () {
+         $("button").click(function(){
+            alert($("#mylink").attr("href"));
+         });
+        });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 37 GET ATTRIBUTE</h2>
+        <p><a href="https://google.com/" id="mylink">Google Website</a></p>
+        <button>Tampilkan value href!</button>
+    </body>
+</html>

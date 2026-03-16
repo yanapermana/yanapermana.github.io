@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 32 ANIMATION WITHOUT CALLBACK</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function () {
+         $("button").click(function(){
+            $("p").hide("slow");
+            alert("Callback! paragraf disembunyikan!");
+            // Jika tidak menggunakan callback maka alert() akan muncul terlebih dahulu!
+            // Praktik ini tidak aesthetic! Sebaiknya gunakan callback agar animasi menjadi smooth!
+         });
+        });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 32 ANIMATION WITHOUT CALLBACK</h2>
+        <button>Hide</button>
+        <p>Ini adalah paragraf ke-1</p>
+    </body>
+</html>
