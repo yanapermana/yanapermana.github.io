@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 40 SET ATTRIBUTE</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Set attribute dengan manipulasi DOM (Document Object Model)
+    // Mengatur attribute dengan method attr()
+    $(document).ready(function () {
+        $("button").click(function(){
+            $("#set1").attr("href","https://bing.com");
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 40 SET ATTRIBUTE</h2>
+        <p><a href="https://google.com" id="set1">Ini adalah link website!</a></p>
+        <button>Change href value</button>
+        <p>Lakukan mouse over atau klik link diatas untuk melihat perubahan attribute href</p>
+    </body>
+</html>

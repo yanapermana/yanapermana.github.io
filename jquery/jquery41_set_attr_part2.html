@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 41 SET ATTRIBUTE PART 2</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Set attribute dengan manipulasi DOM (Document Object Model)
+    // Mengatur multiple attribute dengan method attr()
+    $(document).ready(function () {
+        $("button").click(function(){
+            $("#set1").attr({
+                "href":"https://bing.com",
+                "title":"BING WEBSITE",
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 41 SET ATTRIBUTE PART 2</h2>
+        <p><a href="https://google.com" title="GOOGLE WEBSITE" id="set1">Ini adalah link website!</a></p>
+        <button>Change value href and title!</button>
+        <p>Lakukan mouse over atau klik link diatas untuk melihat perubahan attribute href dan title!</p>
+    </body>
+</html>

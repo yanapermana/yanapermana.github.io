@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 45 ADD ELEMENT WITH APPEND PART 2</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Add element dengan manipulasi DOM (Document Object Model)
+    // Menambahkan element dengan method append() sehingga ada element baru setelah element yang ditandai
+    //$(document).ready(function () {     
+    //});
+    function appendText(){
+        var txt1 = "<p>Text 1</p>"; // create element with HTML
+        var txt2 = $("<p></p>").text("Text 2"); // create element with jQuery
+        var txt3 = document.createElement("p"); // create element with DOM
+        txt3.innerHTML = "Text 3";
+        $("body").append(txt1, txt2, txt3);
+    }
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 45 ADD ELEMENT WITH APPEND PART 2</h2>
+        <p>Ini adalah paragraf ke-1</p>
+        <button onclick="appendText()">Append new text</button>
+    </body>
+</html>

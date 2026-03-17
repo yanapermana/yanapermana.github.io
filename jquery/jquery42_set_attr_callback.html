@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 42 SET ATTRIBUTE & CALLBACK</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Set attribute dengan manipulasi DOM (Document Object Model)
+    // Mengatur attribute dengan method attr()
+    // Callback untuk modifikasi href dengan tambahan query "/search?q=youtube"
+    $(document).ready(function () {
+        $("button").click(function(){
+            $("#set1").attr("href",function(i, originalValue){
+                return originalValue + "/search?q=youtube";
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 42 SET ATTRIBUTE & CALLBACK</h2>
+        <p><a href="https://google.com" title="GOOGLE WEBSITE" id="set1">Ini adalah link website!</a></p>
+        <button>Change value href and callback!</button>
+        <p>Lakukan mouse over atau klik link diatas untuk melihat perubahan attribute href dan callback!</p>
+    </body>
+</html>

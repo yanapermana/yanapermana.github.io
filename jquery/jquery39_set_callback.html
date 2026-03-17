@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 39 SET & CALLBACK</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Set content dengan manipulasi DOM (Document Object Model)
+    // Mengatur value dengan method text(), html(), val()
+    // Callback
+    $(document).ready(function () {
+        $("#btn1").click(function(){
+            $("#set1").text(function(i, originalText){
+                return "TEKS LAMA: " + originalText + "\nTEKS BARU: Halo Konoha! (index ke-" + i + ")";
+            });
+        });
+        $("#btn2").click(function(){
+            $("#set2").html(function(i, originalText){
+                return "HTML LAMA: " + originalText + "<br/>HTML BARU: <b>AKU CINTA SAWIT!</b> (index ke-" + i + ")";
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 39 SET & CALLBACK</h2>
+        <p id="set1">Ini adalah paragraf dengan <b>teks tebal</b></p>
+        <p id="set2">Ini adalah paragraf dengan <i>teks miring</i></p>
+        <button id="btn1">Tampilkan Teks Baru/Lama</button>
+        <button id="btn2">Tampilkan HTML Baru/Lama</button>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 47 ADD ELEMENT BEFORE AFTER PART 2</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Add element dengan method before() sebelum element HTML yang sudah ditandai 
+    // Add element dengan method after() setelah element HTML yang sudah ditandai
+    //$(document).ready(function () {     
+    //});
+    function beforeAfterText(){
+        var txt1 = "<b>Aku Cinta Sawit!</b>";
+        var txt2 = $("<i></i>").text("MBG adalah Program Terbaik!");
+        var txt3 = document.createElement("p");
+        txt3.innerHTML = "Koperasi Konoha adalah Kemajuan!";
+        $("img").before(txt1);        
+        $("img").after(txt2,txt3);
+    }
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 47 ADD ELEMENT BEFORE AFTER PART 2</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Simbolo_konoha.svg/250px-Simbolo_konoha.svg.png" width="100" height="140"/>
+        <button onclick="beforeAfterText()">Add before after text</button>
+</html>
