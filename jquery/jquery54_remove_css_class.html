@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 54 REMOVE CSS CLASS</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Modifikasi element CSS pada element HTML yang sudah ditandai 
+    $(document).ready(function () {    
+       $("button").click(function(){
+        $("h3,h4,p").removeClass("blue");
+       });
+    });
+    </script>
+    <style>
+        .blue{
+            color: lightblue;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 54 REMOVE CSS CLASS</h2>
+        <h3 class="blue">Ini Judul 3</h3>
+        <h4 class="blue">Ini Judul 4</h4>
+        <p class="blue">Ini adalah paragraf ke-1</p>
+        <button>Remove CSS class pada element</button>
+</html>

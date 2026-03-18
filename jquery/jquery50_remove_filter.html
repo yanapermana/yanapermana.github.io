@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 50 REMOVE ELEMENT BY FILTER</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Hapus element tertentu dengan paramter method remove() pada element HTML yang sudah ditandai 
+    $(document).ready(function () {    
+        $("button").click(function(){
+            $("p").remove(".p1");
+        });
+    });
+    </script>
+    <style>
+        #div1{
+            height: 100px;
+            width: 300px;
+            border: 1px solid black;
+            background-color: yellowgreen;
+        }
+        .p1{
+            color: red;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 50 REMOVE ELEMENT BY FILTER</h2>
+        <div id="div1">
+            <b>Ini adalah teks tebal didalam tag div1</b>
+            <p class="p1">Ini adalah paragraf ke-1 didalam tag div1</p>
+            <p>Ini adalah paragraf ke-2 didalam tag div1</p>
+        </div>
+        <br/>
+        <button>Remove p1</button>
+</html>

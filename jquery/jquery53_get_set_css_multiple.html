@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 53 GET SET CSS CLASS MULTIPLE</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Modifikasi element CSS pada element HTML yang sudah ditandai 
+    $(document).ready(function () {    
+        $("button").click(function(){
+            $("div").addClass("blue important");
+        });
+    });
+    </script>
+    <style>
+        .important{
+            font-weight: bolder;
+            font-size: xx-large;
+        }
+        .blue{
+            color: yellowgreen;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 53 GET SET CSS CLASS MULTIPLE</h2>
+        
+        <div>
+            Ini adalah text penting!
+        </div>
+        <br/>
+        <button>Tambah CSS class pada element</button>
+</html>
