@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 57 CSS METHOD SET PROPERTY</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // CSS method digunakan untuk me-return atau mengatur style properties pada elemen HTML yang ditandai 
+    $(document).ready(function () {
+        $("button").click(function(){
+            $(".p1").css("background-color","orange");
+            $(".p2").css("background-color","violet");
+            $(".p3").css("background-color","yellowgreen");
+            $(".p4").css("background-color","lightblue");
+        });    
+    });
+    </script>
+    <style>
+        .p1{
+            background-color: #ff0000;
+        }
+        .p2{
+            background-color: #00ff00;
+        }
+        .p3{
+            background-color: #0000ff;
+        }
+        .p4{
+            background-color: #ff00ff;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 57 CSS METHOD SET PROPERTY</h2>
+        <p class="p1">Ini adalah paragraf ke-1</p>
+        <p class="p2">Ini adalah paragraf ke-2</p>
+        <p class="p3">Ini adalah paragraf ke-3</p>
+        <p class="p4">Ini adalah paragraf ke-4</p>
+        <button>Set property background-color paragraf</button>
+</html>
