@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 63 DIMENSION RESIZE</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Mudah mengatur dimensi elemen HTML dan browser window
+    $(document).ready(function () {
+        $("button").click(function(){
+            $("#div1").width(100).height(200);
+        });
+    });
+    </script>
+    <style>
+        #div1{
+            height: 50px;
+            width: 100px;
+            padding: 10px;
+            margin: 3px;
+            border: 1px solid red;
+            background-color: pink;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 63 DIMENSION RESIZE</h2>
+        <div id="div1">HALO KONOHA!</div>
+        <br>
+        <button>Resize div</button>
+</html>

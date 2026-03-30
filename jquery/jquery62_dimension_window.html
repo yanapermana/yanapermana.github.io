@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 62 DIMENSION WINDOW</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Mudah mengatur dimensi elemen HTML dan browser window
+    $(document).ready(function () {
+        $("button").click(function(){
+            var txt = "";
+            txt += "Document width height: " + $(document).width();
+            txt += "x" + $(document).height() + "\n";
+            txt += "Window width height: " + $(window).width();
+            txt += "x" + $(window).height() + "\n";
+            alert(txt);
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 62 DIMENSION WINDOW</h2>
+        <button>Tampilkan dimensi window saat ini</button>
+</html>

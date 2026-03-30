@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 60 DIMENSION INNER</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Mudah mengatur dimensi elemen HTML dan browser window 
+    // inner artinya nilai padding ikut dihitung
+    $(document).ready(function () {
+       $("button").click(function(){
+        var txt = "";
+        txt += "Lebar div: " + $("#div1").width() + " px <br>";
+        txt += "Tinggi div: " + $("#div1").height() + " px <br>";
+        txt += "Lebar inner div: " + $("#div1").innerWidth() + " px <br>";
+        txt += "Tinggi inner div: " + $("#div1").innerHeight() + " px <br>";
+        $("#div1").html(txt);
+       })
+    });
+    </script>
+    <style>
+       #div1{
+        height: 200px;
+        width: 350px;
+        padding: 30px;
+        margin: 3px;
+        border: 1px solid orange;
+        background-color: yellow;
+       }
+    </style>
+    <body>
+        <h2>JQUERY 60 DIMENSION INNER</h2>
+        <div id="div1"></div>
+        <br>
+        <button>Tampilkan dimensi div</button>
+        <p>width() - return lebar elemen</p>
+        <p>height() - return tinggi elemen</p>
+        <p>innerWidth() - return lebar inner elemen</p>
+        <p>innerHeight() - return tinggi inner elemen</p>
+</html>
