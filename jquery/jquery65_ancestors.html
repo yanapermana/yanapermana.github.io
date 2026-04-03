@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 65 ANCESTORS</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Ancestors terdiri dari parent, grandparent, great-grandparent dan seterusnya
+    // method parent digunakan untuk return direct parent dari elemen HTML yang dipilih
+    // warna orange menunjukkan elemen yang menggunakan method parent
+    $(document).ready(function () {
+        $("span").parent().css({
+            "color": "orange",
+            "border": "3px solid orange"
+        });
+    });
+    </script>
+    <style>
+       #subdiv1, #subdiv2{
+        width: 300px;
+       }
+       .ancestors * {
+        display: block;
+        border: 2px solid darkviolet;
+        color: darkviolet;
+        padding: 5px;
+        margin: 15px;
+       }
+    </style>
+    <body>
+        <h2>JQUERY 65 ANCESTORS</h2>
+       <div class="ancestors">
+        <div id="subdiv1">div (great-grandparent)
+            <ul>unordered list (grandparent)
+                <li>list (direct parent)
+                    <span>span text</span>
+                </li>
+            </ul>
+        </div>
+        <div id="subdiv2">div (grandparent)
+            <p>paragraph (direct parent)
+                <span>span text</span>
+            </p>
+        </div>
+       </div> 
+</html>

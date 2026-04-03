@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 64 TRAVERSING</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Traversing adalah mencari elemen HTML berdasarkan relasi dengan elemen HTML lain.
+    $(document).ready(function () {
+        $("span").parent().css({
+            "color": "orange",
+            "border": "2px solid orange"
+        });
+    });
+    </script>
+    <style>
+       #subdiv1, #subdiv2{
+        width: 200px;
+       }
+       .ancestors * {
+        display: block;
+        border: 2px solid darkviolet;
+        color: darkviolet;
+        padding: 5px;
+        margin: 15px;
+       }
+    </style>
+    <body>
+        <h2>JQUERY 64 TRAVERSING</h2>
+       <div class="ancestors">
+        <div id="subdiv1">div (great-grandparent)
+            <ul>unordered list (grandparent)
+                <li>list (direct parent)
+                    <span>span text</span>
+                </li>
+            </ul>
+        </div>
+        <div id="subdiv2">div (grandparent)
+            <p>paragraph (direct parent)
+                <span>span text</span>
+            </p>
+        </div>
+       </div> 
+</html>
