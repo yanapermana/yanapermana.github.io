@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 82 FILTERING NOT</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Filtering digunakan untuk memilih elemen secara spesifik
+    // method filtering ada first(), last(), eq(), filter() dan not()
+    // method not() digunakan untuk return elemen berdasarkan kriteria oposisi
+    $(document).ready(function () {
+        $("p").not(".bgn").css({
+            "background-color": "lightblue",
+            "font-size": "32px"
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 82 FILTERING NOT</h2>
+        <p>Insya Allah akan terbuka 19 juta lapangan kerja</p>
+        <p class="bgn">I love MBG</p>
+        <p class="bgn">MBG adalah Makan Bergizi Gratis</p>
+        <p>Pria Oslo pernah berkata "Saya akan kembali ke Oslo, sebagai rakyat biasa."</p>
+    </body> 
+</html>

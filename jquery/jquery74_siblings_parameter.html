@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 74 SIBLINGS PARAMETER</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Siblings berbagai parent yang sama
+    // method siblings() digunakan return semua siblings pada elemen HTML yang ditandai
+    // contoh dengan parameter untuk return semua siblings yang merupakan elemen <p>
+    // warna orange adalah siblings parameter
+    $(document).ready(function () {
+        $("h3").siblings("p").css({
+            "color": "orange",
+            "border": "3px solid orange"
+        });
+    });
+    </script>
+    <style>
+        .siblings * {
+            display: block;
+            border: 2px solid lightgreen;
+            color: lightgreen;
+            padding: 5px;
+            margin: 15px;
+        }
+    </style>
+    <body class="siblings">
+        <h2>JQUERY 74 SIBLINGS PARAMETER</h2>
+        <div>div (parent)
+            <p>paragraph</p>
+            <span>span</span>
+            <h3>heading3</h3>
+            <h4>heading4</h4>
+            <p>paragraph</p>
+        </div>
+    </body> 
+</html>

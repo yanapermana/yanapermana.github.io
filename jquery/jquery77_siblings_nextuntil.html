@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 77 SIBLINGS NEXT UNTIL</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Siblings berbagai parent yang sama
+    // method nextUntil() digunakan return semua siblings selanjutnya diantara dua elemen HTML
+    // warna orange adalah siblings next until
+    $(document).ready(function () {
+        $("h3").nextUntil("h6").css({
+            "color": "orange",
+            "border": "3px solid orange"
+        });
+    });
+    </script>
+    <style>
+        .siblings * {
+            display: block;
+            border: 2px solid lightgreen;
+            color: lightgreen;
+            padding: 5px;
+            margin: 15px;
+        }
+    </style>
+    <body class="siblings">
+        <h2>JQUERY 77 SIBLINGS NEXT UNTIL</h2>
+        <div>div (parent)
+            <p>paragraph</p>
+            <span>span</span>
+            <h3>heading3</h3>
+            <h4>heading4</h4>
+            <h5>heading5</h5>
+            <h6>heading6</h6>
+            <p>paragraph</p>
+        </div>
+    </body> 
+</html>

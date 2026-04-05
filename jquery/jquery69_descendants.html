@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 69 DESCENDANTS</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Descendants adalah child, grandchild, great-grandchild dan seterusnya
+    // method children() digunakan untuk return semua children pada elemen HTML yang dipilih
+    // warna orange menandai method children()
+    $(document).ready(function () {
+        $("div").children().css({
+            "color": "orange",
+            "border": "3px solid orange"
+        });
+    });
+    </script>
+    <style>
+        #div1{
+            width: 300px;
+        }
+        .descendants{
+            display: block;
+            border: 2px solid yellowgreen;
+            color: lightcoral;
+            padding: 5px;
+            margin: 15px;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 69 DESCENDANTS</h2>
+        <div class="descendants" id="div1">div (current element)
+            <p>paragraph (child)
+                <span>span (grandchild)</span>
+            </p>
+            <p>paragraph (child)
+                <span>span (grandchild)</span>
+            </p>
+        </div>
+    </body> 
+</html>
