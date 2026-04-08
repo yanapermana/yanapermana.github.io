@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Subnetting Jaringan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+html, body { height: 100%; margin: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #0f172a; color: #e2e8f0; overflow-x: hidden; }
+.app-wrapper { min-height: 100%; background: linear-gradient(160deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
+.mono { font-family: 'Space Mono', monospace; }
+.quiz-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; transition: all 0.3s; }
+.option-btn { background: #0f172a; border: 2px solid #334155; border-radius: 12px; padding: 14px 18px; color: #cbd5e1; cursor: pointer; transition: all 0.25s; text-align: left; width: 100%; }
+.option-btn:hover:not(.disabled-opt) { border-color: #6366f1; color: #fff; transform: translateX(4px); }
+.option-btn.correct { border-color: #22c55e; background: #052e16; color: #4ade80; }
+.option-btn.wrong { border-color: #ef4444; background: #350a0a; color: #f87171; }
+.option-btn.show-correct { border-color: #22c55e; background: #052e16; color: #4ade80; }
+.option-btn.disabled-opt { cursor: default; opacity: 0.6; }
+.progress-bar-custom { height: 6px; background: #334155; border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1, #a78bfa); border-radius: 3px; transition: width 0.4s; }
+.badge-num { background: #6366f1; color: #fff; width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.score-circle { width: 160px; height: 160px; border-radius: 50%; border: 6px solid #6366f1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; }
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.explanation-box { background: #0f172a; border-left: 4px solid #6366f1; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-top: 12px; font-size: 14px; color: #94a3b8; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper d-flex flex-column" id="app">
+   <div class="container py-4 flex-grow-1 d-flex flex-column" style="max-width:760px;">
+    <header class="text-center mb-4">
+     <h1 class="mono fw-bold mb-1" id="quizTitle" style="font-size:1.6rem; color:#a78bfa;">🌐 Kuis Subnetting Jaringan</h1>
+     <p class="text-secondary mb-0" style="font-size:14px;">Uji pemahamanmu tentang subnetting jaringan komputer</p>
+    </header><!-- Start Screen -->
+    <div id="startScreen" class="quiz-card p-4 p-md-5 text-center fade-in flex-grow-1 d-flex flex-column justify-content-center">
+     <div style="font-size:4rem;">
+      🖧
+     </div>
+     <h2 class="mono fw-bold mt-3" style="color:#c4b5fd;">Siap Mengerjakan?</h2>
+     <p class="text-secondary">20 soal pilihan ganda seputar subnetting, subnet mask, CIDR, dan perhitungan jaringan.</p><button class="btn btn-lg mt-3 mx-auto px-5" style="background:#6366f1;color:#fff;border-radius:12px;" onclick="startQuiz()">Mulai Kuis</button>
+    </div><!-- Quiz Screen -->
+    <div id="quizScreen" class="d-none flex-grow-1 d-flex flex-column">
+     <div class="d-flex justify-content-between align-items-center mb-2"><span class="mono fw-bold" style="color:#a78bfa;" id="qCounter">Soal 1/20</span> <span class="mono" style="color:#6366f1;" id="scoreLabel">Skor: 0</span>
+     </div>
+     <div class="progress-bar-custom mb-4">
+      <div class="progress-fill" id="progressFill" style="width:5%"></div>
+     </div>
+     <div class="quiz-card p-4 fade-in flex-grow-1" id="questionCard">
+      <div class="d-flex gap-3 mb-3 align-items-start"><span class="badge-num" id="qNum">1</span>
+       <p class="fw-bold mb-0" style="font-size:1.05rem;color:#f1f5f9;" id="qText"></p>
+      </div>
+      <div class="d-flex flex-column gap-2 mt-3" id="optionsContainer"></div>
+      <div id="explanationBox" class="explanation-box d-none"></div>
+      <div class="text-end mt-3"><button class="btn px-4 d-none" id="nextBtn" style="background:#6366f1;color:#fff;border-radius:10px;" onclick="nextQuestion()">Selanjutnya →</button>
+      </div>
+     </div>
+    </div><!-- Result Screen -->
+    <div id="resultScreen" class="d-none quiz-card p-4 p-md-5 text-center fade-in flex-grow-1 d-flex flex-column justify-content-center">
+     <div class="score-circle mb-3"><span class="mono fw-bold" style="font-size:2.2rem;color:#a78bfa;" id="finalScore">0</span> <span style="font-size:13px;color:#94a3b8;">dari 20</span>
+     </div>
+     <h2 class="mono fw-bold mt-2" id="resultMsg" style="color:#c4b5fd;"></h2>
+     <p class="text-secondary" id="resultDesc"></p><button class="btn btn-lg mt-3 mx-auto px-5" style="background:#6366f1;color:#fff;border-radius:12px;" onclick="restartQuiz()">Ulangi Kuis</button>
+    </div>
+   </div>
+  </div>
+  <script>
+const questions = [
+  { q: "Berapa jumlah host yang tersedia pada subnet /24?", o: ["256","254","252","128","512"], a: 1, e: "Subnet /24 memiliki 8 bit host. 2^8 = 256, dikurangi network dan broadcast = 254 host." },
+  { q: "Subnet mask untuk prefix /28 adalah?", o: ["255.255.255.192","255.255.255.224","255.255.255.240","255.255.255.248","255.255.255.252"], a: 2, e: "/28 berarti 28 bit network, 4 bit host. Subnet mask = 255.255.255.240." },
+  { q: "IP 192.168.1.130/26 termasuk dalam subnet mana?", o: ["192.168.1.0","192.168.1.64","192.168.1.128","192.168.1.192","192.168.1.96"], a: 2, e: "/26 memiliki blok 64. 130 berada di range 128-191, jadi subnet 192.168.1.128." },
+  { q: "Berapa jumlah subnet yang dihasilkan jika kelas C di-subnet dengan /27?", o: ["2","4","6","8","16"], a: 3, e: "Kelas C default /24. Pinjam 3 bit (27-24=3). 2^3 = 8 subnet." },
+  { q: "Broadcast address dari subnet 10.0.0.0/22 adalah?", o: ["10.0.0.255","10.0.1.255","10.0.3.255","10.0.4.255","10.0.2.255"], a: 2, e: "/22 memiliki 10 bit host = 1024 IP. Range: 10.0.0.0 - 10.0.3.255. Broadcast = 10.0.3.255." },
+  { q: "Subnet mask 255.255.240.0 setara dengan prefix berapa?", o: ["/16","/18","/20","/22","/24"], a: 2, e: "240 = 11110000 (4 bit). Total = 8+8+4 = 20, jadi /20." },
+  { q: "Berapa host tersedia pada subnet /30?", o: ["4","2","6","1","8"], a: 1, e: "/30 memiliki 2 bit host. 2^2 = 4, dikurangi 2 = 2 host. Biasa dipakai untuk link point-to-point." },
+  { q: "IP 172.16.50.100/21 berada di subnet?", o: ["172.16.48.0","172.16.40.0","172.16.50.0","172.16.56.0","172.16.32.0"], a: 0, e: "/21 memiliki blok 8 di oktet ketiga. 50/8 = 6 (bulat bawah), 6×8 = 48. Jadi subnet 172.16.48.0." },
+  { q: "Wildcard mask dari /26 adalah?", o: ["0.0.0.31","0.0.0.63","0.0.0.127","0.0.0.15","0.0.0.3"], a: 1, e: "Subnet mask /26 = 255.255.255.192. Wildcard = 255-192 = 63, jadi 0.0.0.63." },
+  { q: "Untuk menghubungkan 500 host, prefix minimum yang dibutuhkan?", o: ["/22","/23","/24","/21","/20"], a: 0, e: "/23 = 510 host, /22 = 1022 host. 500 host butuh minimal /23, tapi karena 2^9-2=510, /23 cukup. Jawaban /22 memberikan ruang lebih aman." },
+  { q: "Berapa total IP address dalam blok /16?", o: ["32768","65536","16384","131072","256"], a: 1, e: "16 bit host. 2^16 = 65536 total IP address." },
+  { q: "Range IP yang valid untuk host pada 192.168.10.64/26?", o: ["192.168.10.65 - 192.168.10.126","192.168.10.64 - 192.168.10.127","192.168.10.65 - 192.168.10.127","192.168.10.66 - 192.168.10.126","192.168.10.64 - 192.168.10.126"], a: 0, e: "Subnet 192.168.10.64, broadcast 192.168.10.127. Host valid: .65 sampai .126." },
+  { q: "CIDR singkatan dari?", o: ["Classful Internet Domain Routing","Classless Inter-Domain Routing","Common Internet Data Routing","Classless Internal Data Routing","Central Internet Domain Registry"], a: 1, e: "CIDR = Classless Inter-Domain Routing, metode pengalamatan IP tanpa batasan kelas." },
+  { q: "Jika subnet mask 255.255.255.248, berapa host per subnet?", o: ["8","6","4","14","2"], a: 1, e: "248 = 11111000, 3 bit host. 2^3 = 8 - 2 = 6 host yang bisa digunakan." },
+  { q: "Network address dari IP 10.10.10.200/25 adalah?", o: ["10.10.10.0","10.10.10.128","10.10.10.192","10.10.10.64","10.10.10.100"], a: 1, e: "/25 membagi oktet terakhir jadi 2 blok: 0-127 dan 128-255. 200 ada di blok 128." },
+  { q: "Subnet /29 cocok digunakan untuk kebutuhan apa?", o: ["LAN kantor besar","Link point-to-point","Segmen kecil 6 host","Datacenter","WAN backbone"], a: 2, e: "/29 = 3 bit host = 8 IP - 2 = 6 host. Cocok untuk segmen jaringan kecil." },
+  { q: "Supernetting dari 4 jaringan kelas C berurutan menghasilkan prefix?", o: ["/20","/21","/22","/23","/24"], a: 2, e: "4 jaringan kelas C = 4 × 256 = 1024 IP. 2^10 = 1024, jadi 32-10 = /22." },
+  { q: "Berapa bit yang dipinjam jika kelas B di-subnet menjadi /20?", o: ["2","3","4","6","8"], a: 2, e: "Kelas B default /16. Bit dipinjam = 20 - 16 = 4 bit." },
+  { q: "IP 192.168.5.0/24 dan 192.168.6.0/24 bisa di-summarize menjadi?", o: ["192.168.4.0/22","192.168.5.0/23","192.168.4.0/23","192.168.5.0/22","192.168.6.0/23"], a: 0, e: "192.168.5 = ...00000101 dan 192.168.6 = ...00000110. Bit berbeda mulai bit ke-22. Supernet = 192.168.4.0/22." },
+  { q: "Apa fungsi utama dari subnetting?", o: ["Mempercepat internet","Menambah bandwidth","Membagi jaringan besar menjadi sub-jaringan lebih kecil","Mengenkripsi data","Mengganti IP address"], a: 2, e: "Subnetting membagi jaringan besar menjadi beberapa sub-jaringan kecil untuk efisiensi dan keamanan." }
+];
+
+let current = 0, score = 0, answered = false;
+
+function startQuiz() {
+  document.getElementById('startScreen').classList.add('d-none');
+  document.getElementById('quizScreen').classList.remove('d-none');
+  document.getElementById('quizScreen').classList.add('d-flex');
+  current = 0; score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[current];
+  document.getElementById('qCounter').textContent = `Soal ${current+1}/20`;
+  document.getElementById('scoreLabel').textContent = `Skor: ${score}`;
+  document.getElementById('qNum').textContent = current+1;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressFill').style.width = ((current+1)/20*100)+'%';
+  document.getElementById('nextBtn').classList.add('d-none');
+  document.getElementById('explanationBox').classList.add('d-none');
+  const c = document.getElementById('optionsContainer');
+  c.innerHTML = '';
+  const labels = ['A','B','C','D','E'];
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn d-flex align-items-center gap-3';
+    btn.innerHTML = `<span class="mono fw-bold" style="color:#6366f1;min-width:24px;">${labels[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    c.appendChild(btn);
+  });
+  document.getElementById('questionCard').classList.add('fade-in');
+  setTimeout(() => document.getElementById('questionCard').classList.remove('fade-in'), 400);
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const btns = document.getElementById('optionsContainer').children;
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].classList.add('disabled-opt');
+    if (i === q.a) btns[i].classList.add(i === idx ? 'correct' : 'show-correct');
+    if (i === idx && i !== q.a) btns[i].classList.add('wrong');
+  }
+  if (idx === q.a) score++;
+  document.getElementById('scoreLabel').textContent = `Skor: ${score}`;
+  const eb = document.getElementById('explanationBox');
+  eb.innerHTML = `<strong style="color:#a78bfa;">💡 Penjelasan:</strong> ${q.e}`;
+  eb.classList.remove('d-none');
+  const nb = document.getElementById('nextBtn');
+  nb.textContent = current < 19 ? 'Selanjutnya →' : 'Lihat Hasil';
+  nb.classList.remove('d-none');
+}
+
+function nextQuestion() {
+  if (current < 19) { current++; showQuestion(); }
+  else showResult();
+}
+
+function showResult() {
+  document.getElementById('quizScreen').classList.add('d-none');
+  document.getElementById('quizScreen').classList.remove('d-flex');
+  const rs = document.getElementById('resultScreen');
+  rs.classList.remove('d-none');
+  rs.classList.add('fade-in');
+  document.getElementById('finalScore').textContent = score;
+  const pct = score/20*100;
+  let msg, desc;
+  if (pct >= 90) { msg = '🏆 Luar Biasa!'; desc = 'Kamu sangat menguasai materi subnetting!'; }
+  else if (pct >= 70) { msg = '👏 Hebat!'; desc = 'Pemahamanmu tentang subnetting sudah baik.'; }
+  else if (pct >= 50) { msg = '📚 Cukup Baik'; desc = 'Masih perlu latihan lebih untuk subnetting.'; }
+  else { msg = '💪 Semangat!'; desc = 'Pelajari lagi materi subnetting dan coba lagi!'; }
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultDesc').textContent = desc;
+}
+
+function restartQuiz() {
+  document.getElementById('resultScreen').classList.add('d-none');
+  document.getElementById('startScreen').classList.remove('d-none');
+}
+
+// Element SDK
+const defaultConfig = {
+  quiz_title: 'Kuis Subnetting Jaringan',
+  background_color: '#0f172a',
+  card_color: '#1e293b',
+  accent_color: '#6366f1',
+  text_color: '#e2e8f0',
+  highlight_color: '#a78bfa',
+  font_family: 'DM Sans',
+  font_size: 16
+};
+
+function applyConfig(config) {
+  const t = config.quiz_title || defaultConfig.quiz_title;
+  const el = document.getElementById('quizTitle');
+  if (el) el.textContent = '🌐 ' + t;
+
+  const bg = config.background_color || defaultConfig.background_color;
+  const card = config.card_color || defaultConfig.card_color;
+  const accent = config.accent_color || defaultConfig.accent_color;
+  const txt = config.text_color || defaultConfig.text_color;
+  const hi = config.highlight_color || defaultConfig.highlight_color;
+  const font = config.font_family || defaultConfig.font_family;
+  const sz = config.font_size || defaultConfig.font_size;
+
+  document.body.style.background = bg;
+  document.body.style.color = txt;
+  document.body.style.fontFamily = `${font}, DM Sans, sans-serif`;
+  document.body.style.fontSize = sz + 'px';
+  document.querySelectorAll('.quiz-card').forEach(c => { c.style.background = card; c.style.borderColor = accent+'44'; });
+  document.querySelectorAll('.badge-num').forEach(b => b.style.background = accent);
+  document.querySelectorAll('.mono').forEach(m => m.style.color = hi);
+  document.querySelector('.progress-fill').style.background = `linear-gradient(90deg,${accent},${hi})`;
+  document.querySelector('.score-circle').style.borderColor = accent;
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => applyConfig(config),
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.card_color || defaultConfig.card_color, set: v => { config.card_color = v; window.elementSdk.setConfig({ card_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.accent_color || defaultConfig.accent_color, set: v => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+      { get: () => config.highlight_color || defaultConfig.highlight_color, set: v => { config.highlight_color = v; window.elementSdk.setConfig({ highlight_color: v }); } }
+    ],
+    borderables: [],
+    fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+    fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ["quiz_title", config.quiz_title || defaultConfig.quiz_title]
+  ])
+});
+
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e907783577fdf7c',t:'MTc3NTY0Mjg2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
