@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 85 AJAX POST</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // AJAX adalah Asynchronous Javascript
+    // Biasanya digunakan untuk load content external
+    // Selain itu AJAX efektif untuk pertukaran dan update data website tanpa perlu reload page
+    // Gunakan XAMPP agar AJAX bisa digunakan dengan CORS
+    // request POST bisa menggunakan parameter data
+    // Source - https://stackoverflow.com/a/21192061
+    // Posted by Mr. Alien, modified by community. See post 'Timeline' for change history
+    // Retrieved 2026-04-10, License - CC BY-SA 4.0
+
+    $(document).ready(function() {
+        $('form').submit(function(event) { //Trigger on form submit
+            $('#name + .throw_error').empty(); //Clear the messages first
+            $('#success').empty();
+
+            //Validate fields if required using jQuery
+
+            var postForm = { //Fetch form data
+                'name'     : $('input[name=name]').val() //Store name fields value
+            };
+
+            $.ajax({ //Process the form using $.ajax()
+                type      : 'POST', //Method type
+                url       : 'form.php', //Your form processing file URL
+                data      : postForm, //Forms name
+                dataType  : 'json',
+                success   : function(data) {
+                                if (!data.success) { //If fails
+                                    if (data.errors.name) { //Returned if any error from form.php
+                                        $('.throw_error').fadeIn(1000).html(data.errors.name); //Throw relevant error
+                                    }
+                                }
+                                else {
+                                        $('#success').fadeIn(1000).append('<p>' + data.posted + '</p>'); //If successful, than throw a success message
+                                    }
+                                }
+            });
+            event.preventDefault(); //Prevent the default submit
+        });
+    });
+
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 85 AJAX POST</h2>
+        <!--
+        Source - https://stackoverflow.com/a/21192061
+        Posted by Mr. Alien, modified by community. See post 'Timeline' for change history
+        Retrieved 2026-04-10, License - CC BY-SA 4.0
+        -->
+
+        <form method="post" name="postForm">
+            <ul>
+                <li>
+                    <label>Nama</label>
+                    <input type="text" name="name" id="name" placeholder="Wumbo">
+                    <span class="throw_error"></span>
+                    <span id="success"></span>
+            </li>
+        </ul>
+        <input type="submit" value="Send" />
+        </form>
+
+    </body> 
+</html>

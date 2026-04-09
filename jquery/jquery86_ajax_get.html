@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 84 AJAX GET</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // AJAX adalah Asynchronous Javascript
+    // Biasanya digunakan untuk load content external
+    // Selain itu AJAX efektif untuk pertukaran dan update data website tanpa perlu reload page
+    // Gunakan XAMPP agar AJAX bisa digunakan dengan CORS
+    // request GET tidak bisa menggunakan parameter data
+    $(document).ready(function () {
+        $("button").click(function(){
+            $.get("eksternal.txt", function(data,status){
+                alert("Data: " + data + "\nStatus: " + status);
+            })
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 84 AJAX GET</h2>
+        <button>Send AJAX HTTP get untuk mendapatkan data</button>
+    </body> 
+</html>

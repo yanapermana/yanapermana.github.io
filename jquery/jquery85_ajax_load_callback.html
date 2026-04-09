@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 85 AJAX LOAD CALLBACK</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // AJAX adalah Asynchronous Javascript
+    // Biasanya digunakan untuk load content external
+    // Selain itu AJAX efektif untuk pertukaran dan update data website tanpa perlu reload page
+    // Gunakan XAMPP agar AJAX bisa digunakan dengan CORS
+    $(document).ready(function () {
+        $("button").click(function(){
+            $("#div1").load("eksternal.txt",function(responseTxt, statusTxt, xhr){
+                if(statusTxt=="success"){
+                    alert("Konten eksternal berhasil dimuat!");
+                }else{
+                    alert("Error: " + xhr.status + ": " + xhr.statusTxt);
+                }
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 85 AJAX LOAD CALLBACK</h2>
+        <div id="div1">jQuery AJAX, tampilkan alert callback!</div>
+        <button>Callback!</button>
+    </body> 
+</html>

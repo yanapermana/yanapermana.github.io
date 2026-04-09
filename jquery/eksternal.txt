@@ -1,0 +1,3 @@
+Halo Dunia! Aku teks eksternal.
+
+<p id="p1">Ini adalah paragraf p1.</p>
