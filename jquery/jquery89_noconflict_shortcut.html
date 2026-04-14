@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 89 NO CONFLICT SHORTCUT</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // noConflict() digunakan untuk shortcut pengganti identifier $ setara jQuery agar bisa digunakan dalam script
+    var MBG = $.noConflict();
+    MBG(document).ready(function() {
+        MBG("button").click(function(){
+            MBG("p").text("jQuery dengan shortcut MBG tetap berjalan normal!")
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 89 NO CONFLICT SHORTCUT</h2>
+        <p>Ini adalah paragraf ke-1</p>
+        <button>noConflict jQuery shortcut MBG</button>
+    </body> 
+</html>

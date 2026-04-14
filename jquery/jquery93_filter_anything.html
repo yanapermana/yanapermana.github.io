@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 93 FILTER ANYTHING</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Filter atau search elemen tertentu pada tabel
+    $(document).ready(function() {
+        $("#myInput").on("keyup",function(){
+            var value = $(this).val().toLowerCase();
+            $("#myDiv *").filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 93 FILTER ANYTHING</h2>
+        <p>Ketik apa saja pada field input untuk mencari data list.</p>
+        <input id="myInput" type="text" placeholder="Cari..."/>
+        <br/>
+        <hr/>
+        <div id="myDiv">
+            <p>Paragraf ke-1</p>
+            <button>Button ke-1</button>
+            <a href="#">Link ke-1</a>
+            <b>Teks tebal ke-1</b>
+            <i>Teks miring ke-1</i>
+        </div>
+    </body> 
+</html>

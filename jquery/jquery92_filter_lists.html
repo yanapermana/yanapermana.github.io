@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 92 FILTER LISTS</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Filter atau search elemen tertentu pada tabel
+    $(document).ready(function() {
+        $("#myInput").on("keyup",function(){
+            var value = $(this).val().toLowerCase();
+            $("#myList li").filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 92 FILTER LISTS</h2>
+        <p>Ketik apa saja pada field input untuk mencari data list.</p>
+        <input id="myInput" type="text" placeholder="Cari..."/>
+        <br/>
+        <hr/>
+        <ul id="myList">
+            <li>Nasi Goreng</li>
+            <li>Cap Cay</li>
+            <li>Kwetiaw</li>
+            <li>Batagor</li>
+            <li>Mie Ayam</li>
+            <li>Baso</li>
+        </ul>
+    </body> 
+</html>

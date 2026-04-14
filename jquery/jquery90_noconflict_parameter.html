@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 90 NO CONFLICT PARAMETER</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // noConflict() digunakan untuk shortcut pengganti identifier $ setara jQuery agar bisa digunakan dalam script
+    // $ sebagai parameter
+    $.noConflict();
+    jQuery(document).ready(function($) {
+        $("button").click(function(){
+            $("p").text("jQuery dengan parameter $ tetap berjalan normal!")
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 90 NO CONFLICT PARAMETER</h2>
+        <p>Ini adalah paragraf ke-1</p>
+        <button>noConflict parameter</button>
+    </body> 
+</html>

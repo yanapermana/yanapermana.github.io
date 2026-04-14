@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 91 FILTER TABLES</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // Filter atau search elemen tertentu pada tabel
+    $(document).ready(function() {
+        $("#myInput").on("keyup",function(){
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+    </script>
+    <style>
+        table{
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td,th{
+            border: 1px solid greenyellow;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even){
+            background-color: greenyellow;
+        }
+    </style>
+    <body>
+        <h2>JQUERY 91 FILTER TABLES</h2>
+        <p>Ketik apa saja pada field input untuk mencari data nama, marga, atau email.</p>
+        <input id="myInput" type="text" placeholder="Cari..."/>
+        <br/>
+        <hr/>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Depan</th>
+                    <th>Marga</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                <tr>
+                    <td>Joe</td>
+                    <td>Cowee</td>
+                    <td>joecowee@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Foofoo</td>
+                    <td>Faafaa</td>
+                    <td>foofoofaafaa@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Tan</td>
+                    <td>Malaka</td>
+                    <td>tanmalaka@gmail.com</td>
+                </tr>
+                <tr>
+                    <td>Pasca</td>
+                    <td>Bowow</td>
+                    <td>pascabowow@gmail.com</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Catatan: Pencarian dalam lingkup tbody saja agar thead tidak ikut masuk data!</p>
+    </body> 
+</html>

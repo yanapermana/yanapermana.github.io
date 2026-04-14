@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQUERY 88 NO CONFLICT</title>
+    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    </script>
+    <script>
+    // noConflict() digunakan untuk shortcut pengganti identifier $ setara jQuery agar bisa digunakan dalam script
+    $.noConflict();
+    jQuery(document).ready(function() {
+        jQuery("button").click(function(){
+            jQuery("p").text("jQuery tetap berjalan normal!")
+        });
+    });
+    </script>
+    <style>
+    </style>
+    <body>
+        <h2>JQUERY 88 NO CONFLICT</h2>
+        <p>Ini adalah paragraf ke-1</p>
+        <button>noConflict jQuery</button>
+    </body> 
+</html>
