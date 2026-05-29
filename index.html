@@ -1,8 +1,584 @@
-<html>
-    <head>
-        <title>Yana Permana Github</title>
-    </head>
-    <body>
-        <h1>Welcome</h1>
-    </body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yana Permana — Guru & Programmer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-muted: #5a5a56;
+    --ink-faint: #a0a09a;
+    --bg: #f7f5ef;
+    --bg-card: #ffffff;
+    --bg-dark: #1a1a18;
+    --accent: #2d5a27;
+    --accent-light: #e8f2e7;
+    --accent2: #8b3a1a;
+    --border: rgba(26,26,24,0.12);
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'Syne', sans-serif;
+    --mono: 'DM Mono', monospace;
+    --radius: 4px;
+    --radius-lg: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(247,245,239,0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 1.2rem; color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 64px;
+  }
+  .hero-left {
+    background: var(--bg-dark);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-left::after {
+    content: '';
+    position: absolute; bottom: 40px; left: -60px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 2rem;
+  }
+  .hero-name {
+    font-family: var(--serif); font-size: 4.5rem; line-height: 1.05;
+    color: #fff; margin-bottom: 1rem; letter-spacing: -0.02em;
+  }
+  .hero-name em { color: rgba(255,255,255,0.45); font-style: italic; }
+  .hero-role {
+    font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); margin-bottom: 2.5rem;
+  }
+  .hero-location {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.8rem; color: rgba(255,255,255,0.35);
+  }
+  .hero-right {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 4rem;
+  }
+  .hero-summary {
+    font-family: var(--serif); font-size: 1.35rem; line-height: 1.7;
+    color: var(--ink); margin-bottom: 3rem; letter-spacing: -0.01em;
+  }
+  .hero-skills {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 3rem;
+  }
+  .skill-tag {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
+    padding: 0.35rem 0.8rem; border-radius: 99px;
+    border: 1px solid var(--border); color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  .hero-cta { display: flex; gap: 1rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem; border-radius: var(--radius);
+    font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.04em; text-decoration: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--ink); color: #fff; border: 1.5px solid var(--ink);
+  }
+  .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn-outline {
+    background: transparent; color: var(--ink); border: 1.5px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--ink); }
+
+  /* SECTION */
+  section { padding: 6rem 5rem; max-width: 1200px; margin: 0 auto; }
+  section.full-bg { max-width: none; padding: 6rem 0; }
+
+  .section-label {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--serif); font-size: 2.8rem; line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 3.5rem;
+  }
+
+  /* TIMELINE */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    gap: 2rem;
+    transition: background 0.2s;
+  }
+  .tl-item:last-child { border-bottom: 1px solid var(--border); }
+  .tl-left { padding-right: 2rem; }
+  .tl-date {
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
+    color: var(--ink-faint); text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .tl-company {
+    font-size: 0.85rem; font-weight: 600; color: var(--ink-muted);
+  }
+  .tl-title {
+    font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .tl-loc {
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);
+    letter-spacing: 0.04em; margin-bottom: 0.75rem;
+  }
+  .tl-desc { font-size: 0.9rem; color: var(--ink-muted); line-height: 1.7; max-width: 520px; }
+
+  .tl-badge {
+    display: inline-block; font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border-radius: 99px;
+    background: var(--accent-light); color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  /* AWARDS & SKILLS GRID */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+
+  .card-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.5rem;
+  }
+  .card-icon {
+    font-size: 1.5rem; margin-bottom: 0.75rem;
+  }
+  .card-title { font-weight: 600; margin-bottom: 0.25rem; }
+  .card-sub { font-size: 0.85rem; color: var(--ink-muted); }
+
+  .skills-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+  .skill-row {
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .skill-name { font-family: var(--mono); font-size: 0.8rem; width: 160px; flex-shrink: 0; }
+  .skill-bar {
+    flex: 1; height: 4px; background: var(--border); border-radius: 99px; overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%; background: var(--ink); border-radius: 99px;
+    animation: fillBar 1s ease forwards;
+  }
+  @keyframes fillBar { from { width: 0; } }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    background: var(--bg-dark);
+    padding: 6rem 5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 3rem;
+  }
+  .contact-strip h2 {
+    font-family: var(--serif); font-size: 3rem; color: #fff;
+    line-height: 1.1; letter-spacing: -0.02em; max-width: 400px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    font-family: var(--mono); font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    text-decoration: none; transition: color 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .contact-link:hover { color: #fff; }
+  .contact-link-label {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.25); width: 60px;
+  }
+
+  /* PUBLICATION */
+  .pub-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 2rem;
+    display: flex; align-items: flex-start; gap: 1.5rem;
+  }
+  .pub-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    background: var(--accent-light); border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .pub-title { font-weight: 600; margin-bottom: 0.25rem; line-height: 1.4; }
+  .pub-sub { font-size: 0.85rem; color: var(--ink-muted); }
+
+  /* EDUCATION */
+  .edu-card {
+    display: flex; align-items: center; gap: 2rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 2rem;
+  }
+  .edu-year {
+    font-family: var(--serif); font-size: 3rem; color: var(--border);
+    line-height: 1; flex-shrink: 0;
+  }
+  .edu-title { font-weight: 600; margin-bottom: 0.25rem; }
+  .edu-sub { font-size: 0.85rem; color: var(--ink-muted); }
+
+  footer {
+    text-align: center; padding: 2rem;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--ink-faint);
+    letter-spacing: 0.06em; border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 4rem 2rem; }
+    .hero-name { font-size: 3rem; }
+    .hero-right { padding: 3rem 2rem; }
+    section { padding: 4rem 2rem; }
+    .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .two-col { grid-template-columns: 1fr; }
+    .contact-strip { flex-direction: column; padding: 4rem 2rem; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Yana Permana</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Pengalaman</a></li>
+    <li><a href="#skills">Keahlian</a></li>
+    <li><a href="#education">Pendidikan</a></li>
+    <li><a href="#contact">Kontak</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portofolio Profesional</p>
+    <h1 class="hero-name">Yana<br><em>Permana</em></h1>
+    <p class="hero-role">Guru Komputer &amp; Programmer</p>
+    <p class="hero-location">
+      <span>📍</span> Tegal, Jawa Tengah, Indonesia
+    </p>
+  </div>
+  <div class="hero-right">
+    <p class="hero-summary">
+      Guru profesional bidang Ilmu Komputer dengan pengalaman mengajar, pengembangan keamanan siber, dan pemrograman Android.
+    </p>
+    <div class="hero-skills">
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">Network Admin</span>
+      <span class="skill-tag">Cyber Security</span>
+      <span class="skill-tag">Android Dev</span>
+      <span class="skill-tag">Web Dev</span>
+      <span class="skill-tag">Penetration Testing</span>
+      <span class="skill-tag">CTF</span>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:0x7079@tutanota.com" class="btn btn-primary">Hubungi Saya</a>
+      <a href="https://www.linkedin.com/in/x7079" class="btn btn-outline" target="_blank">LinkedIn ↗</a>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">// Pengalaman</p>
+  <h2 class="section-title">Riwayat Karier</h2>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Okt 2023 – Sekarang</div>
+        <div class="tl-company">SMKS Al-Irsyad Kota Tegal</div>
+      </div>
+      <div>
+        <span class="tl-badge">Aktif</span>
+        <h3 class="tl-title">Guru</h3>
+        <p class="tl-loc">Tegal, Jawa Tengah</p>
+        <p class="tl-desc">Mengajar dan membimbing siswa dalam pemrograman, teknologi informasi, serta pengembangan keterampilan digital dengan pendekatan berbasis teknologi.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Jun 2018 – Sekarang</div>
+        <div class="tl-company">Google Play</div>
+      </div>
+      <div>
+        <span class="tl-badge">Aktif · 8+ tahun</span>
+        <h3 class="tl-title">Android Developer</h3>
+        <p class="tl-loc">Jawa Tengah, Indonesia</p>
+        <p class="tl-desc">Merancang dan mempublikasikan aplikasi Android di Google Play Store secara independen selama lebih dari delapan tahun.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Jul – Jan 2023</div>
+        <div class="tl-company">SMKS ISTEK Kota Tegal</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Guru</h3>
+        <p class="tl-loc">Kota Tegal, Jawa Tengah</p>
+        <p class="tl-desc">Mengajar mata pelajaran teknologi informasi dan komputer di sekolah menengah kejuruan.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Okt 2017 – Sep 2019</div>
+        <div class="tl-company">Telekomunikasi Indonesia</div>
+      </div>
+      <div>
+        <h3 class="tl-title">IT Security Engineer</h3>
+        <p class="tl-loc">Bandung, Jawa Barat</p>
+        <p class="tl-desc">Melakukan penetration testing, vulnerability assessments, dan berbagai layanan keamanan siber untuk infrastruktur perusahaan telekomunikasi nasional.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Mar – Sep 2017</div>
+        <div class="tl-company">Telekomunikasi Indonesia</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Research Assistant</h3>
+        <p class="tl-loc">Bandung, Jawa Barat</p>
+        <p class="tl-desc">Membantu riset dan pengembangan di bidang keamanan siber.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Mar 2015 – Feb 2017</div>
+        <div class="tl-company">CodePolitan</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Writer</h3>
+        <p class="tl-loc">Bandung, Jawa Barat</p>
+        <p class="tl-desc">Menulis artikel, tutorial, dan kursus tentang pemrograman dan teknologi terbaru untuk komunitas developer Indonesia.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Feb 2016 – Jan 2017</div>
+        <div class="tl-company">Dept. Ilmu Komputer FPMIPA UPI</div>
+      </div>
+      <div>
+        <h3 class="tl-title">System Administrator</h3>
+        <p class="tl-loc">Bandung</p>
+        <p class="tl-desc">Mengelola domain, subdomain, basis data, server web, firewall, migrasi server, dan virtualisasi cloud untuk ketersediaan dan keamanan sistem departemen.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Jun 2015 – Jul 2016</div>
+        <div class="tl-company">Dept. Ilmu Komputer FPMIPA UPI</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Network Administrator</h3>
+        <p class="tl-loc">Bandung</p>
+        <p class="tl-desc">Menangani administrasi jaringan: subnetting, routing statis/dinamis, VLAN, dan teknologi Linux, Cisco, serta MikroTik.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Okt – Nov 2016</div>
+        <div class="tl-company">Cyber Defence Competition</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Problem Setter</h3>
+        <p class="tl-loc">Jakarta</p>
+        <p class="tl-desc">Membuat tantangan di bidang kriptografi, digital forensik, dan reverse engineering untuk kompetisi keamanan siber nasional.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-date">Jun – Agu 2014</div>
+        <div class="tl-company">Astro Software House</div>
+      </div>
+      <div>
+        <h3 class="tl-title">Freelance Programmer</h3>
+        <p class="tl-loc">Jawa Tengah</p>
+        <p class="tl-desc">Merancang aplikasi web untuk hotel dan pemerintahan menggunakan PHP, CodeIgniter, MySQL, JavaScript, jQuery, dan Twitter Bootstrap.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS & AWARDS -->
+<section id="skills" style="background: var(--bg-card); max-width: none; padding: 6rem 5rem;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <p class="section-label">// Keahlian &amp; Penghargaan</p>
+    <h2 class="section-title">Yang Saya Kuasai</h2>
+
+    <div class="two-col">
+      <div>
+        <h3 style="font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.5rem;">Keahlian Teknis</h3>
+        <div class="skills-grid">
+          <div class="skill-row">
+            <span class="skill-name">Python</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Network Admin</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 90%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Cyber Security</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 88%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Android Dev</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 80%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Web Dev (PHP)</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 75%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Pen Testing</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 85%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Linux / Cisco</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 82%;"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Kriptografi</span>
+            <div class="skill-bar"><div class="skill-fill" style="width: 78%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.5rem;">Penghargaan</h3>
+        <div class="card-list">
+          <div class="card">
+            <div class="card-icon">🏆</div>
+            <div class="card-title">3rd Winner — Cyber Jawara 2016</div>
+            <div class="card-sub">Kompetisi Keamanan Siber Nasional</div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎓</div>
+            <div class="card-title">Penerima Insentif PKM-GT DIKTI</div>
+            <div class="card-sub">Program Kreativitas Mahasiswa — Kategori Esai</div>
+          </div>
+        </div>
+
+        <h3 style="font-family: var(--serif); font-size: 1.4rem; margin: 2rem 0 1.5rem;">Publikasi</h3>
+        <div class="pub-card">
+          <div class="pub-icon">📄</div>
+          <div>
+            <div class="pub-title">Using Capture The Flag in Classroom</div>
+            <div class="pub-sub">Game-based Implementation in Network Security Learning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">// Pendidikan</p>
+  <h2 class="section-title">Latar Belakang</h2>
+  <div class="edu-card">
+    <div class="edu-year">2016</div>
+    <div>
+      <div class="edu-title">Sarjana Ilmu Komputer</div>
+      <div class="edu-sub">Universitas Pendidikan Indonesia — Bandung · 2012–2016</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-strip">
+  <h2>Mari<br>Berkolaborasi.</h2>
+  <div class="contact-links">
+    <a href="mailto:0x7079@tutanota.com" class="contact-link">
+      <span class="contact-link-label">Email</span>
+      0x7079@tutanota.com
+    </a>
+    <a href="tel:+6281312769640" class="contact-link">
+      <span class="contact-link-label">Phone</span>
+      +62 813-1276-9640
+    </a>
+    <a href="https://www.linkedin.com/in/x7079" target="_blank" class="contact-link">
+      <span class="contact-link-label">LinkedIn</span>
+      linkedin.com/in/x7079
+    </a>
+    <a href="https://github.com/yanapermana" target="_blank" class="contact-link">
+      <span class="contact-link-label">GitHub</span>
+      github.com/yanapermana
+    </a>
+    <a href="https://cryptsec.wordpress.com/" target="_blank" class="contact-link">
+      <span class="contact-link-label">Blog</span>
+      cryptsec.wordpress.com
+    </a>
+    <a href="https://cryptsec.wordpress.com/" target="_blank" class="contact-link">
+      <span class="contact-link-label">Landing Page</span>
+      yanapermana.github.io
+    </a>
+  </div>
+</div>
+
+<footer>
+  © 2025 Yana Permana — Tegal, Jawa Tengah, Indonesia
+</footer>
+
+</body>
 </html>
