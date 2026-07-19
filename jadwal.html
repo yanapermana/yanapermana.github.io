@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadwal Mengajar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board-dark:#17352a;
+    --board:#1e4436;
+    --board-light:#2a5744;
+    --chalk-white:#eef1e8;
+    --chalk-dim:#b9c7bd;
+    --chalk-yellow:#e9c768;
+    --chalk-pink:#e39aa0;
+    --chalk-blue:#8fc1d9;
+    --chalk-orange:#e0a15c;
+    --wood:#6b4a34;
+    --wood-dark:#4d3524;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at top left, rgba(255,255,255,0.03), transparent 60%),
+      linear-gradient(var(--wood-dark), var(--wood-dark)) top/100% 34px no-repeat,
+      var(--board-dark);
+    font-family:'Inter',sans-serif;
+    color:var(--chalk-white);
+    padding:34px 20px 60px;
+    position:relative;
+  }
+  /* chalk texture overlay */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 2px 3px;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+  }
+  .frame{
+    max-width:920px;
+    margin:0 auto;
+    position:relative;
+  }
+  header{
+    text-align:center;
+    margin-bottom:46px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    letter-spacing:.35em;
+    font-size:11px;
+    color:var(--chalk-yellow);
+    text-transform:uppercase;
+    opacity:.85;
+  }
+  h1{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:clamp(48px,8vw,76px);
+    margin:6px 0 4px;
+    color:var(--chalk-white);
+    text-shadow: 0 0 1px rgba(238,241,232,0.3), 0 0 18px rgba(238,241,232,0.08);
+    transform:rotate(-1deg);
+  }
+  .underline{
+    width:220px;
+    height:10px;
+    margin:0 auto 14px;
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--chalk-dim);
+    letter-spacing:.02em;
+  }
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    justify-content:center;
+    margin:22px auto 0;
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:var(--chalk-dim);
+  }
+  .legend span{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    box-shadow:0 0 6px currentColor;
+    display:inline-block;
+  }
+
+  .week{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:26px;
+  }
+
+  .day{
+    background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.06));
+    border:1px solid rgba(238,241,232,0.09);
+    border-radius:6px;
+    padding:22px 24px 20px;
+    position:relative;
+  }
+  .day::after{
+    content:"";
+    position:absolute;
+    left:24px; right:24px; bottom:12px;
+    height:1px;
+    background:repeating-linear-gradient(90deg, rgba(238,241,232,0.08) 0 6px, transparent 6px 12px);
+  }
+  .day-head{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .day-name{
+    font-family:'Caveat',cursive;
+    font-weight:700;
+    font-size:34px;
+    color:var(--chalk-yellow);
+    transform:rotate(-1deg);
+  }
+  .day-count{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    color:var(--chalk-dim);
+    opacity:.7;
+  }
+
+  .slots{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(230px,1fr));
+    gap:12px;
+  }
+  .slot{
+    background:rgba(0,0,0,0.16);
+    border:1px solid rgba(238,241,232,0.08);
+    border-left:3px solid var(--tag-color, var(--chalk-white));
+    border-radius:4px;
+    padding:11px 14px 12px;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .slot:hover{
+    transform:translateY(-2px);
+    background:rgba(0,0,0,0.24);
+  }
+  .jam{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px;
+    color:var(--chalk-dim);
+    letter-spacing:.04em;
+  }
+  .jam b{
+    color:var(--chalk-white);
+    font-weight:700;
+  }
+  .mapel-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:6px;
+  }
+  .tag{
+    font-family:'Space Mono',monospace;
+    font-size:11px;
+    font-weight:700;
+    padding:2px 7px;
+    border-radius:3px;
+    color:var(--board-dark);
+    background:var(--tag-color, var(--chalk-white));
+    letter-spacing:.03em;
+  }
+  .kelas{
+    font-family:'Caveat',cursive;
+    font-size:22px;
+    font-weight:600;
+    color:var(--chalk-white);
+  }
+  .lokasi{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.03em;
+    color:var(--chalk-dim);
+    margin-top:5px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .lokasi::before{
+    content:"";
+    width:5px;height:5px;
+    border-radius:50%;
+    background:currentColor;
+    opacity:.6;
+    flex-shrink:0;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:44px;
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    color:var(--chalk-dim);
+    opacity:.55;
+    letter-spacing:.05em;
+  }
+
+  @media (max-width:520px){
+    .slots{grid-template-columns:1fr;}
+    h1{font-size:44px;}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <header>
+    <div class="eyebrow">Ruang Guru · Minggu Efektif</div>
+    <h1>Jadwal Mengajar</h1>
+    <svg class="underline" viewBox="0 0 220 10" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6 C 40 2, 80 9, 120 4 S 190 2, 216 6" stroke="#e9c768" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.85"/>
+    </svg>
+    <div class="subtitle">Senin – Jumat</div>
+
+    <div class="legend">
+      <span><i class="dot" style="color:var(--chalk-yellow);background:var(--chalk-yellow)"></i> MAPIL</span>
+      <span><i class="dot" style="color:var(--chalk-pink);background:var(--chalk-pink)"></i> KK</span>
+      <span><i class="dot" style="color:var(--chalk-blue);background:var(--chalk-blue)"></i> IF</span>
+      <span><i class="dot" style="color:var(--chalk-orange);background:var(--chalk-orange)"></i> KIK</span>
+    </div>
+  </header>
+
+  <div class="week">
+
+    <div class="day">
+      <div class="day-head">
+        <span class="day-name">Senin</span>
+        <span class="day-count">3 sesi</span>
+      </div>
+      <div class="slots">
+        <div class="slot" style="--tag-color:var(--chalk-yellow)">
+          <div class="jam">JAM <b>3–4</b></div>
+          <div class="mapel-row"><span class="tag">MAPIL</span><span class="kelas">XII TKJ</span></div>
+          <div class="lokasi">PKL</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>5–6</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XI TKJ</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>7–9</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XII TKJ</span></div>
+          <div class="lokasi">PKL</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="day-name">Selasa</span>
+        <span class="day-count">4 sesi</span>
+      </div>
+      <div class="slots">
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>1–2</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XI TKJ</span></div>
+          <div class="lokasi">KELAS</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-blue)">
+          <div class="jam">JAM <b>3–4</b></div>
+          <div class="mapel-row"><span class="tag">IF</span><span class="kelas">X TKJ</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-blue)">
+          <div class="jam">JAM <b>5–6</b></div>
+          <div class="mapel-row"><span class="tag">IF</span><span class="kelas">X TP1</span></div>
+          <div class="lokasi">LAB TKJ BARAT</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>7–9</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XI TKJ</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="day-name">Rabu</span>
+        <span class="day-count">3 sesi</span>
+      </div>
+      <div class="slots">
+        <div class="slot" style="--tag-color:var(--chalk-blue)">
+          <div class="jam">JAM <b>3–4</b></div>
+          <div class="mapel-row"><span class="tag">IF</span><span class="kelas">X AK LPS</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>5–6</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XII TKJ</span></div>
+          <div class="lokasi">PKL</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-blue)">
+          <div class="jam">JAM <b>8–9</b></div>
+          <div class="mapel-row"><span class="tag">IF</span><span class="kelas">X RPL</span></div>
+          <div class="lokasi">LAB TKJ BARAT</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="day-name">Kamis</span>
+        <span class="day-count">2 sesi</span>
+      </div>
+      <div class="slots">
+        <div class="slot" style="--tag-color:var(--chalk-orange)">
+          <div class="jam">JAM <b>1–2</b></div>
+          <div class="mapel-row"><span class="tag">KIK</span><span class="kelas">XI TKJ</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-blue)">
+          <div class="jam">JAM <b>5–6</b></div>
+          <div class="mapel-row"><span class="tag">IF</span><span class="kelas">X TP2</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="day-head">
+        <span class="day-name">Jumat</span>
+        <span class="day-count">2 sesi</span>
+      </div>
+      <div class="slots">
+        <div class="slot" style="--tag-color:var(--chalk-pink)">
+          <div class="jam">JAM <b>1–4</b></div>
+          <div class="mapel-row"><span class="tag">KK</span><span class="kelas">XII TKJ</span></div>
+          <div class="lokasi">PKL</div>
+        </div>
+        <div class="slot" style="--tag-color:var(--chalk-yellow)">
+          <div class="jam">JAM <b>5–6</b></div>
+          <div class="mapel-row"><span class="tag">MAPIL</span><span class="kelas">XI TKJ</span></div>
+          <div class="lokasi">LAB TKJ TIMUR</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Total 14 sesi mengajar per minggu</footer>
+</div>
+</body>
+</html>
