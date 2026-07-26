@@ -1,257 +1,409 @@
 <!doctype html>
-<html lang="id" class="h-full">
+<html lang="id">
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Link TKJ</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
     body {
       box-sizing: border-box;
-    }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
-    
-    * {
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     }
-    
-    .link-card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 2px solid;
+
+    * {
+      font-family: inherit;
     }
-    
-    .link-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.2);
+
+    .site-nav {
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
-    
+
+    .site-nav .nav-logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #1f2937;
+      text-decoration: none;
+    }
+
+    .site-nav .nav-links-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .site-nav .nav-links-list a {
+      color: #374151;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .site-nav .nav-links-list a:hover {
+      color: #667eea;
+    }
+
     .gradient-bg {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-    
+
+    .link-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid #e5e7eb;
+      color: inherit;
+    }
+
+    .link-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.2);
+      color: inherit;
+    }
+
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+
+    .bg-icon-red { background-color: #fee2e2; }
+    .bg-icon-blue { background-color: #dbeafe; }
+    .bg-icon-green { background-color: #dcfce7; }
+    .bg-icon-purple { background-color: #f3e8ff; }
+    .bg-icon-orange { background-color: #ffedd5; }
+    .bg-icon-pink { background-color: #fce7f3; }
+    .bg-icon-yellow { background-color: #fef9c3; }
+    .bg-icon-gray { background-color: #f3f4f6; }
+
     @media (max-width: 640px) {
       .link-card {
-        padding: 1rem;
+        padding: 1rem !important;
       }
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full">
-  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Header -->
-   <header class="gradient-bg text-white py-12 px-4">
-    <div class="max-w-4xl mx-auto text-center">
-     <h1 id="main-title" class="text-5xl font-bold mb-3">Direktori Link TKJ</h1>
-     <p id="subtitle" class="text-xl opacity-90">Kumpulan link penting dan berguna untuk Anda</p>
+ <body>
+  <div id="app-wrapper" class="min-vh-100">
+   <!-- ── NAVBAR ── -->
+   <nav class="site-nav navbar navbar-expand-lg py-0">
+     <div class="container-lg">
+       <a class="nav-logo py-3 me-auto" href="#">Yana Permana</a>
+       <button class="navbar-toggler border-0 py-3" type="button"
+               data-bs-toggle="collapse" data-bs-target="#mainNav"
+               aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon d-inline-block"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="mainNav">
+         <ul class="nav-links-list ms-auto py-3 py-lg-0 flex-column flex-lg-row gap-3 gap-lg-4 ps-3 ps-lg-0 d-flex">
+           <li><a href="../index.html#experience">Pengalaman</a></li>
+           <li><a href="../index.html#skills">Keahlian</a></li>
+           <li><a href="../index.html#education">Pendidikan</a></li>
+           <li><a href="../index.html#contact">Kontak</a></li>
+           <li><a href="../jadwal.html">Jadwal</a></li>
+           <li><a href="../tkj/index.html">TKJ</a></li>
+         </ul>
+       </div>
+     </div>
+   </nav>
+   <!-- Header -->
+   <header class="gradient-bg text-white py-5">
+    <div class="container text-center">
+     <h1 id="main-title" class="display-4 fw-bold mb-3">Direktori Link TKJ</h1>
+     <p id="subtitle" class="fs-4 opacity-75 mb-0">Kumpulan link penting dan berguna untuk Anda</p>
     </div>
-   </header><!-- Links Grid -->
-   <main class="max-w-6xl mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      
-      <!-- Link 0 --> <a href="jasa_rakit_pc.html" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl flex-shrink-0">
-        📚
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Project Based Learning: Jasa Rakit PC (Personal Computer)</h3>
-        <p class="text-gray-600 text-sm">...</p>
-       </div>
-      </div></a> 
+   </header>
+   <!-- Links Grid -->
+   <main class="container py-5">
+    <div class="row g-4">
 
-      <!-- Link 1 --> <a href="https://www.youtube.com/watch?v=aV1cr2Sw6So" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl flex-shrink-0">
-        ▶️
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Cara Install Cisco Packet Tracer 6.2 untuk Simulasi Jaringan Komputer</h3>
-        <p class="text-gray-600 text-sm">...</p>
-       </div>
-      </div></a> 
-      
-      <!-- Link 2 --> <a href="https://www.youtube.com/watch?v=2w5DpH4CpKo" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl flex-shrink-0">
-        ▶️
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Cara Cek Baterai Baru Atau Lama Pakai Multimeter Avometer</h3>
-        <p class="text-gray-600 text-sm">...</p>
-       </div>
-      </div></a> 
-      
-      <!-- Link 3 --> <a href="https://www.youtube.com/watch?v=RoBE7fLJ_CQ" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-2xl flex-shrink-0">
-        💻
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Cara Cek Power Supply Komputer dengan Multimeter Avometer</h3>
-        <p class="text-gray-600 text-sm">...</p>
-       </div>
-      </div></a> <!-- Link 4 --> <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-2xl flex-shrink-0">
-        📚
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Wikipedia</h3>
-        <p class="text-gray-600 text-sm">Ensiklopedia online gratis</p>
-       </div>
-      </div></a> <!-- Link 5 --> <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
-        👔
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">LinkedIn</h3>
-        <p class="text-gray-600 text-sm">Jaringan profesional</p>
-       </div>
-      </div></a> <!-- Link 6 --> <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🐦
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Twitter</h3>
-        <p class="text-gray-600 text-sm">Media sosial &amp; berita</p>
-       </div>
-      </div></a> <!-- Link 7 --> <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-2xl flex-shrink-0">
-        📷
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Instagram</h3>
-        <p class="text-gray-600 text-sm">Berbagi foto &amp; video</p>
-       </div>
-      </div></a> <!-- Link 8 --> <a href="https://www.reddit.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-2xl flex-shrink-0">
-        💬
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Reddit</h3>
-        <p class="text-gray-600 text-sm">Komunitas &amp; diskusi</p>
-       </div>
-      </div></a> <!-- Link 9 --> <a href="https://www.stackoverflow.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-2xl flex-shrink-0">
-        ❓
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Stack Overflow</h3>
-        <p class="text-gray-600 text-sm">Q&amp;A untuk programmer</p>
-       </div>
-      </div></a> <!-- Link 10 --> <a href="https://www.medium.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl flex-shrink-0">
-        ✍️
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Medium</h3>
-        <p class="text-gray-600 text-sm">Platform blogging &amp; artikel</p>
-       </div>
-      </div></a> <!-- Link 11 --> <a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🎨
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Canva</h3>
-        <p class="text-gray-600 text-sm">Desain grafis online</p>
-       </div>
-      </div></a> <!-- Link 12 --> <a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🎵
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Spotify</h3>
-        <p class="text-gray-600 text-sm">Streaming musik</p>
-       </div>
-      </div></a> <!-- Link 13 --> <a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🎬
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Netflix</h3>
-        <p class="text-gray-600 text-sm">Streaming film &amp; series</p>
-       </div>
-      </div></a> <!-- Link 14 --> <a href="https://www.amazon.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🛒
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Amazon</h3>
-        <p class="text-gray-600 text-sm">E-commerce terbesar</p>
-       </div>
-      </div></a> <!-- Link 15 --> <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🏀
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Dribbble</h3>
-        <p class="text-gray-600 text-sm">Portfolio desain</p>
-       </div>
-      </div></a> <!-- Link 16 --> <a href="https://www.behance.net" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🎭
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Behance</h3>
-        <p class="text-gray-600 text-sm">Showcase karya kreatif</p>
-       </div>
-      </div></a> <!-- Link 17 --> <a href="https://www.coursera.org" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🎓
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Coursera</h3>
-        <p class="text-gray-600 text-sm">Kursus online berkualitas</p>
-       </div>
-      </div></a> <!-- Link 18 --> <a href="https://www.udemy.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl flex-shrink-0">
-        📖
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Udemy</h3>
-        <p class="text-gray-600 text-sm">Platform pembelajaran</p>
-       </div>
-      </div></a> <!-- Link 19 --> <a href="https://www.notion.so" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-2xl flex-shrink-0">
-        📝
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Notion</h3>
-        <p class="text-gray-600 text-sm">Workspace &amp; produktivitas</p>
-       </div>
-      </div></a> <!-- Link 20 --> <a href="https://www.figma.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-xl p-6 block hover:no-underline">
-      <div class="flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-2xl flex-shrink-0">
-        🔧
-       </div>
-       <div>
-        <h3 class="font-bold text-lg text-gray-800">Figma</h3>
-        <p class="text-gray-600 text-sm">Desain UI/UX kolaboratif</p>
-       </div>
-      </div></a>
+      <!-- Link 0 -->
+      <div class="col-12 col-md-6">
+       <a href="jasa_rakit_pc.html" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-red d-flex align-items-center justify-content-center fs-3 flex-shrink-0">📚</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Project Based Learning: Jasa Rakit PC (Personal Computer)</h3>
+          <p class="text-muted small mb-0">...</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 1 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.youtube.com/watch?v=aV1cr2Sw6So" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-red d-flex align-items-center justify-content-center fs-3 flex-shrink-0">▶️</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Cara Install Cisco Packet Tracer 6.2 untuk Simulasi Jaringan Komputer</h3>
+          <p class="text-muted small mb-0">...</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 2 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.youtube.com/watch?v=2w5DpH4CpKo" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-red d-flex align-items-center justify-content-center fs-3 flex-shrink-0">▶️</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Cara Cek Baterai Baru Atau Lama Pakai Multimeter Avometer</h3>
+          <p class="text-muted small mb-0">...</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 3 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.youtube.com/watch?v=RoBE7fLJ_CQ" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-gray d-flex align-items-center justify-content-center fs-3 flex-shrink-0">💻</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Cara Cek Power Supply Komputer dengan Multimeter Avometer</h3>
+          <p class="text-muted small mb-0">...</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 4 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.wikipedia.org" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-gray d-flex align-items-center justify-content-center fs-3 flex-shrink-0">📚</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Wikipedia</h3>
+          <p class="text-muted small mb-0">Ensiklopedia online gratis</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 5 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-blue d-flex align-items-center justify-content-center fs-3 flex-shrink-0">👔</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">LinkedIn</h3>
+          <p class="text-muted small mb-0">Jaringan profesional</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 6 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-blue d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🐦</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Twitter</h3>
+          <p class="text-muted small mb-0">Media sosial &amp; berita</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 7 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-pink d-flex align-items-center justify-content-center fs-3 flex-shrink-0">📷</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Instagram</h3>
+          <p class="text-muted small mb-0">Berbagi foto &amp; video</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 8 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.reddit.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-orange d-flex align-items-center justify-content-center fs-3 flex-shrink-0">💬</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Reddit</h3>
+          <p class="text-muted small mb-0">Komunitas &amp; diskusi</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 9 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.stackoverflow.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-orange d-flex align-items-center justify-content-center fs-3 flex-shrink-0">❓</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Stack Overflow</h3>
+          <p class="text-muted small mb-0">Q&amp;A untuk programmer</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 10 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.medium.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-green d-flex align-items-center justify-content-center fs-3 flex-shrink-0">✍️</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Medium</h3>
+          <p class="text-muted small mb-0">Platform blogging &amp; artikel</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 11 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.canva.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-purple d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🎨</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Canva</h3>
+          <p class="text-muted small mb-0">Desain grafis online</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 12 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-green d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🎵</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Spotify</h3>
+          <p class="text-muted small mb-0">Streaming musik</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 13 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-red d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🎬</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Netflix</h3>
+          <p class="text-muted small mb-0">Streaming film &amp; series</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 14 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.amazon.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-yellow d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🛒</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Amazon</h3>
+          <p class="text-muted small mb-0">E-commerce terbesar</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 15 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-pink d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🏀</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Dribbble</h3>
+          <p class="text-muted small mb-0">Portfolio desain</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 16 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.behance.net" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-blue d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🎭</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Behance</h3>
+          <p class="text-muted small mb-0">Showcase karya kreatif</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 17 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.coursera.org" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-blue d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🎓</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Coursera</h3>
+          <p class="text-muted small mb-0">Kursus online berkualitas</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 18 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.udemy.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-purple d-flex align-items-center justify-content-center fs-3 flex-shrink-0">📖</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Udemy</h3>
+          <p class="text-muted small mb-0">Platform pembelajaran</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 19 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.notion.so" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-gray d-flex align-items-center justify-content-center fs-3 flex-shrink-0">📝</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Notion</h3>
+          <p class="text-muted small mb-0">Workspace &amp; produktivitas</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
+      <!-- Link 20 -->
+      <div class="col-12 col-md-6">
+       <a href="https://www.figma.com" target="_blank" rel="noopener noreferrer" class="link-card bg-white rounded-4 p-4 d-block text-decoration-none h-100">
+        <div class="d-flex align-items-center gap-3">
+         <div class="icon-circle bg-icon-purple d-flex align-items-center justify-content-center fs-3 flex-shrink-0">🔧</div>
+         <div>
+          <h3 class="fw-bold fs-5 text-dark mb-1">Figma</h3>
+          <p class="text-muted small mb-0">Desain UI/UX kolaboratif</p>
+         </div>
+        </div>
+       </a>
+      </div>
+
     </div>
-   </main><!-- Footer -->
-   <footer class="bg-gray-900 text-white py-8 px-4 mt-12">
-    <div class="max-w-4xl mx-auto text-center">
-     <p id="footer-text" class="opacity-80">© 2024 Direktori Link. Semua link terbuka di tab baru.</p>
+   </main>
+   <!-- Footer -->
+   <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+     <p id="footer-text" class="opacity-75 mb-0">© 2024 Direktori Link. Semua link terbuka di tab baru.</p>
     </div>
    </footer>
   </div>
@@ -398,5 +550,6 @@
       });
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b9f828731a8ff78',t:'MTc2Nzc0NzUzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
