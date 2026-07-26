@@ -1,0 +1,544 @@
+<!-- PROMPT
+Buatkan halaman website berisi jobsheet jasa rakit pc berdasarkan informasi dibawah ini:
+
+Topik: 
+- Administrasi Sistem Jaringan
+
+Capaian Pembelajaran:
+- Pada akhir fase F, Murid mampu menginstalasi sistem operasi jaringan, menjelaskan konsep, menginstalasi services, mengkonfigurasi dan menguji konfigurasi remote server, DHCP server, DNS server, FTP server, file server, web server, mail server, database server, Control Panel Hosting, Share Hosting Server, Dedicated Hosting Server, Virtual Private Server, VPN server, sistem kontrol dan monitoring.
+
+Tujuan Pembelajaran:
+1. Murid mampu mengidentifikasi kebutuhan pelanggan dan menentukan spesifikasi komponen PC yang sesuai dengan fungsi dan anggaran yang dibutuhkan.
+2. Murid mampu merakit komputer sesuai dengan prosedur kerja, standar keselamatan (K3), dan petunjuk teknis yang berlaku.
+3. Murid mampu melakukan pengujian, troubleshooting sederhana, serta memastikan komputer berfungsi dengan baik sebelum diserahkan kepada pelanggan.
+
+Metode Pembelajaran:
+- Project Based Learning
+
+Alat dan Bahan:
+- Casing PC
+- Motherboard
+- Processor
+- Obeng Plus
+- Obeng Min
+- Power Supply
+- Heatsink
+- RAM
+- HDD/SSD
+- Baut
+- Baterai CMOS
+- Kabel SATA
+-->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Jasa Perakitan Unit PC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E2233;
+    --ink2:#132C42;
+    --line-soft:rgba(126,169,192,0.16);
+    --panel:#F2EEE3;
+    --panel-dim:#E9E3D3;
+    --accent:#E8802F;
+    --accent-deep:#C8631A;
+    --teal:#7FA69C;
+    --text:#1A1D1E;
+    --text-soft:#5B6367;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px) 0 0/40px 40px,
+      var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--text);
+    min-height:100vh;
+    padding:48px 20px 90px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+
+  /* ===== HEADER / TICKET ===== */
+  .ticket{
+    background:var(--panel);
+    border:1.5px solid var(--ink2);
+    box-shadow:0 18px 40px rgba(0,0,0,0.35);
+    position:relative;
+    margin-bottom:36px;
+  }
+  .ticket::before{
+    content:"";
+    position:absolute; left:0; right:0; top:198px;
+    border-top:2px dashed rgba(20,40,55,0.35);
+  }
+  .ticket::after{
+    content:"";
+    position:absolute; left:-9px; top:190px;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--ink);
+    box-shadow: 0 0 0 3px var(--panel) inset;
+  }
+  .ticket-top{
+    padding:26px 32px 18px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:20px;
+  }
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent-deep); font-weight:600;
+  }
+  .title{
+    font-family:'Oswald', sans-serif;
+    font-weight:700; text-transform:uppercase;
+    font-size:clamp(28px,5vw,42px);
+    letter-spacing:.01em;
+    color:var(--ink); line-height:1.05; margin:6px 0 4px;
+  }
+  .subtitle{color:var(--text-soft); font-size:14.5px; max-width:50ch;}
+  .stamp{
+    font-family:'Oswald', sans-serif;
+    border:3px solid var(--accent);
+    color:var(--accent-deep);
+    padding:8px 14px; text-transform:uppercase; font-weight:600;
+    font-size:12.5px; letter-spacing:.1em; text-align:center;
+    transform:rotate(4deg);
+    white-space:nowrap;
+  }
+  .topic-bar{
+    margin:0 32px 20px; padding:10px 16px;
+    background:var(--ink); color:var(--panel);
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+    letter-spacing:.04em; display:flex; align-items:center; gap:10px;
+  }
+  .topic-bar .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;flex-shrink:0;}
+  .ticket-fields{
+    padding:22px 32px 28px;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:18px 22px;
+  }
+  .field label{
+    display:block; font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; text-transform:uppercase; letter-spacing:.1em;
+    color:var(--text-soft); margin-bottom:6px;
+  }
+  .field input{
+    width:100%; border:none; border-bottom:1.5px solid var(--ink2);
+    background:transparent; font-family:'IBM Plex Sans', sans-serif;
+    font-size:15px; padding:4px 2px 8px; color:var(--ink);
+  }
+  .field input:focus{outline:none; border-bottom-color:var(--accent);}
+
+  /* ===== SECTION PANELS ===== */
+  .panel{
+    background:var(--panel);
+    border:1.5px solid var(--ink2);
+    margin-bottom:24px;
+    box-shadow:0 10px 26px rgba(0,0,0,0.28);
+  }
+  .panel-head{
+    display:flex; align-items:center; gap:12px;
+    padding:16px 28px; border-bottom:1.5px solid rgba(20,40,55,0.18);
+  }
+  .panel-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--panel);
+    background:var(--ink); width:28px;height:28px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .panel-head h2{
+    font-family:'Oswald', sans-serif; text-transform:uppercase;
+    font-size:20px; letter-spacing:.03em; margin:0; color:var(--ink);
+  }
+  .panel-body{padding:24px 28px 30px;}
+
+  /* capaian pembelajaran */
+  .cp-text{
+    font-size:14.5px; line-height:1.7; color:var(--text);
+    border-left:3px solid var(--teal); padding-left:18px;
+  }
+
+  /* tujuan pembelajaran */
+  .tp-list{margin:0; padding:0; list-style:none; display:grid; gap:16px;}
+  .tp-item{display:grid; grid-template-columns:36px 1fr; gap:14px; align-items:start;}
+  .tp-num{
+    font-family:'Oswald', sans-serif; font-weight:700; font-size:20px;
+    color:var(--panel); background:var(--teal);
+    width:36px;height:36px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .tp-item p{margin:0; font-size:14.5px; line-height:1.6; color:var(--text); padding-top:6px;}
+
+  /* method */
+  .method-row{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .method-pill{
+    font-family:'IBM Plex Mono', monospace;
+    background:var(--ink); color:var(--panel);
+    padding:10px 18px; font-size:13px; letter-spacing:.04em;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  .method-pill span.dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block;}
+  .method-desc{color:var(--text-soft); font-size:14.5px; max-width:52ch; line-height:1.55;}
+
+  /* tools grid */
+  .tool-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:12px;
+  }
+  .tool-item{
+    border:1px solid rgba(20,40,55,0.25);
+    background:var(--panel-dim);
+    padding:12px 14px;
+    display:flex; align-items:center; gap:10px;
+    font-size:14px;
+  }
+  .tool-item .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:var(--text-soft); min-width:20px;
+  }
+  .tool-item.tool{border-left:4px solid var(--teal);}
+  .tool-item.material{border-left:4px solid var(--accent);}
+  .legend{display:flex; gap:22px; margin-top:16px; font-size:12.5px; color:var(--text-soft); flex-wrap:wrap;}
+  .legend span{display:inline-flex; align-items:center; gap:7px;}
+  .legend i{width:12px;height:12px; display:inline-block;}
+  .legend .lg-tool{background:var(--teal);}
+  .legend .lg-mat{background:var(--accent);}
+
+  /* K3 */
+  .k3-panel .panel-head{background:repeating-linear-gradient(135deg, var(--accent) 0 10px, var(--ink) 10px 20px); }
+  .k3-panel .panel-head h2, .k3-panel .panel-num{color:#fff; background:transparent;}
+  .k3-panel .panel-head{border-bottom:none;}
+  .k3-list{margin:0; padding:0; list-style:none; display:grid; gap:12px;}
+  .k3-list li{
+    display:flex; gap:12px; align-items:flex-start;
+    font-size:14.5px; line-height:1.5;
+  }
+  .k3-list li::before{
+    content:"!"; font-family:'Oswald', sans-serif; font-weight:700;
+    color:var(--accent-deep); border:2px solid var(--accent-deep);
+    width:20px; height:20px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; flex-shrink:0; margin-top:1px;
+  }
+
+  /* steps */
+  .steps{counter-reset:step;}
+  .step{
+    display:grid; grid-template-columns:64px 1fr; gap:18px;
+    padding:18px 0; border-bottom:1px solid rgba(20,40,55,0.14);
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    counter-increment:step;
+    font-family:'Oswald', sans-serif; font-weight:700; font-size:28px;
+    color:var(--ink2); opacity:.85; line-height:1;
+  }
+  .step-num::before{content: counter(step, decimal-leading-zero);}
+  .step h3{
+    font-family:'IBM Plex Sans', sans-serif; font-weight:600;
+    font-size:15.5px; margin:0 0 6px; color:var(--ink);
+    text-transform:uppercase; letter-spacing:.02em;
+  }
+  .step p{margin:0; font-size:14.5px; color:var(--text-soft); line-height:1.6;}
+  .step .tag{
+    display:inline-block; margin-top:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    color:var(--accent-deep); border:1px solid var(--accent-deep);
+    padding:2px 8px;
+  }
+
+  /* troubleshooting */
+  .ts-table{width:100%; border-collapse:collapse; font-size:14px;}
+  .ts-table th{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--text-soft); text-align:left;
+    padding:8px 12px; border-bottom:2px solid var(--ink2);
+  }
+  .ts-table td{padding:12px; border-bottom:1px solid rgba(20,40,55,0.14); vertical-align:top; line-height:1.5;}
+  .ts-table tr:last-child td{border-bottom:none;}
+
+  /* eval */
+  .eval-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+  @media (max-width:640px){.eval-grid{grid-template-columns:1fr;}}
+  .eval-col h4{
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--text-soft);
+    margin:0 0 10px;
+  }
+  .eval-col ul{margin:0; padding-left:18px; font-size:14px; line-height:1.7; color:var(--text);}
+
+  footer{
+    text-align:center; color:rgba(242,238,227,0.55);
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px;
+    margin-top:36px; letter-spacing:.06em;
+  }
+
+  @media (max-width:700px){
+    .ticket-fields{grid-template-columns:1fr 1fr;}
+    .ticket-top{flex-direction:column;}
+    .stamp{transform:none; align-self:flex-start;}
+    .ts-table{font-size:12.5px;}
+  }
+  @media print{
+    body{background:#fff; padding:0;}
+    .panel, .ticket{box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TICKET / HEADER -->
+  <div class="ticket">
+    <div class="ticket-top">
+      <div>
+        <div class="brand-eyebrow">Jobsheet · Praktik Kejuruan</div>
+        <div class="title">Project Jasa Perakitan Unit&nbsp;PC</div>
+        <div class="subtitle">Panduan kerja praktik merakit komputer dari identifikasi kebutuhan pelanggan hingga pengujian unit siap pakai.</div>
+      </div>
+      <div class="stamp">Project Based<br>Learning</div>
+    </div>
+    <div class="topic-bar"><span class="dot"></span>Topik: Administrasi Sistem Jaringan</div>
+    <div class="ticket-fields">
+      <div class="field"><label>Nama Siswa</label><input type="text" placeholder="..."></div>
+      <div class="field"><label>Kelas</label><input type="text" placeholder="..."></div>
+      <div class="field"><label>Tanggal</label><input type="text" placeholder="..."></div>
+      <div class="field"><label>Kelompok</label><input type="text" placeholder="..."></div>
+    </div>
+  </div>
+
+  <!-- CAPAIAN PEMBELAJARAN -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">A</div><h2>Capaian Pembelajaran</h2></div>
+    <div class="panel-body">
+      <p class="cp-text">Pada akhir fase F, murid mampu menginstalasi sistem operasi jaringan, menjelaskan konsep, menginstalasi services, mengonfigurasi, dan menguji konfigurasi remote server, DHCP server, DNS server, FTP server, file server, web server, mail server, database server, Control Panel Hosting, Share Hosting Server, Dedicated Hosting Server, Virtual Private Server, VPN server, serta sistem kontrol dan monitoring.</p>
+    </div>
+  </div>
+
+  <!-- TUJUAN PEMBELAJARAN -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">B</div><h2>Tujuan Pembelajaran</h2></div>
+    <div class="panel-body">
+      <ul class="tp-list">
+        <li class="tp-item">
+          <div class="tp-num">1</div>
+          <p>Murid mampu mengidentifikasi kebutuhan pelanggan dan menentukan spesifikasi komponen PC yang sesuai dengan fungsi dan anggaran yang dibutuhkan.</p>
+        </li>
+        <li class="tp-item">
+          <div class="tp-num">2</div>
+          <p>Murid mampu merakit komputer sesuai dengan prosedur kerja, standar keselamatan (K3), dan petunjuk teknis yang berlaku.</p>
+        </li>
+        <li class="tp-item">
+          <div class="tp-num">3</div>
+          <p>Murid mampu melakukan pengujian, troubleshooting sederhana, serta memastikan komputer berfungsi dengan baik sebelum diserahkan kepada pelanggan.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- METODE -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">C</div><h2>Metode Pembelajaran</h2></div>
+    <div class="panel-body">
+      <div class="method-row">
+        <div class="method-pill"><span class="dot"></span>Project Based Learning</div>
+        <div class="method-desc">
+          Murid bekerja dalam kelompok menyelesaikan proyek nyata: menggali kebutuhan pelanggan, merakit unit PC, hingga menguji dan menyerahkan hasil rakitan — dengan guru berperan sebagai fasilitator.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALAT DAN BAHAN -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">D</div><h2>Alat dan Bahan</h2></div>
+    <div class="panel-body">
+      <div class="tool-grid">
+        <div class="tool-item material"><span class="idx">01</span>Casing PC</div>
+        <div class="tool-item material"><span class="idx">02</span>Motherboard</div>
+        <div class="tool-item material"><span class="idx">03</span>Processor</div>
+        <div class="tool-item tool"><span class="idx">04</span>Obeng Plus (+)</div>
+        <div class="tool-item tool"><span class="idx">05</span>Obeng Min (−)</div>
+        <div class="tool-item material"><span class="idx">06</span>Power Supply</div>
+        <div class="tool-item material"><span class="idx">07</span>Heatsink</div>
+        <div class="tool-item material"><span class="idx">08</span>RAM</div>
+        <div class="tool-item material"><span class="idx">09</span>HDD / SSD</div>
+        <div class="tool-item material"><span class="idx">10</span>Baut</div>
+        <div class="tool-item material"><span class="idx">11</span>Baterai CMOS</div>
+        <div class="tool-item material"><span class="idx">12</span>Kabel SATA</div>
+      </div>
+      <div class="legend">
+        <span><i class="lg-tool"></i>Alat kerja</span>
+        <span><i class="lg-mat"></i>Bahan / komponen</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- K3 -->
+  <div class="panel k3-panel">
+    <div class="panel-head"><div class="panel-num">E</div><h2>Keselamatan Kerja (K3)</h2></div>
+    <div class="panel-body">
+      <ul class="k3-list">
+        <li>Pastikan power supply dalam keadaan mati dan tidak terhubung ke listrik selama proses perakitan.</li>
+        <li>Gunakan gelang antistatis atau sentuh bagian logam casing untuk menetralkan muatan statis sebelum memegang komponen.</li>
+        <li>Pegang komponen elektronik (motherboard, RAM, processor, baterai CMOS) pada bagian tepi, hindari menyentuh pin atau chip langsung.</li>
+        <li>Letakkan baut dan komponen kecil pada wadah agar tidak hilang atau tercecer di area kerja.</li>
+        <li>Gunakan obeng yang sesuai ukuran agar tidak merusak kepala baut atau komponen.</li>
+        <li>Bekerja di area yang rapi, kering, dan cukup pencahayaan.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LANGKAH KERJA -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">F</div><h2>Langkah Kerja</h2></div>
+    <div class="panel-body steps">
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Identifikasi Kebutuhan Pelanggan</h3>
+          <p>Diskusikan dengan pelanggan (simulasi) mengenai kebutuhan penggunaan PC dan anggaran yang tersedia, lalu tentukan spesifikasi komponen yang sesuai.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Persiapan Alat dan Bahan</h3>
+          <p>Siapkan seluruh alat dan bahan pada meja kerja. Periksa kelengkapan komponen sesuai spesifikasi yang telah ditentukan, serta pastikan area kerja bebas dari benda yang mengandung listrik statis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang Processor pada Motherboard</h3>
+          <p>Buka tuas pengunci socket processor, sejajarkan tanda segitiga pada processor dengan socket, letakkan perlahan tanpa ditekan, lalu kunci kembali tuasnya.</p>
+          <span class="tag">Komponen: Processor, Motherboard</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang Heatsink</h3>
+          <p>Oleskan thermal paste tipis merata pada processor bila diperlukan, pasang heatsink tepat di atasnya, kunci klip pengait, lalu sambungkan kabel kipas ke konektor CPU_FAN di motherboard.</p>
+          <span class="tag">Komponen: Heatsink</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang RAM</h3>
+          <p>Buka klip pada slot RAM, sejajarkan celah pada modul RAM dengan slot, tekan kedua ujung secara merata hingga klip terkunci otomatis.</p>
+          <span class="tag">Komponen: RAM</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang Baterai CMOS</h3>
+          <p>Pastikan baterai CMOS terpasang pada dudukannya di motherboard dengan posisi kutub yang benar, agar pengaturan BIOS (waktu dan konfigurasi) tersimpan dengan baik.</p>
+          <span class="tag">Komponen: Baterai CMOS</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang Motherboard ke Casing</h3>
+          <p>Pasang standoff/baut penyangga pada casing sesuai lubang motherboard, letakkan motherboard dengan hati-hati, lalu kencangkan menggunakan baut dan obeng plus.</p>
+          <span class="tag">Komponen: Casing, Motherboard, Baut, Obeng Plus</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang Power Supply</h3>
+          <p>Masukkan power supply ke dudukan pada casing, sejajarkan lubang baut, lalu kencangkan menggunakan obeng plus agar terpasang kuat dan tidak bergeser.</p>
+          <span class="tag">Komponen: Power Supply, Baut, Obeng Plus</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Memasang HDD/SSD</h3>
+          <p>Pasang HDD/SSD pada bracket/drive bay yang tersedia di casing, kencangkan dengan baut menggunakan obeng plus atau min sesuai jenis baut yang digunakan.</p>
+          <span class="tag">Komponen: HDD/SSD, Baut</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Menyambungkan Kabel</h3>
+          <p>Hubungkan kabel power dari power supply ke motherboard (24-pin dan 4/8-pin CPU), sambungkan kabel SATA data dan power ke HDD/SSD, serta sambungkan kabel front panel (power switch, reset, LED) ke motherboard sesuai skema.</p>
+          <span class="tag">Komponen: Kabel SATA</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Pemeriksaan Akhir</h3>
+          <p>Periksa kembali seluruh sambungan kabel dan kekencangan baut, pastikan tidak ada komponen yang longgar sebelum casing ditutup.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"></div>
+        <div>
+          <h3>Pengujian dan Penyerahan Unit</h3>
+          <p>Hubungkan unit ke sumber listrik, nyalakan power supply, tekan tombol power, dan amati proses booting. Lakukan troubleshooting sederhana bila ditemukan kendala, lalu pastikan unit berfungsi baik sebelum diserahkan kepada pelanggan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TROUBLESHOOTING -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">G</div><h2>Troubleshooting Sederhana</h2></div>
+    <div class="panel-body">
+      <table class="ts-table">
+        <tr><th>Gejala</th><th>Kemungkinan Penyebab</th><th>Tindakan</th></tr>
+        <tr><td>PC tidak menyala sama sekali</td><td>Kabel power/PSU belum tersambung, tombol power PSU mati</td><td>Periksa sambungan kabel power dan pastikan saklar PSU dalam posisi ON</td></tr>
+        <tr><td>Menyala tapi tidak ada tampilan (no display)</td><td>RAM atau kabel VGA belum terpasang sempurna</td><td>Lepas dan pasang ulang RAM, periksa sambungan kabel monitor</td></tr>
+        <tr><td>Bunyi beep berulang saat booting</td><td>Komponen (RAM/VGA) tidak terpasang dengan benar</td><td>Cek posisi RAM/VGA, pastikan terkunci sempurna pada slot</td></tr>
+        <tr><td>PC menyala lalu mati sendiri</td><td>Heatsink kurang menempel / overheat, PSU kurang daya</td><td>Periksa pemasangan heatsink dan thermal paste, sesuaikan kapasitas PSU</td></tr>
+        <tr><td>Pengaturan waktu/BIOS selalu reset</td><td>Baterai CMOS lemah atau belum terpasang dengan benar</td><td>Periksa posisi dan kondisi baterai CMOS, ganti bila perlu</td></tr>
+        <tr><td>HDD/SSD tidak terbaca</td><td>Kabel SATA data/power longgar</td><td>Periksa dan pasang ulang kabel SATA pada HDD/SSD dan motherboard</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- EVALUASI -->
+  <div class="panel">
+    <div class="panel-head"><div class="panel-num">H</div><h2>Evaluasi &amp; Penilaian</h2></div>
+    <div class="panel-body eval-grid">
+      <div class="eval-col">
+        <h4>Aspek yang Dinilai</h4>
+        <ul>
+          <li>Ketepatan identifikasi kebutuhan dan spesifikasi PC</li>
+          <li>Ketepatan urutan dan kerapian langkah kerja</li>
+          <li>Penerapan aspek keselamatan kerja (K3)</li>
+          <li>Kemampuan troubleshooting saat pengujian</li>
+          <li>Keberhasilan unit PC saat dinyalakan</li>
+          <li>Kerja sama tim dalam kelompok</li>
+        </ul>
+      </div>
+      <div class="eval-col">
+        <h4>Indikator Keberhasilan Proyek</h4>
+        <ul>
+          <li>Spesifikasi PC sesuai kebutuhan dan anggaran pelanggan</li>
+          <li>Seluruh komponen terpasang sesuai fungsinya</li>
+          <li>Tidak ada kabel atau baut yang tertinggal longgar</li>
+          <li>PC berhasil melakukan proses booting tanpa error</li>
+          <li>Laporan hasil praktik disusun dengan lengkap</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>JOBSHEET · PERAKITAN UNIT PC · ADMINISTRASI SISTEM JARINGAN · PROJECT BASED LEARNING</footer>
+</div>
+</body>
+</html>

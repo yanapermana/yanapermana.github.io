@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cek Gender Berdasarkan Nama</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    /* ── CSS Variables ── */
+    :root {
+      --bg:        #0d0d14;
+      --surface:   #14141f;
+      --card:      #1a1a2e;
+      --border:    #2a2a45;
+      --male:      #4fc3f7;
+      --female:    #f48fb1;
+      --neutral:   #b39ddb;
+      --accent:    #e040fb;
+      --text:      #e8e8f0;
+      --muted:     #7878a0;
+      --radius:    18px;
+      --glow-m:    0 0 40px rgba(79,195,247,.35);
+      --glow-f:    0 0 40px rgba(244,143,177,.35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated starfield background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(79,195,247,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(244,143,177,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    header .badge {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: .25rem .85rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--male) 0%, var(--accent) 50%, var(--female) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      margin-top: .7rem;
+      color: var(--muted);
+      font-size: .95rem;
+      font-weight: 300;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 520px;
+      position: relative;
+      z-index: 1;
+      transition: box-shadow .4s;
+    }
+
+    /* ── Input group ── */
+    .input-group {
+      display: flex;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+    #inputNama {
+      flex: 1;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: .85rem 1.1rem;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    #inputNama:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(224,64,251,.18);
+    }
+    #inputNama::placeholder { color: var(--muted); }
+
+    #btnCek {
+      background: linear-gradient(135deg, var(--accent), #7c4dff);
+      border: none;
+      border-radius: 12px;
+      padding: .85rem 1.5rem;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      white-space: nowrap;
+    }
+    #btnCek:hover  { opacity: .88; transform: translateY(-1px); }
+    #btnCek:active { transform: translateY(0); }
+
+    /* ── Loader ── */
+    #loader {
+      display: none;
+      text-align: center;
+      padding: 1.5rem 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto .75rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Result ── */
+    #result { display: none; }
+
+    .gender-banner {
+      border-radius: 14px;
+      padding: 1.5rem 1.6rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+    }
+    .gender-banner.male   { background: rgba(79,195,247,.1);  border: 1px solid rgba(79,195,247,.3);  }
+    .gender-banner.female { background: rgba(244,143,177,.1); border: 1px solid rgba(244,143,177,.3); }
+    .gender-banner.unknown{ background: rgba(179,157,219,.1); border: 1px solid rgba(179,157,219,.3); }
+
+    .gender-icon { font-size: 2.8rem; line-height: 1; }
+
+    .gender-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .gender-banner.male   .gender-info h2 { color: var(--male);    }
+    .gender-banner.female .gender-info h2 { color: var(--female);  }
+    .gender-banner.unknown .gender-info h2{ color: var(--neutral); }
+    .gender-info p { font-size: .85rem; color: var(--muted); margin-top: .15rem; }
+
+    /* ── Probability bar ── */
+    .prob-wrap { margin-bottom: 1.5rem; }
+    .prob-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .prob-label span:last-child { font-weight: 500; color: var(--text); }
+    .prob-track {
+      height: 8px;
+      background: var(--surface);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .prob-fill {
+      height: 100%;
+      border-radius: 999px;
+      width: 0%;
+      transition: width .9s cubic-bezier(.22,1,.36,1);
+    }
+    .prob-fill.male   { background: linear-gradient(90deg, #29b6f6, #4fc3f7); }
+    .prob-fill.female { background: linear-gradient(90deg, #ec407a, #f48fb1); }
+    .prob-fill.unknown{ background: linear-gradient(90deg, #7e57c2, #b39ddb); }
+
+    /* ── JSON raw output ── */
+    .json-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+    }
+    .json-box .json-title {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    #jsonOutput {
+      font-family: 'Courier New', monospace;
+      font-size: .82rem;
+      line-height: 1.7;
+      color: #a0a0c0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    #jsonOutput .key   { color: #ce93d8; }
+    #jsonOutput .str   { color: #80cbc4; }
+    #jsonOutput .num   { color: #ffcc80; }
+
+    /* ── Error ── */
+    #errorBox {
+      display: none;
+      background: rgba(239,83,80,.1);
+      border: 1px solid rgba(239,83,80,.35);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      color: #ef9a9a;
+      font-size: .9rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 2rem;
+      font-size: .75rem;
+      color: var(--muted);
+      text-align: center;
+      z-index: 1;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ Powered by Genderize.io API</div>
+  <h1>Cek Gender<br/>Berdasarkan Nama</h1>
+  <p>Masukkan nama untuk mendeteksi jenis kelamin secara otomatis.</p>
+</header>
+
+<div class="card" id="mainCard">
+  <!-- Input -->
+  <div class="input-group">
+    <input type="text" id="inputNama" placeholder="Ketik nama, mis: Budi, Siti…" maxlength="60"/>
+    <button id="btnCek">Cek ↗</button>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <span>Mengambil data dari API…</span>
+  </div>
+
+  <!-- Error -->
+  <div id="errorBox"></div>
+
+  <!-- Result -->
+  <div id="result">
+    <!-- Banner -->
+    <div class="gender-banner" id="genderBanner">
+      <div class="gender-icon" id="genderIcon"></div>
+      <div class="gender-info">
+        <h2 id="genderLabel"></h2>
+        <p id="genderSub"></p>
+      </div>
+    </div>
+
+    <!-- Probability bar -->
+    <div class="prob-wrap">
+      <div class="prob-label">
+        <span>Tingkat Probabilitas</span>
+        <span id="probPercent">–</span>
+      </div>
+      <div class="prob-track">
+        <div class="prob-fill" id="probFill"></div>
+      </div>
+    </div>
+
+    <!-- JSON output -->
+    <div class="json-box">
+      <div class="json-title">📦 Raw JSON Response</div>
+      <div id="jsonOutput"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Data dari <a href="https://genderize.io" target="_blank">genderize.io</a> &nbsp;·&nbsp;
+  Dibuat dengan jQuery AJAX
+</footer>
+
+<script>
+  // ─────────────────────────────────────────
+  //  1. VARIABEL GLOBAL
+  // ─────────────────────────────────────────
+  var apiBase   = "https://api.genderize.io/";
+  var lastNama  = "";
+  var isLoading = false;
+
+  // ─────────────────────────────────────────
+  //  3. FUNGSI – syntax-highlight JSON
+  // ─────────────────────────────────────────
+  function highlightJSON(obj) {
+    var json = JSON.stringify(obj, null, 2);
+    // pakai regex untuk wrap token
+    json = json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+      var cls = "num";
+      if (/^"/.test(match)) {
+        cls = /:$/.test(match) ? "key" : "str";
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
+    });
+    return json;
+  }
+
+  // ─────────────────────────────────────────
+  //  3. FUNGSI – tampilkan hasil ke DOM
+  // ─────────────────────────────────────────
+  function tampilkanHasil(data) {
+    var gender      = data.gender;          // 2. Variabel lokal
+    var probability = data.probability;
+    var name        = data.name;
+    var count       = data.count;
+
+    // 2. BLOK KONDISIONAL
+    var icon, label, sub, cssClass;
+    if (gender === "male") {
+      icon     = "♂️";
+      label    = "Laki-laki";
+      sub      = "Nama \"" + name + "\" kemungkinan besar milik laki-laki.";
+      cssClass = "male";
+    } else if (gender === "female") {
+      icon     = "♀️";
+      label    = "Perempuan";
+      sub      = "Nama \"" + name + "\" kemungkinan besar milik perempuan.";
+      cssClass = "female";
+    } else {
+      icon     = "⚧️";
+      label    = "Tidak Diketahui";
+      sub      = "Nama \"" + name + "\" tidak dapat diidentifikasi.";
+      cssClass = "unknown";
+    }
+
+    var persen = probability ? (probability * 100).toFixed(1) + "%" : "N/A";
+
+    // 5. jQuery + DOM manipulation
+    $("#genderBanner").attr("class", "gender-banner " + cssClass);
+    $("#genderIcon").text(icon);
+    $("#genderLabel").text(label);
+    $("#genderSub").text(sub);
+    $("#probPercent").text(persen);
+
+    $("#probFill")
+      .attr("class", "prob-fill " + cssClass)
+      .css("width", "0%");
+
+    // delayed bar fill (visual effect)
+    setTimeout(function() {
+      $("#probFill").css("width", probability ? (probability * 100) + "%" : "50%");
+    }, 80);
+
+    // Raw JSON
+    $("#jsonOutput").html(highlightJSON(data));
+
+    // glow effect on card
+    var glowColor = (cssClass === "male")
+      ? "0 0 60px rgba(79,195,247,.25)"
+      : (cssClass === "female")
+      ? "0 0 60px rgba(244,143,177,.25)"
+      : "0 0 60px rgba(179,157,219,.2)";
+    $("#mainCard").css("box-shadow", glowColor);
+
+    // Show result section
+    $("#result").fadeIn(350);
+  }
+
+  // ─────────────────────────────────────────
+  //  3. FUNGSI – panggil API dengan AJAX
+  // ─────────────────────────────────────────
+  function cekGender() {
+    // 1. Variabel lokal
+    var nama = $.trim($("#inputNama").val());
+
+    // 2. Blok kondisional – validasi input
+    if (nama === "") {
+      $("#errorBox").text("⚠️ Nama tidak boleh kosong!").fadeIn(200);
+      return;
+    }
+    if (isLoading) return;
+
+    isLoading = true;
+    lastNama  = nama;
+
+    // Reset UI
+    $("#errorBox").hide();
+    $("#result").hide();
+    $("#loader").fadeIn(200);
+
+    // 6. AJAX – jQuery $.ajax()
+    $.ajax({
+      url      : apiBase,
+      method   : "GET",
+      data     : { name: nama },        // → ?name=<nama>
+      dataType : "json",
+      success  : function(data) {        // callback sukses
+        isLoading = false;
+        $("#loader").hide();
+        tampilkanHasil(data);            // panggil fungsi
+      },
+      error    : function(xhr, status, err) {  // callback error
+        isLoading = false;
+        $("#loader").hide();
+        var msg = "❌ Gagal mengambil data. Periksa koneksi internet Anda. (" + status + ")";
+        $("#errorBox").text(msg).fadeIn(200);
+      }
+    });
+  }
+
+  // ─────────────────────────────────────────
+  //  4. jQuery EVENTS
+  // ─────────────────────────────────────────
+  $(document).ready(function() {
+
+    // Event: klik tombol Cek
+    $("#btnCek").on("click", function() {
+      cekGender();
+    });
+
+    // Event: tekan Enter di input
+    $("#inputNama").on("keypress", function(e) {
+      if (e.which === 13) {   // 2. Blok kondisional
+        cekGender();
+      }
+    });
+
+    // Event: saat input berubah, sembunyikan error lama
+    $("#inputNama").on("input", function() {
+      if ($(this).val().trim() !== "") {
+        $("#errorBox").fadeOut(150);
+      }
+    });
+
+    // Event: focus styling tambahan
+    $("#inputNama").on("focus", function() {
+      $(this).closest(".card").css("border-color", "rgba(224,64,251,.4)");
+    }).on("blur", function() {
+      $(this).closest(".card").css("border-color", "var(--border)");
+    });
+
+  });
+</script>
+</body>
+</html>
