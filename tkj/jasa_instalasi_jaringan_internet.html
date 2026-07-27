@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Jasa Instalasi Jaringan Internet</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-deep: #0d151c;
+    --bg-panel: #121e28;
+    --bg-panel-2: #16232f;
+    --line: #223140;
+    --ink: #e9eef2;
+    --ink-soft: #93a3b0;
+    --signal-teal: #17d3b3;
+    --signal-teal-dim: #0f8f7a;
+    --fiber-amber: #ffb020;
+    --copper: #d97b3c;
+    --danger: #ff6b6b;
+    --radius: 10px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3,h4,.display-font{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.01em; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  ::selection{ background: var(--signal-teal); color:#04231c; }
+
+  a{ text-decoration:none; }
+
+  /* background circuit texture */
+  .bg-grid{
+    background-image:
+      linear-gradient(rgba(23,211,179,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(23,211,179,0.05) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+
+  /* ===== SITE NAVBAR ===== */
+  .site-nav{
+    background: rgba(13,21,28,0.96);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top:0; z-index: 1050;
+    backdrop-filter: blur(8px);
+  }
+  .site-nav .nav-logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    position: relative;
+    padding-left: 16px;
+  }
+  .site-nav .nav-logo::before{
+    content:'';
+    position:absolute; left:0; top:50%; transform: translateY(-50%);
+    width:8px; height:8px; border-radius:50%;
+    background: var(--signal-teal);
+    box-shadow: 0 0 8px var(--signal-teal);
+  }
+  .site-nav .nav-logo:hover{ color: var(--signal-teal); }
+  .site-nav .navbar-toggler{ box-shadow:none !important; }
+  .site-nav .navbar-toggler-icon{
+    width: 22px; height: 16px; position: relative;
+    background: none !important;
+  }
+  .site-nav .navbar-toggler-icon::before,
+  .site-nav .navbar-toggler-icon::after{
+    content:''; position:absolute; left:0; right:0; height:2px; background: var(--ink);
+  }
+  .site-nav .navbar-toggler-icon::before{ top:0; box-shadow: 0 7px 0 var(--ink); }
+  .site-nav .navbar-toggler-icon::after{ bottom:0; }
+  .site-nav .nav-links-list{
+    list-style:none; margin:0; padding-left:0;
+    display:flex; align-items:center;
+  }
+  .site-nav .nav-links-list a{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.8rem;
+    text-transform: uppercase;
+    letter-spacing:.04em;
+    color: var(--ink-soft);
+    padding: 6px 2px;
+    position: relative;
+    transition: color .2s ease;
+  }
+  .site-nav .nav-links-list a::after{
+    content:''; position:absolute; left:0; right:100%; bottom:0; height:2px;
+    background: var(--signal-teal);
+    transition: right .25s ease;
+  }
+  .site-nav .nav-links-list a:hover{ color: var(--ink); }
+  .site-nav .nav-links-list a:hover::after{ right:0; }
+
+  @media (max-width: 991.98px){
+    .site-nav .navbar-collapse{
+      background: var(--bg-panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      margin-top: 8px; margin-bottom: 10px;
+    }
+    .site-nav .nav-links-list{ align-items: flex-start; }
+  }
+
+  /* ===== PATCH PANEL NAV ===== */
+  .patch-rail{
+    position: sticky; top: 57px; z-index: 1000;
+    background: rgba(13,21,28,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .patch-rail .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size: 1.05rem; color: var(--ink);
+  }
+  .patch-rail .brand .dot{ color: var(--signal-teal); }
+
+  .port-track{
+    position:relative;
+    display:flex; align-items:center; gap: 2px;
+    overflow-x:auto; scrollbar-width:none;
+  }
+  .port-track::-webkit-scrollbar{ display:none; }
+
+  .port-line{
+    position:absolute; left:20px; right:20px; top:50%;
+    height:2px; background: var(--line); z-index:0;
+    transform: translateY(-50%);
+  }
+  .port-line-fill{
+    position:absolute; left:0; top:0; height:100%;
+    width:0%; background: linear-gradient(90deg, var(--signal-teal), var(--fiber-amber));
+    transition: width .5s ease;
+  }
+
+  .port-btn{
+    position:relative; z-index:1;
+    background: var(--bg-panel);
+    border:1px solid var(--line);
+    color: var(--ink-soft);
+    font-family:'JetBrains Mono', monospace;
+    font-size:.68rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    white-space:nowrap;
+    display:flex; align-items:center; gap:6px;
+    transition: all .25s ease;
+    flex-shrink:0;
+  }
+  .port-btn .led{
+    width:6px; height:6px; border-radius:50%;
+    background: #38424c;
+    box-shadow: none;
+    transition: all .25s ease;
+  }
+  .port-btn.active{ color: var(--ink); border-color: var(--signal-teal-dim); background: #14262a; }
+  .port-btn.active .led{ background: var(--signal-teal); box-shadow: 0 0 8px var(--signal-teal); }
+  .port-btn:hover{ color: var(--ink); border-color: var(--signal-teal-dim); }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding: 90px 0 60px;
+    position: relative;
+    overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color: var(--signal-teal);
+    display:flex; align-items:center; gap:8px;
+  }
+  .hero .eyebrow .blink{
+    width:6px; height:6px; border-radius:50%; background: var(--signal-teal);
+    animation: blink 1.6s infinite;
+  }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.15;} }
+
+  .hero h1{
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight:700;
+    line-height: 1.08;
+    margin: 14px 0 18px;
+  }
+  .hero h1 .accent{ color: var(--signal-teal); }
+  .hero p.lead-text{ color: var(--ink-soft); font-size:1.05rem; max-width: 46ch; }
+
+  .meta-card{
+    background: var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    overflow:hidden;
+  }
+  .meta-row{
+    display:flex; justify-content:space-between; gap:12px;
+    padding: 11px 16px;
+    border-bottom:1px solid var(--line);
+    font-size:.85rem;
+  }
+  .meta-row:last-child{ border-bottom:none; }
+  .meta-row .k{ color: var(--ink-soft); font-family:'JetBrains Mono', monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;}
+  .meta-row .v{ color: var(--ink); font-weight:500; text-align:right; }
+
+  .btn-signal{
+    background: var(--signal-teal);
+    color: #04231c;
+    font-weight:600;
+    border-radius: 8px;
+    padding: 11px 22px;
+    border:none;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .btn-signal:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px -8px rgba(23,211,179,.5); color:#04231c; }
+
+  .btn-outline-signal{
+    background: transparent; color: var(--ink);
+    border:1px solid var(--line);
+    border-radius:8px; padding: 11px 20px;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-outline-signal:hover{ border-color: var(--signal-teal-dim); color: var(--ink); }
+
+  /* RJ45 illustration */
+  .rj45-wrap{ display:flex; justify-content:center; align-items:center; }
+  .pin-label{ font-family:'JetBrains Mono', monospace; font-size: 9px; fill: var(--ink-soft); }
+
+  /* ===== SECTION SHELL ===== */
+  section.block{ padding: 70px 0; border-top: 1px solid var(--line); }
+  .section-head{ margin-bottom: 36px; }
+  .section-head .tag{
+    font-family:'JetBrains Mono', monospace; font-size:.7rem; color: var(--fiber-amber);
+    text-transform:uppercase; letter-spacing:.12em;
+  }
+  .section-head h2{ font-size: clamp(1.5rem, 3vw, 2.1rem); margin-top:6px; }
+  .section-head p{ color: var(--ink-soft); max-width:60ch; }
+
+  .card-panel{
+    background: var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    height:100%;
+  }
+
+  /* Accordion override */
+  .accordion-item{ background: var(--bg-panel); border:1px solid var(--line); border-radius:8px !important; margin-bottom:10px; overflow:hidden;}
+  .accordion-button{ background: var(--bg-panel); color: var(--ink); font-weight:600; font-family:'Space Grotesk',sans-serif;}
+  .accordion-button:not(.collapsed){ background: var(--bg-panel-2); color: var(--signal-teal); box-shadow:none; }
+  .accordion-button::after{ filter: invert(70%) sepia(20%) saturate(400%) hue-rotate(120deg); }
+  .accordion-body{ color: var(--ink-soft); font-size:.92rem; }
+
+  /* Pertanyaan pemantik */
+  .pemantik-card{
+    background: var(--bg-panel);
+    border:1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor:pointer;
+    transition: border-color .2s ease;
+  }
+  .pemantik-card:hover{ border-color: var(--fiber-amber); }
+  .pemantik-q{ font-weight:600; }
+  .pemantik-a{ display:none; color: var(--ink-soft); font-size:.9rem; margin-top:10px; border-top:1px solid var(--line); padding-top:10px; }
+  .pemantik-card.open .pemantik-a{ display:block; }
+  .pemantik-card .toggle-hint{ font-family:'JetBrains Mono', monospace; font-size:.68rem; color: var(--fiber-amber); }
+
+  /* Video placeholder */
+  .video-frame{
+    background: linear-gradient(160deg, #142029, #0d1720);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    aspect-ratio: 16/9;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .video-frame .play-btn{
+    width:64px; height:64px; border-radius:50%;
+    background: rgba(23,211,179,.12);
+    border:1px solid var(--signal-teal-dim);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--signal-teal); font-size:1.4rem;
+    z-index:2;
+  }
+  .video-frame .scan{
+    position:absolute; inset:0; z-index:1;
+    background: repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0px, transparent 2px, transparent 4px);
+  }
+  .video-frame small{ position:absolute; bottom:12px; left:14px; color: var(--ink-soft); font-family:'JetBrains Mono',monospace; font-size:.68rem; }
+
+  /* Tabs (materi) */
+  .nav-tabs.mat-tabs{ border-bottom: 1px solid var(--line); gap:6px; }
+  .mat-tabs .nav-link{
+    color: var(--ink-soft); border:1px solid transparent; border-radius:8px 8px 0 0;
+    font-family:'JetBrains Mono', monospace; font-size:.82rem;
+  }
+  .mat-tabs .nav-link.active{ background: var(--bg-panel); color: var(--signal-teal); border-color: var(--line); border-bottom-color: var(--bg-panel);}
+  .tab-content{ background: var(--bg-panel); border:1px solid var(--line); border-top:none; border-radius:0 0 var(--radius) var(--radius); padding: 26px; }
+  .tab-content .icon-badge{ width:42px; height:42px; border-radius:8px; background:#14262a; display:flex; align-items:center; justify-content:center; color: var(--signal-teal); font-size:1.2rem;}
+
+  /* Kuis */
+  .quiz-card{ background: var(--bg-panel); border:1px solid var(--line); border-radius: var(--radius); padding:22px; margin-bottom:16px; }
+  .quiz-card .qnum{ font-family:'JetBrains Mono', monospace; color: var(--fiber-amber); font-size:.75rem; }
+  .opt-btn{
+    display:block; width:100%; text-align:left;
+    background: var(--bg-panel-2); border:1px solid var(--line); color: var(--ink);
+    border-radius:8px; padding:10px 14px; margin-top:8px; font-size:.9rem;
+    transition: all .2s ease;
+  }
+  .opt-btn:hover{ border-color: var(--signal-teal-dim); }
+  .opt-btn.correct{ border-color: var(--signal-teal); background: rgba(23,211,179,.1); color: var(--signal-teal); }
+  .opt-btn.wrong{ border-color: var(--danger); background: rgba(255,107,107,.08); color: var(--danger); }
+  .opt-btn:disabled{ opacity:.7; cursor:default; }
+
+  #quizScoreBar{
+    background: var(--bg-panel); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 18px 22px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .score-track{ flex:1; min-width:160px; height:8px; background:#1a2833; border-radius:6px; overflow:hidden; }
+  .score-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--signal-teal), var(--fiber-amber)); transition: width .4s ease; }
+
+  /* Jobsheet checklist */
+  .job-item{
+    display:flex; align-items:flex-start; gap:14px;
+    background: var(--bg-panel); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 16px; margin-bottom:10px;
+  }
+  .job-item input[type="checkbox"]{
+    width:20px; height:20px; margin-top:2px; accent-color: var(--signal-teal); cursor:pointer;
+  }
+  .job-item.done .job-title{ color: var(--signal-teal); text-decoration: line-through; text-decoration-color: var(--signal-teal-dim);}
+  .job-title{ font-weight:600; }
+  .job-desc{ color: var(--ink-soft); font-size:.85rem; margin-top:2px; }
+
+  .signal-meter{ background: var(--bg-panel); border:1px solid var(--line); border-radius: var(--radius); padding:22px; }
+  .signal-bars{ display:flex; align-items:flex-end; gap:5px; height:52px; }
+  .signal-bars .bar{ width:12px; background:#1a2833; border-radius:2px; transition: background .3s ease; }
+  .signal-bars .bar:nth-child(1){ height:20%; }
+  .signal-bars .bar:nth-child(2){ height:40%; }
+  .signal-bars .bar:nth-child(3){ height:60%; }
+  .signal-bars .bar:nth-child(4){ height:80%; }
+  .signal-bars .bar:nth-child(5){ height:100%; }
+  .signal-bars .bar.lit{ background: var(--signal-teal); }
+
+  /* Refleksi */
+  textarea.form-refleksi{
+    background: var(--bg-panel-2); border:1px solid var(--line); color: var(--ink);
+    border-radius: var(--radius); padding:14px; width:100%; min-height:120px; font-family:'Inter',sans-serif;
+  }
+  textarea.form-refleksi:focus{ outline:none; border-color: var(--signal-teal-dim); box-shadow:0 0 0 3px rgba(23,211,179,.12); }
+  .toast-saved{
+    display:none; align-items:center; gap:8px; color: var(--signal-teal);
+    font-family:'JetBrains Mono', monospace; font-size:.8rem; margin-top:10px;
+  }
+  .toast-saved.show{ display:flex; }
+
+  /* Asesmen table */
+  table.rubrik{ width:100%; border-collapse: collapse; font-size:.88rem; }
+  table.rubrik th{
+    text-align:left; font-family:'JetBrains Mono', monospace; text-transform:uppercase; font-size:.7rem;
+    letter-spacing:.05em; color: var(--fiber-amber); padding:10px 14px; border-bottom:1px solid var(--line);
+  }
+  table.rubrik td{ padding:12px 14px; border-bottom:1px solid var(--line); color: var(--ink-soft); }
+  table.rubrik tr:last-child td{ border-bottom:none; }
+  table.rubrik td:first-child{ color: var(--ink); font-weight:500; }
+
+  /* DPL chips */
+  .dpl-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background: var(--bg-panel-2); border:1px solid var(--line); border-radius:20px;
+    padding: 6px 12px; font-size:.75rem; color: var(--ink-soft); margin:4px 4px 0 0;
+  }
+  .dpl-chip .n{ font-family:'JetBrains Mono', monospace; color: var(--signal-teal); }
+
+  footer{ padding: 40px 0; border-top:1px solid var(--line); }
+  footer .fine{ color: var(--ink-soft); font-size:.8rem; }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero .eyebrow .blink{ animation:none; }
+  }
+
+  @media (max-width: 767.98px){
+    section.block{ padding: 50px 0; }
+    .hero{ padding: 70px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="site-nav navbar navbar-expand-lg py-0">
+  <div class="container-lg">
+    <a class="nav-logo py-3 me-auto" href="../index.html">Yana Permana</a>
+    <button class="navbar-toggler border-0 py-3" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon d-inline-block"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="nav-links-list ms-auto py-3 py-lg-0 flex-column flex-lg-row gap-3 gap-lg-4 ps-3 ps-lg-0">
+        <li><a href="../index.html#experience">Pengalaman</a></li>
+        <li><a href="../index.html#skills">Keahlian</a></li>
+        <li><a href="../index.html#education">Pendidikan</a></li>
+        <li><a href="../index.html#contact">Kontak</a></li>
+        <li><a href="../jadwal.html">Jadwal</a></li>
+        <li><a href="../tkj/index.html">TKJ</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== PATCH PANEL NAV ===== -->
+<div class="patch-rail">
+  <div class="container-fluid px-3 px-md-4 py-2">
+    <div class="d-flex align-items-center justify-content-between gap-3">
+      <a href="#top" class="brand"><span class="dot">●</span> TKJ<span class="mono" style="color:var(--ink-soft);font-weight:400;"> / instalasi-jaringan</span></a>
+      <div class="port-track flex-grow-1 ms-3" id="portTrack">
+        <div class="port-line"><div class="port-line-fill" id="portLineFill"></div></div>
+        <a href="#capaian" class="port-btn" data-target="capaian"><span class="led"></span>P1 · Capaian</a>
+        <a href="#pemantik" class="port-btn" data-target="pemantik"><span class="led"></span>P2 · Pemantik</a>
+        <a href="#materi" class="port-btn" data-target="materi"><span class="led"></span>P3 · Materi</a>
+        <a href="#kuis" class="port-btn" data-target="kuis"><span class="led"></span>P4 · Kuis</a>
+        <a href="#jobsheet" class="port-btn" data-target="jobsheet"><span class="led"></span>P5 · Jobsheet</a>
+        <a href="#refleksi" class="port-btn" data-target="refleksi"><span class="led"></span>P6 · Refleksi</a>
+        <a href="#asesmen" class="port-btn" data-target="asesmen"><span class="led"></span>P7 · Asesmen</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div id="top"></div>
+<section class="hero bg-grid">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="eyebrow"><span class="blink"></span> MULTIMEDIA PEMBELAJARAN INTERAKTIF · TEKNIK KOMPUTER JARINGAN</div>
+        <h1>Project <span class="accent">Jasa Instalasi</span> Jaringan Internet</h1>
+        <p class="lead-text">Dari sambungan kabel UTP, jaringan nirkabel, hingga fiber optic — pelajari, praktikkan, dan uji hasil instalasi jaringanmu sendiri lewat pengalaman belajar berbasis project.</p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a href="#materi" class="btn-signal"><i class="bi bi-play-fill"></i> Mulai Belajar</a>
+          <a href="#jobsheet" class="btn-outline-signal"><i class="bi bi-clipboard-check"></i> Lihat Jobsheet</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="meta-card mb-3">
+          <div class="meta-row"><span class="k">Sekolah</span><span class="v">SMK Al-Irsyad Tegal</span></div>
+          <div class="meta-row"><span class="k">Guru</span><span class="v">Yana Permana, S.Pd</span></div>
+          <div class="meta-row"><span class="k">Mapel</span><span class="v">Teknik Komputer Jaringan</span></div>
+          <div class="meta-row"><span class="k">Kelas / Semester</span><span class="v">XI / Ganjil</span></div>
+          <div class="meta-row"><span class="k">Alokasi Waktu</span><span class="v">2 JP (2 x 45 menit)</span></div>
+        </div>
+        <div class="rj45-wrap">
+          <svg viewBox="0 0 260 170" width="100%" style="max-width:320px;">
+            <rect x="10" y="20" width="140" height="110" rx="10" fill="#16232f" stroke="#223140"/>
+            <rect x="150" y="55" width="34" height="40" fill="#16232f" stroke="#223140"/>
+            <g id="rj45pins">
+              <!-- 8 pins T568B -->
+              <rect x="24" y="34" width="10" height="82" fill="#d97b3c"/>
+              <rect x="40" y="34" width="10" height="82" fill="#e9eef2"/>
+              <rect x="56" y="34" width="10" height="82" fill="#17d3b3"/>
+              <rect x="72" y="34" width="10" height="82" fill="#3a4b58"/>
+              <rect x="88" y="34" width="10" height="82" fill="#e9eef2"/>
+              <rect x="104" y="34" width="10" height="82" fill="#17d3b3"/>
+              <rect x="120" y="34" width="10" height="82" fill="#3a4b58"/>
+              <rect x="136" y="34" width="10" height="82" fill="#e9eef2"/>
+            </g>
+            <text x="29" y="130" class="pin-label">1</text>
+            <text x="45" y="130" class="pin-label">2</text>
+            <text x="61" y="130" class="pin-label">3</text>
+            <text x="77" y="130" class="pin-label">4</text>
+            <text x="93" y="130" class="pin-label">5</text>
+            <text x="109" y="130" class="pin-label">6</text>
+            <text x="125" y="130" class="pin-label">7</text>
+            <text x="141" y="130" class="pin-label">8</text>
+            <text x="30" y="150" class="pin-label" style="font-size:10px;fill:#93a3b0;">RJ45 · Standar T568B</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CAPAIAN & TUJUAN ===== -->
+<section class="block" id="capaian">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 01 / Rencana Belajar</div>
+      <h2>Capaian &amp; Tujuan Pembelajaran</h2>
+      <p>Fondasi kompetensi yang ingin dicapai sebelum masuk ke praktik instalasi jaringan.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="accordion" id="accCapaian">
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">Capaian Pembelajaran (Fase F)</button>
+            </h3>
+            <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#accCapaian">
+              <div class="accordion-body">
+                Peserta didik mampu menginstalasi jaringan kabel dan nirkabel, melakukan perawatan dan perbaikan jaringan, memahami standar jaringan nirkabel indoor/outdoor, mengkonfigurasi layanan Voice over IP (VoIP), serta memahami dan menerapkan jaringan fiber optic mulai dari pemilihan kabel, alat kerja, penyambungan, hingga perbaikan.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">Lintas Disiplin Ilmu</button>
+            </h3>
+            <div id="c2" class="accordion-collapse collapse" data-bs-parent="#accCapaian">
+              <div class="accordion-body">Informatika dan elektronika dasar — dua bidang ilmu yang saling menopang praktik jaringan komputer.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h3 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">Kemitraan &amp; Lingkungan Belajar</button>
+            </h3>
+            <div id="c3" class="accordion-collapse collapse" data-bs-parent="#accCapaian">
+              <div class="accordion-body">Kemitraan bersama Dunia Usaha dan Dunia Industri (DUDI), dengan praktik di lingkungan sekolah dan laboratorium komputer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-panel">
+          <h4 style="font-size:1.05rem;">Tujuan Pembelajaran</h4>
+          <ul class="list-unstyled mt-3 mb-0">
+            <li class="d-flex gap-2 mb-3"><i class="bi bi-check2-circle" style="color:var(--signal-teal);"></i><span>Mengidentifikasi perangkat, alat, dan bahan untuk instalasi jaringan kabel dan nirkabel.</span></li>
+            <li class="d-flex gap-2 mb-3"><i class="bi bi-check2-circle" style="color:var(--signal-teal);"></i><span>Melakukan instalasi jaringan kabel dan nirkabel sesuai prosedur dan standar kerja.</span></li>
+            <li class="d-flex gap-2"><i class="bi bi-check2-circle" style="color:var(--signal-teal);"></i><span>Menguji hasil instalasi serta melakukan perbaikan sederhana jika ditemukan kendala.</span></li>
+          </ul>
+        </div>
+        <div class="mt-3">
+          <div class="tag mb-2" style="font-size:.68rem;">Dimensi Profil Lulusan yang dilatih</div>
+          <span class="dpl-chip"><span class="n">01</span> Keimanan &amp; Ketakwaan</span>
+          <span class="dpl-chip"><span class="n">02</span> Kewargaan</span>
+          <span class="dpl-chip"><span class="n">03</span> Penalaran Kritis</span>
+          <span class="dpl-chip"><span class="n">04</span> Kreativitas</span>
+          <span class="dpl-chip"><span class="n">05</span> Kolaborasi</span>
+          <span class="dpl-chip"><span class="n">06</span> Kemandirian</span>
+          <span class="dpl-chip"><span class="n">07</span> Kesehatan</span>
+          <span class="dpl-chip"><span class="n">08</span> Komunikasi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PEMANTIK & VIDEO ===== -->
+<section class="block bg-grid" id="pemantik">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 02 / Pembuka</div>
+      <h2>Video Singkat &amp; Pertanyaan Pemantik</h2>
+      <p>Amati video pengantar, lalu coba jawab dalam hati sebelum membuka jawabannya.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="video-frame">
+          <div class="scan"></div>
+          <div class="play-btn"><i class="bi bi-play-fill"></i></div>
+          <small><i class="bi bi-broadcast"></i> Tempat tautan video pembelajaran guru (1–5 menit)</small>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex flex-column gap-3">
+        <div class="pemantik-card" onclick="this.classList.toggle('open')">
+          <div class="d-flex justify-content-between">
+            <span class="pemantik-q">Pernahkah kalian bertanya bagaimana komputer bisa terhubung satu sama lain?</span>
+            <span class="toggle-hint">TAP</span>
+          </div>
+          <div class="pemantik-a">Komputer saling terhubung lewat media transmisi — kabel UTP, gelombang nirkabel, atau fiber optic — yang mengalirkan data dalam bentuk sinyal listrik, radio, atau cahaya antar perangkat.</div>
+        </div>
+        <div class="pemantik-card" onclick="this.classList.toggle('open')">
+          <div class="d-flex justify-content-between">
+            <span class="pemantik-q">Mengapa internet bisa diakses dari berbagai perangkat?</span>
+            <span class="toggle-hint">TAP</span>
+          </div>
+          <div class="pemantik-a">Karena setiap perangkat terhubung ke jaringan yang sama melalui titik akses (kabel, wifi, atau VoIP) yang diatur dengan standar dan alamat jaringan yang konsisten, sehingga data dapat dikirim dan diterima dari mana saja.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MATERI TABS ===== -->
+<section class="block" id="materi">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 03 / Eksplorasi</div>
+      <h2>Materi Interaktif</h2>
+      <p>Tiga topik utama pembentuk kompetensi instalasi jaringan internet.</p>
+    </div>
+    <ul class="nav nav-tabs mat-tabs" id="matTab" role="tablist">
+      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1" type="button"><i class="bi bi-ethernet me-1"></i>Kabel &amp; Nirkabel</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2" type="button"><i class="bi bi-telephone-outbound me-1"></i>VoIP</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3" type="button"><i class="bi bi-lightning-charge me-1"></i>Fiber Optic</button></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab1">
+        <div class="d-flex gap-3 align-items-start">
+          <div class="icon-badge"><i class="bi bi-ethernet"></i></div>
+          <div>
+            <h5>Instalasi Jaringan Kabel &amp; Nirkabel</h5>
+            <p class="mb-2" style="color:var(--ink-soft);">Meliputi pemasangan kabel UTP sesuai standar (T568A/T568B), pemilihan teknologi nirkabel indoor maupun outdoor, hingga pengujian dan perawatan jaringan agar tetap stabil.</p>
+            <ul style="color:var(--ink-soft); font-size:.9rem;">
+              <li>Identifikasi perangkat: kabel UTP, konektor RJ45, crimping tool, access point.</li>
+              <li>Pemasangan mengikuti standar kerja dan prosedur keselamatan.</li>
+              <li>Pengujian koneksi menggunakan LAN tester sebelum digunakan.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2">
+        <div class="d-flex gap-3 align-items-start">
+          <div class="icon-badge"><i class="bi bi-telephone-outbound"></i></div>
+          <div>
+            <h5>Voice over IP (VoIP)</h5>
+            <p class="mb-2" style="color:var(--ink-soft);">Layanan yang mengubah suara menjadi paket data sehingga panggilan dapat berjalan di atas jaringan internet, bukan jaringan telepon konvensional.</p>
+            <ul style="color:var(--ink-soft); font-size:.9rem;">
+              <li>Konsep dasar konversi suara menjadi data digital.</li>
+              <li>Konfigurasi layanan VoIP pada jaringan lokal.</li>
+              <li>Manfaat: efisiensi biaya komunikasi jarak jauh.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab3">
+        <div class="d-flex gap-3 align-items-start">
+          <div class="icon-badge"><i class="bi bi-lightning-charge"></i></div>
+          <div>
+            <h5>Jaringan Fiber Optic</h5>
+            <p class="mb-2" style="color:var(--ink-soft);">Jaringan berbasis cahaya yang mampu mengirim data dengan kecepatan dan jarak jauh lebih baik dibanding kabel tembaga.</p>
+            <ul style="color:var(--ink-soft); font-size:.9rem;">
+              <li>Mengenal jenis-jenis kabel fiber optic dan pemilihannya.</li>
+              <li>Fungsi dan penggunaan alat kerja fiber optic.</li>
+              <li>Praktik penyambungan (splicing) serta perbaikan jaringan fiber.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== KUIS ===== -->
+<section class="block bg-grid" id="kuis">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 04 / Asesmen Kognitif</div>
+      <h2>Kuis Lisan Singkat</h2>
+      <p>3 pertanyaan cepat untuk mengecek pemahaman awal sebelum praktik.</p>
+    </div>
+
+    <div class="quiz-card" data-qid="1">
+      <div class="qnum">PERTANYAAN 01</div>
+      <p class="fw-semibold mb-2">Konektor apa yang digunakan pada ujung kabel UTP untuk jaringan Ethernet?</p>
+      <button class="opt-btn" data-correct="false">RCA</button>
+      <button class="opt-btn" data-correct="true">RJ45</button>
+      <button class="opt-btn" data-correct="false">HDMI</button>
+    </div>
+
+    <div class="quiz-card" data-qid="2">
+      <div class="qnum">PERTANYAAN 02</div>
+      <p class="fw-semibold mb-2">Media transmisi apa yang menggunakan cahaya untuk mengirim data?</p>
+      <button class="opt-btn" data-correct="false">Kabel Coaxial</button>
+      <button class="opt-btn" data-correct="false">Kabel UTP</button>
+      <button class="opt-btn" data-correct="true">Kabel Fiber Optic</button>
+    </div>
+
+    <div class="quiz-card" data-qid="3">
+      <div class="qnum">PERTANYAAN 03</div>
+      <p class="fw-semibold mb-2">Layanan yang mengubah suara menjadi data untuk dikirim lewat jaringan internet disebut?</p>
+      <button class="opt-btn" data-correct="false">FTP</button>
+      <button class="opt-btn" data-correct="true">VoIP</button>
+      <button class="opt-btn" data-correct="false">DNS</button>
+    </div>
+
+    <div id="quizScoreBar">
+      <div class="mono" style="font-size:.8rem; color:var(--ink-soft);">SKOR KUIS</div>
+      <div class="score-track"><div class="score-fill" id="scoreFill"></div></div>
+      <div class="mono" id="scoreText" style="font-size:.9rem;">0 / 3 terjawab</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JOBSHEET ===== -->
+<section class="block" id="jobsheet">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 05 / Project Based Learning</div>
+      <h2>Jobsheet Project: Instalasi Jaringan</h2>
+      <p>Kerjakan berkelompok (2–3 orang). Centang tiap tahap yang sudah kalian selesaikan.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="job-item" data-job="1">
+          <input type="checkbox" id="j1">
+          <div>
+            <div class="job-title">1. Menentukan project &amp; pembagian kelompok</div>
+            <div class="job-desc">Bentuk kelompok 2–3 orang, terima jobsheet/LKPD dari guru, dan pahami target instalasi yang akan dikerjakan.</div>
+          </div>
+        </div>
+        <div class="job-item" data-job="2">
+          <input type="checkbox" id="j2">
+          <div>
+            <div class="job-title">2. Menyimak demonstrasi guru</div>
+            <div class="job-desc">Perhatikan langkah-langkah pengerjaan jobsheet yang didemonstrasikan guru sebelum praktik dimulai.</div>
+          </div>
+        </div>
+        <div class="job-item" data-job="3">
+          <input type="checkbox" id="j3">
+          <div>
+            <div class="job-title">3. Memeriksa perangkat &amp; peralatan</div>
+            <div class="job-desc">Cek ketersediaan kabel, konektor, crimping tool, LAN tester, dan perangkat nirkabel sesuai kebutuhan.</div>
+          </div>
+        </div>
+        <div class="job-item" data-job="4">
+          <input type="checkbox" id="j4">
+          <div>
+            <div class="job-title">4. Melaksanakan praktik instalasi</div>
+            <div class="job-desc">Lakukan instalasi sesuai panduan jobsheet/LKPD dengan bimbingan guru.</div>
+          </div>
+        </div>
+        <div class="job-item" data-job="5">
+          <input type="checkbox" id="j5">
+          <div>
+            <div class="job-title">5. Menguji &amp; memperbaiki hasil instalasi</div>
+            <div class="job-desc">Cek hasil praktik, pastikan koneksi berfungsi, dan lakukan perbaikan sederhana bila ada kendala.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="signal-meter">
+          <div class="mono" style="font-size:.75rem; color:var(--ink-soft); margin-bottom:12px;">KEKUATAN SINYAL PROJECT</div>
+          <div class="signal-bars" id="signalBars">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+          <div class="mono mt-3" id="jobProgressText" style="font-size:.85rem;">0 / 5 tahap selesai</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REFLEKSI ===== -->
+<section class="block bg-grid" id="refleksi">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="section-head">
+          <div class="tag">Port 06 / Refleksi</div>
+          <h2>Refleksi Singkat</h2>
+          <p>Tuliskan pengalaman belajarmu hari ini — apa yang paling berkesan, dan bagian mana yang masih terasa sulit?</p>
+        </div>
+        <textarea class="form-refleksi" id="refleksiInput" placeholder="Hari ini saya belajar tentang..."></textarea>
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <button class="btn-signal" onclick="simpanRefleksi()"><i class="bi bi-save2"></i> Simpan Refleksi</button>
+          <div class="toast-saved" id="toastSaved"><i class="bi bi-check-circle-fill"></i> Refleksi tersimpan untuk sesi ini</div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-panel">
+          <h4 style="font-size:1.05rem;">Alur Penutup Pembelajaran</h4>
+          <ul class="list-unstyled mt-3 mb-0" style="color:var(--ink-soft); font-size:.9rem;">
+            <li class="d-flex gap-2 mb-3"><i class="bi bi-arrow-right-circle" style="color:var(--fiber-amber);"></i>Guru dan murid menyimpulkan pembelajaran bersama.</li>
+            <li class="d-flex gap-2 mb-3"><i class="bi bi-arrow-right-circle" style="color:var(--fiber-amber);"></i>Merencanakan topik dan strategi belajar pertemuan berikutnya.</li>
+            <li class="d-flex gap-2"><i class="bi bi-arrow-right-circle" style="color:var(--fiber-amber);"></i>Guru menghargai pencapaian project setiap kelompok.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ASESMEN ===== -->
+<section class="block" id="asesmen">
+  <div class="container">
+    <div class="section-head">
+      <div class="tag">Port 07 / Instrumen Penilaian</div>
+      <h2>Teknik &amp; Instrumen Asesmen</h2>
+    </div>
+    <div class="card-panel" style="overflow-x:auto;">
+      <table class="rubrik">
+        <thead>
+          <tr><th>Aspek</th><th>Teknik</th><th>Instrumen</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pemahaman konsep</td><td>Kuis</td><td>Rubrik penilaian pengetahuan</td></tr>
+          <tr><td>Kolaborasi</td><td>Observasi</td><td>Rubrik penilaian sikap</td></tr>
+          <tr><td>Penerapan konsep</td><td>Tugas kelompok</td><td>Rubrik penilaian keterampilan</td></tr>
+          <tr><td>Refleksi</td><td>Jurnal pribadi</td><td>Form refleksi singkat pada selembar kertas</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+    <div class="fine">SMK Al-Irsyad Tegal · Teknik Komputer Jaringan · Yana Permana, S.Pd</div>
+    <div class="fine mono">Project Jasa Instalasi Jaringan Internet · 2 JP</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ---- Patch panel nav active state + progress fill via IntersectionObserver ----
+  const ports = document.querySelectorAll('.port-btn');
+  const sections = Array.from(ports).map(p => document.getElementById(p.dataset.target));
+  const fill = document.getElementById('portLineFill');
+
+  function setActive(idx){
+    ports.forEach((p,i) => p.classList.toggle('active', i <= idx));
+    const pct = (idx / (ports.length - 1)) * 100;
+    fill.style.width = pct + '%';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const idx = sections.indexOf(entry.target);
+        if(idx > -1) setActive(idx);
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(s => s && observer.observe(s));
+
+  // ---- Kuis ----
+  let answered = 0;
+  const totalQ = document.querySelectorAll('.quiz-card').length;
+  document.querySelectorAll('.quiz-card').forEach(card => {
+    card.querySelectorAll('.opt-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(card.dataset.done) return;
+        card.dataset.done = "true";
+        answered++;
+        card.querySelectorAll('.opt-btn').forEach(b => {
+          b.disabled = true;
+          if(b.dataset.correct === 'true') b.classList.add('correct');
+          else if(b === btn) b.classList.add('wrong');
+        });
+        document.getElementById('scoreText').textContent = answered + ' / ' + totalQ + ' terjawab';
+        document.getElementById('scoreFill').style.width = (answered/totalQ*100) + '%';
+      });
+    });
+  });
+
+  // ---- Jobsheet checklist + signal meter ----
+  const jobBoxes = document.querySelectorAll('.job-item input[type="checkbox"]');
+  const bars = document.querySelectorAll('#signalBars .bar');
+  function updateJobs(){
+    let done = 0;
+    jobBoxes.forEach(cb => {
+      const item = cb.closest('.job-item');
+      item.classList.toggle('done', cb.checked);
+      if(cb.checked) done++;
+    });
+    document.getElementById('jobProgressText').textContent = done + ' / ' + jobBoxes.length + ' tahap selesai';
+    bars.forEach((bar, i) => bar.classList.toggle('lit', i < done));
+  }
+  jobBoxes.forEach(cb => cb.addEventListener('change', updateJobs));
+
+  // ---- Refleksi (in-memory, no persistence across reload) ----
+  function simpanRefleksi(){
+    const val = document.getElementById('refleksiInput').value.trim();
+    const toast = document.getElementById('toastSaved');
+    if(!val){ return; }
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+</script>
+</body>
+</html>
