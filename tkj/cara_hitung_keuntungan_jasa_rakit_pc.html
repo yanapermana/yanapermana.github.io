@@ -56,17 +56,49 @@
   .nav-links-list{
     list-style:none;
     margin:0; padding:0;
+    display:flex;
+    align-items:center;
+  }
+  .nav-links-list li{
+    display:flex;
+    align-items:center;
   }
   .nav-links-list li a{
+    display:inline-block;
     color:var(--text-muted);
     text-decoration:none;
     font-size:.9rem;
     font-weight:500;
+    line-height:1;
+    padding:.4rem 0;
     transition:color .2s ease;
     position:relative;
   }
+  .nav-links-list li a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:0;
+    width:0;
+    height:1px;
+    background:var(--accent);
+    transition:width .2s ease;
+  }
   .nav-links-list li a:hover{ color:var(--accent); }
+  .nav-links-list li a:hover::after{ width:100%; }
   .navbar-toggler{ box-shadow:none !important; }
+
+  /* Desktop: keep nav on one tidy row, vertically centered with the logo */
+  @media (min-width:992px){
+    .site-nav .container-lg{
+      display:flex;
+      align-items:center;
+      min-height:64px;
+    }
+    .site-nav .navbar-collapse{
+      flex-grow:0;
+    }
+    .nav-links-list{ white-space:nowrap; }
+  }
   .navbar-toggler-icon{
     background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(238,242,244,0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
   }
