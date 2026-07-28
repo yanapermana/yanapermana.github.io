@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Microsoft Excel VLOOKUP</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+  :root{
+    --paper:#EEEBE0;
+    --paper-2:#E5E1D3;
+    --ink:#1B231F;
+    --ink-soft:#4B5650;
+    --grid-line:#C6BFA8;
+    --surface:#FCFBF7;
+    --excel:#146C43;
+    --excel-dark:#0C4A2E;
+    --excel-pale:#DCEFE4;
+    --amber:#D98E2B;
+    --amber-pale:#FBEAD1;
+    --red-flag:#B3462C;
+    --radius:10px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+  }
+  ::selection{background:var(--amber-pale);}
+
+  h1,h2,h3,h4,.display-font{
+    font-family:'Space Grotesk',sans-serif;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  a{color:var(--excel-dark);}
+
+  /* ---------- background spreadsheet grid ---------- */
+  .grid-bg{
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    opacity:1;
+  }
+
+  /* ---------- ribbon navbar (in-page section nav) ---------- */
+  .ribbon{
+    background:var(--excel-dark);
+    border-bottom:3px solid var(--amber);
+  }
+  .ribbon .navbar-brand{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    color:#fff !important;
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+  }
+  .ribbon .navbar-brand .cellref{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--amber);
+    color:var(--ink);
+    font-size:.72rem;
+    padding:.1rem .4rem;
+    border-radius:4px;
+    font-weight:700;
+  }
+  .ribbon .nav-link{
+    color:rgba(255,255,255,.82) !important;
+    font-size:.92rem;
+    font-weight:500;
+    padding:.9rem .9rem !important;
+    border-bottom:3px solid transparent;
+    transition:.15s;
+  }
+  .ribbon .nav-link:hover, .ribbon .nav-link.active{
+    color:#fff !important;
+    border-bottom:3px solid var(--amber);
+  }
+
+  /* ---------- site-nav (main site navbar, linking back to portfolio) ---------- */
+  .site-nav{
+    background:var(--ink);
+    border-bottom:1px solid var(--grid-line);
+  }
+  .site-nav .nav-logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    color:#fff;
+    text-decoration:none;
+    letter-spacing:-.01em;
+  }
+  .site-nav .nav-logo:hover{color:var(--amber);}
+  .site-nav .navbar-toggler{
+    color:#fff;
+  }
+  .site-nav .navbar-toggler-icon{
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+  .site-nav .nav-links-list{
+    list-style:none;
+    display:flex;
+    margin:0;
+  }
+  .site-nav .nav-links-list a{
+    font-family:'Inter',sans-serif;
+    font-size:.92rem;
+    font-weight:500;
+    color:rgba(255,255,255,.75);
+    text-decoration:none;
+    transition:.15s;
+    white-space:nowrap;
+  }
+  .site-nav .nav-links-list a:hover{color:var(--amber);}
+  @media (max-width: 991px){
+    .site-nav .nav-links-list a{
+      color:rgba(255,255,255,.85);
+      display:inline-block;
+      padding:.25rem 0;
+    }
+  }
+
+  /* ---------- coordinate labels (col/row headers) ---------- */
+  .coord{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.08em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .section-label{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    margin-bottom:1.1rem;
+  }
+  .section-label .tag{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--ink);
+    color:var(--paper);
+    font-size:.75rem;
+    padding:.25rem .55rem;
+    border-radius:4px;
+    font-weight:700;
+  }
+  .section-label .line{
+    flex:1;
+    height:1px;
+    background:var(--grid-line);
+  }
+
+  section{
+    padding:4.5rem 0;
+    position:relative;
+    border-bottom:1px solid var(--grid-line);
+  }
+
+  /* ---------- hero: formula bar ---------- */
+  .hero{
+    padding:5.5rem 0 4rem;
+  }
+  .formula-bar{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    box-shadow:0 2px 0 rgba(0,0,0,.03);
+    overflow:hidden;
+    max-width:720px;
+  }
+  .formula-bar .fx{
+    font-family:'JetBrains Mono',monospace;
+    font-style:italic;
+    color:var(--excel);
+    font-weight:700;
+    padding:.55rem .9rem;
+    border-right:1px solid var(--grid-line);
+    background:var(--excel-pale);
+  }
+  .formula-bar .formula-text{
+    font-family:'JetBrains Mono',monospace;
+    padding:.55rem .9rem;
+    font-size:.95rem;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow-x:auto;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 4.5vw, 3.4rem);
+    font-weight:700;
+    margin:1.4rem 0 1rem;
+  }
+  .hero .lead{
+    color:var(--ink-soft);
+    font-size:1.08rem;
+    max-width:620px;
+  }
+  .meta-card{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+  }
+  .meta-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    border-bottom:1px solid var(--grid-line);
+    font-size:.88rem;
+  }
+  .meta-row:last-child{border-bottom:none;}
+  .meta-row div{padding:.55rem .75rem;}
+  .meta-row .k{
+    color:var(--ink-soft);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.76rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    border-right:1px solid var(--grid-line);
+  }
+
+  /* ---------- cards ---------- */
+  .cell-card{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    padding:1.5rem;
+    height:100%;
+  }
+  .cell-card .num{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--amber);
+    font-weight:700;
+    font-size:.85rem;
+  }
+
+  /* ---------- video ---------- */
+  .video-frame{
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:#0d1a15;
+    aspect-ratio:16/9;
+  }
+  .video-frame iframe{width:100%;height:100%;border:0;}
+
+  /* ---------- syntax breakdown ---------- */
+  .syntax-strip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(.95rem,2.4vw,1.35rem);
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:var(--radius);
+    padding:1.4rem 1.2rem;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .syntax-strip .part{
+    padding:.15rem .3rem;
+    border-radius:4px;
+  }
+  .part-lookup{background:#2c5c47;color:#c9f2dd;}
+  .part-table{background:#3a4a2c;color:#e2f0c9;}
+  .part-col{background:#5c4a2c;color:#f2e3c9;}
+  .part-range{background:#5c2c3a;color:#f2c9d5;}
+
+  .syntax-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem 1.3rem;
+    margin-top:1.1rem;
+    font-size:.86rem;
+  }
+  .syntax-legend .dot{
+    width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:.4rem;
+  }
+
+  /* ---------- simulator (signature) ---------- */
+  .sim-wrap{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    padding:1.5rem;
+  }
+  table.sheet{
+    width:100%;
+    border-collapse:collapse;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.85rem;
+  }
+  table.sheet th, table.sheet td{
+    border:1px solid var(--grid-line);
+    padding:.5rem .6rem;
+    text-align:left;
+    transition:background .25s, box-shadow .25s;
+  }
+  table.sheet thead th{
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    font-weight:700;
+    font-size:.72rem;
+    text-transform:uppercase;
+  }
+  table.sheet .colhead-letter{
+    text-align:center;
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    font-size:.7rem;
+  }
+  table.sheet td.rownum{
+    background:var(--paper-2);
+    color:var(--ink-soft);
+    text-align:center;
+    width:2.2rem;
+  }
+  .cell-scan{background:var(--amber-pale) !important;}
+  .cell-match{
+    background:var(--excel-pale) !important;
+    box-shadow:inset 0 0 0 2px var(--excel);
+  }
+  .cell-result{
+    background:var(--excel) !important;
+    color:#fff !important;
+    font-weight:700;
+    box-shadow:inset 0 0 0 2px var(--excel-dark);
+  }
+
+  .sim-controls{
+    display:flex;
+    gap:.75rem;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:1.25rem;
+  }
+  .sim-controls select{
+    font-family:'JetBrains Mono',monospace;
+    border:1px solid var(--grid-line);
+    border-radius:6px;
+    padding:.5rem .7rem;
+    background:var(--paper);
+  }
+  .btn-excel{
+    background:var(--excel);
+    border:none;
+    color:#fff;
+    font-weight:600;
+    padding:.5rem 1.1rem;
+    border-radius:6px;
+    transition:.15s;
+  }
+  .btn-excel:hover{background:var(--excel-dark);color:#fff;}
+  .btn-excel:disabled{opacity:.55;}
+
+  .sim-output{
+    margin-top:1.25rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.92rem;
+    background:var(--ink);
+    color:#e9e4d3;
+    border-radius:8px;
+    padding:1rem 1.1rem;
+    min-height:3.2rem;
+  }
+  .sim-output .step{
+    display:block;
+    opacity:0;
+    transform:translateX(-6px);
+    animation:stepIn .35s forwards;
+  }
+  @keyframes stepIn{to{opacity:1;transform:translateX(0);}}
+
+  /* ---------- accordion (jobsheet) ---------- */
+  .accordion-button{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    background:var(--surface);
+  }
+  .accordion-button:not(.collapsed){
+    background:var(--excel-pale);
+    color:var(--excel-dark);
+    box-shadow:none;
+  }
+  .accordion-button:focus{box-shadow:none;border-color:var(--grid-line);}
+  .accordion-item{
+    border:1px solid var(--grid-line) !important;
+    border-radius:var(--radius) !important;
+    overflow:hidden;
+    margin-bottom:.8rem;
+  }
+  .step-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;
+    background:var(--amber);
+    color:var(--ink);
+    padding:.1rem .45rem;
+    border-radius:4px;
+    margin-right:.6rem;
+  }
+
+  /* ---------- quiz ---------- */
+  .quiz-card{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    padding:1.4rem 1.4rem 1.1rem;
+    margin-bottom:1.1rem;
+  }
+  .quiz-opt{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:var(--paper);
+    border:1px solid var(--grid-line);
+    border-radius:8px;
+    padding:.6rem .9rem;
+    margin-bottom:.55rem;
+    font-size:.94rem;
+    transition:.15s;
+  }
+  .quiz-opt:hover{border-color:var(--excel);}
+  .quiz-opt.correct{background:var(--excel-pale);border-color:var(--excel);font-weight:600;}
+  .quiz-opt.wrong{background:#fbe4dd;border-color:var(--red-flag);}
+  .quiz-opt:disabled{cursor:default;}
+  .quiz-feedback{font-size:.88rem;margin-top:.4rem;min-height:1.2rem;}
+
+  #quiz-score{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+  }
+
+  /* ---------- reflection ---------- */
+  textarea#reflection{
+    background:var(--surface);
+    border:1px solid var(--grid-line);
+    border-radius:var(--radius);
+    font-family:'Inter',sans-serif;
+    padding:1rem;
+    min-height:130px;
+  }
+  #reflection-saved{
+    display:none;
+    background:var(--excel-pale);
+    border:1px solid var(--excel);
+    border-radius:8px;
+    padding:.7rem 1rem;
+    font-size:.9rem;
+    margin-top:.8rem;
+  }
+
+  /* ---------- assessment table ---------- */
+  table.assess{width:100%;border-collapse:collapse;font-size:.92rem;}
+  table.assess th{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    padding:.7rem .9rem;
+    text-align:left;
+  }
+  table.assess td{
+    padding:.7rem .9rem;
+    border-bottom:1px solid var(--grid-line);
+    background:var(--surface);
+  }
+  table.assess tr:last-child td{border-bottom:none;}
+
+  footer{
+    background:var(--ink);
+    color:var(--paper);
+    padding:2.5rem 0;
+  }
+  footer a{color:var(--amber);}
+
+  @media (max-width: 767px){
+    .meta-row{grid-template-columns:1fr;}
+    .meta-row .k{border-right:none;border-bottom:1px solid var(--grid-line);}
+    section{padding:3rem 0;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SITE NAV ================= -->
+<nav class="site-nav navbar navbar-expand-lg py-0">
+  <div class="container-lg">
+    <a class="nav-logo py-3 me-auto" href="../index.html">Yana Permana</a>
+    <button class="navbar-toggler border-0 py-3" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon d-inline-block"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="nav-links-list ms-auto py-3 py-lg-0 flex-column flex-lg-row gap-3 gap-lg-4 ps-3 ps-lg-0">
+        <li><a href="../index.html#experience">Pengalaman</a></li>
+        <li><a href="../index.html#skills">Keahlian</a></li>
+        <li><a href="../index.html#education">Pendidikan</a></li>
+        <li><a href="../index.html#contact">Kontak</a></li>
+        <li><a href="../jadwal.html">Jadwal</a></li>
+        <li><a href="../tkj/index.html">TKJ</a></li>
+        <li><a href="../excel/index.html">Excel</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= RIBBON NAV (in-page section links) ================= -->
+<nav class="navbar navbar-expand-lg ribbon sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#home"><span class="cellref">A1</span> VLOOKUP Lab</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="background:var(--amber);">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#tujuan">Tujuan</a></li>
+        <li class="nav-item"><a class="nav-link" href="#pemantik">Pemantik</a></li>
+        <li class="nav-item"><a class="nav-link" href="#materi">Materi</a></li>
+        <li class="nav-item"><a class="nav-link" href="#simulator">Simulator</a></li>
+        <li class="nav-item"><a class="nav-link" href="#project">Project</a></li>
+        <li class="nav-item"><a class="nav-link" href="#kuis">Kuis</a></li>
+        <li class="nav-item"><a class="nav-link" href="#refleksi">Refleksi</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section id="home" class="hero grid-bg" style="background-blend-mode:normal; background-color:var(--paper);">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="coord mb-2">SMK AL-IRSYAD TEGAL · INFORMATIKA · KELAS X / GANJIL</div>
+        <div class="formula-bar">
+          <div class="fx">fx</div>
+          <div class="formula-text" id="hero-formula">=VLOOKUP(A2,$E$2:$H$6,3,FALSE)</div>
+        </div>
+        <h1>Belajar VLOOKUP dengan mencari sendiri, bukan menghafal rumus.</h1>
+        <p class="lead">Modul multimedia interaktif untuk Project Microsoft Excel — mengenal fungsi <span class="mono">VLOOKUP</span> lewat simulasi tabel, studi kasus data akuntansi, dan kuis reflektif. Alokasi waktu 2 JP (2 × 45 menit).</p>
+        <div class="d-flex gap-3 mt-4 flex-wrap">
+          <a href="#simulator" class="btn btn-excel">Coba simulator <i class="bi bi-arrow-down-short"></i></a>
+          <a href="#project" class="btn btn-outline-dark" style="border-color:var(--grid-line);">Lihat jobsheet</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="meta-card">
+          <div class="meta-row"><div class="k">Guru</div><div>Yana Permana, S.Pd</div></div>
+          <div class="meta-row"><div class="k">Mata Pelajaran</div><div>Informatika</div></div>
+          <div class="meta-row"><div class="k">Kelas / Semester</div><div>X / Ganjil</div></div>
+          <div class="meta-row"><div class="k">Alokasi Waktu</div><div>2 JP (2 × 45 menit)</div></div>
+          <div class="meta-row"><div class="k">Konsentrasi Keahlian</div><div>Akuntansi</div></div>
+          <div class="meta-row"><div class="k">Model</div><div>Project Based Learning</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TUJUAN ================= -->
+<section id="tujuan">
+  <div class="container">
+    <div class="section-label"><span class="tag">B.1 — B.3</span><span class="coord">DESAIN PEMBELAJARAN</span><div class="line"></div></div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="cell-card">
+          <div class="num">01</div>
+          <h3 class="h5 mt-2">Capaian Pembelajaran</h3>
+          <p class="text-body-secondary mb-0" style="font-size:.93rem;">Memanfaatkan aplikasi perkantoran secara optimal — termasuk fitur lanjut pengolah angka — untuk mengintegrasikan dan menyajikan data dalam representasi yang mudah dianalisis.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cell-card">
+          <div class="num">02</div>
+          <h3 class="h5 mt-2">Tujuan Pembelajaran</h3>
+          <p class="text-body-secondary mb-0" style="font-size:.93rem;">Peserta didik mampu menggunakan fungsi dan rumus tingkat lanjut pada Microsoft Excel — dalam hal ini VLOOKUP — untuk mengolah dan menganalisis data secara akurat.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cell-card">
+          <div class="num">03</div>
+          <h3 class="h5 mt-2">Dimensi Profil Lulusan</h3>
+          <p class="text-body-secondary mb-0" style="font-size:.93rem;">Penalaran kritis, kreativitas, kolaborasi, dan kemandirian — dilatih lewat kerja kelompok menyelesaikan jobsheet VLOOKUP.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PEMANTIK / VIDEO ================= -->
+<section id="pemantik" class="grid-bg">
+  <div class="container">
+    <div class="section-label"><span class="tag">AWAL · 10'</span><span class="coord">PERTANYAAN PEMANTIK</span><div class="line"></div></div>
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <blockquote style="border-left:4px solid var(--amber); padding-left:1.2rem;">
+          <p class="h4 display-font" style="font-weight:600;">"Bagaimana cara mencari data tertentu secara otomatis dari sebuah tabel, tanpa harus mencarinya satu per satu?"</p>
+        </blockquote>
+        <p class="text-body-secondary">Diskusikan pertanyaan ini bersama kelompokmu sebelum menonton video singkat di samping. Tuliskan dugaan awal kalian — nanti kita cocokkan dengan cara kerja VLOOKUP yang sebenarnya.</p>
+        <div class="d-flex gap-2 flex-wrap mt-3">
+          <span class="badge" style="background:var(--excel-pale); color:var(--excel-dark); font-weight:500;">Diskusi kelompok</span>
+          <span class="badge" style="background:var(--amber-pale); color:#7a5015; font-weight:500;">Video 1–5 menit</span>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="video-frame">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/OJmmt_5YJI4?si=zOTBUMMFa5ovQazt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="coord mt-2 mb-0">Ganti tautan video ini sesuai video pemantik pilihan guru.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MATERI ================= -->
+<section id="materi">
+  <div class="container">
+    <div class="section-label"><span class="tag">MEMAHAMI</span><span class="coord">ANATOMI RUMUS VLOOKUP</span><div class="line"></div></div>
+    <div class="syntax-strip">
+      <span class="part">=VLOOKUP(</span><span class="part part-lookup">A2</span><span class="part">,</span><span class="part part-table">$E$2:$H$6</span><span class="part">,</span><span class="part part-col">3</span><span class="part">,</span><span class="part part-range">FALSE</span><span class="part">)</span>
+    </div>
+    <div class="syntax-legend">
+      <span><span class="dot" style="background:#2c5c47;"></span>Lookup value — nilai kunci yang dicari</span>
+      <span><span class="dot" style="background:#3a4a2c;"></span>Table array — rentang tabel referensi (dikunci dengan $)</span>
+      <span><span class="dot" style="background:#5c4a2c;"></span>Col index num — kolom ke berapa hasil diambil</span>
+      <span><span class="dot" style="background:#5c2c3a;"></span>Range lookup — FALSE untuk pencocokan persis</span>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-6 col-lg-3">
+        <div class="cell-card">
+          <h4 class="h6 mono" style="color:var(--excel-dark);">Lookup value</h4>
+          <p class="small text-body-secondary mb-0">Data yang ingin kamu cari, contoh: kode barang <span class="mono">KLK-01</span>.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="cell-card">
+          <h4 class="h6 mono" style="color:var(--excel-dark);">Table array</h4>
+          <p class="small text-body-secondary mb-0">Seluruh tabel referensi tempat data dicari, dari kolom kunci hingga kolom hasil.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="cell-card">
+          <h4 class="h6 mono" style="color:var(--excel-dark);">Col index num</h4>
+          <p class="small text-body-secondary mb-0">Posisi kolom hasil dihitung dari kolom pertama tabel referensi, mulai dari angka 1.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="cell-card">
+          <h4 class="h6 mono" style="color:var(--excel-dark);">Range lookup</h4>
+          <p class="small text-body-secondary mb-0"><span class="mono">FALSE</span> mencari kecocokan persis; <span class="mono">TRUE</span> mencari nilai mendekati.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SIMULATOR ================= -->
+<section id="simulator" class="grid-bg">
+  <div class="container">
+    <div class="section-label"><span class="tag">SIGNATURE</span><span class="coord">SIMULATOR VLOOKUP — DATA PERANGKAT AKUNTANSI</span><div class="line"></div></div>
+    <p class="text-body-secondary" style="max-width:640px;">Pilih kode barang, lalu jalankan rumus. Perhatikan bagaimana VLOOKUP menelusuri kolom kunci ke bawah, berhenti tepat saat menemukan kecocokan, lalu bergeser ke kanan mengambil hasil.</p>
+
+    <div class="sim-wrap">
+      <div class="sim-controls">
+        <label for="lookupSelect" class="coord mb-0">LOOKUP_VALUE (A2)</label>
+        <select id="lookupSelect">
+          <option value="KLK-01">KLK-01</option>
+          <option value="BKU-02">BKU-02</option>
+          <option value="MSN-03">MSN-03</option>
+          <option value="STP-04">STP-04</option>
+          <option value="EDC-05">EDC-05</option>
+        </select>
+        <label for="colSelect" class="coord mb-0">COL_INDEX_NUM</label>
+        <select id="colSelect">
+          <option value="2">2 — Nama Perangkat</option>
+          <option value="3" selected>3 — Kategori</option>
+          <option value="4">4 — Harga</option>
+        </select>
+        <button class="btn-excel" id="runVlookup">Jalankan VLOOKUP</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="sheet" id="sheetTable">
+          <thead>
+            <tr>
+              <th class="colhead-letter"></th>
+              <th class="colhead-letter">E</th>
+              <th class="colhead-letter">F</th>
+              <th class="colhead-letter">G</th>
+              <th class="colhead-letter">H</th>
+            </tr>
+            <tr>
+              <th class="rownum">1</th>
+              <th>Kode</th><th>Nama Perangkat</th><th>Kategori</th><th>Harga</th>
+            </tr>
+          </thead>
+          <tbody id="sheetBody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sim-output" id="simOutput">Pilih kode dan kolom, lalu klik <span class="mono">Jalankan VLOOKUP</span>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECT / JOBSHEET ================= -->
+<section id="project">
+  <div class="container">
+    <div class="section-label"><span class="tag">MENGAPLIKASI · 60'</span><span class="coord">PROJECT BASED LEARNING</span><div class="line"></div></div>
+    <div class="accordion" id="jobsheetAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#step1">
+            <span class="step-tag">01</span> Menentukan Project
+          </button>
+        </h2>
+        <div id="step1" class="accordion-collapse collapse show" data-bs-parent="#jobsheetAccordion">
+          <div class="accordion-body">
+            <ul class="mb-0">
+              <li>Bentuk kelompok kolaboratif berisi 2–3 orang.</li>
+              <li>Setiap kelompok menerima jobsheet/LKPD Project VLOOKUP.</li>
+              <li>Bagi peran: pencari data, penulis rumus, dan pemeriksa hasil.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step2">
+            <span class="step-tag">02</span> Demonstrasi Langkah Penyelesaian
+          </button>
+        </h2>
+        <div id="step2" class="accordion-collapse collapse" data-bs-parent="#jobsheetAccordion">
+          <div class="accordion-body">
+            <ol class="mb-0">
+              <li>Guru mendemonstrasikan cara menulis rumus VLOOKUP langsung di Excel.</li>
+              <li>Murid mengamati posisi tanda <span class="mono">$</span> pada table array.</li>
+              <li>Murid mencoba menirukan pada data latihan masing-masing.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step3">
+            <span class="step-tag">03</span> Penyelesaian Project Berbimbing
+          </button>
+        </h2>
+        <div id="step3" class="accordion-collapse collapse" data-bs-parent="#jobsheetAccordion">
+          <div class="accordion-body">
+            <ul class="mb-0">
+              <li>Kerjakan seluruh soal pada jobsheet/LKPD secara berkelompok.</li>
+              <li>Periksa kembali peralatan dan file kerja sebelum mengumpulkan.</li>
+              <li>Uji rumus dengan mengganti kode barang untuk memastikan hasil selalu benar.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= KUIS ================= -->
+<section id="kuis" class="grid-bg">
+  <div class="container">
+    <div class="section-label"><span class="tag">ASESMEN FORMATIF</span><span class="coord">KUIS LISAN SINGKAT — 3 PERTANYAAN</span><div class="line"></div></div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <p class="text-body-secondary mb-0">Jawab ketiga pertanyaan berikut untuk mengecek pemahamanmu.</p>
+      <div>Skor: <span id="quiz-score">0 / 3</span></div>
+    </div>
+
+    <div class="quiz-card" data-qid="1">
+      <p class="fw-semibold mb-2">1. Apa fungsi utama VLOOKUP dalam Microsoft Excel?</p>
+      <button class="quiz-opt" data-correct="false">Mengurutkan data dari kecil ke besar</button>
+      <button class="quiz-opt" data-correct="true">Mencari nilai pada satu kolom dan mengambil data terkait dari kolom lain secara otomatis</button>
+      <button class="quiz-opt" data-correct="false">Menghitung jumlah total pada suatu rentang sel</button>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-card" data-qid="2">
+      <p class="fw-semibold mb-2">2. Pada rumus <span class="mono">=VLOOKUP(A2,$E$2:$H$6,3,FALSE)</span>, angka 3 menunjukkan apa?</p>
+      <button class="quiz-opt" data-correct="false">Jumlah baris pada tabel referensi</button>
+      <button class="quiz-opt" data-correct="true">Kolom ke-3 dalam tabel referensi, dihitung dari kolom pertama</button>
+      <button class="quiz-opt" data-correct="false">Jumlah kelompok yang mengerjakan project</button>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <div class="quiz-card" data-qid="3">
+      <p class="fw-semibold mb-2">3. Mengapa perlu tanda <span class="mono">$</span> (absolute reference) pada table array VLOOKUP?</p>
+      <button class="quiz-opt" data-correct="false">Agar tampilan rumus terlihat lebih rapi</button>
+      <button class="quiz-opt" data-correct="false">Agar Excel menghitung lebih cepat</button>
+      <button class="quiz-opt" data-correct="true">Agar rentang tabel tidak ikut bergeser saat rumus disalin ke sel lain</button>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REFLEKSI ================= -->
+<section id="refleksi">
+  <div class="container">
+    <div class="section-label"><span class="tag">PENUTUP · 5'</span><span class="coord">REFLEKSI SINGKAT</span><div class="line"></div></div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <p class="text-body-secondary">Tuliskan satu hal yang kamu pahami dan satu hal yang masih membingungkan tentang VLOOKUP hari ini.</p>
+        <textarea id="reflection" class="form-control" placeholder="Hari ini saya belajar..."></textarea>
+        <button class="btn-excel mt-3" id="saveReflection">Simpan refleksi</button>
+        <div id="reflection-saved">Refleksi tersimpan untuk sesi ini. Sampaikan juga secara lisan kepada guru sebagai bagian dari asesmen jurnal pribadi.</div>
+      </div>
+      <div class="col-lg-5">
+        <div class="section-label"><span class="tag">D.5</span><span class="coord">TEKNIK &amp; INSTRUMEN ASESMEN</span></div>
+        <div class="table-responsive">
+          <table class="assess">
+            <thead><tr><th>Aspek</th><th>Teknik</th></tr></thead>
+            <tbody>
+              <tr><td>Pemahaman konsep</td><td>Kuis</td></tr>
+              <tr><td>Kolaborasi</td><td>Observasi</td></tr>
+              <tr><td>Penerapan konsep</td><td>Tugas kelompok</td></tr>
+              <tr><td>Refleksi</td><td>Jurnal pribadi</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container d-flex flex-wrap justify-content-between gap-3">
+    <div>
+      <div class="display-font fw-bold">VLOOKUP Lab</div>
+      <p class="mb-0 small" style="color:rgba(255,255,255,.6);">Multimedia Pembelajaran Interaktif — SMK Al-Irsyad Tegal</p>
+    </div>
+    <div class="small" style="color:rgba(255,255,255,.6);">
+      Disusun oleh Yana Permana, S.Pd · Informatika · Kelas X Ganjil
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ---------- Data ----------
+  const data = [
+    { kode:"KLK-01", nama:"Kalkulator Kantor", kategori:"Alat Hitung", harga:"Rp 150.000" },
+    { kode:"BKU-02", nama:"Buku Besar Akuntansi", kategori:"ATK Akuntansi", harga:"Rp 45.000" },
+    { kode:"MSN-03", nama:"Mesin Kasir POS", kategori:"Alat Kasir", harga:"Rp 2.500.000" },
+    { kode:"STP-04", nama:"Stempel Lunas", kategori:"Alat Cap", harga:"Rp 35.000" },
+    { kode:"EDC-05", nama:"Mesin EDC", kategori:"Alat Pembayaran", harga:"Rp 1.800.000" },
+  ];
+
+  const colNames = {2:"nama", 3:"kategori", 4:"harga"};
+  const colLetters = {1:"E", 2:"F", 3:"G", 4:"H"};
+
+  const sheetBody = document.getElementById('sheetBody');
+  function renderSheet(){
+    sheetBody.innerHTML = data.map((row,i)=>`
+      <tr data-row="${i}">
+        <td class="rownum">${i+2}</td>
+        <td class="mono cell-kode">${row.kode}</td>
+        <td class="cell-nama">${row.nama}</td>
+        <td class="cell-kategori">${row.kategori}</td>
+        <td class="cell-harga">${row.harga}</td>
+      </tr>
+    `).join('');
+  }
+  renderSheet();
+
+  const lookupSelect = document.getElementById('lookupSelect');
+  const colSelect = document.getElementById('colSelect');
+  const runBtn = document.getElementById('runVlookup');
+  const simOutput = document.getElementById('simOutput');
+  const heroFormula = document.getElementById('hero-formula');
+
+  function clearHighlights(){
+    document.querySelectorAll('#sheetBody td').forEach(td=>{
+      td.classList.remove('cell-scan','cell-match','cell-result');
+    });
+  }
+
+  function updateHeroFormula(){
+    const col = colSelect.value;
+    heroFormula.textContent = `=VLOOKUP(A2,$E$2:$H$6,${col},FALSE)`;
+  }
+  colSelect.addEventListener('change', updateHeroFormula);
+  updateHeroFormula();
+
+  runBtn.addEventListener('click', async ()=>{
+    runBtn.disabled = true;
+    clearHighlights();
+    simOutput.innerHTML = '';
+
+    const lookupVal = lookupSelect.value;
+    const colIdx = parseInt(colSelect.value,10);
+    const fieldKey = colNames[colIdx];
+    const rows = document.querySelectorAll('#sheetBody tr');
+
+    const steps = [];
+    steps.push(`&gt; Mencari "${lookupVal}" pada kolom E (Kode)...`);
+
+    let matchedRowEl = null;
+    let matchedIndex = -1;
+
+    for(let i=0;i<rows.length;i++){
+      const tr = rows[i];
+      const kodeCell = tr.querySelector('.cell-kode');
+      kodeCell.classList.add('cell-scan');
+      await sleep(260);
+      if(kodeCell.textContent.trim() === lookupVal){
+        kodeCell.classList.remove('cell-scan');
+        kodeCell.classList.add('cell-match');
+        matchedRowEl = tr;
+        matchedIndex = i;
+        steps.push(`&gt; Ditemukan kecocokan di baris ${i+2}: E${i+2} = "${lookupVal}"`);
+        break;
+      } else {
+        kodeCell.classList.remove('cell-scan');
+      }
+    }
+
+    if(matchedRowEl){
+      const resultCell = matchedRowEl.querySelector(`.cell-${fieldKey}`);
+      await sleep(200);
+      resultCell.classList.add('cell-result');
+      const colLetter = colLetters[colIdx];
+      steps.push(`&gt; Bergeser ${colIdx-1} kolom ke kanan menuju kolom ${colLetter} (kolom ke-${colIdx})`);
+      steps.push(`&gt; Hasil: <strong>${resultCell.textContent.trim()}</strong>`);
+    } else {
+      steps.push(`&gt; Tidak ditemukan kecocokan — hasil: #N/A`);
+    }
+
+    steps.forEach((s,idx)=>{
+      const span = document.createElement('span');
+      span.className = 'step';
+      span.style.animationDelay = (idx*0.12)+'s';
+      span.innerHTML = s;
+      simOutput.appendChild(span);
+    });
+
+    runBtn.disabled = false;
+  });
+
+  function sleep(ms){ return new Promise(res=>setTimeout(res,ms)); }
+
+  // ---------- Quiz ----------
+  let score = 0;
+  const scoreEl = document.getElementById('quiz-score');
+  document.querySelectorAll('.quiz-card').forEach(card=>{
+    const opts = card.querySelectorAll('.quiz-opt');
+    const feedback = card.querySelector('.quiz-feedback');
+    opts.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(card.dataset.answered) return;
+        card.dataset.answered = "true";
+        const isCorrect = btn.dataset.correct === "true";
+        opts.forEach(o=>{
+          o.disabled = true;
+          if(o.dataset.correct === "true") o.classList.add('correct');
+        });
+        if(!isCorrect) btn.classList.add('wrong');
+        feedback.textContent = isCorrect
+          ? "Benar — kerja bagus."
+          : "Kurang tepat. Jawaban yang benar ditandai hijau di atas.";
+        feedback.style.color = isCorrect ? "#146C43" : "#B3462C";
+        if(isCorrect){
+          score++;
+          scoreEl.textContent = `${score} / 3`;
+        }
+      });
+    });
+  });
+
+  // ---------- Reflection ----------
+  document.getElementById('saveReflection').addEventListener('click', ()=>{
+    const val = document.getElementById('reflection').value.trim();
+    const box = document.getElementById('reflection-saved');
+    if(val.length === 0){
+      box.textContent = "Tulis dulu refleksimu sebelum menyimpan.";
+      box.style.background = "#fbe4dd";
+      box.style.borderColor = "#B3462C";
+    } else {
+      box.textContent = "Refleksi tersimpan untuk sesi ini. Sampaikan juga secara lisan kepada guru sebagai bagian dari asesmen jurnal pribadi.";
+      box.style.background = "var(--excel-pale)";
+      box.style.borderColor = "var(--excel)";
+    }
+    box.style.display = "block";
+  });
+</script>
+</body>
+</html>
