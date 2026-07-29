@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Jasa Perakitan Unit PC</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0F1417;
+    --panel:#171F23;
+    --panel-2:#1F2A2F;
+    --accent-teal:#00C2A8;
+    --accent-amber:#FFB020;
+    --text:#E8EDEF;
+    --muted:#8CA0A8;
+    --border:rgba(232,237,239,0.10);
+  }
+  *{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4, .display-font{
+    font-family:'Space Mono', monospace;
+    letter-spacing:-0.5px;
+  }
+  .mono-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--accent-teal);
+  }
+  .text-muted-2{ color:var(--muted) !important; }
+  .accent-teal{ color:var(--accent-teal) !important; }
+  .accent-amber{ color:var(--accent-amber) !important; }
+
+  /* NAVBAR */
+  .navbar-custom{
+    background:rgba(15,20,23,0.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .navbar-custom .nav-link{
+    color:var(--muted);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.85rem;
+    margin:0 .4rem;
+  }
+  .navbar-custom .nav-link:hover, .navbar-custom .nav-link.active{
+    color:var(--accent-teal);
+  }
+  .navbar-brand{
+    font-family:'Space Mono', monospace;
+    color:var(--text) !important;
+    font-weight:700;
+  }
+  .navbar-brand .dot{ color:var(--accent-amber); }
+
+  /* HERO */
+  .hero{
+    min-height:92vh;
+    display:flex;
+    align-items:center;
+    position:relative;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(0,194,168,0.09), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(255,176,32,0.07), transparent 40%),
+      var(--bg);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    pointer-events:none;
+  }
+  .boot-console{
+    background:#0A0D0F;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:1.1rem 1.3rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.82rem;
+    color:var(--accent-teal);
+    min-height:150px;
+    box-shadow:0 0 40px rgba(0,194,168,0.08);
+  }
+  .boot-console .line{ opacity:0; animation:fadeIn .4s forwards; white-space:pre-wrap; }
+  .boot-console .line.amber{ color:var(--accent-amber); }
+  .boot-console .cursor{
+    display:inline-block; width:8px; height:14px; background:var(--accent-teal);
+    animation:blink 1s step-end infinite; vertical-align:middle;
+  }
+  @keyframes fadeIn{ to{ opacity:1; } }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero-title{
+    font-size:clamp(2rem, 5vw, 3.6rem);
+    line-height:1.05;
+    font-weight:700;
+  }
+  .badge-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:.35rem .7rem;
+    border-radius:5px;
+    background:var(--panel);
+  }
+
+  /* SECTIONS */
+  section{ padding:5.5rem 0; border-top:1px solid var(--border); }
+  .section-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.75rem;
+    letter-spacing:3px;
+    color:var(--accent-amber);
+    text-transform:uppercase;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+  }
+  .panel-2{ background:var(--panel-2); }
+
+  /* IDENTIFIKASI */
+  .id-card{
+    padding:1.5rem;
+    height:100%;
+  }
+  .id-card .icon-chip{
+    width:42px;height:42px;border-radius:8px;
+    background:rgba(0,194,168,0.12);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent-teal);
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:700;
+    margin-bottom:.8rem;
+  }
+  .chip{
+    display:inline-block; font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem; padding:.3rem .65rem; border-radius:20px;
+    border:1px solid rgba(0,194,168,0.35); color:var(--accent-teal);
+    margin:.2rem .3rem .2rem 0;
+  }
+
+  /* SCHEMATIC / SIGNATURE ELEMENT */
+  .schematic-wrap{ overflow-x:auto; }
+  .schematic-wrap svg{ min-width:720px; width:100%; height:auto; }
+  .schem-node-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    fill:var(--text);
+  }
+  .schem-node-sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    fill:var(--muted);
+  }
+
+  /* TIMELINE / ALUR */
+  .accordion-item{
+    background:var(--panel);
+    border:1px solid var(--border) !important;
+    margin-bottom:.7rem;
+    border-radius:8px !important;
+    overflow:hidden;
+  }
+  .accordion-button{
+    background:var(--panel);
+    color:var(--text);
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+  }
+  .accordion-button:not(.collapsed){
+    background:var(--panel-2);
+    color:var(--accent-teal);
+    box-shadow:none;
+  }
+  .accordion-button::after{ filter: invert(1); }
+  .accordion-body{ color:var(--muted); }
+  .accordion-body strong{ color:var(--text); }
+  .duration-badge{
+    background:rgba(255,176,32,0.15);
+    color:var(--accent-amber);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    padding:.15rem .5rem;
+    border-radius:5px;
+    margin-left:.6rem;
+  }
+
+  /* VIDEO */
+  .video-frame{
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:10px;
+    border:1px solid var(--border);
+  }
+
+  /* JOBSHEET CHECKLIST */
+  .list-group-item{
+    background:var(--panel) !important;
+    color:var(--text) !important;
+    border-color:var(--border) !important;
+  }
+  .form-check-input{
+    background-color:var(--panel-2);
+    border-color:var(--muted);
+  }
+  .form-check-input:checked{
+    background-color:var(--accent-teal);
+    border-color:var(--accent-teal);
+  }
+  .progress{ background:var(--panel-2); height:10px; }
+  .progress-bar{ background:var(--accent-teal); }
+
+  /* QUIZ */
+  .quiz-q{ padding:1.2rem 1.4rem; margin-bottom:1rem; }
+  .form-check-label{ cursor:pointer; }
+  .quiz-feedback{ font-size:.85rem; font-family:'IBM Plex Mono',monospace; }
+
+  /* REFLEKSI */
+  textarea.form-control, .form-control{
+    background:var(--panel-2) !important;
+    color:var(--text) !important;
+    border-color:var(--border) !important;
+  }
+  textarea.form-control:focus, .form-control:focus{
+    box-shadow:0 0 0 .2rem rgba(0,194,168,0.18);
+    border-color:var(--accent-teal) !important;
+  }
+
+  /* TABLE */
+  table{ color:var(--text); }
+  .table-custom thead{ color:var(--accent-amber); font-family:'IBM Plex Mono',monospace; font-size:.8rem; }
+  .table-custom td, .table-custom th{ border-color:var(--border) !important; vertical-align:middle; }
+
+  /* BUTTONS */
+  .btn-teal{
+    background:var(--accent-teal); border:none; color:#04211C; font-weight:600;
+  }
+  .btn-teal:hover{ background:#00E0C0; color:#04211C; }
+  .btn-outline-teal{
+    border:1px solid var(--accent-teal); color:var(--accent-teal); background:transparent;
+  }
+  .btn-outline-teal:hover{ background:rgba(0,194,168,0.12); color:var(--accent-teal); }
+
+  footer{
+    background:var(--panel);
+    border-top:1px solid var(--border);
+    padding:2.2rem 0;
+    font-size:.85rem;
+    color:var(--muted);
+  }
+
+  ::selection{ background:var(--accent-teal); color:#04211C; }
+
+  @media (prefers-reduced-motion: reduce){
+    .boot-console .line{ animation:none; opacity:1; }
+    .cursor{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="site-nav navbar navbar-expand-lg py-0">
+  <div class="container-lg">
+    <a class="nav-logo py-3 me-auto" href="../index.html">Yana Permana</a>
+    <button class="navbar-toggler border-0 py-3" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon d-inline-block"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="nav-links-list ms-auto py-3 py-lg-0 flex-column flex-lg-row gap-3 gap-lg-4 ps-3 ps-lg-0">
+        <li><a href="../index.html#experience">Pengalaman</a></li>
+        <li><a href="../index.html#skills">Keahlian</a></li>
+        <li><a href="../index.html#education">Pendidikan</a></li>
+        <li><a href="../index.html#contact">Kontak</a></li>
+        <li><a href="../jadwal.html">Jadwal</a></li>
+        <li><a href="../tkj/index.html">TKJ</a></li>
+        <li><a href="../excel/index.html">Excel</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="container" style="position:relative; z-index:1;">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="mono-label mb-3">SMK Al-Irsyad Tegal // Kreativitas Inovasi Kewirausahaan</div>
+        <h1 class="hero-title mb-3">PROJECT:<br><span class="accent-teal">JASA PERAKITAN</span><br>UNIT PC</h1>
+        <p class="text-muted-2 mb-4" style="max-width:520px;">
+          Multimedia pembelajaran interaktif berbasis project based learning — merancang, merakit,
+          menguji mutu, hingga mendistribusikan jasa perakitan unit PC sebagai produk kewirausahaan.
+        </p>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          <span class="badge-meta">KELAS XI / GANJIL</span>
+          <span class="badge-meta">2 JP × 45 MENIT</span>
+          <span class="badge-meta">GURU: YANA PERMANA, S.Pd</span>
+        </div>
+        <a href="#alur" class="btn btn-teal px-4 py-2">Mulai Belajar →</a>
+        <a href="#kuis" class="btn btn-outline-teal px-4 py-2 ms-2">Langsung ke Kuis</a>
+      </div>
+      <div class="col-lg-5">
+        <div class="boot-console" id="bootConsole"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- IDENTIFIKASI -->
+<section id="identifikasi">
+  <div class="container">
+    <div class="section-eyebrow mb-2">01 // Identifikasi</div>
+    <h2 class="mb-4">Sebelum Merakit, Kenali Konteksnya</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="panel id-card">
+          <div class="icon-chip">PD</div>
+          <h5>Peserta Didik</h5>
+          <p class="text-muted-2 mb-0">Murid menunjukkan antusiasme tinggi terhadap kreativitas inovasi kewirausahaan, khususnya praktik teknis perakitan perangkat keras.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel id-card">
+          <div class="icon-chip">MP</div>
+          <h5>Materi Pelajaran</h5>
+          <p class="text-muted-2 mb-0">Kreativitas inovasi kewirausahaan — diterapkan pada studi kasus jasa perakitan unit PC, dari perencanaan hingga distribusi.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel id-card">
+          <div class="icon-chip">DPL</div>
+          <h5>Dimensi Profil Lulusan</h5>
+          <div>
+            <span class="chip">Penalaran Kritis</span>
+            <span class="chip">Kreativitas</span>
+            <span class="chip">Kolaborasi</span>
+            <span class="chip">Kemandirian</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TUJUAN -->
+<section id="tujuan">
+  <div class="container">
+    <div class="section-eyebrow mb-2">02 // Desain Pembelajaran</div>
+    <h2 class="mb-2">Tujuan Pembelajaran</h2>
+    <p class="text-muted-2 mb-4" style="max-width:640px;">Tiga capaian yang dibangun secara berurutan, mengikuti alur nyata sebuah usaha jasa perakitan PC.</p>
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="panel p-4 h-100">
+          <div class="mono-label mb-2">TAHAP 1 — RENCANA</div>
+          <p class="mb-0">Peserta didik mampu menyusun rencana produk, membuat desain/rancangan unit PC, serta menyusun proses kerja pembuatan prototipe sesuai kebutuhan pelanggan.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel p-4 h-100">
+          <div class="mono-label mb-2">TAHAP 2 — PRODUKSI</div>
+          <p class="mb-0">Peserta didik mampu menghitung biaya produksi, menyusun strategi produksi, dan menetapkan spesifikasi standar komponen sebagai dasar proses perakitan.</p>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel p-4 h-100">
+          <div class="mono-label mb-2">TAHAP 3 — LAYANAN</div>
+          <p class="mb-0">Peserta didik mampu melaksanakan produksi, quality assurance, pengemasan dan labelling, strategi distribusi, serta layanan keluhan pelanggan.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURE SCHEMATIC -->
+    <div class="panel mt-5 p-4 schematic-wrap">
+      <div class="mono-label mb-3">DIAGRAM ALUR PRODUKSI — JASA PERAKITAN UNIT PC</div>
+      <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="dot" markerWidth="6" markerHeight="6" refX="3" refY="3">
+            <circle cx="3" cy="3" r="2.5" fill="#00C2A8"/>
+          </marker>
+        </defs>
+        <!-- trace path -->
+        <path d="M60,110 L160,110 L160,60 L300,60 L300,160 L440,160 L440,60 L580,60 L580,160 L720,160 L720,60 L860,60 L860,110 L940,110"
+              stroke="#00C2A8" stroke-width="2" fill="none" opacity="0.55" marker-mid="url(#dot)"/>
+        <!-- nodes -->
+        <g>
+          <circle cx="60" cy="110" r="26" fill="#171F23" stroke="#00C2A8" stroke-width="2"/>
+          <text x="60" y="115" text-anchor="middle" class="schem-node-label" font-weight="700">01</text>
+          <text x="60" y="160" text-anchor="middle" class="schem-node-label">Perencanaan</text>
+        </g>
+        <g>
+          <circle cx="300" cy="60" r="26" fill="#171F23" stroke="#00C2A8" stroke-width="2"/>
+          <text x="300" y="65" text-anchor="middle" class="schem-node-label" font-weight="700">02</text>
+          <text x="300" y="20" text-anchor="middle" class="schem-node-label">Desain Produk</text>
+        </g>
+        <g>
+          <circle cx="440" cy="160" r="26" fill="#171F23" stroke="#FFB020" stroke-width="2"/>
+          <text x="440" y="165" text-anchor="middle" class="schem-node-label" font-weight="700">03</text>
+          <text x="440" y="205" text-anchor="middle" class="schem-node-label">Perakitan</text>
+        </g>
+        <g>
+          <circle cx="580" cy="60" r="26" fill="#171F23" stroke="#00C2A8" stroke-width="2"/>
+          <text x="580" y="65" text-anchor="middle" class="schem-node-label" font-weight="700">04</text>
+          <text x="580" y="20" text-anchor="middle" class="schem-node-label">Quality Assurance</text>
+        </g>
+        <g>
+          <circle cx="720" cy="160" r="26" fill="#171F23" stroke="#00C2A8" stroke-width="2"/>
+          <text x="720" y="165" text-anchor="middle" class="schem-node-label" font-weight="700">05</text>
+          <text x="720" y="205" text-anchor="middle" class="schem-node-label">Kemasan &amp; Label</text>
+        </g>
+        <g>
+          <circle cx="860" cy="60" r="26" fill="#171F23" stroke="#00C2A8" stroke-width="2"/>
+          <text x="860" y="65" text-anchor="middle" class="schem-node-label" font-weight="700">06</text>
+          <text x="860" y="110" text-anchor="middle" class="schem-node-label">Distribusi</text>
+        </g>
+        <g>
+          <circle cx="940" cy="110" r="16" fill="#FFB020"/>
+          <text x="940" y="114" text-anchor="middle" font-size="10" font-weight="700" fill="#0F1417">OK</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ALUR PEMBELAJARAN -->
+<section id="alur">
+  <div class="container">
+    <div class="section-eyebrow mb-2">03 // Inti Pembelajaran</div>
+    <h2 class="mb-4">Alur Kegiatan (2 JP)</h2>
+    <div class="accordion" id="alurAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+            AWAL — Berkesadaran, Bermakna <span class="duration-badge">10 menit</span>
+          </button>
+        </h2>
+        <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#alurAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Guru menyapa murid, berdoa bersama, menciptakan suasana belajar yang menyenangkan.</li>
+              <li>Guru mengecek kondisi sosial-emosional: <strong>"Bagaimana perasaan hari ini?"</strong></li>
+              <li>Guru membagikan tautan website multimedia pembelajaran interaktif ini.</li>
+              <li>Guru menyampaikan capaian &amp; tujuan pembelajaran.</li>
+              <li><strong>Pertanyaan pemantik:</strong> "Menurut Anda, faktor apa saja yang harus dipersiapkan agar suatu unit PC dapat dirakit, memiliki kualitas baik, dan diterima pelanggan?"</li>
+              <li>Guru memberikan motivasi kepada murid.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+            INTI — Memahami <span class="duration-badge">10 menit</span>
+          </button>
+        </h2>
+        <div id="c2" class="accordion-collapse collapse" data-bs-parent="#alurAccordion">
+          <div class="accordion-body">
+            <ul>
+              <li>Guru menampilkan video singkat (1–5 menit) tentang jasa perakitan unit PC (lihat bagian Video).</li>
+              <li>Guru mengajak murid berdiskusi tentang komponen dan proses yang mereka lihat.</li>
+              <li>Murid mengeksplorasi informasi terkait topik pembelajaran.</li>
+              <li>Murid dapat berdiskusi langsung dengan guru atau teman jika mengalami kesulitan.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+            INTI — Mengaplikasi (PJBL &amp; Demonstrasi) <span class="duration-badge">60 menit</span>
+          </button>
+        </h2>
+        <div id="c3" class="accordion-collapse collapse" data-bs-parent="#alurAccordion">
+          <div class="accordion-body">
+            <p><strong>1. Menentukan Project</strong></p>
+            <ul>
+              <li>Murid berkolaborasi dalam kelompok 2–3 orang.</li>
+              <li>Murid menerima jobsheet/LKPD Perakitan Unit PC.</li>
+            </ul>
+            <p><strong>2. Demonstrasi</strong></p>
+            <ul>
+              <li>Guru mendemonstrasikan langkah-langkah perakitan komponen PC sesuai jobsheet.</li>
+            </ul>
+            <p><strong>3. Penyelesaian Project</strong></p>
+            <ul>
+              <li>Murid mengerjakan jobsheet/LKPD secara berkelompok.</li>
+              <li>Murid memeriksa kelengkapan komponen &amp; peralatan.</li>
+              <li>Murid melaksanakan praktik perakitan sesuai panduan.</li>
+              <li>Murid mengecek hasil rakitan (uji nyala &amp; boot).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
+            INTI — Merefleksi <span class="duration-badge">5 menit</span>
+          </button>
+        </h2>
+        <div id="c4" class="accordion-collapse collapse" data-bs-parent="#alurAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">Murid menuliskan refleksi singkat tentang pengalaman belajar hari ini (lihat bagian Refleksi di bawah).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">
+            PENUTUP — Berkesadaran <span class="duration-badge">5 menit</span>
+          </button>
+        </h2>
+        <div id="c5" class="accordion-collapse collapse" data-bs-parent="#alurAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">Guru memberikan umpan balik konstruktif, menyimpulkan pembelajaran bersama murid, dan murid dilibatkan dalam perencanaan pembelajaran selanjutnya.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="container">
+    <div class="section-eyebrow mb-2">04 // Media Pembelajaran</div>
+    <h2 class="mb-2">Video Singkat: Jasa Perakitan Unit PC</h2>
+    <p class="text-muted-2 mb-4" style="max-width:640px;">Tayangkan video berdurasi 1–5 menit sebagai pemantik diskusi tahap "Memahami". Ganti tautan pada kode <code>src</code> dengan video pilihan Bapak/Ibu guru.</p>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="video-frame">
+          <iframe width="100%" height="100%" style="border-radius:10px;"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Video Pembelajaran Perakitan PC" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="panel p-4 h-100">
+          <div class="mono-label mb-2">Poin Diskusi</div>
+          <ul class="text-muted-2 mb-0">
+            <li>Komponen apa saja yang tampak dalam video?</li>
+            <li>Urutan perakitan yang ditunjukkan?</li>
+            <li>Standar mutu apa yang perlu diperhatikan?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOBSHEET -->
+<section id="jobsheet">
+  <div class="container">
+    <div class="section-eyebrow mb-2">05 // Praktik</div>
+    <h2 class="mb-2">Jobsheet / LKPD — Perakitan Unit PC</h2>
+    <p class="text-muted-2 mb-4" style="max-width:640px;">Centang setiap komponen &amp; langkah saat kelompok Anda menyelesaikannya. Progres tersimpan hanya selama sesi ini berlangsung.</p>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="panel p-4">
+          <div class="mono-label mb-3">Cek Kelengkapan Komponen</div>
+          <ul class="list-group" id="komponenList">
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Motherboard &amp; CPU</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> RAM &amp; Heatsink/Cooler</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Power Supply Unit (PSU)</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Storage (SSD/HDD)</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Casing &amp; Kabel Konektor</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Obeng &amp; Gelang Anti-Statis</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="panel p-4 h-100">
+          <div class="mono-label mb-3">Langkah Perakitan</div>
+          <ul class="list-group" id="langkahList">
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Pasang CPU &amp; cooler ke motherboard</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Pasang RAM ke slot yang sesuai</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Pasang motherboard ke casing</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Pasang PSU &amp; sambungkan kabel daya</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Pasang storage &amp; kabel data</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Rapikan kabel &amp; tutup casing</li>
+            <li class="list-group-item d-flex align-items-center gap-2">
+              <input class="form-check-input jobsheet-check" type="checkbox"> Uji nyala &amp; proses booting</li>
+          </ul>
+          <div class="mt-3">
+            <div class="d-flex justify-content-between mono-label mb-1">
+              <span>PROGRES</span><span id="progressText">0%</span>
+            </div>
+            <div class="progress"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KUIS -->
+<section id="kuis">
+  <div class="container">
+    <div class="section-eyebrow mb-2">06 // Asesmen Formatif</div>
+    <h2 class="mb-4">Kuis Lisan Singkat (3 Pertanyaan)</h2>
+
+    <form id="quizForm">
+      <div class="panel quiz-q" data-answer="b">
+        <p class="fw-bold">1. Komponen apa yang berfungsi menyalurkan daya listrik ke seluruh perangkat PC?</p>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="a" id="q1a"><label class="form-check-label" for="q1a">RAM</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="b" id="q1b"><label class="form-check-label" for="q1b">Power Supply Unit (PSU)</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="c" id="q1c"><label class="form-check-label" for="q1c">Casing</label></div>
+        <div class="quiz-feedback mt-2"></div>
+      </div>
+
+      <div class="panel quiz-q" data-answer="c">
+        <p class="fw-bold">2. Tahap memeriksa hasil rakitan agar sesuai standar mutu disebut?</p>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="a" id="q2a"><label class="form-check-label" for="q2a">Labelling</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="b" id="q2b"><label class="form-check-label" for="q2b">Distribusi</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q2" value="c" id="q2c"><label class="form-check-label" for="q2c">Quality Assurance</label></div>
+        <div class="quiz-feedback mt-2"></div>
+      </div>
+
+      <div class="panel quiz-q" data-answer="a">
+        <p class="fw-bold">3. Sebelum menentukan harga jasa perakitan, hal apa yang perlu dihitung terlebih dahulu?</p>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="a" id="q3a"><label class="form-check-label" for="q3a">Biaya produksi</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="b" id="q3b"><label class="form-check-label" for="q3b">Warna casing</label></div>
+        <div class="form-check"><input class="form-check-input" type="radio" name="q3" value="c" id="q3c"><label class="form-check-label" for="q3c">Merek mouse</label></div>
+        <div class="quiz-feedback mt-2"></div>
+      </div>
+
+      <button type="submit" class="btn btn-teal px-4 py-2">Periksa Jawaban</button>
+      <span id="quizScore" class="mono-label ms-3"></span>
+    </form>
+  </div>
+</section>
+
+<!-- REFLEKSI -->
+<section id="refleksi">
+  <div class="container">
+    <div class="section-eyebrow mb-2">07 // Refleksi</div>
+    <h2 class="mb-2">Jurnal Refleksi Pribadi</h2>
+    <p class="text-muted-2 mb-4" style="max-width:640px;">Tuliskan refleksi singkat tentang pengalaman belajar hari ini. Catatan ini tersimpan selama sesi berlangsung di perangkat Anda.</p>
+    <div class="row">
+      <div class="col-lg-8">
+        <textarea class="form-control mb-3" id="refleksiText" rows="4" placeholder="Apa yang paling saya pahami hari ini? Apa yang masih membingungkan?"></textarea>
+        <button class="btn btn-outline-teal px-4 py-2" id="saveReflection">Simpan Refleksi (sesi ini)</button>
+        <span id="reflectionStatus" class="mono-label ms-3"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBRIK -->
+<section id="rubrik">
+  <div class="container">
+    <div class="section-eyebrow mb-2">08 // Rubrik Asesmen</div>
+    <h2 class="mb-4">Teknik &amp; Instrumen Asesmen</h2>
+    <div class="table-responsive panel p-3">
+      <table class="table table-custom mb-0">
+        <thead>
+          <tr><th>Aspek</th><th>Teknik</th><th>Instrumen</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pemahaman konsep</td><td>Kuis</td><td>Rubrik penilaian pengetahuan</td></tr>
+          <tr><td>Kolaborasi</td><td>Observasi</td><td>Rubrik penilaian sikap</td></tr>
+          <tr><td>Penerapan konsep</td><td>Tugas kelompok</td><td>Rubrik penilaian keterampilan</td></tr>
+          <tr><td>Refleksi</td><td>Jurnal pribadi</td><td>Form refleksi singkat</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+    <div>SMK Al-Irsyad Tegal — Kreativitas Inovasi Kewirausahaan</div>
+    <div class="mono-label">GURU: YANA PERMANA, S.Pd // KELAS XI GANJIL</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Boot console typewriter
+  const bootLines = [
+    "> INISIALISASI SISTEM PEMBELAJARAN...",
+    "> MEMUAT MODUL: KREATIVITAS & INOVASI KEWIRAUSAHAAN",
+    "> TOPIK: PROJECT JASA PERAKITAN UNIT PC",
+    "> KELAS: XI / GANJIL — ALOKASI: 2 JP",
+    "> STATUS: READY_"
+  ];
+  const consoleEl = document.getElementById('bootConsole');
+  bootLines.forEach((line, i) => {
+    const div = document.createElement('div');
+    div.className = 'line' + (i === bootLines.length - 1 ? ' amber' : '');
+    div.style.animationDelay = (i * 0.45) + 's';
+    div.textContent = line;
+    consoleEl.appendChild(div);
+  });
+
+  // Jobsheet progress
+  const checks = document.querySelectorAll('.jobsheet-check');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  function updateProgress(){
+    const total = checks.length;
+    const done = Array.from(checks).filter(c => c.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    progressBar.style.width = pct + '%';
+    progressText.textContent = pct + '%';
+  }
+  checks.forEach(c => c.addEventListener('change', updateProgress));
+
+  // Quiz
+  document.getElementById('quizForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const questions = document.querySelectorAll('.quiz-q');
+    let score = 0;
+    questions.forEach(q => {
+      const correct = q.dataset.answer;
+      const selected = q.querySelector('input[type=radio]:checked');
+      const feedback = q.querySelector('.quiz-feedback');
+      if(!selected){
+        feedback.textContent = '⚠ Belum dijawab';
+        feedback.style.color = 'var(--accent-amber)';
+        return;
+      }
+      if(selected.value === correct){
+        score++;
+        feedback.textContent = '✓ Benar';
+        feedback.style.color = 'var(--accent-teal)';
+      } else {
+        feedback.textContent = '✗ Kurang tepat, coba tinjau kembali materi.';
+        feedback.style.color = '#FF6B6B';
+      }
+    });
+    document.getElementById('quizScore').textContent = `SKOR: ${score} / ${questions.length}`;
+  });
+
+  // Reflection (in-memory only, no persistent storage)
+  document.getElementById('saveReflection').addEventListener('click', function(){
+    const text = document.getElementById('refleksiText').value.trim();
+    const status = document.getElementById('reflectionStatus');
+    if(text.length === 0){
+      status.textContent = 'Tulis refleksi terlebih dahulu.';
+      status.style.color = 'var(--accent-amber)';
+    } else {
+      status.textContent = 'Tersimpan untuk sesi ini ✓';
+      status.style.color = 'var(--accent-teal)';
+    }
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (pageYOffset >= sec.offsetTop - 120) current = sec.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
