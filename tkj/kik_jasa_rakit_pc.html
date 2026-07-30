@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Jasa Perakitan Unit PC</title>
+<title>Project: Jasa Perakitan Unit PC — Multimedia Pembelajaran Interaktif</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,26 +43,45 @@
   .accent-amber{ color:var(--accent-amber) !important; }
 
   /* NAVBAR */
-  .navbar-custom{
+  .site-nav{
+    position:sticky;
+    top:0;
+    z-index:1030;
     background:rgba(15,20,23,0.9);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border);
   }
-  .navbar-custom .nav-link{
+  .site-nav .nav-logo{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--text);
+    text-decoration:none;
+  }
+  .site-nav .nav-logo:hover{ color:var(--accent-teal); }
+  .site-nav .navbar-toggler{
+    background:transparent;
+    box-shadow:none !important;
+  }
+  .site-nav .navbar-toggler-icon{
+    width:1.4em; height:1.4em;
+    filter:invert(1);
+  }
+  .site-nav .nav-links-list{
+    display:flex;
+    list-style:none;
+    margin:0;
+  }
+  .site-nav .nav-links-list li a{
     color:var(--muted);
     font-family:'IBM Plex Mono', monospace;
     font-size:.85rem;
-    margin:0 .4rem;
+    text-decoration:none;
+    transition:color .15s ease;
   }
-  .navbar-custom .nav-link:hover, .navbar-custom .nav-link.active{
+  .site-nav .nav-links-list li a:hover{
     color:var(--accent-teal);
   }
-  .navbar-brand{
-    font-family:'Space Mono', monospace;
-    color:var(--text) !important;
-    font-weight:700;
-  }
-  .navbar-brand .dot{ color:var(--accent-amber); }
 
   /* HERO */
   .hero{
@@ -784,18 +803,6 @@
     }
   });
 
-  // Active nav link on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(sec => {
-      if (pageYOffset >= sec.offsetTop - 120) current = sec.getAttribute('id');
-    });
-    navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-    });
-  });
 </script>
 </body>
 </html>
