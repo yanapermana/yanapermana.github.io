@@ -513,8 +513,8 @@
         <li><a href="../index.html#education">Pendidikan</a></li>
         <li><a href="../index.html#contact">Kontak</a></li>
         <li><a href="../jadwal.html">Jadwal</a></li>
-        <li><a href="../tkj/index.html">TKJ</a></li>
-        <li><a href="../excel/index.html">Excel</a></li>
+        <li><a href="../modul/index.html">TKJ</a></li>
+        
       </ul>
     </div>
   </div>
@@ -552,7 +552,7 @@
           <div class="formula-text" id="hero-formula">=VLOOKUP(A2,$E$2:$H$6,3,FALSE)</div>
         </div>
         <h1>Belajar VLOOKUP dengan mencari sendiri, bukan menghafal rumus.</h1>
-        <p class="lead">Modul multimedia interaktif untuk Project Microsoft Excel — mengenal fungsi <span class="mono">VLOOKUP</span> lewat simulasi tabel, studi kasus peralatan pemesinan, dan kuis reflektif. Alokasi waktu 2 JP (2 × 45 menit).</p>
+        <p class="lead">Modul multimedia interaktif untuk Project Microsoft Excel — mengenal fungsi <span class="mono">VLOOKUP</span> lewat simulasi tabel, studi kasus jaringan komputer, dan kuis reflektif. Alokasi waktu 2 JP (2 × 45 menit).</p>
         <div class="d-flex gap-3 mt-4 flex-wrap">
           <a href="#simulator" class="btn btn-excel">Coba simulator <i class="bi bi-arrow-down-short"></i></a>
           <a href="#project" class="btn btn-outline-dark" style="border-color:var(--grid-line);">Lihat jobsheet</a>
@@ -564,7 +564,7 @@
           <div class="meta-row"><div class="k">Mata Pelajaran</div><div>Informatika</div></div>
           <div class="meta-row"><div class="k">Kelas / Semester</div><div>X / Ganjil</div></div>
           <div class="meta-row"><div class="k">Alokasi Waktu</div><div>2 JP (2 × 45 menit)</div></div>
-          <div class="meta-row"><div class="k">Konsentrasi Keahlian</div><div>Teknik Pemesinan</div></div>
+          <div class="meta-row"><div class="k">Konsentrasi Keahlian</div><div>Rekayasa Perangkat Lunak</div></div>
           <div class="meta-row"><div class="k">Model</div><div>Project Based Learning</div></div>
         </div>
       </div>
@@ -644,7 +644,7 @@
       <div class="col-md-6 col-lg-3">
         <div class="cell-card">
           <h4 class="h6 mono" style="color:var(--excel-dark);">Lookup value</h4>
-          <p class="small text-body-secondary mb-0">Data yang ingin kamu cari, contoh: kode barang <span class="mono">BBT-01</span>.</p>
+          <p class="small text-body-secondary mb-0">Data yang ingin kamu cari, contoh: kode perangkat lunak <span class="mono">IDE-01</span>.</p>
         </div>
       </div>
       <div class="col-md-6 col-lg-3">
@@ -672,18 +672,18 @@
 <!-- ================= SIMULATOR ================= -->
 <section id="simulator" class="grid-bg">
   <div class="container">
-    <div class="section-label"><span class="tag">SIGNATURE</span><span class="coord">SIMULATOR VLOOKUP — DATA PERALATAN PEMESINAN</span><div class="line"></div></div>
-    <p class="text-body-secondary" style="max-width:640px;">Pilih kode barang, lalu jalankan rumus. Perhatikan bagaimana VLOOKUP menelusuri kolom kunci ke bawah, berhenti tepat saat menemukan kecocokan, lalu bergeser ke kanan mengambil hasil.</p>
+    <div class="section-label"><span class="tag">SIGNATURE</span><span class="coord">SIMULATOR VLOOKUP — DATA PERANGKAT LUNAK</span><div class="line"></div></div>
+    <p class="text-body-secondary" style="max-width:640px;">Pilih kode perangkat lunak, lalu jalankan rumus. Perhatikan bagaimana VLOOKUP menelusuri kolom kunci ke bawah, berhenti tepat saat menemukan kecocokan, lalu bergeser ke kanan mengambil hasil.</p>
 
     <div class="sim-wrap">
       <div class="sim-controls">
         <label for="lookupSelect" class="coord mb-0">LOOKUP_VALUE (A2)</label>
         <select id="lookupSelect">
-          <option value="BBT-01">BBT-01</option>
-          <option value="FRS-02">FRS-02</option>
-          <option value="BOR-03">BOR-03</option>
-          <option value="GRD-04">GRD-04</option>
-          <option value="JSR-05">JSR-05</option>
+          <option value="IDE-01">IDE-01</option>
+          <option value="GIT-02">GIT-02</option>
+          <option value="FIG-03">FIG-03</option>
+          <option value="SQL-04">SQL-04</option>
+          <option value="PST-05">PST-05</option>
         </select>
         <label for="colSelect" class="coord mb-0">COL_INDEX_NUM</label>
         <select id="colSelect">
@@ -771,7 +771,7 @@
             <ul class="mb-0">
               <li>Kerjakan seluruh soal pada jobsheet/LKPD secara berkelompok.</li>
               <li>Periksa kembali peralatan dan file kerja sebelum mengumpulkan.</li>
-              <li>Uji rumus dengan mengganti kode barang untuk memastikan hasil selalu benar.</li>
+              <li>Uji rumus dengan mengganti kode perangkat lunak untuk memastikan hasil selalu benar.</li>
             </ul>
           </div>
         </div>
@@ -861,11 +861,11 @@
 <script>
   // ---------- Data ----------
   const data = [
-    { kode:"BBT-01", nama:"Mesin Bubut Manual", kategori:"Pemesinan", harga:"Rp 45.000.000" },
-    { kode:"FRS-02", nama:"Mesin Frais Vertikal", kategori:"Pemesinan", harga:"Rp 60.000.000" },
-    { kode:"BOR-03", nama:"Mesin Bor Duduk", kategori:"Pemesinan", harga:"Rp 8.500.000" },
-    { kode:"GRD-04", nama:"Gerinda Tangan", kategori:"Pemesinan", harga:"Rp 750.000" },
-    { kode:"JSR-05", nama:"Jangka Sorong Digital", kategori:"Pemesinan", harga:"Rp 350.000" },
+    { kode:"IDE-01", nama:"Visual Studio Code", kategori:"Code Editor", harga:"Rp 0 (Gratis)" },
+    { kode:"GIT-02", nama:"GitHub Desktop", kategori:"Version Control", harga:"Rp 0 (Gratis)" },
+    { kode:"FIG-03", nama:"Figma", kategori:"Desain UI/UX", harga:"Rp 180.000" },
+    { kode:"SQL-04", nama:"MySQL Workbench", kategori:"Basis Data", harga:"Rp 0 (Gratis)" },
+    { kode:"PST-05", nama:"Postman", kategori:"Pengujian API", harga:"Rp 250.000" },
   ];
 
   const colNames = {2:"nama", 3:"kategori", 4:"harga"};
