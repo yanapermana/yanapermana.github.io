@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kuis Administrasi Server Jaringan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --brand:#145da0; --brand2:#0b3d66; --soft:#eef6ff; }
+    body { background:linear-gradient(180deg,#eaf3ff 0,#f7f9fc 280px); color:#1f2937; }
+    .hero { background:linear-gradient(135deg,var(--brand2),var(--brand)); color:#fff; border-radius:1.25rem; }
+    .quiz-card { border:0; border-radius:1rem; box-shadow:0 8px 24px rgba(25,60,100,.08); }
+    .question-card { border:1px solid #e3eaf3; border-radius:.9rem; }
+    .option-label { display:flex; gap:.65rem; align-items:flex-start; padding:.8rem 1rem; border:1px solid #dbe3ee; border-radius:.75rem; cursor:pointer; transition:.15s; }
+    .option-label:hover { background:#f4f8ff; border-color:#9bbce3; }
+    .option-label input { margin-top:.25rem; flex-shrink:0; }
+    .option-label.correct { background:#e9f8ef; border-color:#198754; }
+    .option-label.wrong { background:#fff0f0; border-color:#dc3545; }
+    .feedback { display:none; border-radius:.7rem; padding:.75rem 1rem; margin-top:.75rem; }
+    .feedback.show { display:block; }
+    .progress { height:.65rem; }
+    .muted-small { font-size:.9rem; color:#64748b; }
+    @media (max-width:576px) { .hero { border-radius:1rem; } .hero h1 {font-size:1.55rem;} }
+  </style>
+</head>
+<body>
+<main class="container py-4 py-lg-5">
+  <header class="hero p-4 p-lg-5 mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 align-items-md-center">
+      <div>
+        <span class="badge text-bg-light text-primary mb-3">KUIS INFORMATIKA / TKJ</span>
+        <h1 class="fw-bold mb-2">Administrasi Server Jaringan</h1>
+        <p class="mb-0">20 soal pilihan ganda · 5 opsi jawaban · pembahasan langsung setelah menjawab</p>
+      </div>
+      <div class="text-md-end">
+        <div class="fs-2 fw-bold">20</div><div>Soal</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="startPanel" class="card quiz-card mb-4">
+    <div class="card-body p-4 p-lg-5">
+      <h2 class="h4 fw-bold mb-2">Identitas Peserta</h2>
+      <p class="muted-small mb-4">Masukkan nama sebelum memulai kuis.</p>
+      <form id="nameForm" class="row g-3">
+        <div class="col-12 col-md-8">
+          <label for="studentName" class="form-label fw-semibold">Nama lengkap</label>
+          <input id="studentName" class="form-control form-control-lg" type="text" maxlength="80" placeholder="Contoh: Budi Santoso" required>
+        </div>
+        <div class="col-12 col-md-4 d-flex align-items-end">
+          <button class="btn btn-primary btn-lg w-100" type="submit">Mulai Kuis</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section id="quizPanel" class="d-none">
+    <div class="card quiz-card mb-4">
+      <div class="card-body p-3 p-md-4">
+        <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+          <div>Peserta: <strong id="displayName"></strong></div>
+          <div><strong><span id="answeredCount">0</span>/20</strong> soal dijawab</div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Progres kuis">
+          <div id="progressBar" class="progress-bar" style="width:0%"></div>
+        </div>
+        <p class="muted-small mt-2 mb-0">Pilih satu jawaban pada setiap soal. Jawaban benar dan pembahasan akan tampil setelah pilihan diklik.</p>
+      </div>
+    </div>
+    <div id="questions"></div>
+    <div class="card quiz-card mt-4" id="resultPanel">
+      <div class="card-body p-4 text-center">
+        <h2 class="h4 fw-bold">Hasil Kuis</h2>
+        <p class="muted-small">Selesaikan semua soal untuk melihat hasil akhir.</p>
+        <div id="finalResult" class="d-none">
+          <div class="display-5 fw-bold text-primary"><span id="finalScore">0</span>/20</div>
+          <p class="mb-1">Nilai: <strong id="finalPercent">0</strong></p>
+          <p id="resultMessage" class="mb-3"></p>
+          <button id="restartBtn" class="btn btn-outline-primary">Ulangi Kuis</button>
+          <button id="printBtn" class="btn btn-primary ms-2">Cetak Hasil</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="text-center muted-small mt-4">Materi disusun berdasarkan topik dalam dokumen “Tugas Administrasi Server Jaringan”.</footer>
+</main>
+<script>
+const questions = [
+ {q:"Apa yang dimaksud dengan remote server?",o:["Server yang hanya dapat digunakan tanpa jaringan","Server yang dapat diakses dan dikelola dari perangkat lain melalui jaringan","Komputer yang hanya menyimpan file secara lokal","Perangkat yang membagikan alamat IP otomatis","Aplikasi untuk membuat halaman web"],a:1,e:"Remote server memungkinkan pengguna mengakses atau mengelola server dari perangkat lain melalui jaringan."},
+ {q:"Manakah pasangan aplikasi yang umum digunakan untuk mengakses server dari jarak jauh?",o:["PuTTY dan OpenSSH client","Microsoft Paint dan Calculator","VLC dan Audacity","PowerPoint dan WordPad","WinRAR dan Photos"],a:0,e:"PuTTY dan OpenSSH client dapat digunakan untuk membuat koneksi jarak jauh, misalnya melalui SSH."},
+ {q:"Pada Ubuntu Linux, perintah yang umum digunakan untuk memasang layanan SSH Server adalah ...",o:["sudo apt install openssh-server","sudo apt install dnsutils","sudo apt install vsftpd-client","sudo apt install libreoffice","sudo apt install net-tools-only"],a:0,e:"Paket openssh-server menyediakan layanan SSH server pada Ubuntu berbasis Debian."},
+ {q:"Apa fungsi utama layanan SSH?",o:["Memberikan alamat IP otomatis kepada client","Menerjemahkan nama domain menjadi alamat IP","Mengakses dan mengelola sistem jarak jauh melalui koneksi terenkripsi","Menyimpan seluruh file web di browser","Mengatur tampilan halaman HTML"],a:2,e:"SSH menyediakan akses jarak jauh yang terenkripsi, termasuk untuk menjalankan perintah pada server."},
+ {q:"Apa fungsi utama DHCP Server?",o:["Mengelola desain halaman web","Memberikan konfigurasi jaringan IP kepada client secara otomatis","Menerjemahkan nama domain","Menyimpan tabel database aplikasi","Mengirim email antarpengguna"],a:1,e:"DHCP mempermudah pemberian konfigurasi jaringan kepada client tanpa harus mengatur setiap perangkat secara manual."},
+ {q:"Manakah kumpulan informasi yang dapat diberikan DHCP kepada client?",o:["Alamat IP, subnet mask, dan default gateway","Nama pengguna, kata sandi, dan tema desktop","HTML, CSS, dan JavaScript","Nama tabel, kolom, dan query SQL","File gambar, video, dan audio"],a:0,e:"Konfigurasi DHCP dapat mencakup alamat IP, subnet mask, default gateway, serta alamat DNS."},
+ {q:"Pada Ubuntu/Debian dengan paket ISC DHCP Server, file konfigurasi utamanya umumnya adalah ...",o:["/etc/hosts","/etc/dhcp/dhcpd.conf","/var/www/html/index.html","/etc/ssh/ssh_config","/etc/fstab"],a:1,e:"Konfigurasi server ISC DHCP umumnya disimpan di /etc/dhcp/dhcpd.conf."},
+ {q:"Apa kepanjangan DNS?",o:["Data Network Service","Domain Name System","Dynamic Node Setup","Digital Number Service","Domain Network Security"],a:1,e:"DNS adalah Domain Name System, sistem yang membantu menerjemahkan nama domain menjadi informasi seperti alamat IP."},
+ {q:"Record DNS jenis A biasanya digunakan untuk ...",o:["Menghubungkan nama domain ke alamat IPv4","Menentukan server email domain","Menetapkan alias ke nama domain lain","Menyimpan kunci publik SSH","Menentukan rentang DHCP"],a:0,e:"Record A memetakan nama host ke alamat IPv4. Record AAAA digunakan untuk alamat IPv6."},
+ {q:"Record DNS jenis MX berfungsi untuk ...",o:["Menentukan alamat IPv4 situs","Menentukan server penerima email untuk domain","Membuat alias nama domain","Menetapkan alamat gateway client","Menguji koneksi web"],a:1,e:"Record MX menunjukkan mail exchanger atau server yang menerima email untuk domain."},
+ {q:"Apa perbedaan penting antara FTP dan SFTP?",o:["FTP hanya untuk gambar, SFTP hanya untuk teks","SFTP menggunakan SSH untuk transfer file yang terenkripsi, sedangkan FTP biasa tidak mengenkripsi data secara default","FTP selalu lebih aman daripada SFTP","SFTP tidak dapat memindahkan file","Keduanya adalah protokol khusus untuk database"],a:1,e:"SFTP berjalan melalui SSH dan mengenkripsi sesi transfer; FTP standar tidak menyediakan enkripsi secara default."},
+ {q:"Aplikasi yang umum digunakan untuk mengakses FTP/SFTP dari komputer client adalah ...",o:["FileZilla","Microsoft Excel","Windows Media Player","Notepad","Calculator"],a:0,e:"FileZilla adalah aplikasi client yang mendukung transfer file melalui FTP dan SFTP."},
+ {q:"Apa yang dimaksud dengan file server?",o:["Server yang menyediakan penyimpanan dan berbagi file melalui jaringan","Server yang hanya membagikan alamat IP","Server yang mengubah domain menjadi IP","Server yang khusus menjalankan kalkulator","Server yang hanya mengatur pencetakan halaman web"],a:0,e:"File server menyediakan tempat penyimpanan terpusat dan akses berbagi file bagi pengguna jaringan."},
+ {q:"Manakah contoh perangkat lunak yang dapat digunakan sebagai file server di Linux?",o:["Samba","Adobe Premiere","PowerPoint","Paint","Calculator"],a:0,e:"Samba dapat menyediakan layanan berbagi file yang kompatibel dengan protokol SMB/CIFS, termasuk untuk client Windows."},
+ {q:"Apa fungsi utama web server?",o:["Mengalokasikan alamat IP secara otomatis","Menerima permintaan HTTP/HTTPS dan mengirimkan konten web kepada client","Mengelola perangkat keras printer saja","Mengubah semua file menjadi spreadsheet","Menyediakan koneksi SSH saja"],a:1,e:"Web server menangani permintaan HTTP/HTTPS dan mengirimkan halaman atau sumber daya web kepada client."},
+ {q:"Manakah pasangan perangkat lunak web server yang umum digunakan?",o:["Apache HTTP Server dan Nginx","MySQL dan PostgreSQL","DHCP dan DNS","PuTTY dan FileZilla","Excel dan Access"],a:0,e:"Apache HTTP Server dan Nginx adalah dua perangkat lunak web server yang banyak digunakan."},
+ {q:"Apa peran database server dalam aplikasi berbasis web?",o:["Mengatur warna kabel jaringan","Menyimpan, mengelola, dan melayani permintaan data aplikasi","Menggantikan seluruh fungsi browser","Memberikan daya listrik ke komputer","Membuat alamat IP otomatis untuk semua client"],a:1,e:"Database server menyimpan dan mengelola data yang digunakan aplikasi, seperti data akun, produk, atau transaksi."},
+ {q:"Manakah pasangan contoh aplikasi database server?",o:["MySQL dan PostgreSQL","Apache dan Nginx","PuTTY dan OpenSSH","FTP dan SFTP","DHCP dan DNS"],a:0,e:"MySQL dan PostgreSQL adalah sistem manajemen basis data yang dapat digunakan sebagai database server."},
+ {q:"Perintah yang umum digunakan untuk menguji apakah nama domain dapat diresolusikan oleh DNS adalah ...",o:["nslookup example.com","mkdir example.com","format example.com","chmod example.com","paint example.com"],a:0,e:"nslookup dapat digunakan untuk meminta informasi resolusi nama domain dari DNS."},
+ {q:"Cara yang sesuai untuk menguji layanan web server yang berjalan di komputer lokal adalah ...",o:["Membuka http://localhost di browser atau memakai curl http://localhost","Mengganti nama file menjadi .xlsx","Menjalankan perintah untuk mengubah resolusi layar","Membuat akun email baru tanpa mengakses server","Mematikan antarmuka jaringan lalu menguji koneksi"],a:0,e:"Jika web server berjalan pada komputer yang sama, localhost dapat digunakan untuk menguji respons HTTP. Perintah curl juga dapat menampilkan respons dari server."}
+];
+
+const startPanel = document.getElementById('startPanel');
+const quizPanel = document.getElementById('quizPanel');
+const questionContainer = document.getElementById('questions');
+let name = '';
+let answers = {};
+let locked = {};
+
+document.getElementById('nameForm').addEventListener('submit', function(ev) {
+  ev.preventDefault();
+  name = document.getElementById('studentName').value.trim();
+  if (!name) return;
+  document.getElementById('displayName').textContent = name;
+  startPanel.classList.add('d-none');
+  quizPanel.classList.remove('d-none');
+  renderQuestions();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+function renderQuestions() {
+  questionContainer.innerHTML = '';
+  questions.forEach((item, i) => {
+    const card = document.createElement('article');
+    card.className = 'card quiz-card question-card mb-3';
+    card.id = 'question-' + i;
+    const options = item.o.map((opt, j) => `
+      <label class="option-label" id="option-${i}-${j}">
+        <input class="form-check-input" type="radio" name="q${i}" value="${j}" ${locked[i] ? 'disabled' : ''}>
+        <span><strong>${String.fromCharCode(65+j)}.</strong> ${escapeHtml(opt)}</span>
+      </label>`).join('');
+    card.innerHTML = `
+      <div class="card-body p-3 p-md-4">
+        <div class="d-flex gap-2 align-items-start mb-3">
+          <span class="badge text-bg-primary rounded-pill">${i+1}</span>
+          <h2 class="h6 fw-bold mb-0">${escapeHtml(item.q)}</h2>
+        </div>
+        <div class="d-grid gap-2">${options}</div>
+        <div class="feedback ${locked[i] ? 'show' : ''}" id="feedback-${i}" aria-live="polite"></div>
+      </div>`;
+    questionContainer.appendChild(card);
+    card.querySelectorAll('input[type=radio]').forEach(input => {
+      input.addEventListener('change', () => chooseAnswer(i, Number(input.value)));
+    });
+    if (locked[i]) showFeedback(i);
+  });
+  updateProgress();
+}
+
+function chooseAnswer(i, choice) {
+  if (locked[i]) return;
+  answers[i] = choice;
+  locked[i] = true;
+  showFeedback(i);
+  const card = document.getElementById('question-' + i);
+  card.querySelectorAll('input').forEach(el => {
+    el.disabled = true;
+    if (Number(el.value) === choice) el.checked = true;
+  });
+  updateProgress();
+}
+
+function showFeedback(i) {
+  const item = questions[i], choice = answers[i];
+  if (choice === undefined) return;
+  const correct = choice === item.a;
+  const feedback = document.getElementById('feedback-' + i);
+  feedback.className = 'feedback show ' + (correct ? 'alert alert-success' : 'alert alert-danger');
+  feedback.innerHTML = `<strong>${correct ? 'Jawaban benar!' : 'Belum tepat.'}</strong>
+    Jawaban yang benar: <strong>${String.fromCharCode(65+item.a)}. ${escapeHtml(item.o[item.a])}</strong><br>
+    <span>${escapeHtml(item.e)}</span>`;
+  document.getElementById(`option-${i}-${item.a}`).classList.add('correct');
+  if (!correct) document.getElementById(`option-${i}-${choice}`).classList.add('wrong');
+}
+
+function updateProgress() {
+  const count = Object.keys(answers).length;
+  document.getElementById('answeredCount').textContent = count;
+  document.getElementById('progressBar').style.width = (count / questions.length * 100) + '%';
+  if (count === questions.length) {
+    const score = questions.reduce((sum, q, i) => sum + (answers[i] === q.a ? 1 : 0), 0);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalPercent').textContent = Math.round(score / questions.length * 100) + '/100';
+    document.getElementById('resultMessage').textContent = score >= 16 ? 'Bagus! Pemahaman materi server jaringanmu sudah kuat.' : score >= 12 ? 'Cukup baik. Pelajari kembali pembahasan pada soal yang belum tepat.' : 'Tetap semangat! Baca pembahasan setiap soal dan coba lagi.';
+    document.querySelector('#resultPanel .muted-small').textContent = 'Kuis selesai, ' + name + '. Berikut hasil akhir kamu.';
+    document.getElementById('finalResult').classList.remove('d-none');
+    document.getElementById('resultPanel').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+document.getElementById('restartBtn').addEventListener('click', () => {
+  answers = {}; locked = {};
+  document.getElementById('finalResult').classList.add('d-none');
+  document.querySelector('#resultPanel .muted-small').textContent = 'Selesaikan semua soal untuk melihat hasil akhir.';
+  renderQuestions();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
