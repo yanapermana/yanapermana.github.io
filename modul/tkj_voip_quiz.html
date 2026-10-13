@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz VoIP</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:linear-gradient(135deg,#0d6efd,#6610f2);min-height:100vh}
+.opt{text-align:left;white-space:normal}
+.opt.benar{background:#198754!important;color:#fff!important;border-color:#198754!important}
+.opt.salah{background:#dc3545!important;color:#fff!important;border-color:#dc3545!important}
+</style>
+</head>
+<body>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+
+      <!-- Form nama -->
+      <div id="start" class="card shadow border-0">
+        <div class="card-body p-4 p-md-5 text-center">
+          <h1 class="h3 fw-bold text-primary">📞 Quiz VoIP</h1>
+          <p class="text-muted">Teknologi VoIP Sehari-hari &amp; Instalasi/Konfigurasi Layanan Voice over IP<br>30 soal pilihan ganda</p>
+          <div class="mb-3 text-start">
+            <label for="nama" class="form-label fw-semibold">Nama Lengkap</label>
+            <input type="text" id="nama" class="form-control form-control-lg" placeholder="Masukkan nama Anda" maxlength="50">
+            <div class="text-danger small mt-1 d-none" id="errNama">Nama wajib diisi.</div>
+          </div>
+          <button class="btn btn-primary btn-lg w-100" onclick="mulai()">Mulai Quiz</button>
+        </div>
+      </div>
+
+      <!-- Quiz -->
+      <div id="quiz" class="card shadow border-0 d-none">
+        <div class="card-body p-3 p-md-4">
+          <div class="d-flex justify-content-between small text-muted mb-1">
+            <span id="who"></span><span id="skor"></span>
+          </div>
+          <div class="progress mb-3" style="height:10px"><div id="bar" class="progress-bar" style="width:0%"></div></div>
+          <div class="small text-primary fw-semibold mb-1" id="no"></div>
+          <h2 class="h5 mb-3" id="soal"></h2>
+          <div class="d-grid gap-2" id="opsi"></div>
+          <div id="info" class="alert mt-3 d-none mb-0"></div>
+          <button id="next" class="btn btn-success w-100 mt-3 d-none" onclick="lanjut()">Soal Berikutnya →</button>
+        </div>
+      </div>
+
+      <!-- Hasil -->
+      <div id="hasil" class="card shadow border-0 d-none">
+        <div class="card-body p-4 text-center">
+          <h2 class="h4 fw-bold">Selesai, <span id="hNama"></span>!</h2>
+          <div class="display-3 fw-bold text-primary" id="hNilai"></div>
+          <p id="hDet" class="text-muted"></p>
+          <p id="hKet" class="fw-semibold"></p>
+          <button class="btn btn-primary" onclick="location.reload()">Ulangi Quiz</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// [pertanyaan, [A,B,C,D,E], indeks jawaban benar]
+const Q=[
+["Apa kepanjangan dari VoIP?",["Video over Internet Page","Voice on Industrial Path","Voice over Internet Protocol","Visual over IP Provider","Voltage over IP"],2],
+["Berikut ini yang BUKAN merupakan layanan VoIP sehari-hari adalah...",["WhatsApp Call","Google Meet","Skype","Telegram Call","Siaran Radio FM"],4],
+["Pada VoIP, suara manusia dikirim dalam bentuk...",["Paket data digital","Gelombang radio analog","Sinyal listrik analog","Sinyal asap","Pulsa tone DTMF saja"],0],
+["Protokol signaling yang paling umum digunakan pada VoIP adalah...",["FTP","SIP","SMTP","DHCP","POP3"],1],
+["Protokol yang membawa aliran media suara secara real-time adalah...",["HTTP","ARP","ICMP","RTP","SNMP"],3],
+["Port default protokol SIP adalah...",["80","443","5060","25","3389"],2],
+["Codec dengan kompresi tinggi dan bandwidth rendah (sekitar 8 kbps) adalah...",["G.711","G.722","PCM","GSM-FR 64","G.729"],4],
+["Bitrate codec G.711 adalah sekitar...",["8 kbps","64 kbps","128 kbps","256 kbps","1 Mbps"],1],
+["Variasi keterlambatan antar paket suara disebut...",["Jitter","Throughput","Bandwidth","Broadcast","Hop"],0],
+["Agar kualitas panggilan VoIP baik, jaringan harus memiliki...",["Latency tinggi","Packet loss tinggi","Jitter tinggi","Latency dan packet loss rendah","Bandwidth sangat kecil"],3],
+["Perangkat telepon yang langsung terhubung ke jaringan IP disebut...",["Telepon PSTN","IP Phone","Pager","Radio HT","Faksimile analog"],1],
+["Fungsi ATA (Analog Telephone Adapter) adalah...",["Menyimpan data suara","Menguatkan sinyal WiFi","Menghubungkan telepon analog ke jaringan VoIP","Mengenkripsi email","Mengatur DNS"],2],
+["Keuntungan utama VoIP dibanding telepon konvensional adalah...",["Tidak butuh perangkat","Tidak butuh listrik","Hanya bisa antar kota","Tidak butuh jaringan","Biaya panggilan lebih murah"],4],
+["Kelemahan utama VoIP adalah...",["Bergantung pada kualitas koneksi internet dan listrik","Tidak bisa video call","Tidak bisa dipakai di HP","Tidak bisa konferensi","Tidak mendukung banyak pengguna"],0],
+["Perusahaan yang menyediakan layanan telepon internet/SIP trunk disebut...",["ISBN","DNS Server","ITSP","CCTV Vendor","ATM"],2],
+["Software IP PBX open source yang populer untuk server VoIP adalah...",["Apache","Nginx","MySQL","Asterisk","Wireshark"],3],
+["Distribusi berbasis Asterisk yang dilengkapi antarmuka web GUI adalah...",["Photoshop","FreePBX","Packet Tracer","VirtualBox","Postfix"],1],
+["File konfigurasi endpoint/extension pada Asterisk modern (PJSIP) adalah...",["pjsip.conf","smb.conf","httpd.conf","fstab","hosts.allow"],0],
+["File yang mengatur aturan panggilan (dialplan) pada Asterisk adalah...",["pjsip.conf","rtp.conf","asterisk.conf","modules.conf","extensions.conf"],4],
+["Rentang port RTP default pada Asterisk adalah...",["1–1024 TCP","10000–20000 UDP","3000–4000 TCP","8080–8090 TCP","50–100 UDP"],1],
+["Aplikasi softphone yang dapat dipasang di PC/HP untuk uji panggilan SIP adalah...",["Putty","Wireshark","Linphone","Nginx","FileZilla"],2],
+["Perintah untuk masuk ke CLI Asterisk adalah...",["asterisk -rvvv","apt autoremove","ls -la","ping asterisk","mkdir asterisk"],0],
+["Perintah di CLI Asterisk untuk memuat ulang dialplan adalah...",["restart now","stop gracefully","core show uptime","dialplan reload","module unload"],3],
+["Data minimal yang dibutuhkan untuk registrasi akun SIP pada softphone adalah...",["Alamat MAC dan serial HDD","Nama printer dan resolusi","Username, password, dan alamat server SIP","Nama domain email saja","Kode pos dan alamat rumah"],2],
+["Penyebab umum one-way audio (suara hanya satu arah) pada VoIP adalah...",["Kabel LAN terlalu pendek","Monitor rusak","Keyboard tidak terpasang","Codec tidak ada sama sekali","NAT/firewall memblokir port RTP"],4],
+["Langkah awal sebelum instalasi Asterisk di Linux adalah...",["Memformat ulang BIOS","Update paket dan memasang dependensi yang diperlukan","Menghapus seluruh jaringan","Mematikan semua port","Mengganti kabel LAN"],1],
+["Server VoIP sebaiknya diberi IP address...",["Statis","Dinamis acak tiap menit","Broadcast","Loopback 127.0.0.1 saja","Multicast"],0],
+["Perintah CLI Asterisk untuk melihat daftar endpoint PJSIP adalah...",["show disk","list users","pjsip show endpoints","sip clear cache","net restart"],2],
+["Pada dialplan, baris exten => 100,1,Dial(PJSIP/100) berarti...",["Menghapus extension 100","Mematikan server","Mengubah password 100","Saat nomor 100 dipanggil, sistem menghubungi endpoint PJSIP 100","Mengirim email ke 100"],3],
+["Setelah konfigurasi selesai, pengujian yang tepat adalah...",["Langsung menghapus konfigurasi","Melakukan panggilan antar-extension dan memeriksa kualitas suara","Mematikan firewall selamanya","Mengganti semua codec","Menunggu tanpa mencoba"],1]
+];
+const L=["A","B","C","D","E"];
+let i=0,skor=0,nama="",jwb=[],terkunci=false;
+const $=id=>document.getElementById(id);
+
+function mulai(){
+  nama=$("nama").value.trim();
+  if(!nama){$("errNama").classList.remove("d-none");return}
+  $("start").classList.add("d-none");
+  $("quiz").classList.remove("d-none");
+  $("who").textContent="👤 "+nama;
+  tampil();
+}
+function tampil(){
+  terkunci=false;
+  const [s,o]=Q[i];
+  $("no").textContent="Soal "+(i+1)+" dari "+Q.length;
+  $("soal").textContent=s;
+  $("skor").textContent="Skor: "+skor;
+  $("bar").style.width=(i/Q.length*100)+"%";
+  $("info").classList.add("d-none");
+  $("next").classList.add("d-none");
+  $("opsi").innerHTML="";
+  o.forEach((t,k)=>{
+    const b=document.createElement("button");
+    b.className="btn btn-outline-primary opt py-2";
+    b.innerHTML="<b>"+L[k]+".</b> ";
+    b.appendChild(document.createTextNode(t));
+    b.onclick=()=>pilih(k);
+    $("opsi").appendChild(b);
+  });
+}
+function pilih(k){
+  if(terkunci)return;
+  terkunci=true;
+  const b=Q[i][2],btn=$("opsi").children;
+  jwb[i]=k;
+  btn[b].classList.add("benar");
+  const info=$("info");
+  info.classList.remove("d-none","alert-success","alert-danger");
+  if(k===b){skor++;info.classList.add("alert-success");info.innerHTML="✅ <b>Benar!</b> Jawaban: "+L[b]+". "+esc(Q[i][1][b]);}
+  else{btn[k].classList.add("salah");info.classList.add("alert-danger");info.innerHTML="❌ <b>Salah.</b> Jawaban yang benar: <b>"+L[b]+". "+esc(Q[i][1][b])+"</b>";}
+  for(const x of btn)x.disabled=true;
+  $("skor").textContent="Skor: "+skor;
+  $("next").textContent=i===Q.length-1?"Lihat Hasil":"Soal Berikutnya →";
+  $("next").classList.remove("d-none");
+}
+function lanjut(){
+  i++;
+  if(i<Q.length)tampil();else selesai();
+}
+function selesai(){
+  $("quiz").classList.add("d-none");
+  $("hasil").classList.remove("d-none");
+  const n=Math.round(skor/Q.length*100);
+  $("hNama").textContent=nama;
+  $("hNilai").textContent=n;
+  $("hDet").textContent="Benar "+skor+" dari "+Q.length+" soal";
+  $("hKet").textContent=n>=80?"🎉 Sangat baik!":n>=60?"👍 Cukup baik, terus belajar!":"📚 Ayo pelajari lagi materinya.";
+}
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+$("nama").addEventListener("keydown",e=>{if(e.key==="Enter")mulai()});
+</script>
+</body>
+</html>
