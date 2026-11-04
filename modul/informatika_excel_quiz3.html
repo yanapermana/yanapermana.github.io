@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuis Tes Masuk Kerja Admin HRD</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body { background:#eef3f1; }
+  .brand { background:#0f4c47; color:#fff; }
+  .opt { text-align:left; border:2px solid #cfdad7; background:#fff; border-radius:.6rem; padding:.7rem .9rem; width:100%; display:flex; gap:.75rem; align-items:flex-start; transition:background .15s,border-color .15s; }
+  .opt:hover:not(:disabled) { border-color:#0f4c47; background:#f3faf8; }
+  .opt .key { flex:0 0 1.9rem; height:1.9rem; border-radius:50%; background:#e1ebe8; display:grid; place-items:center; font-weight:700; font-size:.85rem; }
+  .opt.benar { border-color:#198754; background:#e6f5ec; }
+  .opt.benar .key { background:#198754; color:#fff; }
+  .opt.salah { border-color:#dc3545; background:#fdecee; }
+  .opt.salah .key { background:#dc3545; color:#fff; }
+  .opt:disabled { opacity:1; }
+  .opt:focus-visible, .btn:focus-visible { outline:3px solid #f0a500; outline-offset:2px; }
+</style>
+</head>
+<body>
+<header class="brand py-3 mb-4">
+  <div class="container" style="max-width:760px">
+    <h1 class="h5 mb-0">Kuis Tes Masuk Kerja Admin HRD</h1>
+    <small class="opacity-75">Excel, PKWT, THR, lembur, dan upah harian</small>
+  </div>
+</header>
+
+<main class="container pb-5" style="max-width:760px">
+  <!-- Mulai -->
+  <section id="mulai" class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h2 class="h4">Siap mengerjakan?</h2>
+      <p class="text-secondary">30 soal pilihan ganda dengan 5 opsi jawaban. Setelah memilih, jawaban yang benar dan pembahasannya langsung ditampilkan.</p>
+      <button id="btnMulai" class="btn btn-success btn-lg w-100">Mulai kuis</button>
+    </div>
+  </section>
+
+  <!-- Soal -->
+  <section id="kuis" class="d-none">
+    <div class="d-flex justify-content-between small mb-1">
+      <span id="info">Soal 1 dari 30</span>
+      <span id="skor" class="fw-semibold">Skor: 0</span>
+    </div>
+    <div class="progress mb-3" role="progressbar" aria-label="Kemajuan" style="height:8px">
+      <div id="bar" class="progress-bar bg-success" style="width:0"></div>
+    </div>
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-3 p-md-4">
+        <p id="soal" class="fs-5 fw-semibold mb-3"></p>
+        <div id="opsi" class="d-grid gap-2"></div>
+        <div id="umpan" class="alert mt-3 mb-0 d-none" role="status"></div>
+      </div>
+    </div>
+    <button id="btnNext" class="btn btn-dark w-100 mt-3 d-none">Soal berikutnya</button>
+  </section>
+
+  <!-- Hasil -->
+  <section id="hasil" class="card shadow-sm border-0 d-none">
+    <div class="card-body p-4 text-center">
+      <h2 class="h4">Kuis selesai</h2>
+      <p class="display-3 fw-bold mb-0" id="nilai"></p>
+      <p class="text-secondary" id="ket"></p>
+      <button id="btnUlang" class="btn btn-success btn-lg w-100">Ulangi kuis</button>
+    </div>
+  </section>
+</main>
+
+<script>
+// Format: [soal, jawaban benar, [4 jawaban salah], pembahasan]
+const DATA = [
+["Fungsi Excel yang dipakai untuk menggabungkan teks dari beberapa sel adalah...","CONCATENATE",["VLOOKUP","COUNTIF","ROUND","SUMIF"],"CONCATENATE menggabungkan beberapa teks menjadi satu."],
+["Sel B2 berisi “Aldi” dan C2 berisi “Taher”. Rumus agar D2 menjadi “Aldi Taher” adalah...","=CONCATENATE(B2,\" \",C2)",["=CONCATENATE(B2,C2)","=SUM(B2,C2)","=B2-C2","=CONCATENATE(B2;C2)"],"Tanda kutip berisi spasi (\" \") disisipkan di antara nama depan dan nama belakang."],
+["Jika rumus =CONCATENATE(B2,C2) dipakai (tanpa spasi), hasilnya adalah...","AldiTaher",["Aldi Taher","Taher Aldi","Aldi,Taher","#VALUE!"],"Tanpa spasi, kedua teks menempel menjadi AldiTaher."],
+["Operator yang bisa menggantikan CONCATENATE untuk menggabungkan teks adalah...","& (ampersand)",["+","*","%","#"],"=B2&\" \"&C2 menghasilkan hasil yang sama dengan CONCATENATE."],
+["PKWT adalah kepanjangan dari...","Perjanjian Kerja Waktu Tertentu",["Perjanjian Kerja Waktu Tetap","Peraturan Karyawan Waktu Tertentu","Perjanjian Karyawan Waktu Terbatas","Perikatan Kerja Waktu Tertentu"],"PKWT = Perjanjian Kerja Waktu Tertentu, atau karyawan kontrak."],
+["Rumus kompensasi karyawan kontrak (PKWT) adalah...","(Masa kerja / 12) x 1 bulan upah",["(Masa kerja / 25) x 1 bulan upah","(1 / 173) x Gaji sebulan","Masa kerja x 12 x upah","(Masa kerja / 6) x 1 bulan upah"],"Kompensasi dihitung proporsional terhadap 12 bulan."],
+["Kompensasi PKWT Aldi: masa kerja 6 bulan, gaji Rp3.500.000.","Rp1.750.000",["Rp875.000","Rp2.083.333","Rp3.500.000","Rp1.166.667"],"(6/12) x 3.500.000 = 1.750.000"],
+["Kompensasi PKWT Bastian: masa kerja 2 bulan, gaji Rp4.000.000.","Rp666.667",["Rp1.333.333","Rp800.000","Rp500.000","Rp2.000.000"],"(2/12) x 4.000.000 = 666.667 (dibulatkan)"],
+["Kompensasi PKWT Charlie: masa kerja 5 bulan, gaji Rp5.000.000.","Rp2.083.333",["Rp1.250.000","Rp2.500.000","Rp1.666.667","Rp3.125.000"],"(5/12) x 5.000.000 = 2.083.333 (dibulatkan)"],
+["Kompensasi PKWT Dio: masa kerja 3 bulan, gaji Rp2.500.000.","Rp625.000",["Rp833.333","Rp312.500","Rp1.250.000","Rp520.833"],"(3/12) x 2.500.000 = 625.000"],
+["Kompensasi PKWT Elisa: masa kerja 9 bulan, gaji Rp3.000.000.","Rp2.250.000",["Rp1.500.000","Rp2.700.000","Rp3.000.000","Rp1.800.000"],"(9/12) x 3.000.000 = 2.250.000"],
+["Karyawan dengan masa kerja 12 bulan atau lebih menerima THR sebesar...","1 kali gaji",["0,5 kali gaji","Proporsional","2 kali gaji","1/173 gaji"],"Masa kerja ≥ 12 bulan mendapat THR penuh sebesar 1 bulan gaji."],
+["Karyawan dengan masa kerja kurang dari 12 bulan menerima THR secara...","Proporsional",["Penuh 1 kali gaji","Tidak berhak","2 kali gaji","Tetap Rp1.000.000"],"THR dihitung (masa kerja / 12) x gaji."],
+["THR Aldi: masa kerja 3 bulan, gaji Rp3.500.000.","Rp875.000",["Rp1.750.000","Rp3.500.000","Rp583.333","Rp1.166.667"],"(3/12) x 3.500.000 = 875.000"],
+["THR Bastian: masa kerja 6 bulan, gaji Rp4.000.000.","Rp2.000.000",["Rp4.000.000","Rp1.000.000","Rp1.333.333","Rp2.666.667"],"(6/12) x 4.000.000 = 2.000.000"],
+["THR Charlie: masa kerja 12 bulan, gaji Rp5.000.000.","Rp5.000.000",["Rp2.500.000","Rp10.000.000","Rp4.166.667","Rp416.667"],"Masa kerja 12 bulan, maka THR = 1 x gaji = 5.000.000."],
+["THR Dio: masa kerja 8 bulan, gaji Rp4.200.000.","Rp2.800.000",["Rp4.200.000","Rp2.100.000","Rp3.500.000","Rp1.400.000"],"(8/12) x 4.200.000 = 2.800.000"],
+["THR Elisa: masa kerja 15 bulan, gaji Rp6.000.000.","Rp6.000.000",["Rp7.500.000","Rp12.000.000","Rp3.000.000","Rp4.800.000"],"Masa kerja ≥ 12 bulan, THR tetap 1 x gaji = 6.000.000."],
+["TUL adalah kepanjangan dari...","Tarif Upah Lembur",["Tunjangan Upah Lembur","Tarif Uang Layanan","Total Upah Lembur","Tabel Upah Lembur"],"TUL = Tarif Upah Lembur, yaitu upah per jam lembur."],
+["Rumus TUL pada soal adalah...","(1/173) x Gaji sebulan",["(1/25) x Gaji sebulan","(1/21) x Gaji sebulan","(1/12) x Gaji sebulan","(1/30) x Gaji sebulan"],"Pembagi 173 dipakai untuk mendapat upah per jam."],
+["TUL Aldi dengan gaji Rp3.500.000 adalah sekitar...","Rp20.231",["Rp23.121","Rp28.902","Rp24.277","Rp34.682"],"3.500.000 / 173 ≈ 20.231"],
+["TUL Bastian dengan gaji Rp4.000.000 adalah sekitar...","Rp23.121",["Rp20.231","Rp28.902","Rp24.277","Rp34.682"],"4.000.000 / 173 ≈ 23.121"],
+["Total lembur Aldi: TUL Rp20.231, lembur 5 jam (dihitung dari tarif tunggal pada soal).","Rp101.156",["Rp202.310","Rp80.924","Rp121.386","Rp50.578"],"20.231 x 5 ≈ 101.156"],
+["Total lembur Charlie: gaji Rp5.000.000, lembur 17 jam.","Rp491.329",["Rp491.000.000","Rp388.350","Rp245.665","Rp572.150"],"(5.000.000 / 173) x 17 ≈ 491.329"],
+["Total lembur Elisa: gaji Rp6.000.000, lembur 12 jam.","Rp416.185",["Rp346.821","Rp208.092","Rp520.231","Rp693.642"],"(6.000.000 / 173) x 12 ≈ 416.185"],
+["Rumus upah harian untuk perusahaan dengan 6 hari kerja seminggu adalah...","(1/25) x Gaji sebulan",["(1/21) x Gaji sebulan","(1/30) x Gaji sebulan","(1/173) x Gaji sebulan","(1/12) x Gaji sebulan"],"Sesuai PP No. 36 Tahun 2021, upah sehari untuk 6 hari kerja = upah sebulan dibagi 25."],
+["Upah harian Aldo dengan gaji Rp3.500.000 (6 hari kerja).","Rp140.000",["Rp116.667","Rp166.667","Rp175.000","Rp20.231"],"3.500.000 / 25 = 140.000"],
+["Total gaji Bastian: gaji Rp4.000.000, masuk 22 hari (6 hari kerja).","Rp3.520.000",["Rp4.000.000","Rp3.200.000","Rp3.666.667","Rp2.933.333"],"Upah harian 160.000 x 22 = 3.520.000"],
+["Upah harian Elisa dengan gaji Rp2.000.000 (6 hari kerja).","Rp80.000",["Rp66.667","Rp95.238","Rp100.000","Rp57.803"],"2.000.000 / 25 = 80.000"],
+["Total gaji Dio: gaji Rp4.200.000, masuk 18 hari (6 hari kerja).","Rp3.024.000",["Rp4.200.000","Rp3.150.000","Rp2.800.000","Rp3.500.000"],"Upah harian 168.000 x 18 = 3.024.000"]
+];
+
+const $ = id => document.getElementById(id);
+const KEYS = ["A","B","C","D","E"];
+let soal = [], i = 0, skor = 0, terjawab = false;
+
+function acak(a){ a = a.slice(); for(let k=a.length-1;k>0;k--){ const j=Math.floor(Math.random()*(k+1)); [a[k],a[j]]=[a[j],a[k]]; } return a; }
+
+function mulai(){
+  soal = DATA.map(d => ({q:d[0], benar:d[1], opsi:acak([d[1],...d[2]]), exp:d[3]}));
+  i = 0; skor = 0;
+  $("mulai").classList.add("d-none"); $("hasil").classList.add("d-none"); $("kuis").classList.remove("d-none");
+  tampil();
+}
+
+function tampil(){
+  terjawab = false;
+  const s = soal[i];
+  $("info").textContent = `Soal ${i+1} dari ${soal.length}`;
+  $("skor").textContent = `Skor: ${skor}`;
+  $("bar").style.width = (i/soal.length*100) + "%";
+  $("soal").textContent = s.q;
+  $("umpan").classList.add("d-none");
+  $("btnNext").classList.add("d-none");
+  $("btnNext").textContent = i === soal.length-1 ? "Lihat hasil" : "Soal berikutnya";
+  const wrap = $("opsi"); wrap.innerHTML = "";
+  s.opsi.forEach((o,n) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt";
+    b.innerHTML = `<span class="key">${KEYS[n]}</span><span class="pt-1"></span>`;
+    b.lastChild.textContent = o;
+    b.onclick = () => jawab(b, o);
+    wrap.appendChild(b);
+  });
+}
+
+function jawab(btn, pilihan){
+  if(terjawab) return; terjawab = true;
+  const s = soal[i], betul = pilihan === s.benar;
+  if(betul) skor++;
+  [...$("opsi").children].forEach(b => {
+    b.disabled = true;
+    if(b.lastChild.textContent === s.benar) b.classList.add("benar");
+  });
+  if(!betul) btn.classList.add("salah");
+  const u = $("umpan");
+  u.className = "alert mt-3 mb-0 " + (betul ? "alert-success" : "alert-danger");
+  u.innerHTML = `<strong>${betul ? "Benar!" : "Kurang tepat."}</strong> ${betul ? "" : "Jawaban yang benar: <strong></strong>. "}<br><span class="small"></span>`;
+  if(!betul) u.querySelector("strong:nth-of-type(2)").textContent = s.benar;
+  u.querySelector(".small").textContent = s.exp;
+  $("skor").textContent = `Skor: ${skor}`;
+  $("btnNext").classList.remove("d-none");
+}
+
+function lanjut(){
+  i++;
+  if(i < soal.length) return tampil();
+  $("kuis").classList.add("d-none"); $("hasil").classList.remove("d-none");
+  const n = Math.round(skor/soal.length*100);
+  $("nilai").textContent = n;
+  $("ket").textContent = `${skor} dari ${soal.length} soal dijawab benar. ` + (n>=80 ? "Sangat baik!" : n>=60 ? "Cukup baik, pelajari lagi rumus yang masih keliru." : "Coba pelajari rumus PKWT, THR, TUL, dan upah harian, lalu ulangi.");
+}
+
+$("btnMulai").onclick = mulai;
+$("btnUlang").onclick = mulai;
+$("btnNext").onclick = lanjut;
+</script>
+</body>
+</html>
