@@ -16,3 +16,6 @@ PSAS
 - Project Mikrotik Hotspot Voucher
 - Project Server Linux Debian
 - Project Server Linux Mint
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Mikrotik DHCP", konten website berisi file pdf yang diembed melalui link public google drive berikut
+https://drive.google.com/file/d/1vJwyGdy4avS9uRYHK3FNGyWuDX_-YzeA/view?usp=drive_link
