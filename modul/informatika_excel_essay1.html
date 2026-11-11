@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Microsoft Excel untuk Admin HRD</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root{--ink:#17302a;--paper:#f3f6f1;--grid:#cfdccf;--green:#1d6f42;--sheet:#fff;--muted:#53665e}
+body{background:var(--paper);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;line-height:1.7}
+.navbar{background:var(--green)}
+.navbar-brand,.nav-link{color:#fff!important}
+.nav-link:hover{text-decoration:underline}
+.hero{background:var(--green);color:#fff;padding:4.5rem 0 3.5rem;
+ background-image:linear-gradient(rgba(255,255,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.09) 1px,transparent 1px);
+ background-size:48px 32px}
+.hero h1{font-weight:700;font-size:clamp(2rem,5vw,3.2rem);max-width:18ch}
+.hero p{max-width:60ch;opacity:.92}
+.q{background:var(--sheet);border:1px solid var(--grid);border-left:6px solid var(--green);border-radius:4px;padding:1.5rem;margin-bottom:1.75rem}
+.q h2{font-size:1.25rem;font-weight:700}
+.q .badge{background:var(--green);font-size:.8rem;margin-right:.5rem;vertical-align:middle}
+pre{background:#10231d;color:#d7f2e0;border-radius:4px;padding:1rem;overflow-x:auto;font-size:.88rem;line-height:1.5;margin:.75rem 0}
+code{font-family:Consolas,"Courier New",monospace}
+.table{font-size:.9rem}
+.table thead{background:#e3ede4}
+footer{background:var(--ink);color:#cfe0d6}
+:focus-visible{outline:3px solid #f2b705;outline-offset:2px}
+@media(max-width:575px){.q{padding:1.1rem}}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+ <div class="container">
+  <a class="navbar-brand fw-bold" href="#">Excel untuk HRD</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
+   <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="menu">
+   <ul class="navbar-nav ms-auto">
+    <li class="nav-item"><a class="nav-link" href="#soal1">Data karyawan</a></li>
+    <li class="nav-item"><a class="nav-link" href="#soal2">Absensi</a></li>
+    <li class="nav-item"><a class="nav-link" href="#soal3">Rekap</a></li>
+    <li class="nav-item"><a class="nav-link" href="#soal4">Penggajian</a></li>
+    <li class="nav-item"><a class="nav-link" href="#soal5">Per divisi</a></li>
+   </ul>
+  </div>
+ </div>
+</nav>
+
+<header class="hero">
+ <div class="container">
+  <h1>Microsoft Excel dalam pekerjaan Admin HRD</h1>
+  <p class="fs-5 mt-3">Lima pertanyaan dan jawaban tentang mengelola data karyawan, absensi, rekap kehadiran, penggajian, dan pengelompokan per divisi.</p>
+ </div>
+</header>
+
+<main class="container py-5">
+<div class="row justify-content-center">
+<div class="col-lg-10 col-xl-9">
+
+<!-- 1 -->
+<section class="q" id="soal1">
+ <h2><span class="badge">1</span>Jelaskan bagaimana Microsoft Excel dapat membantu seorang Admin HRD dalam mengelola data karyawan di sebuah perusahaan!</h2>
+ <p>Excel menyimpan data karyawan dalam bentuk tabel yang rapi: satu baris untuk satu karyawan dan satu kolom untuk satu jenis data. Dengan begitu, Admin HRD dapat mencari, mengurutkan, menyaring, dan memperbarui data dengan cepat.</p>
+ <ul>
+  <li><strong>Penyimpanan terstruktur.</strong> Kolom seperti NIK, nama, jabatan, divisi, tanggal masuk, dan status kepegawaian disusun dalam satu tabel.</li>
+  <li><strong>Sort dan Filter.</strong> Data bisa diurutkan menurut nama atau tanggal masuk, dan disaring menurut divisi atau status.</li>
+  <li><strong>Rumus otomatis.</strong> Masa kerja, usia, atau tanggal berakhir kontrak dihitung otomatis sehingga tidak perlu dihitung manual.</li>
+  <li><strong>Data Validation.</strong> Isian dibatasi lewat daftar pilihan (misalnya divisi) untuk mencegah salah ketik.</li>
+  <li><strong>Pencarian cepat.</strong> Fungsi VLOOKUP atau XLOOKUP menampilkan data lengkap karyawan dari NIK-nya.</li>
+ </ul>
+ <p class="mb-1">Contoh rumus menghitung masa kerja (tahun) dengan tanggal masuk di kolom F:</p>
+<pre><code>=DATEDIF(F2; TODAY(); "Y")
+
+=XLOOKUP(A2; Data!A:A; Data!B:B; "Tidak ditemukan")</code></pre>
+ <div class="table-responsive">
+  <table class="table table-bordered mb-0">
+   <thead><tr><th>NIK</th><th>Nama</th><th>Jabatan</th><th>Divisi</th><th>Tgl Masuk</th><th>Masa Kerja</th></tr></thead>
+   <tbody>
+    <tr><td>K001</td><td>Ani Lestari</td><td>Staf Akuntansi</td><td>Keuangan</td><td>12/03/2020</td><td>6 tahun</td></tr>
+    <tr><td>K002</td><td>Budi Santoso</td><td>Supervisor</td><td>Produksi</td><td>05/08/2018</td><td>8 tahun</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<!-- 2 -->
+<section class="q" id="soal2">
+ <h2><span class="badge">2</span>Bagaimana cara menggunakan Microsoft Excel untuk membuat daftar absensi karyawan setiap bulan?</h2>
+ <p>Langkah pembuatannya:</p>
+ <ol>
+  <li>Buat sheet baru dan beri nama sesuai bulan, misalnya <em>Januari</em>. Bulan berikutnya cukup menyalin sheet tersebut.</li>
+  <li>Isi kolom A dengan No, kolom B dengan NIK, dan kolom C dengan Nama Karyawan.</li>
+  <li>Mulai kolom D, isi tanggal 1 sampai 31 sebagai judul kolom. Tanggal bisa dibuat otomatis dengan rumus.</li>
+  <li>Isi sel absensi dengan kode: <strong>H</strong> (hadir), <strong>I</strong> (izin), <strong>S</strong> (sakit), <strong>A</strong> (alpa/tidak hadir). Gunakan Data Validation agar hanya kode itu yang bisa dimasukkan.</li>
+  <li>Tambahkan kolom total di sebelah kanan untuk menjumlahkan tiap kode.</li>
+  <li>Gunakan Conditional Formatting supaya kode berwarna berbeda (misalnya A berwarna merah) dan mudah dikenali.</li>
+ </ol>
+<pre><code>Tanggal otomatis (sel D4 = tanggal 1 bulan itu, E4 dst.):
+D4: =DATE(2026; 1; 1)
+E4: =D4+1
+
+Daftar pilihan Data Validation (Allow: List):
+H,I,S,A</code></pre>
+</section>
+
+<!-- 3 -->
+<section class="q" id="soal3">
+ <h2><span class="badge">3</span>Seorang Admin HRD diminta menghitung jumlah karyawan yang hadir, izin, sakit, dan tidak hadir. Bagaimana Excel dapat membantu menyelesaikan pekerjaan tersebut?</h2>
+ <p>Excel menghitung rekap kehadiran secara otomatis memakai fungsi <strong>COUNTIF</strong>. Fungsi ini menghitung berapa kali sebuah kode muncul pada rentang sel. Admin tidak perlu menghitung satu per satu, dan hasilnya langsung berubah saat data absensi diperbarui.</p>
+ <p class="mb-1">Rekap per karyawan (absensi di D5:AH5):</p>
+<pre><code>Hadir      : =COUNTIF(D5:AH5; "H")
+Izin       : =COUNTIF(D5:AH5; "I")
+Sakit      : =COUNTIF(D5:AH5; "S")
+Tidak hadir: =COUNTIF(D5:AH5; "A")</code></pre>
+ <p class="mb-1">Rekap seluruh karyawan pada satu hari tertentu (kolom D):</p>
+<pre><code>=COUNTIF(D5:D54; "H")
+=COUNTIF(D5:D54; "I")
+=COUNTIF(D5:D54; "S")
+=COUNTIF(D5:D54; "A")</code></pre>
+ <p>Hasilnya dapat divisualisasikan dengan <strong>grafik</strong> (misalnya pie chart) untuk laporan kepada pimpinan.</p>
+ <div class="table-responsive">
+  <table class="table table-bordered mb-0">
+   <thead><tr><th>Nama</th><th>Hadir</th><th>Izin</th><th>Sakit</th><th>Tidak Hadir</th></tr></thead>
+   <tbody>
+    <tr><td>Ani Lestari</td><td>22</td><td>1</td><td>0</td><td>0</td></tr>
+    <tr><td>Budi Santoso</td><td>20</td><td>0</td><td>2</td><td>1</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+<!-- 4 -->
+<section class="q" id="soal4">
+ <h2><span class="badge">4</span>Jelaskan bagaimana penggunaan Microsoft Excel untuk membuat tabel penggajian karyawan yang berisi gaji pokok, tunjangan, potongan, dan total gaji!</h2>
+ <p>Tabel penggajian dibuat dengan kolom: No, Nama, Gaji Pokok, Tunjangan, Potongan, dan Total Gaji. Gaji pokok diinput, sedangkan tunjangan, potongan, dan total dihitung otomatis dengan rumus. Jika ada perubahan data, seluruh hasil ikut diperbarui.</p>
+ <p class="mb-1">Rumus dengan contoh baris 5 (C = Gaji Pokok, D = Tunjangan, E = Potongan, F = Total Gaji):</p>
+<pre><code>Tunjangan (misal 10% dari gaji pokok):
+D5: =C5*10%
+
+Potongan (misal BPJS 3% dari gaji pokok):
+E5: =C5*3%
+
+Total gaji:
+F5: =C5+D5-E5
+
+Total seluruh pengeluaran gaji:
+F20: =SUM(F5:F19)</code></pre>
+ <div class="table-responsive">
+  <table class="table table-bordered mb-3">
+   <thead><tr><th>No</th><th>Nama</th><th>Gaji Pokok</th><th>Tunjangan</th><th>Potongan</th><th>Total Gaji</th></tr></thead>
+   <tbody>
+    <tr><td>1</td><td>Ani Lestari</td><td>5.000.000</td><td>500.000</td><td>150.000</td><td>5.350.000</td></tr>
+    <tr><td>2</td><td>Budi Santoso</td><td>6.000.000</td><td>600.000</td><td>180.000</td><td>6.420.000</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <p class="mb-0">Format angka dapat diatur menjadi mata uang (Rp) lewat Format Cells. Rumus <strong>IF</strong> bisa dipakai untuk potongan bersyarat, misalnya potongan keterlambatan atau alpa.</p>
+</section>
+
+<!-- 5 -->
+<section class="q" id="soal5">
+ <h2><span class="badge">5</span>Jika seorang Admin HRD ingin mengetahui jumlah karyawan berdasarkan divisi atau bagian pekerjaan, bagaimana Microsoft Excel dapat digunakan untuk mengolah data tersebut?</h2>
+ <p>Ada dua cara yang umum digunakan.</p>
+ <p><strong>1. Fungsi COUNTIF.</strong> Cocok untuk daftar divisi yang sudah tetap. Jika kolom divisi ada di D2:D100:</p>
+<pre><code>=COUNTIF(D2:D100; "Keuangan")
+=COUNTIF(D2:D100; "Produksi")
+=COUNTIF(D2:D100; H2)    // H2 berisi nama divisi</code></pre>
+ <p><strong>2. PivotTable.</strong> Cara paling cepat dan fleksibel:</p>
+ <ol>
+  <li>Blok seluruh tabel data karyawan.</li>
+  <li>Pilih menu <em>Insert</em> lalu <em>PivotTable</em>.</li>
+  <li>Tarik field <strong>Divisi</strong> ke area Rows.</li>
+  <li>Tarik field <strong>Nama</strong> (atau NIK) ke area Values dengan fungsi <em>Count</em>.</li>
+ </ol>
+ <p>Hasilnya adalah tabel jumlah karyawan per divisi yang dapat diubah menjadi grafik batang atau pie chart.</p>
+ <div class="table-responsive">
+  <table class="table table-bordered mb-0">
+   <thead><tr><th>Divisi</th><th>Jumlah Karyawan</th></tr></thead>
+   <tbody>
+    <tr><td>Keuangan</td><td>8</td></tr>
+    <tr><td>Produksi</td><td>25</td></tr>
+    <tr><td>Pemasaran</td><td>12</td></tr>
+    <tr class="table-light fw-bold"><td>Total</td><td>45</td></tr>
+   </tbody>
+  </table>
+ </div>
+</section>
+
+</div>
+</div>
+</main>
+
+<footer class="py-4 text-center">
+ <div class="container small">Materi Microsoft Excel untuk Admin HRD</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
