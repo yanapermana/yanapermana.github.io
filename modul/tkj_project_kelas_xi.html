@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project TKJ Kelas XI Semester 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12263a;
+      --paper: #eef2f4;
+      --cable: #0f7b8a;
+      --amber: #f2a900;
+      --line: #c9d4da;
+      --bs-body-font-family: "Source Sans 3", system-ui, sans-serif;
+      --bs-body-bg: var(--paper);
+      --bs-body-color: var(--ink);
+    }
+    h1, h2, h3, .navbar-brand { font-family: "Bricolage Grotesque", sans-serif; }
+    .navbar { background: var(--ink); }
+    .navbar-brand { font-weight: 800; letter-spacing: .01em; }
+    .hero { background: var(--ink); color: #fff; padding: 4rem 0 5rem; position: relative; }
+    .hero h1 { font-weight: 800; font-size: clamp(2rem, 6vw, 3.6rem); line-height: 1.05; }
+    .hero p { color: #b9c8d3; max-width: 40ch; }
+    .ports { display: grid; grid-template-columns: repeat(8, 1fr); gap: .5rem; max-width: 420px; }
+    .port { aspect-ratio: 1; background: #0a1826; border: 2px solid #2d4a63; border-radius: 4px 4px 0 0; position: relative; }
+    .port::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 0; height: 28%; background: #2d4a63; }
+    .port.on { border-color: var(--cable); }
+    .port.on::before { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+    .section-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: .5rem; margin-bottom: 1.5rem; }
+    .section-head h2 { font-weight: 800; margin: 0; }
+    .section-head span { color: #52687a; }
+    .project { background: #fff; border: 1px solid var(--line); border-left: 6px solid var(--cable); border-radius: 6px; padding: 1.1rem 1.25rem; height: 100%; }
+    .project.psas { border-left-color: var(--amber); }
+    .project h3 { font-size: 1.15rem; font-weight: 600; margin: 0 0 .35rem; }
+    .project p { margin: 0; color: #52687a; font-size: .95rem; }
+    .tag { display: inline-block; font-size: .8rem; font-weight: 600; background: #e2edf0; color: var(--cable); padding: .1rem .55rem; border-radius: 20px; margin-bottom: .5rem; }
+    .psas .tag { background: #fbf0d0; color: #8a6200; }
+    footer { background: var(--ink); color: #b9c8d3; }
+    a:focus-visible, .navbar-toggler:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#top">TKJ XI</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#psts">PSTS</a></li>
+        <li class="nav-item"><a class="nav-link" href="#psas">PSAS</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <h1>List Project Teknik Komputer Jaringan</h1>
+        <p class="fs-5 mt-3 mb-0">Kelas XI, Semester 1. Daftar project untuk PSTS dan PSAS.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="ports" aria-hidden="true">
+          <div class="port on"></div><div class="port on"></div><div class="port on"></div><div class="port"></div>
+          <div class="port on"></div><div class="port"></div><div class="port on"></div><div class="port on"></div>
+          <div class="port on"></div><div class="port"></div><div class="port on"></div><div class="port on"></div>
+          <div class="port"></div><div class="port on"></div><div class="port on"></div><div class="port"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container py-5">
+
+  <section id="psts" class="mb-5">
+    <div class="section-head">
+      <h2>PSTS</h2>
+      <span>4 project</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <article class="project">
+          <span class="tag">Arduino</span>
+          <h3>Project Arduino Sensor Hujan</h3>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project">
+          <span class="tag">Instalasi</span>
+          <h3>Project Instalasi Wifi Kelas</h3>
+          <p>Pengkabelan, ducting, crimping, clam, dan setting Wifi Access Point.</p>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project">
+          <span class="tag">Simulasi</span>
+          <h3>Project Perencanaan Jaringan Wifi Sekolah</h3>
+          <p>Menggunakan Cisco Packet Tracer.</p>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project">
+          <span class="tag">Wifi</span>
+          <h3>Project Wifi Repeater</h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="psas">
+    <div class="section-head">
+      <h2>PSAS</h2>
+      <span>5 project</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <article class="project psas">
+          <span class="tag">VoIP</span>
+          <h3>Project Jaringan VoIP Telepon Internet</h3>
+          <p>Menggunakan Yealink.</p>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project psas">
+          <span class="tag">Mikrotik</span>
+          <h3>Project Mikrotik DHCP</h3>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project psas">
+          <span class="tag">Mikrotik</span>
+          <h3>Project Mikrotik Hotspot Voucher</h3>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project psas">
+          <span class="tag">Server</span>
+          <h3>Project Server Linux Debian</h3>
+        </article>
+      </div>
+      <div class="col-12 col-md-6">
+        <article class="project psas">
+          <span class="tag">Server</span>
+          <h3>Project Server Linux Mint</h3>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="py-4">
+  <div class="container text-center small">
+    Teknik Komputer Jaringan &middot; Kelas XI Semester 1
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
