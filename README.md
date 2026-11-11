@@ -1,7 +1,8 @@
 # yanapermana.github.io
 Google Drive -> File
 Github -> Landing Page
-
+Github page embed PDF dari google drive
+----------------------------------------------------------------
 List Project Teknik Komputer Jaringan
 Kelas XI Semester 1
 PSTS
