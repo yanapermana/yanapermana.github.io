@@ -1,7 +1,7 @@
 # yanapermana.github.io
-Google Drive -> File
-Github -> Landing Page
-Github page embed PDF dari google drive
+* Google Drive -> File
+* YouTube -> Video
+* Github -> Landing Page
 ----------------------------------------------------------------
 Buatkan website dengan css bootstrap agar responsif, title website "Project TKJ XI", konten website berisi:
 List Project Teknik Komputer Jaringan
