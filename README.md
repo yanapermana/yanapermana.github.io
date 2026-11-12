@@ -59,3 +59,10 @@ Buatkan website dengan css bootstrap agar responsif, title website "Project Cybe
 - Video 3 https://youtu.be/rLMSXfb3oEg
 - Video 4 https://youtu.be/kHJbOfhjf9U
 - Video 5 https://youtu.be/VMrFlTD3LCg
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project AVOmeter", konten website berisi file pdf yang diembed melalui link public google drive berikut
+https://drive.google.com/file/d/1f8OYPDfczQ6vs5bhgTJVE1neSBENYGGr/view?usp=drive_link
+
+konten website berisi file video yang diembed melalui link public youtube berikut
+- Video 1 https://www.youtube.com/watch?v=RoBE7fLJ_CQ
+- Video 2 https://www.youtube.com/watch?v=2w5DpH4CpKo
