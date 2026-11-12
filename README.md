@@ -3,6 +3,7 @@ Google Drive -> File
 Github -> Landing Page
 Github page embed PDF dari google drive
 ----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project TKJ XI", konten website berisi:
 List Project Teknik Komputer Jaringan
 Kelas XI Semester 1
 PSTS
@@ -39,3 +40,15 @@ Buatkan website dengan css bootstrap agar responsif, title website "Project Ardu
 ----------------------------------------------------------------
 Menggabungkan 3 file html menjadi 1 file html
 Buat menjadi 1 file html, pastikan website responsif menggunakan css bootstrap
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Cyber Security Wifi", konten website berisi file video yang diembed melalui link public youtube berikut
+- Video 1 https://youtu.be/Mqlhwx2mJ1w
+- Video 2 https://youtu.be/8faBCI287J8
+- Video 3 https://youtu.be/enNJZ42mYQY
+- Video 4 https://youtu.be/t8NS4u6TG30
+- Video 5 https://youtu.be/w9Rx3iE4HFk
+- Video 6 https://youtu.be/AbHnEg2noSI
+- Video 7 https://youtu.be/GJ16HSyIFEM
+- Video 8 https://youtu.be/_MLEzMOepIY
+- Video 9 https://youtu.be/NgssC_xsq4M
+- Video 10 https://youtu.be/3GP2PXAZLCE
