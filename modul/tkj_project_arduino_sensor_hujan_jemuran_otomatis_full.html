@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Arduino Sensor Hujan Jemuran Otomatis</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12303a;
+      --rain: #1f6f8b;
+      --mist: #eef4f6;
+      --drop: #f2a541;
+      --line: #dbe6ea;
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+    body { background: var(--mist); color: var(--ink); }
+    .navbar { background: var(--ink); }
+    .navbar-brand { font-weight: 700; }
+    .navbar .nav-link { color: #cfe0e6; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: #fff; }
+
+    .hero {
+      background: linear-gradient(160deg, var(--ink) 0%, var(--rain) 100%);
+      color: #fff;
+      padding: 4rem 0 5rem;
+    }
+    .hero h1 { font-weight: 800; font-size: clamp(1.8rem, 5vw, 3.1rem); }
+    .hero p { max-width: 42rem; opacity: .92; }
+    .btn-drop { background: var(--drop); color: var(--ink); font-weight: 600; border: 0; }
+    .btn-drop:hover { background: #e39428; color: var(--ink); }
+
+    .section-title { font-weight: 700; }
+    .panel {
+      border: 0; border-radius: .75rem; overflow: hidden;
+      box-shadow: 0 .25rem 1rem rgba(18,48,58,.12);
+    }
+    .panel .card-header { background: #fff; border-bottom: 1px solid var(--line); }
+
+    .viewer { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #fff; }
+    .viewer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 575.98px) { .viewer { aspect-ratio: 3 / 4; } }
+
+    .pdf-frame { position: relative; width: 100%; height: 80vh; min-height: 480px; background: #fff; }
+    .pdf-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 575.98px) { .pdf-frame { height: 70vh; min-height: 420px; } }
+
+    .video-wrap .ratio { background: #000; }
+
+    footer { background: var(--ink); color: #b9ccd3; }
+    a:focus-visible, .btn:focus-visible, .nav-link:focus-visible { outline: 3px solid var(--drop); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#atas">Sensor Hujan</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#dokumen">Dokumen</a></li>
+          <li class="nav-item"><a class="nav-link" href="#video">Video</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kode">Kode</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="atas">
+    <div class="container">
+      <h1>Project Arduino Sensor Hujan Jemuran Otomatis</h1>
+      <p class="lead mt-3">Dokumen konfigurasi, video demonstrasi, dan kode Arduino untuk sistem jemuran otomatis yang mendeteksi hujan.</p>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <a href="#dokumen" class="btn btn-drop btn-lg">Baca dokumen</a>
+        <a href="#video" class="btn btn-outline-light btn-lg">Tonton video</a>
+        <a href="#kode" class="btn btn-outline-light btn-lg">Lihat kode</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-5">
+
+    <!-- DOKUMEN -->
+    <section id="dokumen" class="mb-5">
+      <h2 class="section-title h3 mb-3">Dokumen Project</h2>
+      <div class="card panel">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+          <span class="fw-semibold">Dokumen konfigurasi Arduino Sensor Hujan Jemuran Otomatis</span>
+          <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+             href="https://drive.google.com/file/d/1fJGxzkf1jqLUiVCONHIyg9ZdHR785jdu/view">Buka di tab baru</a>
+        </div>
+        <div class="pdf-frame">
+          <iframe src="https://drive.google.com/file/d/1fJGxzkf1jqLUiVCONHIyg9ZdHR785jdu/preview"
+                  title="Project Arduino Sensor Hujan Jemuran Otomatis (PDF)" allow="autoplay" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section id="video" class="mb-5">
+      <h2 class="section-title h3 mb-3">Video Demonstrasi</h2>
+      <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+          <div class="card panel video-wrap">
+            <div class="ratio ratio-16x9">
+              <iframe src="https://drive.google.com/file/d/1ivqGZMJcXUrvVCKVJnsGX08dvrU8fM7i/preview"
+                      title="Video Project Arduino Sensor Hujan" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="card-body bg-white p-3 p-md-4">
+              <h3 class="h5 mb-1">Demo Sensor Hujan</h3>
+              <p class="text-secondary small mb-0">Jika video tidak tampil, buka langsung di
+                <a href="https://drive.google.com/file/d/1ivqGZMJcXUrvVCKVJnsGX08dvrU8fM7i/view?usp=drive_link" target="_blank" rel="noopener">Google Drive</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KODE -->
+    <section id="kode">
+      <h2 class="section-title h3 mb-3">Kode Arduino</h2>
+      <div class="row g-4">
+        <div class="col-12 col-xl-6" id="home">
+          <div class="card panel h-100">
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+              <h3 class="h5 mb-0">HOME.ino</h3>
+              <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+                 href="https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/view?usp=drive_link">Buka di Drive</a>
+            </div>
+            <div class="viewer">
+              <iframe src="https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/preview"
+                      title="HOME.ino" loading="lazy" allow="autoplay"></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-6" id="kit">
+          <div class="card panel h-100">
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+              <h3 class="h5 mb-0">KIT_JEMURAN.ino</h3>
+              <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+                 href="https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/view?usp=drive_link">Buka di Drive</a>
+            </div>
+            <div class="viewer">
+              <iframe src="https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/preview"
+                      title="KIT_JEMURAN.ino" loading="lazy" allow="autoplay"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="py-4">
+    <div class="container text-center small">
+      &copy; <span id="tahun"></span> Project Arduino Sensor Hujan Jemuran Otomatis
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('tahun').textContent = new Date().getFullYear();
+    // Tutup menu mobile setelah link diklik
+    document.querySelectorAll('#menu .nav-link').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var el = document.getElementById('menu');
+        if (el.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(el).hide();
+      });
+    });
+  </script>
+</body>
+</html>
