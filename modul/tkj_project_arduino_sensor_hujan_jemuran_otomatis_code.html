@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Arduino Sensor Hujan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12303a;
+      --rain: #1f6f8b;
+      --mist: #eef4f6;
+      --drop: #f2a541;
+    }
+    body { background: var(--mist); color: var(--ink); }
+    .navbar { background: var(--ink); }
+    .navbar-brand { font-weight: 700; letter-spacing: .2px; }
+    .hero {
+      background: linear-gradient(160deg, var(--ink) 0%, var(--rain) 100%);
+      color: #fff;
+      padding: 4rem 0 5rem;
+    }
+    .hero h1 { font-weight: 800; font-size: clamp(1.9rem, 5vw, 3.2rem); }
+    .hero p { max-width: 42rem; opacity: .9; }
+    .btn-drop { background: var(--drop); color: var(--ink); font-weight: 600; border: 0; }
+    .btn-drop:hover { background: #e39428; color: var(--ink); }
+    .code-card { border: 0; border-radius: .75rem; overflow: hidden; box-shadow: 0 .25rem 1rem rgba(18,48,58,.12); }
+    .code-card .card-header { background: #fff; border-bottom: 1px solid #dbe6ea; }
+    .viewer { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #fff; }
+    .viewer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    @media (max-width: 575.98px) { .viewer { aspect-ratio: 3 / 4; } }
+    footer { background: var(--ink); color: #b9ccd3; }
+    a:focus-visible, .btn:focus-visible { outline: 3px solid var(--drop); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#atas">Sensor Hujan</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">HOME.ino</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kit">KIT_JEMURAN.ino</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="atas">
+    <div class="container">
+      <h1>Project Arduino Sensor Hujan</h1>
+      <p class="lead mt-3">Kode Arduino untuk sistem jemuran otomatis yang mendeteksi hujan. Dua file di bawah ini dimuat langsung dari Google Drive.</p>
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <a href="#home" class="btn btn-drop btn-lg">Lihat HOME.ino</a>
+        <a href="#kit" class="btn btn-outline-light btn-lg">Lihat KIT_JEMURAN.ino</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-5">
+    <div class="row g-4">
+
+      <section class="col-12 col-xl-6" id="home">
+        <div class="card code-card h-100">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+            <h2 class="h5 mb-0">HOME.ino</h2>
+            <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+               href="https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/view?usp=drive_link">Buka di Drive</a>
+          </div>
+          <div class="viewer">
+            <iframe src="https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/preview"
+                    title="HOME.ino" loading="lazy" allow="autoplay"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="col-12 col-xl-6" id="kit">
+        <div class="card code-card h-100">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+            <h2 class="h5 mb-0">KIT_JEMURAN.ino</h2>
+            <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+               href="https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/view?usp=drive_link">Buka di Drive</a>
+          </div>
+          <div class="viewer">
+            <iframe src="https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/preview"
+                    title="KIT_JEMURAN.ino" loading="lazy" allow="autoplay"></iframe>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="py-4">
+    <div class="container text-center small">
+      &copy; <span id="tahun"></span> Project Arduino Sensor Hujan
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>document.getElementById('tahun').textContent = new Date().getFullYear();</script>
+</body>
+</html>

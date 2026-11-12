@@ -22,3 +22,7 @@ https://drive.google.com/file/d/1vJwyGdy4avS9uRYHK3FNGyWuDX_-YzeA/view?usp=drive
 ----------------------------------------------------------------
 Buatkan website dengan css bootstrap agar responsif, title website "Project Arduino Sensor Hujan", konten website berisi file video yang diembed melalui link public google drive berikut
 https://drive.google.com/file/d/1ivqGZMJcXUrvVCKVJnsGX08dvrU8fM7i/view?usp=drive_link
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Arduino Sensor Hujan", konten website berisi file code yang diembed melalui link public google drive berikut
+- HOME.ino https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/view?usp=drive_link
+- KIT_JEMURAN.ino https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/view?usp=drive_link
