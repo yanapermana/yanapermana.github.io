@@ -52,3 +52,10 @@ Buatkan website dengan css bootstrap agar responsif, title website "Project Cybe
 - Video 8 https://youtu.be/_MLEzMOepIY
 - Video 9 https://youtu.be/NgssC_xsq4M
 - Video 10 https://youtu.be/3GP2PXAZLCE
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Cyber Security Website", konten website berisi file video yang diembed melalui link public youtube berikut
+- Video 1 https://youtu.be/F1P46XXZIOI
+- Video 2 https://youtu.be/OGvGrQBsq10
+- Video 3 https://youtu.be/rLMSXfb3oEg
+- Video 4 https://youtu.be/kHJbOfhjf9U
+- Video 5 https://youtu.be/VMrFlTD3LCg
