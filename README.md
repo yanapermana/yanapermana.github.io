@@ -85,4 +85,4 @@ https://drive.google.com/file/d/1BW3UW3NrIVqT2P4hHi-MDzJ11WYq7HJH/view?usp=drive
 Buatkan website dengan css bootstrap agar responsif, title website "Latihan Soal dan Pembahasan PSAS Matematika Kelas X Semester 1", konten website berisi file pdf yang diembed melalui link public google drive berikut
 - Kisi-kisi https://drive.google.com/file/d/1EShiFU_G10jOd3rg2AP7jYoTpBAd21N4/view?usp=drive_link
 - Latihan Soal https://drive.google.com/file/d/1ec8RIyY41z3Y4fd8o2lGhxUJXgIJdfJC/view?usp=drive_link
-- Pembahasan https://drive.google.com/file/d/1ec8RIyY41z3Y4fd8o2lGhxUJXgIJdfJC/view?usp=drive_link
+- Pembahasan https://drive.google.com/file/d/1Eu5aNHbfOvAskf4s8WXvk0DUcTEifOuV/view?usp=drive_link
