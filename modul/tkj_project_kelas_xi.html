@@ -3,114 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Project TKJ XI</title>
+  <title>Project TKJ XI XII</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #12263a;
-      --signal: #0f9d8a;
-      --amber: #f2a900;
-      --paper: #f3f6f9;
+      --cable: #1b6ca8;
+      --copper: #c8742b;
+      --paper: #f3f6f8;
     }
-    body { background: var(--paper); color: var(--ink); font-family: system-ui, "Segoe UI", Roboto, sans-serif; }
-    .hero { background: var(--ink); color: #fff; padding: 4rem 0 3.5rem; border-bottom: 6px solid var(--signal); }
-    .hero h1 { font-weight: 800; letter-spacing: -.02em; }
-    .hero p { color: #c7d3df; max-width: 40rem; }
-    .sem-title { border-left: 6px solid var(--signal); padding-left: .75rem; font-weight: 700; }
-    .card { border: 1px solid #d5dee7; border-radius: .5rem; box-shadow: none; }
-    .card-header { background: #fff; font-weight: 700; border-bottom: 2px solid var(--signal); }
-    .card-header.psas { border-bottom-color: var(--amber); }
-    .list-group-item { border-color: #e6edf3; padding: .8rem 1rem; }
-    footer { color: #5b6f82; }
-    a.nav-link:focus-visible, .btn:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+    body {
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .hero {
+      background: var(--ink);
+      color: #fff;
+      border-bottom: 6px solid var(--copper);
+    }
+    .hero h1 { font-weight: 700; letter-spacing: -0.02em; }
+    .hero p { color: #b9c8d6; max-width: 40rem; }
+    .kelas-title {
+      font-weight: 700;
+      border-left: 6px solid var(--cable);
+      padding-left: .75rem;
+    }
+    .sem-card {
+      background: #fff;
+      border: 1px solid #d5dee6;
+      border-top: 4px solid var(--cable);
+      border-radius: .5rem;
+    }
+    .sem-card.sem2 { border-top-color: var(--copper); }
+    .sem-card h3 { font-size: 1.15rem; font-weight: 600; }
+    .ujian {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 600;
+      font-size: .85rem;
+      padding: .15rem .6rem;
+      border-radius: .25rem;
+      margin: .75rem 0 .25rem;
+    }
+    .ujian:first-of-type { margin-top: 0; }
+    .sem-card ul { padding-left: 1.2rem; margin-bottom: 0; }
+    .sem-card li { padding: .25rem 0; }
+    .sem-card li::marker { color: var(--copper); }
+    footer { color: #5d7186; font-size: .9rem; }
   </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-md navbar-dark" style="background:#0c1d2e;">
+  <header class="hero py-5">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Project TKJ XI</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menu">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#semester-1">Semester 1</a></li>
-          <li class="nav-item"><a class="nav-link" href="#semester-2">Semester 2</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <header class="hero">
-    <div class="container">
-      <h1 class="display-5">Project TKJ XI</h1>
-      <p class="lead mb-0">List Project Teknik Komputer Jaringan Kelas XI, Semester 1 dan Semester 2.</p>
+      <h1 class="display-5">Project TKJ XI XII</h1>
+      <p class="fs-5 mb-0">List Project Teknik Komputer Jaringan</p>
     </div>
   </header>
 
   <main class="container py-5">
 
-    <section id="semester-1" class="mb-5">
-      <h2 class="sem-title h3 mb-4">Kelas XI Semester 1</h2>
+    <!-- Kelas XI -->
+    <section class="mb-5">
+      <h2 class="kelas-title h3 mb-4">Kelas XI</h2>
       <div class="row g-4">
-        <div class="col-12 col-md-6">
-          <div class="card h-100">
-            <div class="card-header">PSTS</div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Project Arduino Sensor Hujan</li>
-              <li class="list-group-item">Project Instalasi Wifi Kelas: Pengkabelan, Crimping, Clam, Ducting, Setting Wifi Access Point</li>
-              <li class="list-group-item">Project Perencanaan Jaringan Wifi Sekolah dengan Cisco Packet Tracer</li>
-              <li class="list-group-item">Project Wifi Repeater</li>
+
+        <div class="col-12 col-lg-6">
+          <div class="sem-card p-4 h-100">
+            <h3 class="mb-3">Semester 1</h3>
+            <span class="ujian">PSTS</span>
+            <ul>
+              <li>Project Arduino Sensor Hujan</li>
+              <li>Project Instalasi Wifi Kelas: Pengkabelan, Ducting, Crimping, Clam, Setting Wifi Access Point</li>
+              <li>Project Perencanaan Jaringan Wifi Sekolah dengan Cisco Packet Tracer</li>
+              <li>Project Wifi Repeater</li>
+            </ul>
+            <span class="ujian">PSAS</span>
+            <ul>
+              <li>Project Jaringan VoIP Telepon Internet dengan Yealink</li>
+              <li>Project Mikrotik DHCP</li>
+              <li>Project Mikrotik Hotspot Voucher</li>
+              <li>Project Server Linux Mint</li>
             </ul>
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <div class="card h-100">
-            <div class="card-header psas">PSAS</div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Project Jaringan VoIP Telepon Internet dengan Yealink</li>
-              <li class="list-group-item">Project Mikrotik DHCP</li>
-              <li class="list-group-item">Project Mikrotik Hotspot Voucher</li>
-              <li class="list-group-item">Project Server Linux Mint</li>
+
+        <div class="col-12 col-lg-6">
+          <div class="sem-card sem2 p-4 h-100">
+            <h3 class="mb-3">Semester 2</h3>
+            <span class="ujian">PSTS</span>
+            <ul>
+              <li>Project CCTV</li>
+              <li>Project Fiber Optic</li>
+              <li>Project Arduino Smart Home</li>
+              <li>Project Server Linux Debian</li>
+            </ul>
+            <span class="ujian">PSAS</span>
+            <ul>
+              <li>Project Cyber Security Wifi</li>
+              <li>Project Wifi Outdoor</li>
+              <li>Project Avometer Power Supply</li>
+              <li>Project Cyber Security Website</li>
             </ul>
           </div>
         </div>
+
       </div>
     </section>
 
-    <section id="semester-2">
-      <h2 class="sem-title h3 mb-4">Kelas XI Semester 2</h2>
+    <!-- Kelas XII -->
+    <section>
+      <h2 class="kelas-title h3 mb-4">Kelas XII</h2>
       <div class="row g-4">
-        <div class="col-12 col-md-6">
-          <div class="card h-100">
-            <div class="card-header">PSTS</div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Project CCTV</li>
-              <li class="list-group-item">Project Fiber Optic</li>
-              <li class="list-group-item">Project Arduino Smart Home</li>
-              <li class="list-group-item">Project Server Linux Debian</li>
+
+        <div class="col-12 col-lg-6">
+          <div class="sem-card p-4 h-100">
+            <h3 class="mb-3">Semester 1</h3>
+            <span class="ujian">PSTS</span>
+            <ul>
+              <li>PKL</li>
+              <li>TKA</li>
+            </ul>
+            <span class="ujian">PSAS</span>
+            <ul>
+              <li>PKL</li>
             </ul>
           </div>
         </div>
-        <div class="col-12 col-md-6">
-          <div class="card h-100">
-            <div class="card-header psas">PSAS</div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Project Cyber Security Wifi</li>
-              <li class="list-group-item">Project Wifi Outdoor</li>
-              <li class="list-group-item">Project Avometer Power Supply</li>
-              <li class="list-group-item">Project Cyber Security Website</li>
+
+        <div class="col-12 col-lg-6">
+          <div class="sem-card sem2 p-4 h-100">
+            <h3 class="mb-3">Semester 2</h3>
+            <span class="ujian">PSTS</span>
+            <ul>
+              <li>UKK</li>
+              <li>LKS</li>
+            </ul>
+            <span class="ujian">PSAJ</span>
+            <ul>
+              <li>UKK</li>
             </ul>
           </div>
         </div>
+
       </div>
     </section>
 
   </main>
 
-  <footer class="container pb-4 text-center small">
-    &copy; Project TKJ XI
+  <footer class="container pb-4">
+    <hr>
+    <p class="mb-0">Project TKJ XI XII &mdash; Teknik Komputer Jaringan</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

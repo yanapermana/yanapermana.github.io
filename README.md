@@ -3,7 +3,7 @@
 * YouTube -> Video
 * Github -> Landing Page
 ----------------------------------------------------------------
-Buatkan website dengan css bootstrap agar responsif, title website "Project TKJ XI", konten website berisi:
+Buatkan website dengan css bootstrap agar responsif, title website "Project TKJ XI XII", konten website berisi:
 List Project Teknik Komputer Jaringan
 Kelas XI Semester 1
 PSTS
@@ -27,6 +27,18 @@ PSAS
 - Project Wifi Outdoor
 - Project Avometer Power Supply
 - Project Cyber Security Website
+Kelas XII Semester 1
+PSTS
+- PKL
+- TKA
+PSAS
+- PKL
+Kelas XII Semester 2
+PSTS
+- UKK
+- LKS
+PSAJ
+- UKK
 ----------------------------------------------------------------
 Buatkan website dengan css bootstrap agar responsif, title website "Project Mikrotik DHCP", konten website berisi file pdf yang diembed melalui link public google drive berikut
 https://drive.google.com/file/d/1vJwyGdy4avS9uRYHK3FNGyWuDX_-YzeA/view?usp=drive_link
