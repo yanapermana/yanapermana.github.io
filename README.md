@@ -78,3 +78,6 @@ https://drive.google.com/file/d/1f8OYPDfczQ6vs5bhgTJVE1neSBENYGGr/view?usp=drive
 konten website berisi file video yang diembed melalui link public youtube berikut
 - Video 1 https://www.youtube.com/watch?v=RoBE7fLJ_CQ
 - Video 2 https://www.youtube.com/watch?v=2w5DpH4CpKo
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Server Linux Mint", konten website berisi file pdf yang diembed melalui link public google drive berikut
+https://drive.google.com/file/d/1BW3UW3NrIVqT2P4hHi-MDzJ11WYq7HJH/view?usp=drive_link

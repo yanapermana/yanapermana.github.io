@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Inventaris Barang</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .fade-in { animation: fadeIn 0.25s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-700">
+
+  <!-- ===================================================================== -->
+  <!-- HALAMAN LOGIN (PASSWORD CUSTOM)                                       -->
+  <!-- ===================================================================== -->
+  <div id="login-screen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 fade-in border border-slate-100">
+      <div class="flex flex-col items-center text-center mb-8">
+        <div class="w-16 h-16 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-200 mb-4">
+          <i data-lucide="package-check" class="w-8 h-8"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-slate-900">Inventaris Gudang</h1>
+        <p class="text-sm text-slate-500 mt-1">Masukkan password akses untuk mengelola stok barang</p>
+      </div>
+
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label for="login-password" class="block text-sm font-medium text-slate-700 mb-1.5">Password Akses</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+              <i data-lucide="lock" class="w-5 h-5"></i>
+            </span>
+            <input type="password" id="login-password" required placeholder="Masukkan password..."
+              class="w-full pl-11 pr-12 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition text-slate-900">
+            <button type="button" onclick="togglePasswordVisibility('login-password', 'eye-icon')" 
+              class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600">
+              <i id="eye-icon" data-lucide="eye" class="w-5 h-5"></i>
+            </button>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">Password default awal: <span class="font-mono font-semibold text-slate-600">admin123</span></p>
+        </div>
+
+        <button type="submit" id="btn-login"
+          class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
+          <span>Masuk ke Sistem</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APLIKASI UTAMA (SETELAH LOGIN)                                        -->
+  <!-- ===================================================================== -->
+  <div id="app-container" class="hidden min-h-screen flex flex-col lg:flex-row">
+    
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-md">
+      <div class="flex items-center gap-2.5">
+        <div class="p-1.5 bg-indigo-600 rounded-lg">
+          <i data-lucide="boxes" class="w-5 h-5"></i>
+        </div>
+        <span class="font-bold text-lg tracking-tight">InventarisPro</span>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg hover:bg-slate-800 transition">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </header>
+
+    <!-- Backdrop Mobile Sidebar -->
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/50 z-30 hidden lg:hidden backdrop-blur-xs"></div>
+
+    <!-- Sidebar Navigasi -->
+    <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-300 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-200 ease-in-out">
+      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
+        <div class="w-10 h-10 bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md">
+          <i data-lucide="boxes" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h2 class="font-bold text-white text-lg leading-tight">InventarisPro</h2>
+          <span class="text-xs text-slate-400">Google Sheets Sync</span>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-indigo-600 text-white">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Dashboard</span>
+        </button>
+
+        <button onclick="switchTab('barang')" id="nav-barang" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition hover:bg-slate-800 hover:text-white">
+          <i data-lucide="package" class="w-5 h-5"></i>
+          <span>Daftar Barang</span>
+        </button>
+
+        <button onclick="switchTab('masuk')" id="nav-masuk" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition hover:bg-slate-800 hover:text-white">
+          <i data-lucide="arrow-down-left" class="w-5 h-5 text-emerald-400"></i>
+          <span>Barang Masuk</span>
+        </button>
+
+        <button onclick="switchTab('keluar')" id="nav-keluar" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition hover:bg-slate-800 hover:text-white">
+          <i data-lucide="arrow-up-right" class="w-5 h-5 text-rose-400"></i>
+          <span>Barang Keluar</span>
+        </button>
+      </nav>
+
+      <div class="p-4 border-t border-slate-800 space-y-2">
+        <a id="link-spreadsheet" href="#" target="_blank" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium bg-slate-800/70 hover:bg-slate-800 text-emerald-400 transition">
+          <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+          <span>Buka Google Sheet</span>
+        </a>
+        <button onclick="openModalPassword()" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-slate-800 text-slate-300 transition">
+          <i data-lucide="key-round" class="w-4 h-4"></i>
+          <span>Ganti Password</span>
+        </button>
+        <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium hover:bg-rose-950/60 text-rose-400 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Keluar / Kunci</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Konten Utama -->
+    <main class="flex-1 flex flex-col min-w-0">
+      <!-- Top Bar Desktop -->
+      <div class="bg-white border-b border-slate-200 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 id="page-title" class="text-xl font-bold text-slate-900">Dashboard Ringkasan</h1>
+          <p id="page-subtitle" class="text-xs text-slate-500">Pantau pergerakan stok dan status inventaris secara real-time</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="loadAllData()" class="inline-flex items-center gap-2 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-xl transition">
+            <i data-lucide="refresh-cw" id="refresh-icon" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">Sinkronkan Data</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Area Konten Dinamis -->
+      <div class="p-4 sm:p-6 lg:p-8 flex-1 overflow-y-auto space-y-6">
+
+        <!-- =============================================================== -->
+        <!-- 1. VIEW: DASHBOARD                                              -->
+        <!-- =============================================================== -->
+        <section id="view-dashboard" class="view-section space-y-6 fade-in">
+          <!-- Kartu Statistik -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                <i data-lucide="boxes" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Jenis Barang</p>
+                <h3 id="stat-total-jenis" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3>
+              </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                <i data-lucide="layers" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Stok Fisik</p>
+                <h3 id="stat-total-stok" class="text-2xl font-bold text-slate-900 mt-0.5">0</h3>
+              </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <i data-lucide="arrow-down-circle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Barang Masuk</p>
+                <h3 id="stat-total-masuk" class="text-2xl font-bold text-emerald-600 mt-0.5">0</h3>
+              </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+                <i data-lucide="arrow-up-circle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Barang Keluar</p>
+                <h3 id="stat-total-keluar" class="text-2xl font-bold text-rose-600 mt-0.5">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid Bawah: Peringatan Stok Menipis & Aktivitas Terakhir -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Stok Menipis -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+              <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-500"></i>
+                  <h3 class="font-bold text-slate-900">Stok Menipis (&le; 5)</h3>
+                </div>
+                <span id="badge-low-stock" class="px-2.5 py-0.5 text-xs font-semibold bg-amber-100 text-amber-700 rounded-full">0</span>
+              </div>
+              <div id="list-low-stock" class="p-4 divide-y divide-slate-100 flex-1 overflow-y-auto max-h-80">
+                <p class="text-sm text-slate-400 text-center py-8">Semua stok dalam kondisi aman.</p>
+              </div>
+            </div>
+
+            <!-- 10 Transaksi Terakhir -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+              <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="history" class="w-5 h-5 text-indigo-600"></i>
+                  <h3 class="font-bold text-slate-900">Aktivitas Transaksi Terakhir</h3>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                      <th class="py-3 px-4 font-semibold">Waktu</th>
+                      <th class="py-3 px-4 font-semibold">Jenis</th>
+                      <th class="py-3 px-4 font-semibold">Barang</th>
+                      <th class="py-3 px-4 font-semibold text-right">Jumlah</th>
+                      <th class="py-3 px-4 font-semibold">Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashboard-recent-tx" class="divide-y divide-slate-100 text-sm">
+                    <tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada transaksi.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- 2. VIEW: DAFTAR BARANG (MASTER DATA)                            -->
+        <!-- =============================================================== -->
+        <section id="view-barang" class="view-section hidden space-y-6 fade-in">
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+              <input type="text" id="search-barang" onkeyup="renderTableBarang()" placeholder="Cari kode, nama, kategori, atau lokasi rak..."
+                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white">
+            </div>
+            <button onclick="openModalBarang()" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-sm transition">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Tambah Barang Baru</span>
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                    <th class="py-3.5 px-4 font-semibold">Kode Barang</th>
+                    <th class="py-3.5 px-4 font-semibold">Nama Barang</th>
+                    <th class="py-3.5 px-4 font-semibold">Kategori</th>
+                    <th class="py-3.5 px-4 font-semibold">Lokasi Rak</th>
+                    <th class="py-3.5 px-4 font-semibold text-right">Stok Awal</th>
+                    <th class="py-3.5 px-4 font-semibold text-right text-emerald-600">Masuk</th>
+                    <th class="py-3.5 px-4 font-semibold text-right text-rose-600">Keluar</th>
+                    <th class="py-3.5 px-4 font-semibold text-right">Stok Akhir</th>
+                    <th class="py-3.5 px-4 font-semibold">Satuan</th>
+                    <th class="py-3.5 px-4 font-semibold text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="table-barang-body" class="divide-y divide-slate-100 text-sm">
+                  <tr><td colspan="10" class="py-8 text-center text-slate-400">Memuat data barang...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- 3. VIEW: BARANG MASUK                                           -->
+        <!-- =============================================================== -->
+        <section id="view-masuk" class="view-section hidden space-y-6 fade-in">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Form Input Barang Masuk -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs h-fit">
+              <div class="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <i data-lucide="arrow-down-left" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900">Catat Barang Masuk</h3>
+                  <p class="text-xs text-slate-500">Penambahan stok dari supplier / retur</p>
+                </div>
+              </div>
+
+              <form id="form-masuk" onsubmit="submitTransaksi(event, 'MASUK')" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Tanggal Transaksi</label>
+                  <input type="datetime-local" id="masuk-tanggal" required
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Pilih Barang</label>
+                  <select id="masuk-kode" required onchange="updateSelectedStockInfo('masuk')"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="">-- Pilih Kode / Nama Barang --</option>
+                  </select>
+                  <p id="masuk-info-stok" class="text-xs text-slate-500 mt-1.5 hidden"></p>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Jumlah Masuk</label>
+                  <input type="number" id="masuk-jumlah" min="1" step="any" required placeholder="0"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Keterangan / Supplier / No. SJ</label>
+                  <input type="text" id="masuk-keterangan" placeholder="Contoh: Restock Supplier PT Maju"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <button type="submit" id="btn-submit-masuk"
+                  class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Simpan Barang Masuk</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Tabel Riwayat Barang Masuk -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+              <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="font-bold text-slate-900">Riwayat Barang Masuk</h3>
+                <span id="count-masuk" class="text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg">0 Transaksi</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                      <th class="py-3 px-4 font-semibold">ID & Waktu</th>
+                      <th class="py-3 px-4 font-semibold">Kode</th>
+                      <th class="py-3 px-4 font-semibold">Nama Barang</th>
+                      <th class="py-3 px-4 font-semibold text-right">Jumlah</th>
+                      <th class="py-3 px-4 font-semibold">Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-masuk-body" class="divide-y divide-slate-100 text-sm">
+                    <tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada data barang masuk.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- 4. VIEW: BARANG KELUAR                                          -->
+        <!-- =============================================================== -->
+        <section id="view-keluar" class="view-section hidden space-y-6 fade-in">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Form Input Barang Keluar -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs h-fit">
+              <div class="flex items-center gap-3 mb-5 pb-4 border-b border-slate-100">
+                <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center">
+                  <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900">Catat Barang Keluar</h3>
+                  <p class="text-xs text-slate-500">Pengambilan barang / distribusi gudang</p>
+                </div>
+              </div>
+
+              <form id="form-keluar" onsubmit="submitTransaksi(event, 'KELUAR')" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Tanggal Transaksi</label>
+                  <input type="datetime-local" id="keluar-tanggal" required
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Pilih Barang</label>
+                  <select id="keluar-kode" required onchange="updateSelectedStockInfo('keluar')"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                    <option value="">-- Pilih Kode / Nama Barang --</option>
+                  </select>
+                  <p id="keluar-info-stok" class="text-xs text-slate-500 mt-1.5 hidden"></p>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Jumlah Keluar</label>
+                  <input type="number" id="keluar-jumlah" min="1" step="any" required placeholder="0"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 uppercase mb-1.5">Keterangan / Penerima / Divisi</label>
+                  <input type="text" id="keluar-keterangan" placeholder="Contoh: Diambil Divisi Produksi (Budi)"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                </div>
+
+                <button type="submit" id="btn-submit-keluar"
+                  class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Simpan Barang Keluar</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Tabel Riwayat Barang Keluar -->
+            <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+              <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="font-bold text-slate-900">Riwayat Barang Keluar</h3>
+                <span id="count-keluar" class="text-xs font-semibold px-2.5 py-1 bg-rose-50 text-rose-700 rounded-lg">0 Transaksi</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                      <th class="py-3 px-4 font-semibold">ID & Waktu</th>
+                      <th class="py-3 px-4 font-semibold">Kode</th>
+                      <th class="py-3 px-4 font-semibold">Nama Barang</th>
+                      <th class="py-3 px-4 font-semibold text-right">Jumlah</th>
+                      <th class="py-3 px-4 font-semibold">Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table-keluar-body" class="divide-y divide-slate-100 text-sm">
+                    <tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada data barang keluar.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL TAMBAH / EDIT BARANG                                            -->
+  <!-- ===================================================================== -->
+  <div id="modal-barang" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden fade-in">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <h3 id="modal-barang-title" class="font-bold text-lg">Tambah Barang Baru</h3>
+        <button onclick="closeModalBarang()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-barang" onsubmit="handleSaveBarang(event)" class="p-6 space-y-4">
+        <input type="hidden" id="barang-is-edit" value="false">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Kode Barang *</label>
+            <input type="text" id="barang-kode" required placeholder="Contoh: BRG-001"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Kategori *</label>
+            <input type="text" id="barang-kategori" required placeholder="Contoh: ATK / Elektronik"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Nama Barang *</label>
+          <input type="text" id="barang-nama" required placeholder="Masukkan nama lengkap barang"
+            class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Stok Awal *</label>
+            <input type="number" id="barang-stok-awal" min="0" required value="0"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Satuan *</label>
+            <input type="text" id="barang-satuan" required placeholder="Pcs / Box / Rim"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Lokasi Rak *</label>
+            <input type="text" id="barang-rak" required placeholder="Rak A-01"
+              class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+          <button type="button" onclick="closeModalBarang()" class="px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition">Batal</button>
+          <button type="submit" id="btn-save-barang" class="px-5 py-2.5 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-sm transition">
+            Simpan Barang
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL GANTI PASSWORD                                                  -->
+  <!-- ===================================================================== -->
+  <div id="modal-password" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden fade-in">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <h3 class="font-bold text-lg">Ubah Password Akses</h3>
+        <button onclick="closeModalPassword()" class="text-slate-400 hover:text-white transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <form onsubmit="handleChangePassword(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Password Lama</label>
+          <input type="password" id="old-pass" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Password Baru (Min. 4 Karakter)</label>
+          <input type="password" id="new-pass" required minlength="4" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+        </div>
+        <div class="pt-3 flex justify-end gap-3">
+          <button type="button" onclick="closeModalPassword()" class="px-4 py-2 text-sm text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" id="btn-save-pass" class="px-5 py-2 text-sm font-semibold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL KONFIRMASI HAPUS CUSTOM (PENGGANTI CONFIRM)                     -->
+  <!-- ===================================================================== -->
+  <div id="modal-confirm" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center fade-in">
+      <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="trash-2" class="w-6 h-6"></i>
+      </div>
+      <h3 class="font-bold text-lg text-slate-900">Hapus Data Barang?</h3>
+      <p id="confirm-text" class="text-sm text-slate-500 mt-1">Data barang yang dihapus tidak dapat dikembalikan.</p>
+      <div class="mt-6 flex items-center justify-center gap-3">
+        <button onclick="closeConfirmModal()" class="flex-1 py-2.5 text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl">Batal</button>
+        <button id="btn-confirm-yes" class="flex-1 py-2.5 text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white rounded-xl">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFICATION (PENGGANTI ALERT)                                  -->
+  <!-- ===================================================================== -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300 translate-y-4 opacity-0">
+    <div id="toast-box" class="flex items-center gap-3 px-4 py-3.5 rounded-xl shadow-xl border text-sm font-medium bg-slate-900 text-white border-slate-700">
+      <i id="toast-icon" data-lucide="info" class="w-5 h-5 shrink-0"></i>
+      <span id="toast-message">Pesan notifikasi</span>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT LOGIC                                                      -->
+  <!-- ===================================================================== -->
+  <script>
+    // State Global Aplikasi
+    let appData = {
+      barang: [],
+      transaksi: [],
+      spreadsheetUrl: '#'
+    };
+
+    // Inisialisasi Icon Lucide & Waktu Default
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      setDefaultDateTime();
+    });
+
+    function setDefaultDateTime() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      const isoStr = now.toISOString().slice(0, 16);
+      const elMasuk = document.getElementById('masuk-tanggal');
+      const elKeluar = document.getElementById('keluar-tanggal');
+      if (elMasuk) elMasuk.value = isoStr;
+      if (elKeluar) elKeluar.value = isoStr;
+    }
+
+    // =========================================================================
+    // SISTEM NOTIFIKASI TOAST
+    // =========================================================================
+    let toastTimeout;
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const box = document.getElementById('toast-box');
+      const msg = document.getElementById('toast-message');
+      const icon = document.getElementById('toast-icon');
+
+      msg.textContent = message;
+      
+      if (type === 'success') {
+        box.className = 'flex items-center gap-3 px-4 py-3.5 rounded-xl shadow-xl border text-sm font-medium bg-emerald-900 text-white border-emerald-700';
+        icon.setAttribute('data-lucide', 'check-circle-2');
+      } else if (type === 'error') {
+        box.className = 'flex items-center gap-3 px-4 py-3.5 rounded-xl shadow-xl border text-sm font-medium bg-rose-900 text-white border-rose-700';
+        icon.setAttribute('data-lucide', 'alert-circle');
+      } else {
+        box.className = 'flex items-center gap-3 px-4 py-3.5 rounded-xl shadow-xl border text-sm font-medium bg-slate-900 text-white border-slate-700';
+        icon.setAttribute('data-lucide', 'info');
+      }
+      lucide.createIcons();
+
+      toast.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-4', 'opacity-0');
+        setTimeout(() => toast.classList.add('hidden'), 300);
+      }, 3500);
+    }
+
+    // =========================================================================
+    // SISTEM LOGIN & AUTENTIKASI
+    // =========================================================================
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('login-password').value;
+      const btn = document.getElementById('btn-login');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span>Memverifikasi...</span>';
+
+      google.script.run
+        .withSuccessHandler((res) => {
+          btn.disabled = false;
+          btn.innerHTML = '<span>Masuk ke Sistem</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
+          lucide.createIcons();
+
+          if (res.success) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+            showToast(res.message, 'success');
+            loadAllData();
+          } else {
+            showToast(res.message, 'error');
+          }
+        })
+        .withFailureHandler((err) => {
+          btn.disabled = false;
+          btn.innerHTML = '<span>Masuk ke Sistem</span>';
+          showToast('Error koneksi server: ' + err.message, 'error');
+        })
+        .verifyPassword(pwd);
+    });
+
+    function logout() {
+      document.getElementById('login-password').value = '';
+      document.getElementById('app-container').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+      showToast('Sesi dikunci.', 'info');
+    }
+
+    // =========================================================================
+    // NAVIGASI MENU & SIDEBAR
+    // =========================================================================
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebar-backdrop');
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+    }
+
+    function switchTab(tabName) {
+      // Sembunyikan semua section
+      document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+      document.getElementById('view-' + tabName).classList.remove('hidden');
+
+      // Update style tombol navigasi
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.className = 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition hover:bg-slate-800 hover:text-white text-slate-300';
+      });
+      const activeBtn = document.getElementById('nav-' + tabName);
+      if (activeBtn) {
+        activeBtn.className = 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-indigo-600 text-white shadow-md shadow-indigo-950/50';
+      }
+
+      // Update Judul Halaman
+      const titles = {
+        dashboard: ['Dashboard Ringkasan', 'Pantau pergerakan stok dan status inventaris secara real-time'],
+        barang: ['Daftar Master Barang', 'Kelola kode, nama barang, kategori, stok awal, satuan, dan lokasi rak'],
+        masuk: ['Transaksi Barang Masuk', 'Catat penerimaan barang baru untuk menambah stok gudang'],
+        keluar: ['Transaksi Barang Keluar', 'Catat pengeluaran atau pengambilan barang dari gudang']
+      };
+      document.getElementById('page-title').textContent = titles[tabName][0];
+      document.getElementById('page-subtitle').textContent = titles[tabName][1];
+
+      // Tutup sidebar di mobile setelah klik menu
+      const sidebar = document.getElementById('sidebar');
+      if (!sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+        toggleMobileSidebar();
+      }
+    }
+
+    // =========================================================================
+    // SINKRONISASI DATA DARI GOOGLE SPREADSHEET
+    // =========================================================================
+    function loadAllData() {
+      const icon = document.getElementById('refresh-icon');
+      if (icon) icon.classList.add('animate-spin');
+
+      google.script.run
+        .withSuccessHandler((res) => {
+          if (icon) icon.classList.remove('animate-spin');
+          if (res.success) {
+            appData = res;
+            document.getElementById('link-spreadsheet').href = res.spreadsheetUrl;
+            renderDashboard();
+            renderTableBarang();
+            populateBarangDropdowns();
+            renderTransactionTables();
+          } else {
+            showToast(res.message, 'error');
+          }
+        })
+        .withFailureHandler((err) => {
+          if (icon) icon.classList.remove('animate-spin');
+          showToast('Gagal memuat data: ' + err.message, 'error');
+        })
+        .getInitialData();
+    }
+
+    // =========================================================================
+    // RENDER DASHBOARD
+    // =========================================================================
+    function renderDashboard() {
+      const barang = appData.barang || [];
+      const transaksi = appData.transaksi || [];
+
+      let totalStok = 0;
+      let totalMasuk = 0;
+      let totalKeluar = 0;
+      const lowStockItems = [];
+
+      barang.forEach(item => {
+        totalStok += item.stokAkhir;
+        totalMasuk += item.totalMasuk;
+        totalKeluar += item.totalKeluar;
+        if (item.stokAkhir <= 5) {
+          lowStockItems.push(item);
+        }
+      });
+
+      document.getElementById('stat-total-jenis').textContent = barang.length.toLocaleString('id-ID');
+      document.getElementById('stat-total-stok').textContent = totalStok.toLocaleString('id-ID');
+      document.getElementById('stat-total-masuk').textContent = totalMasuk.toLocaleString('id-ID');
+      document.getElementById('stat-total-keluar').textContent = totalKeluar.toLocaleString('id-ID');
+
+      // Render Stok Menipis
+      document.getElementById('badge-low-stock').textContent = lowStockItems.length;
+      const lowStockContainer = document.getElementById('list-low-stock');
+      if (lowStockItems.length === 0) {
+        lowStockContainer.innerHTML = '<p class="text-sm text-slate-400 text-center py-8">Semua stok dalam kondisi aman.</p>';
+      } else {
+        lowStockContainer.innerHTML = lowStockItems.map(item => `
+          <div class="py-3 flex items-center justify-between gap-2">
+            <div>
+              <p class="text-sm font-semibold text-slate-800">${escapeHtml(item.nama)}</p>
+              <p class="text-xs text-slate-500">${escapeHtml(item.kode)} &bull; Rak: ${escapeHtml(item.lokasiRak)}</p>
+            </div>
+            <span class="px-2.5 py-1 text-xs font-bold rounded-lg ${item.stokAkhir === 0 ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700'}">
+              ${item.stokAkhir} ${escapeHtml(item.satuan)}
+            </span>
+          </div>
+        `).join('');
+      }
+
+      // Render 10 Transaksi Terakhir
+      const recentContainer = document.getElementById('dashboard-recent-tx');
+      const recentTx = transaksi.slice(0, 10);
+      if (recentTx.length === 0) {
+        recentContainer.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada aktivitas transaksi.</td></tr>';
+      } else {
+        recentContainer.innerHTML = recentTx.map(tx => `
+          <tr class="hover:bg-slate-50/80 transition">
+            <td class="py-3 px-4 text-xs text-slate-500 whitespace-nowrap">${escapeHtml(tx.tanggal)}</td>
+            <td class="py-3 px-4">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold ${tx.jenis === 'MASUK' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+                ${tx.jenis}
+              </span>
+            </td>
+            <td class="py-3 px-4 font-medium text-slate-800">${escapeHtml(tx.namaBarang)} <span class="text-xs text-slate-400">(${escapeHtml(tx.kodeBarang)})</span></td>
+            <td class="py-3 px-4 text-right font-bold ${tx.jenis === 'MASUK' ? 'text-emerald-600' : 'text-rose-600'}">
+              ${tx.jenis === 'MASUK' ? '+' : '-'}${tx.jumlah} ${escapeHtml(tx.satuan)}
+            </td>
+            <td class="py-3 px-4 text-xs text-slate-500">${escapeHtml(tx.keterangan)}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    // =========================================================================
+    // RENDER & CRUD DAFTAR BARANG
+    // =========================================================================
+    function renderTableBarang() {
+      const keyword = document.getElementById('search-barang').value.toLowerCase();
+      const tbody = document.getElementById('table-barang-body');
+      
+      const filtered = (appData.barang || []).filter(item => 
+        item.kode.toLowerCase().includes(keyword) ||
+        item.nama.toLowerCase().includes(keyword) ||
+        item.kategori.toLowerCase().includes(keyword) ||
+        item.lokasiRak.toLowerCase().includes(keyword)
+      );
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-400">Tidak ada data barang yang sesuai.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(item => `
+        <tr class="hover:bg-slate-50/80 transition">
+          <td class="py-3.5 px-4 font-mono text-xs font-bold text-indigo-600 whitespace-nowrap">${escapeHtml(item.kode)}</td>
+          <td class="py-3.5 px-4 font-semibold text-slate-800">${escapeHtml(item.nama)}</td>
+          <td class="py-3.5 px-4"><span class="px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-medium">${escapeHtml(item.kategori)}</span></td>
+          <td class="py-3.5 px-4 text-slate-600 text-xs font-medium">${escapeHtml(item.lokasiRak)}</td>
+          <td class="py-3.5 px-4 text-right text-slate-600">${item.stokAwal}</td>
+          <td class="py-3.5 px-4 text-right text-emerald-600 font-medium">+${item.totalMasuk}</td>
+          <td class="py-3.5 px-4 text-right text-rose-600 font-medium">-${item.totalKeluar}</td>
+          <td class="py-3.5 px-4 text-right font-bold ${item.stokAkhir <= 5 ? 'text-rose-600' : 'text-slate-900'}">${item.stokAkhir}</td>
+          <td class="py-3.5 px-4 text-xs text-slate-500">${escapeHtml(item.satuan)}</td>
+          <td class="py-3.5 px-4 text-center whitespace-nowrap">
+            <button onclick='editBarang(${JSON.stringify(item).replace(/'/g, "&#39;")})' title="Edit Barang"
+              class="p-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition">
+              <i data-lucide="edit-3" class="w-4 h-4"></i>
+            </button>
+            <button onclick="confirmDeleteBarang('${escapeHtml(item.kode)}', '${escapeHtml(item.nama)}')" title="Hapus Barang"
+              class="p-1.5 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function openModalBarang() {
+      document.getElementById('modal-barang-title').textContent = 'Tambah Barang Baru';
+      document.getElementById('barang-is-edit').value = 'false';
+      document.getElementById('form-barang').reset();
+      document.getElementById('barang-kode').disabled = false;
+      document.getElementById('modal-barang').classList.remove('hidden');
+    }
+
+    function editBarang(item) {
+      document.getElementById('modal-barang-title').textContent = 'Edit Data Barang';
+      document.getElementById('barang-is-edit').value = 'true';
+      document.getElementById('barang-kode').value = item.kode;
+      document.getElementById('barang-kode').disabled = true; // Kode tidak boleh diubah saat edit
+      document.getElementById('barang-nama').value = item.nama;
+      document.getElementById('barang-kategori').value = item.kategori;
+      document.getElementById('barang-stok-awal').value = item.stokAwal;
+      document.getElementById('barang-satuan').value = item.satuan;
+      document.getElementById('barang-rak').value = item.lokasiRak;
+      document.getElementById('modal-barang').classList.remove('hidden');
+    }
+
+    function closeModalBarang() {
+      document.getElementById('modal-barang').classList.add('hidden');
+    }
+
+    function handleSaveBarang(e) {
+      e.preventDefault();
+      const isEdit = document.getElementById('barang-is-edit').value === 'true';
+      const payload = {
+        kode: document.getElementById('barang-kode').value,
+        nama: document.getElementById('barang-nama').value,
+        kategori: document.getElementById('barang-kategori').value,
+        stokAwal: document.getElementById('barang-stok-awal').value,
+        satuan: document.getElementById('barang-satuan').value,
+        lokasiRak: document.getElementById('barang-rak').value
+      };
+
+      const btn = document.getElementById('btn-save-barang');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+
+      google.script.run
+        .withSuccessHandler((res) => {
+          btn.disabled = false;
+          btn.textContent = 'Simpan Barang';
+          if (res.success) {
+            closeModalBarang();
+            showToast(res.message, 'success');
+            loadAllData();
+          } else {
+            showToast(res.message, 'error');
+          }
+        })
+        .withFailureHandler((err) => {
+          btn.disabled = false;
+          btn.textContent = 'Simpan Barang';
+          showToast('Error: ' + err.message, 'error');
+        })
+        .saveBarang(payload, isEdit);
+    }
+
+    function confirmDeleteBarang(kode, nama) {
+      document.getElementById('confirm-text').textContent = `Anda yakin ingin menghapus "${nama}" (${kode})?`;
+      const modal = document.getElementById('modal-confirm');
+      modal.classList.remove('hidden');
+
+      document.getElementById('btn-confirm-yes').onclick = function() {
+        closeConfirmModal();
+        showToast('Menghapus data...', 'info');
+        google.script.run
+          .withSuccessHandler((res) => {
+            if (res.success) {
+              showToast(res.message, 'success');
+              loadAllData();
+            } else {
+              showToast(res.message, 'error');
+            }
+          })
+          .withFailureHandler((err) => showToast('Gagal menghapus: ' + err.message, 'error'))
+          .deleteBarang(kode);
+      };
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('modal-confirm').classList.add('hidden');
+    }
+
+    // =========================================================================
+    // TRANSAKSI BARANG MASUK & KELUAR
+    // =========================================================================
+    function populateBarangDropdowns() {
+      const options = '<option value="">-- Pilih Kode / Nama Barang --</option>' + 
+        (appData.barang || []).map(b => 
+          `<option value="${escapeHtml(b.kode)}">${escapeHtml(b.kode)} - ${escapeHtml(b.nama)} (Stok: ${b.stokAkhir} ${escapeHtml(b.satuan)})</option>`
+        ).join('');
+
+      document.getElementById('masuk-kode').innerHTML = options;
+      document.getElementById('keluar-kode').innerHTML = options;
+    }
+
+    function updateSelectedStockInfo(type) {
+      const kode = document.getElementById(type + '-kode').value;
+      const infoEl = document.getElementById(type + '-info-stok');
+      const item = (appData.barang || []).find(b => b.kode === kode);
+
+      if (item) {
+        infoEl.classList.remove('hidden');
+        infoEl.innerHTML = `Stok saat ini: <strong class="text-slate-800">${item.stokAkhir} ${escapeHtml(item.satuan)}</strong> &bull; Lokasi: <strong class="text-slate-800">${escapeHtml(item.lokasiRak)}</strong>`;
+      } else {
+        infoEl.classList.add('hidden');
+      }
+    }
+
+    function submitTransaksi(e, jenis) {
+      e.preventDefault();
+      const prefix = jenis === 'MASUK' ? 'masuk' : 'keluar';
+      const payload = {
+        jenis: jenis,
+        tanggal: document.getElementById(prefix + '-tanggal').value,
+        kodeBarang: document.getElementById(prefix + '-kode').value,
+        jumlah: document.getElementById(prefix + '-jumlah').value,
+        keterangan: document.getElementById(prefix + '-keterangan').value
+      };
+
+      const btn = document.getElementById('btn-submit-' + prefix);
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>Memproses...</span>';
+
+      google.script.run
+        .withSuccessHandler((res) => {
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+          lucide.createIcons();
+
+          if (res.success) {
+            document.getElementById('form-' + prefix).reset();
+            document.getElementById(prefix + '-info-stok').classList.add('hidden');
+            setDefaultDateTime();
+            showToast(res.message, 'success');
+            loadAllData();
+          } else {
+            showToast(res.message, 'error');
+          }
+        })
+        .withFailureHandler((err) => {
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+          showToast('Error: ' + err.message, 'error');
+        })
+        .recordTransaction(payload);
+    }
+
+    function renderTransactionTables() {
+      const allTx = appData.transaksi || [];
+      const txMasuk = allTx.filter(t => t.jenis === 'MASUK');
+      const txKeluar = allTx.filter(t => t.jenis === 'KELUAR');
+
+      document.getElementById('count-masuk').textContent = txMasuk.length + ' Transaksi';
+      document.getElementById('count-keluar').textContent = txKeluar.length + ' Transaksi';
+
+      const renderRows = (list, colorClass, sign) => {
+        if (list.length === 0) {
+          return '<tr><td colspan="5" class="py-8 text-center text-slate-400">Belum ada riwayat transaksi.</td></tr>';
+        }
+        return list.map(tx => `
+          <tr class="hover:bg-slate-50/80 transition">
+            <td class="py-3 px-4 whitespace-nowrap">
+              <div class="font-mono text-xs font-bold text-slate-700">${escapeHtml(tx.id)}</div>
+              <div class="text-xs text-slate-400">${escapeHtml(tx.tanggal)}</div>
+            </td>
+            <td class="py-3 px-4 font-mono text-xs font-semibold text-indigo-600">${escapeHtml(tx.kodeBarang)}</td>
+            <td class="py-3 px-4 font-medium text-slate-800">${escapeHtml(tx.namaBarang)}</td>
+            <td class="py-3 px-4 text-right font-bold ${colorClass}">${sign}${tx.jumlah} ${escapeHtml(tx.satuan)}</td>
+            <td class="py-3 px-4 text-xs text-slate-500">${escapeHtml(tx.keterangan)}</td>
+          </tr>
+        `).join('');
+      };
+
+      document.getElementById('table-masuk-body').innerHTML = renderRows(txMasuk, 'text-emerald-600', '+');
+      document.getElementById('table-keluar-body').innerHTML = renderRows(txKeluar, 'text-rose-600', '-');
+    }
+
+    // =========================================================================
+    // PENGATURAN GANTI PASSWORD
+    // =========================================================================
+    function openModalPassword() {
+      document.getElementById('old-pass').value = '';
+      document.getElementById('new-pass').value = '';
+      document.getElementById('modal-password').classList.remove('hidden');
+    }
+
+    function closeModalPassword() {
+      document.getElementById('modal-password').classList.add('hidden');
+    }
+
+    function handleChangePassword(e) {
+      e.preventDefault();
+      const oldPass = document.getElementById('old-pass').value;
+      const newPass = document.getElementById('new-pass').value;
+      const btn = document.getElementById('btn-save-pass');
+
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+
+      google.script.run
+        .withSuccessHandler((res) => {
+          btn.disabled = false;
+          btn.textContent = 'Update Password';
+          if (res.success) {
+            closeModalPassword();
+            showToast(res.message, 'success');
+          } else {
+            showToast(res.message, 'error');
+          }
+        })
+        .withFailureHandler((err) => {
+          btn.disabled = false;
+          btn.textContent = 'Update Password';
+          showToast('Error: ' + err.message, 'error');
+        })
+        .changeAppPassword(oldPass, newPass);
+    }
+
+    // Utility keamanan XSS
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
