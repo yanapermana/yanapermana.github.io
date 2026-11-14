@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" data-bs-theme="dark">
+<html lang="id" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,24 +13,37 @@
 
   <style>
     :root {
-      --bg: #0e1a24;
-      --surface: #16283a;
-      --line: #27425c;
-      --accent: #f2b84b;
-      --muted: #9db2c6;
+      --bg: #ffffff;
+      --surface: #fff9f0;
+      --surface-hover: #fff2e0;
+      --line: #ffd9a8;
+      --accent: #f57c00;
+      --accent-hover: #e66a00;
+      --accent-light: #ffb74d;
+      --muted: #6e5b4b;
+      --text-dark: #2d2419;
+      --text-light: #ffffff;
     }
     body {
       font-family: "IBM Plex Sans", system-ui, sans-serif;
       background: var(--bg);
-      color: #e8eef4;
+      color: var(--text-dark);
       position: relative;
       min-height: 100vh;
     }
-    .navbar { background: rgba(14, 26, 36, .95); border-bottom: 1px solid var(--line); }
-    .navbar-brand { font-weight: 700; letter-spacing: .2px; }
-    .brand-dot { color: var(--accent); }
+    .navbar { 
+      background: rgba(255, 255, 255, .95); 
+      border-bottom: 1px solid var(--line); 
+      backdrop-filter: blur(6px);
+    }
+    .navbar-brand { 
+      font-weight: 700; 
+      letter-spacing: .2px; 
+      color: var(--accent) !important;
+    }
+    .brand-dot { color: var(--accent-light); }
     .navbar .nav-link {
-      color: #e8eef4;
+      color: var(--text-dark);
       font-weight: 500;
       transition: color .2s;
     }
@@ -38,16 +51,68 @@
     .navbar .nav-link:focus-visible {
       color: var(--accent);
     }
-    .hero { padding: 4rem 0 2.5rem; border-bottom: 1px solid var(--line); }
-    .hero h1 { font-weight: 700; font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.15; }
-    .hero p { color: var(--muted); max-width: 60ch; }
-    .video-card { background: var(--surface); border: 1px solid var(--line); border-radius: .5rem; overflow: hidden; }
+    .navbar-toggler {
+      border-color: var(--line);
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23f57c00' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    .hero { 
+      padding: 4rem 0 2.5rem; 
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #fff9f0 0%, #ffffff 100%);
+    }
+    .hero h1 { 
+      font-weight: 700; 
+      font-size: clamp(2rem, 5vw, 3.25rem); 
+      line-height: 1.15;
+      color: var(--text-dark);
+    }
+    .hero h1 .highlight {
+      color: var(--accent);
+    }
+    .hero p { 
+      color: var(--muted); 
+      max-width: 60ch; 
+    }
+    .video-card { 
+      background: var(--surface); 
+      border: 1px solid var(--line); 
+      border-radius: .5rem; 
+      overflow: hidden;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(245, 124, 0, .12);
+    }
     .video-card .card-body { padding: .85rem 1rem; }
-    .video-card .card-title { font-size: 1rem; font-weight: 600; margin: 0; }
-    .video-card a { color: var(--accent); text-decoration: none; font-size: .875rem; }
-    .video-card a:hover, .video-card a:focus-visible { text-decoration: underline; }
-    a:focus-visible, .navbar-toggler:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    footer { border-top: 1px solid var(--line); color: var(--muted); }
+    .video-card .card-title { 
+      font-size: 1rem; 
+      font-weight: 600; 
+      margin: 0;
+      color: var(--text-dark);
+    }
+    .video-card a { 
+      color: var(--accent); 
+      text-decoration: none; 
+      font-size: .875rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .video-card a:hover, .video-card a:focus-visible { 
+      text-decoration: underline;
+      color: var(--accent-hover);
+    }
+    a:focus-visible, .navbar-toggler:focus-visible { 
+      outline: 2px solid var(--accent); 
+      outline-offset: 2px; 
+    }
+    footer { 
+      border-top: 1px solid var(--line); 
+      color: var(--muted);
+      background: var(--surface);
+    }
 
     /* Tombol back dan to top */
     .floating-buttons {
@@ -66,16 +131,34 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+      box-shadow: 0 4px 12px rgba(245, 124, 0, .25);
       font-size: 1.35rem;
       line-height: 1;
-      transition: transform .15s ease, background .2s;
+      transition: transform .15s ease, background .2s, box-shadow .2s;
     }
-    .btn-float:hover { transform: translateY(-2px); }
-    .btn-top { background: var(--accent); color: #0e1a24; border: none; }
-    .btn-top:hover { background: #f7c96b; color: #0e1a24; }
-    .btn-back { background: var(--surface); color: #e8eef4; border: 1px solid var(--line); }
-    .btn-back:hover { background: #1f3549; color: #fff; }
+    .btn-float:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 16px rgba(245, 124, 0, .35);
+    }
+    .btn-top { 
+      background: var(--accent); 
+      color: var(--text-light); 
+      border: none; 
+    }
+    .btn-top:hover { 
+      background: var(--accent-hover); 
+      color: var(--text-light); 
+    }
+    .btn-back { 
+      background: var(--text-light); 
+      color: var(--accent); 
+      border: 1.5px solid var(--accent); 
+    }
+    .btn-back:hover { 
+      background: var(--surface); 
+      color: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
 
     /* Responsive spacing untuk mobile */
     @media (max-width: 576px) {
@@ -90,7 +173,7 @@
   <!-- ========== NAVBAR ========== -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Project Cyber Security Wifi<span class="brand-dot">.</span></a>
+      <a class="navbar-brand" href="#">Yana Permana<span class="brand-dot">.</span></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
               aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -99,7 +182,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
           <li class="nav-item">
             <a class="nav-link" href="https://yanapermana.github.io" target="_blank" rel="noopener">
-              <i class="bi bi-person-circle me-1"></i>Yana Permana
+              <i class="bi bi-person-circle me-1"></i>Home
             </a>
           </li>
           <li class="nav-item">
@@ -120,7 +203,7 @@
   <!-- ========== HERO ========== -->
   <header class="hero">
     <div class="container">
-      <h1>Project Cyber Security Wifi</h1>
+      <h1>Project <span class="highlight">Cyber Security</span> Wifi</h1>
       <p class="mt-3 mb-0 fs-5">Kumpulan 10 video yang membahas keamanan jaringan Wi-Fi. Tonton satu per satu, langsung dari halaman ini.</p>
     </div>
   </header>
@@ -183,7 +266,6 @@
       if (window.history.length > 1) {
         window.history.back();
       } else {
-        // Fallback jika tidak ada riwayat (misal dibuka langsung)
         window.location.href = "https://yanapermana.github.io";
       }
     });
