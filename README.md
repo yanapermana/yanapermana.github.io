@@ -6,7 +6,7 @@
 Gunakan css bootstrap agar website responsive
 
 Menu berisi link:
-- <a href="https://yanapermana.github.io">Yana Permana</a>
+- <a href="https://yanapermana.github.io">Home</a>
 - <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
 - <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
 
