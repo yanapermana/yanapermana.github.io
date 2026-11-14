@@ -3,6 +3,17 @@
 * YouTube -> Video
 * Github -> Landing Page
 ----------------------------------------------------------------
+Gunakan css bootstrap agar website responsive
+
+Menu berisi link:
+- <a href="https://yanapermana.github.io">Yana Permana</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+----------------------------------------------------------------
 Buatkan website dengan css bootstrap agar responsif, title website "Project TKJ XI XII", konten website berisi:
 List Project Teknik Komputer Jaringan
 Kelas XI Semester 1
