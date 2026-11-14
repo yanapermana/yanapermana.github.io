@@ -6,13 +6,24 @@
   <title>Crimping Kabel Jaringan LAN Tipe Straight</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons (opsional, untuk ikon) -->
+  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
-    body {
+    :root {
+      --orange-primary: #f97316;
+      --orange-dark: #ea580c;
+      --orange-light: #fff7ed;
+      --orange-soft: #ffedd5;
+      --orange-border: #fdba74;
+      --orange-text: #9a3412;
+    }
+    * {
       box-sizing: border-box;
-      background: linear-gradient(135deg, #e6f0ff 0%, #d9e6ff 100%);
+    }
+    body {
+      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      overflow-x: hidden;
     }
     .fade-in {
       animation: fadeIn 0.5s ease-in;
@@ -23,6 +34,7 @@
     }
     .progress-bar {
       transition: width 0.3s ease;
+      background-color: var(--orange-primary) !important;
     }
     .quiz-option {
       transition: all 0.2s ease;
@@ -30,6 +42,7 @@
     .quiz-option:hover {
       transform: translateX(5px);
       cursor: pointer;
+      border-color: var(--orange-border);
     }
     .correct {
       background-color: #198754 !important;
@@ -41,11 +54,12 @@
       color: white !important;
       border-color: #dc3545 !important;
     }
-    /* Sidebar styling */
+
+    /* ===== SIDEBAR ===== */
     .sidebar {
       background: white;
       min-height: 100vh;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.05);
+      box-shadow: 4px 0 12px rgba(249, 115, 22, 0.08);
       position: fixed;
       top: 0;
       left: 0;
@@ -53,7 +67,8 @@
       z-index: 1050;
       transition: transform 0.3s ease;
       overflow-y: auto;
-      border-right: 1px solid #dee2e6;
+      border-right: 2px solid var(--orange-soft);
+      padding-bottom: 1rem;
     }
     .sidebar .nav-link {
       color: #1e2a3a;
@@ -61,17 +76,22 @@
       padding: 0.6rem 1rem;
       font-weight: 500;
       transition: background 0.2s;
+      text-align: left;
+      width: 100%;
     }
     .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
-      background-color: #e7f1ff;
-      color: #0d6efd;
+      background-color: var(--orange-light);
+      color: var(--orange-dark);
     }
     .main-content {
       margin-left: 280px;
       padding: 1.5rem 1.5rem 2rem;
       min-height: 100vh;
+      transition: margin-left 0.3s ease;
     }
+
+    /* ===== RESPONSIVE SIDEBAR ===== */
     @media (max-width: 991.98px) {
       .sidebar {
         transform: translateX(-100%);
@@ -81,8 +101,10 @@
       }
       .main-content {
         margin-left: 0;
+        padding-top: 4.5rem; /* ruang untuk tombol menu mobile */
       }
     }
+
     .overlay {
       position: fixed;
       inset: 0;
@@ -93,30 +115,65 @@
     .overlay.show {
       display: block;
     }
-    /* tombol back & top */
+
+    /* ===== TOMBOL MENU MOBILE ===== */
+    #mobileMenuBtn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 1030;
+      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--orange-primary) !important;
+      border-color: var(--orange-primary) !important;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+    #mobileMenuBtn:hover {
+      background-color: var(--orange-dark) !important;
+    }
+
+    /* ===== FLOATING BUTTONS ===== */
     .floating-buttons {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      z-index: 1060;
+      gap: 10px;
+      z-index: 1020;
     }
     .floating-buttons .btn {
       border-radius: 50%;
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
+    @media (max-width: 575.98px) {
+      .floating-buttons {
+        bottom: 16px;
+        right: 12px;
+        gap: 8px;
+      }
+      .floating-buttons .btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+      }
+    }
+
+    /* ===== CARD & KOMPONEN ===== */
     .card {
       border: none;
       border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.08);
     }
     .card-header {
       background-color: transparent;
@@ -124,11 +181,16 @@
       font-weight: 600;
     }
     .quiz-question {
-      background: #f8f9fc;
+      background: var(--orange-light);
       border-radius: 16px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
-      border: 1px solid #e9ecef;
+      border: 1px solid var(--orange-soft);
+    }
+    @media (max-width: 575.98px) {
+      .quiz-question {
+        padding: 1rem;
+      }
     }
     .quiz-option {
       background: white;
@@ -141,7 +203,7 @@
       font-weight: 500;
     }
     .quiz-option:hover {
-      border-color: #86b7fe;
+      border-color: var(--orange-border);
     }
     .color-swatch {
       height: 32px;
@@ -150,25 +212,102 @@
       border: 1px solid rgba(0,0,0,0.1);
     }
     .small-label {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-align: center;
       font-weight: 500;
+      display: block;
+      word-break: break-word;
+      line-height: 1.2;
     }
     .section-title-icon {
       font-size: 3rem;
       line-height: 1;
+    }
+    @media (max-width: 575.98px) {
+      .section-title-icon {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* ===== WARNA ORANGE UNTUK ELEMEN BOOTSTRAP ===== */
+    .btn-primary {
+      background-color: var(--orange-primary) !important;
+      border-color: var(--orange-primary) !important;
+    }
+    .btn-primary:hover, .btn-primary:focus {
+      background-color: var(--orange-dark) !important;
+      border-color: var(--orange-dark) !important;
+    }
+    .btn-secondary {
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+    }
+    .text-primary {
+      color: var(--orange-dark) !important;
+    }
+    .bg-primary {
+      background-color: var(--orange-primary) !important;
+    }
+    .border-primary {
+      border-color: var(--orange-border) !important;
+    }
+    .badge.bg-primary {
+      background-color: var(--orange-primary) !important;
+    }
+    .bg-primary.bg-opacity-10 {
+      background-color: rgba(249, 115, 22, 0.1) !important;
+    }
+
+    /* ===== HEADER ===== */
+    .header-badge {
+      display: inline-block;
+      background: var(--orange-soft);
+      color: var(--orange-text);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0.15rem;
+    }
+
+    /* ===== SECTION SPACING ===== */
+    @media (max-width: 575.98px) {
+      .card.p-4.p-md-5 {
+        padding: 1.25rem !important;
+      }
+      .main-content {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+      }
+    }
+
+    /* ===== GRID WARNA KABEL ===== */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    @media (min-width: 768px) {
+      .color-grid {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+
+    /* ===== PROGRESS TEXT ===== */
+    .progress-info {
+      font-size: 0.8rem;
     }
   </style>
 </head>
 <body>
 
 <!-- Overlay mobile -->
-<div id="overlay" class="overlay"></div>
+<div id="overlay" class="overlay" onclick="toggleMobileMenu()"></div>
 
 <!-- Sidebar -->
 <div id="sidebar" class="sidebar p-3">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0" id="judulPembelajaran">Crimping Kabel Jaringan LAN</h5>
+    <h5 class="fw-bold mb-0" style="color: var(--orange-dark);">Crimping Kabel LAN</h5>
     <button class="btn-close d-lg-none" type="button" onclick="toggleMobileMenu()"></button>
   </div>
   <p class="text-secondary small mb-4">Dasar-dasar Teknik Jaringan Komputer</p>
@@ -187,32 +326,32 @@
   <div class="border-top pt-3 mb-3">
     <p class="fw-semibold small text-secondary mb-2">🔗 Tautan</p>
     <div class="d-flex flex-column gap-1">
-      <a href="https://yanapermana.github.io" target="_blank" class="nav-link text-decoration-none">Yana Permana</a>
+      <a href="https://yanapermana.github.io" target="_blank" class="nav-link text-decoration-none">Home</a>
       <a href="https://yanapermana.github.io/jadwal.html" target="_blank" class="nav-link text-decoration-none">Jadwal</a>
       <a href="https://yanapermana.github.io/modul/index.html" target="_blank" class="nav-link text-decoration-none">Modul</a>
     </div>
   </div>
 
   <!-- Progress -->
-  <div class="border-top pt-3 mt-auto">
-    <div class="d-flex justify-content-between small text-secondary mb-1">
+  <div class="border-top pt-3">
+    <div class="d-flex justify-content-between progress-info text-secondary mb-1">
       <span>Progress Pembelajaran</span>
       <span id="progressText">1 dari 7 tahap</span>
     </div>
     <div class="progress" style="height: 8px;">
-      <div id="progressBar" class="progress-bar bg-primary" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100"></div>
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
   </div>
 </div>
 
 <!-- Tombol menu mobile -->
-<button id="mobileMenuBtn" class="btn btn-primary d-lg-none position-fixed top-0 start-0 m-3 z-3 shadow" onclick="toggleMobileMenu()">
+<button id="mobileMenuBtn" class="btn btn-primary d-lg-none shadow" onclick="toggleMobileMenu()">
   <i class="bi bi-list"></i>
 </button>
 
 <!-- Floating buttons: Back & To Top -->
 <div class="floating-buttons">
-  <button onclick="goBack()" class="btn btn-secondary" title="Kembali ke halaman sebelumnya">
+  <button onclick="goBack()" class="btn btn-secondary" title="Kembali">
     <i class="bi bi-arrow-left"></i>
   </button>
   <button onclick="scrollToTop()" class="btn btn-primary" title="Ke atas">
@@ -224,14 +363,14 @@
 <div class="main-content" id="mainContent">
   <!-- Header -->
   <header class="mb-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-center">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
       <div>
         <h2 id="sectionTitle" class="fw-bold mb-1">Selamat Datang</h2>
         <p class="text-secondary mb-0" id="namaGuru">Pembelajaran Interaktif Crimping Kabel Jaringan LAN</p>
       </div>
-      <div class="text-end mt-2 mt-sm-0">
-        <span class="badge bg-light text-dark me-2">Durasi: 90 menit</span>
-        <span class="badge bg-light text-dark">Model: Project Based Learning</span>
+      <div class="text-start text-sm-end">
+        <span class="header-badge">⏱ Durasi: 90 menit</span>
+        <span class="header-badge">📘 Project Based Learning</span>
       </div>
     </div>
   </header>
@@ -247,7 +386,7 @@
       <div class="row g-4">
         <div class="col-md-6">
           <div class="bg-primary bg-opacity-10 p-4 rounded-4 h-100">
-            <h5 class="fw-semibold text-primary">🎯 Identifikasi Awal</h5>
+            <h5 class="fw-semibold" style="color: var(--orange-dark);">🎯 Identifikasi Awal</h5>
             <p class="mb-0">Murid menunjukkan antusiasme tinggi terhadap komponen jaringan komputer, jenis jaringan komputer dan keamanan peralatan jaringan komputer.</p>
           </div>
         </div>
@@ -258,8 +397,8 @@
           </div>
         </div>
       </div>
-      <div class="mt-4 p-4 rounded-4" style="background: linear-gradient(135deg, #f3e8ff, #fce7f3);">
-        <h5 class="fw-semibold text-purple-800 mb-3" style="color: #6b21a8;">🌟 Dimensi Profil Lulusan</h5>
+      <div class="mt-4 p-4 rounded-4" style="background: linear-gradient(135deg, #ffedd5, #fff7ed);">
+        <h5 class="fw-semibold mb-3" style="color: var(--orange-text);">🌟 Dimensi Profil Lulusan</h5>
         <div class="row text-center g-3">
           <div class="col-6 col-md-3"><div class="fs-3">🎯</div><div class="fw-medium">Kemandirian</div></div>
           <div class="col-6 col-md-3"><div class="fs-3">🤝</div><div class="fw-medium">Kolaborasi</div></div>
@@ -268,7 +407,7 @@
         </div>
       </div>
       <div class="mt-4 text-center">
-        <div id="motivasiText" class="fs-5 fw-medium p-3 rounded-4" style="background: #e0e7ff; color: #4338ca;">"Setiap ahli pernah menjadi pemula. Mari belajar dengan semangat dan percaya diri!"</div>
+        <div id="motivasiText" class="fs-5 fw-medium p-3 rounded-4" style="background: var(--orange-soft); color: var(--orange-text);">"Setiap ahli pernah menjadi pemula. Mari belajar dengan semangat dan percaya diri!"</div>
       </div>
     </div>
     <div class="text-center">
@@ -288,7 +427,7 @@
       <div class="row g-4">
         <div class="col-12">
           <div class="bg-primary bg-opacity-10 p-4 rounded-4">
-            <h5 class="fw-semibold text-primary">📋 Capaian Pembelajaran</h5>
+            <h5 class="fw-semibold" style="color: var(--orange-dark);">📋 Capaian Pembelajaran</h5>
             <p class="mb-0">Pada akhir fase F, peserta didik mampu menginstalasi jaringan kabel dan nirkabel, melakukan perawatan dan perbaikan jaringan kabel dan nirkabel, memahami standar jaringan nirkabel, memilih teknologi jaringan nirkabel indoor dan outdoor sesuai kebutuhan, melakukan instalasi perangkat jaringan nirkabel, menguji instalasi perangkat jaringan nirkabel, menjelaskan konsep layanan Voice over IP (VoIP), mengkonfigurasi layanan Voice over IP (VoIP), memahami jaringan fiber optic, memahami jenis-jenis kabel fiber optic, memilih kabel fiber optic, menerapkan fungsi alat kerja fiber optic, menggunakan alat kerja fiber optic, melakukan sambungan fiber optic, dan melakukan perbaikan jaringan fiber optic.</p>
           </div>
         </div>
@@ -296,9 +435,9 @@
           <div class="bg-success bg-opacity-10 p-4 rounded-4">
             <h5 class="fw-semibold text-success">🎯 Tujuan Pembelajaran</h5>
             <div class="d-flex flex-column gap-3">
-              <div class="d-flex gap-2"><span class="badge bg-success rounded-circle p-2">1</span><span>Murid mampu memahami jaringan komputer melalui crimping kabel jaringan LAN dengan baik</span></div>
-              <div class="d-flex gap-2"><span class="badge bg-success rounded-circle p-2">2</span><span>Murid mampu menerapkan pembuatan kabel jaringan LAN tipe Straight dengan baik dan tanggung jawab</span></div>
-              <div class="d-flex gap-2"><span class="badge bg-success rounded-circle p-2">3</span><span>Murid mampu menganalisis cara membuat kabel jaringan LAN tipe Straight dengan baik dan tepat</span></div>
+              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">1</span><span>Murid mampu memahami jaringan komputer melalui crimping kabel jaringan LAN dengan baik</span></div>
+              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">2</span><span>Murid mampu menerapkan pembuatan kabel jaringan LAN tipe Straight dengan baik dan tanggung jawab</span></div>
+              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">3</span><span>Murid mampu menganalisis cara membuat kabel jaringan LAN tipe Straight dengan baik dan tepat</span></div>
             </div>
           </div>
         </div>
@@ -323,7 +462,7 @@
           <p class="fs-5 mb-0">"Pernahkah kalian bertanya bagaimana komputer bisa terhubung satu sama lain?"</p>
         </div>
         <div class="p-4 rounded-4 border-start border-4 border-primary bg-primary bg-opacity-10">
-          <div class="d-flex align-items-center gap-3 mb-2"><span class="fs-4">🌐</span><h5 class="fw-semibold text-primary-emphasis mb-0">Pertanyaan 2</h5></div>
+          <div class="d-flex align-items-center gap-3 mb-2"><span class="fs-4">🌐</span><h5 class="fw-semibold mb-0" style="color: var(--orange-dark);">Pertanyaan 2</h5></div>
           <p class="fs-5 mb-0">"Mengapa internet bisa diakses dari berbagai perangkat?"</p>
         </div>
         <div class="p-4 rounded-4 border-start border-4 border-success bg-success bg-opacity-10">
@@ -331,7 +470,7 @@
           <p class="fs-5 mb-0">"Tahukah kalian kabel jaringan LAN berguna untuk menyalurkan internet?"</p>
         </div>
       </div>
-      <div class="mt-4 p-4 rounded-4 text-center" style="background: linear-gradient(135deg, #e0e7ff, #f3e8ff);">
+      <div class="mt-4 p-4 rounded-4 text-center" style="background: linear-gradient(135deg, var(--orange-soft), var(--orange-light));">
         <div class="fs-3 mb-2">💭</div>
         <p class="fs-5 mb-0">Pikirkan jawaban kalian, dan mari kita eksplorasi bersama!</p>
       </div>
@@ -353,12 +492,12 @@
         <div class="p-4 rounded-4 bg-danger bg-opacity-10">
           <h5 class="fw-semibold text-danger-emphasis">📹 Video Pembelajaran</h5>
           <p>Tonton video singkat tentang bagaimana jaringan komputer digunakan dalam kehidupan nyata:</p>
-          <div class="p-3 bg-white rounded-3 border border-2 border-dashed border-danger">
+          <div class="p-3 bg-white rounded-3 border border-2 border-dashed" style="border-color: var(--orange-border) !important;">
             <div class="d-flex align-items-center gap-3 flex-wrap">
               <span class="fs-3">🎬</span>
               <div>
                 <p class="fw-medium mb-1">Video: Peran Jaringan di Kehidupan Sehari-hari</p>
-                <a href="https://drive.google.com/file/d/1ej9rlT1fVXILA4x1MTTXkoCrC52JnHx-/view?usp=drive_link" target="_blank" class="text-primary text-decoration-underline">Klik untuk menonton video →</a>
+                <a href="https://drive.google.com/file/d/1ej9rlT1fVXILA4x1MTTXkoCrC52JnHx-/view?usp=drive_link" target="_blank" class="text-decoration-underline" style="color: var(--orange-dark);">Klik untuk menonton video →</a>
               </div>
             </div>
           </div>
@@ -366,7 +505,7 @@
         <div class="row g-3">
           <div class="col-md-6">
             <div class="bg-primary bg-opacity-10 p-4 rounded-4 h-100">
-              <h5 class="fw-semibold text-primary">🔍 Eksplorasi Informasi</h5>
+              <h5 class="fw-semibold" style="color: var(--orange-dark);">🔍 Eksplorasi Informasi</h5>
               <ul class="list-unstyled mb-0">
                 <li class="mb-2">• Jaringan komputer menggunakan kabel jaringan LAN</li>
                 <li class="mb-2">• Fungsi kabel dalam transfer data</li>
@@ -387,15 +526,15 @@
         </div>
         <div class="bg-warning bg-opacity-10 p-4 rounded-4">
           <h5 class="fw-semibold text-warning-emphasis">🎨 Urutan Warna Kabel Jaringan LAN Tipe Straight</h5>
-          <div class="row g-2 mt-2">
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#ffcc99; border:2px solid #ff9900;"></div><span class="small-label">Putih Orange</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#ff9900;"></div><span class="small-label">Orange</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#ccffcc; border:2px solid #00cc00;"></div><span class="small-label">Putih Hijau</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#0066ff;"></div><span class="small-label">Biru</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#cce5ff; border:2px solid #0066ff;"></div><span class="small-label">Putih Biru</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#00cc00;"></div><span class="small-label">Hijau</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#ffffcc; border:2px solid #cccc00;"></div><span class="small-label">Putih Coklat</span></div>
-            <div class="col-3 col-md-1 text-center"><div class="color-swatch" style="background:#cc6600;"></div><span class="small-label">Coklat</span></div>
+          <div class="color-grid mt-3">
+            <div class="text-center"><div class="color-swatch" style="background:#ffcc99; border:2px solid #ff9900;"></div><span class="small-label">Putih Orange</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#ff9900;"></div><span class="small-label">Orange</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#ccffcc; border:2px solid #00cc00;"></div><span class="small-label">Putih Hijau</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#0066ff;"></div><span class="small-label">Biru</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#cce5ff; border:2px solid #0066ff;"></div><span class="small-label">Putih Biru</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#00cc00;"></div><span class="small-label">Hijau</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#ffffcc; border:2px solid #cccc00;"></div><span class="small-label">Putih Coklat</span></div>
+            <div class="text-center"><div class="color-swatch" style="background:#cc6600;"></div><span class="small-label">Coklat</span></div>
           </div>
         </div>
       </div>
@@ -414,19 +553,19 @@
         <p class="text-secondary">Project Based Learning dan Demonstrasi (60 menit)</p>
       </div>
       <div class="d-flex flex-column gap-4">
-        <div class="bg-purple-50 p-4 rounded-4" style="background: #f3e8ff;">
-          <h5 class="fw-semibold" style="color:#6b21a8;">📋 1. Menentukan Project</h5>
+        <div class="p-4 rounded-4" style="background: var(--orange-soft);">
+          <h5 class="fw-semibold" style="color: var(--orange-text);">📋 1. Menentukan Project</h5>
           <div class="row g-3 mt-1">
             <div class="col-md-6"><div class="bg-white p-3 rounded-3 border">📄 Jobsheet/LKPD<br><small class="text-secondary">Murid diberikan lembar kerja tentang crimping kabel jaringan LAN tipe straight</small></div></div>
             <div class="col-md-6"><div class="bg-white p-3 rounded-3 border">👥 Kelompok<br><small class="text-secondary">Murid mengerjakan secara berkelompok 2-3 orang</small></div></div>
           </div>
         </div>
         <div class="bg-primary bg-opacity-10 p-4 rounded-4">
-          <h5 class="fw-semibold text-primary">👨‍🏫 2. Demonstrasi Langkah-langkah</h5>
+          <h5 class="fw-semibold" style="color: var(--orange-dark);">👨‍🏫 2. Demonstrasi Langkah-langkah</h5>
           <div class="row g-3 mt-1 text-center">
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3"><div class="fs-2">🔪</div><h6 class="fw-semibold">Persiapan Kabel</h6><small class="text-secondary">Kupas dan susun kabel sesuai urutan warna</small></div></div>
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3"><div class="fs-2">🔌</div><h6 class="fw-semibold">Pemasangan RJ45</h6><small class="text-secondary">Masukkan kabel ke konektor RJ45</small></div></div>
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3"><div class="fs-2">🔨</div><h6 class="fw-semibold">Crimping</h6><small class="text-secondary">Tekan dengan tang crimping</small></div></div>
+            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔪</div><h6 class="fw-semibold">Persiapan Kabel</h6><small class="text-secondary">Kupas dan susun kabel sesuai urutan warna</small></div></div>
+            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔌</div><h6 class="fw-semibold">Pemasangan RJ45</h6><small class="text-secondary">Masukkan kabel ke konektor RJ45</small></div></div>
+            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔨</div><h6 class="fw-semibold">Crimping</h6><small class="text-secondary">Tekan dengan tang crimping</small></div></div>
           </div>
         </div>
         <div class="bg-success bg-opacity-10 p-4 rounded-4">
@@ -440,7 +579,7 @@
         </div>
         <div class="bg-warning bg-opacity-10 p-4 rounded-4">
           <h5 class="fw-semibold text-warning-emphasis">🛠️ Alat dan Bahan</h5>
-          <div class="row mt-2">
+          <div class="row mt-2 g-3">
             <div class="col-md-6"><h6 class="fw-semibold">🔧 Alat:</h6><ul class="list-unstyled"><li>• Tang Crimping</li><li>• LAN Tester</li><li>• Tang Kupas Kabel</li><li>• Cutter/Pisau</li></ul></div>
             <div class="col-md-6"><h6 class="fw-semibold">📦 Bahan:</h6><ul class="list-unstyled"><li>• Kabel UTP Cat 5e/6</li><li>• Konektor RJ45</li><li>• Boot/Pelindung kabel</li></ul></div>
           </div>
@@ -460,75 +599,15 @@
         <h3 class="fw-bold">Kuis Evaluasi</h3>
         <p class="text-secondary">Tahap Merefleksi (5 menit)</p>
       </div>
-      <div class="mb-4 bg-primary bg-opacity-10 p-4 rounded-4">
-        <label for="namaLengkap" class="form-label fw-semibold text-primary">👤 Nama Lengkap:</label>
-        <input type="text" id="namaLengkap" class="form-control form-control-lg border-primary" placeholder="Masukkan nama lengkap Anda">
+      <div class="mb-4 p-4 rounded-4" style="background: var(--orange-soft);">
+        <label for="namaLengkap" class="form-label fw-semibold" style="color: var(--orange-text);">👤 Nama Lengkap:</label>
+        <input type="text" id="namaLengkap" class="form-control form-control-lg" style="border-color: var(--orange-border);" placeholder="Masukkan nama lengkap Anda">
       </div>
 
       <div id="quizContainer">
-        <!-- Q1 -->
         <div class="quiz-question">
           <h5 class="fw-semibold mb-3">1. Apa kepanjangan dari LAN?</h5>
           <button class="quiz-option" data-question="1" data-answer="A">A. Local Area Network</button>
           <button class="quiz-option" data-question="1" data-answer="B">B. Large Area Network</button>
           <button class="quiz-option" data-question="1" data-answer="C">C. Limited Area Network</button>
-          <button class="quiz-option" data-question="1" data-answer="D">D. Long Area Network</button>
-          <button class="quiz-option" data-question="1" data-answer="E">E. Linear Area Network</button>
-        </div>
-        <!-- Q2 -->
-        <div class="quiz-question">
-          <h5 class="fw-semibold mb-3">2. Berapa jumlah kabel yang ada dalam kabel UTP?</h5>
-          <button class="quiz-option" data-question="2" data-answer="A">A. 6 kabel</button>
-          <button class="quiz-option" data-question="2" data-answer="B">B. 8 kabel</button>
-          <button class="quiz-option" data-question="2" data-answer="C">C. 10 kabel</button>
-          <button class="quiz-option" data-question="2" data-answer="D">D. 4 kabel</button>
-          <button class="quiz-option" data-question="2" data-answer="E">E. 12 kabel</button>
-        </div>
-        <!-- Q3 -->
-        <div class="quiz-question">
-          <h5 class="fw-semibold mb-3">3. Alat yang digunakan untuk menguji koneksi kabel jaringan LAN adalah?</h5>
-          <button class="quiz-option" data-question="3" data-answer="A">A. Multimeter</button>
-          <button class="quiz-option" data-question="3" data-answer="B">B. LAN Tester</button>
-          <button class="quiz-option" data-question="3" data-answer="C">C. Oscilloscope</button>
-          <button class="quiz-option" data-question="3" data-answer="D">D. Voltmeter</button>
-          <button class="quiz-option" data-question="3" data-answer="E">E. Amperemeter</button>
-        </div>
-        <!-- Q4 -->
-        <div class="quiz-question">
-          <h5 class="fw-semibold mb-3">4. Warna kabel pertama pada susunan kabel straight adalah?</h5>
-          <button class="quiz-option" data-question="4" data-answer="A">A. Putih Orange</button>
-          <button class="quiz-option" data-question="4" data-answer="B">B. Orange</button>
-          <button class="quiz-option" data-question="4" data-answer="C">C. Putih Hijau</button>
-          <button class="quiz-option" data-question="4" data-answer="D">D. Hijau</button>
-          <button class="quiz-option" data-question="4" data-answer="E">E. Biru</button>
-        </div>
-        <!-- Q5 -->
-        <div class="quiz-question">
-          <h5 class="fw-semibold mb-3">5. Konektor yang digunakan untuk kabel jaringan LAN adalah?</h5>
-          <button class="quiz-option" data-question="5" data-answer="A">A. RJ11</button>
-          <button class="quiz-option" data-question="5" data-answer="B">B. RJ45</button>
-          <button class="quiz-option" data-question="5" data-answer="C">C. USB</button>
-          <button class="quiz-option" data-question="5" data-answer="D">D. HDMI</button>
-          <button class="quiz-option" data-question="5" data-answer="E">E. VGA</button>
-        </div>
-      </div>
-
-      <div class="text-center mt-4">
-        <button id="submitQuiz" class="btn btn-primary btn-lg px-5" disabled>Selesaikan Kuis</button>
-      </div>
-
-      <div id="quizResults" class="d-none mt-4 bg-success bg-opacity-10 p-4 rounded-4 text-center">
-        <div class="fs-1 mb-2">🎉</div>
-        <h4 class="fw-bold text-success">Hasil Kuis</h4>
-        <div id="scoreDisplay" class="fs-5 text-secondary mb-2"></div>
-        <div id="feedbackMessage" class="text-secondary"></div>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <button onclick="nextSection('penutup')" class="btn btn-primary btn-lg px-5">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
-    </div>
-  </section>
-
-  <!-- Section: Penutup -->
-  <section id="section-penutup" class="content-section d-none">
-    <div class
+          <
