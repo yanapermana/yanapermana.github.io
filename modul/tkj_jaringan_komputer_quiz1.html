@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jaringan Komputer Quiz 1</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-orange: #ff6b00;
+      --dark-orange: #e05a00;
+      --light-orange: #fff3eb;
+      --border-orange: #ffcca8;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar Theme */
+    .navbar-custom {
+      background-color: var(--primary-orange);
+      box-shadow: 0 2px 10px rgba(255, 107, 0, 0.25);
+    }
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #ffffff !important;
+      font-weight: 600;
+    }
+
+    .navbar-custom .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+    }
+
+    .navbar-toggler {
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Buttons */
+    .btn-orange {
+      background-color: var(--primary-orange);
+      border-color: var(--primary-orange);
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-orange:hover, .btn-orange:focus {
+      background-color: var(--dark-orange);
+      border-color: var(--dark-orange);
+      color: #fff;
+    }
+
+    .btn-outline-orange {
+      border: 2px solid var(--primary-orange);
+      color: var(--primary-orange);
+      background-color: #fff;
+      font-weight: 600;
+    }
+
+    .btn-outline-orange:hover {
+      background-color: var(--primary-orange);
+      color: #fff;
+    }
+
+    /* Card Styling */
+    .quiz-card {
+      background: #ffffff;
+      border: none;
+      border-top: 5px solid var(--primary-orange);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .badge-orange {
+      background-color: var(--light-orange);
+      color: var(--primary-orange);
+      border: 1px solid var(--border-orange);
+      font-weight: 600;
+    }
+
+    /* Progress Bar */
+    .progress {
+      height: 10px;
+      background-color: var(--light-orange);
+      border-radius: 10px;
+    }
+
+    .progress-bar-orange {
+      background-color: var(--primary-orange);
+    }
+
+    /* Option Buttons */
+    .option-btn {
+      text-align: left;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #333;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary-orange);
+      background-color: var(--light-orange);
+    }
+
+    .option-prefix {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--light-orange);
+      color: var(--primary-orange);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* Correct & Wrong States */
+    .option-correct {
+      border-color: #198754 !important;
+      background-color: #d1e7dd !important;
+      color: #0f5132 !important;
+    }
+
+    .option-correct .option-prefix {
+      background-color: #198754;
+      color: #fff;
+    }
+
+    .option-wrong {
+      border-color: #dc3545 !important;
+      background-color: #f8d7da !important;
+      color: #842029 !important;
+    }
+
+    .option-wrong .option-prefix {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    /* Score Circle */
+    .score-circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: var(--light-orange);
+      border: 6px solid var(--primary-orange);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .score-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary-orange);
+      line-height: 1;
+    }
+
+    /* Back to Top Button */
+    #btnToTop {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: none;
+      z-index: 999;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: var(--primary-orange);
+      color: white;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      align-items: center;
+      justify-content: center;
+    }
+
+    #btnToTop:hover {
+      background-color: var(--dark-orange);
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #fff;
+      border-top: 1px solid #eee;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <i class="bi bi-router-fill"></i> Yana Permana
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav gap-1">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container my-4 my-md-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+
+        <!-- Back Button -->
+        <div class="mb-3">
+          <button type="button" class="btn btn-outline-orange btn-sm" onclick="window.history.back()">
+            <i class="bi bi-arrow-left"></i> Back ke Halaman Sebelumnya
+          </button>
+        </div>
+
+        <!-- 1. START SECTION (Input Nama & Kelas) -->
+        <div id="start-screen" class="card quiz-card p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="badge badge-orange px-3 py-2 rounded-pill mb-2">Materi: Basic Networking</span>
+            <h1 class="h3 fw-bold text-dark">Jaringan Komputer Quiz 1</h1>
+            <p class="text-muted mb-0">Jawab 30 soal pilihan ganda dengan teliti. Skor maksimal adalah <strong>100</strong>.</p>
+          </div>
+
+          <form id="start-form">
+            <div class="mb-3">
+              <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required />
+            </div>
+            <div class="mb-4">
+              <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XII TKJ 1 / TI-2A" required />
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-orange btn-lg">
+                Mulai Quiz <i class="bi bi-play-circle-fill ms-1"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. QUIZ SECTION -->
+        <div id="quiz-screen" class="card quiz-card p-4 p-md-5 d-none">
+          <!-- Student Info & Progress -->
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-2">
+            <div>
+              <span class="badge badge-orange" id="display-student">Nama - Kelas</span>
+            </div>
+            <div class="fw-bold text-secondary">
+              Soal <span id="current-number" style="color: var(--primary-orange);">1</span> dari 30
+            </div>
+          </div>
+
+          <div class="progress mb-4">
+            <div id="quiz-progress" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+          </div>
+
+          <!-- Question Text -->
+          <h2 id="question-text" class="h5 fw-bold mb-4 lh-base">Pertanyaan akan muncul di sini...</h2>
+
+          <!-- Options Container -->
+          <div id="options-container"></div>
+
+          <!-- Immediate Answer Feedback -->
+          <div id="feedback-box" class="alert mt-3 d-none" role="alert"></div>
+
+          <!-- Next Button -->
+          <div class="d-flex justify-content-end mt-4">
+            <button id="next-btn" type="button" class="btn btn-orange px-4 d-none">
+              Soal Selanjutnya <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. RESULT SECTION -->
+        <div id="result-screen" class="card quiz-card p-4 p-md-5 text-center d-none">
+          <span class="badge badge-orange px-3 py-2 rounded-pill mb-2">Quiz Selesai</span>
+          <h2 class="h3 fw-bold mb-1">Hasil Jaringan Komputer Quiz 1</h2>
+          <p class="text-muted mb-4" id="result-student-info">Nama | Kelas</p>
+
+          <div class="score-circle mb-3">
+            <span class="score-number" id="final-score">0</span>
+            <small class="text-muted fw-semibold">dari 100</small>
+          </div>
+
+          <p class="fw-semibold mb-4" id="score-summary">Jawaban Benar: 0 dari 30 soal</p>
+
+          <!-- Status Pengiriman ke Google Spreadsheet -->
+          <div id="save-status" class="alert alert-warning d-flex align-items-center justify-content-center gap-2" role="alert">
+            <div class="spinner-border spinner-border-sm text-warning" role="status"></div>
+            <span>Menyimpan hasil ke Google Spreadsheet...</span>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap justify-content-center gap-2">
+            <button type="button" class="btn btn-outline-orange" onclick="window.history.back()">
+              <i class="bi bi-arrow-left"></i> Kembali ke Halaman Sebelumnya
+            </button>
+            <button type="button" class="btn btn-orange" onclick="location.reload()">
+              <i class="bi bi-arrow-clockwise"></i> Ulangi Quiz
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Button To Top -->
+  <button id="btnToTop" type="button" title="Kembali ke atas" onclick="scrollToTop()">
+    <i class="bi bi-arrow-up fs-5"></i>
+  </button>
+
+  <!-- Footer -->
+  <footer class="py-3 text-center text-muted small">
+    <div class="container">
+      &copy; 2026 Yana Permana &mdash; Jaringan Komputer Quiz 1 (Basic Networking)
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // =========================================================================
+    // KONFIGURASI GOOGLE SPREADSHEET WEB APP URL
+    // Ganti URL di bawah ini dengan Web App URL dari Google Apps Script Anda
+    // =========================================================================
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTWYI1cyliV_5lFgTM0XkBn2M9J8uB-Dg8sCwWEyVqFRxCgP4cbIpvZ3gw3b8GXujO5g/exec";
+
+    // =========================================================================
+    // BANK SOAL: 30 SOAL BASIC NETWORKING (5 OPSI JAWABAN)
+    // =========================================================================
+    const questions = [
+      {
+        q: "Apa kepanjangan dari LAN dalam jaringan komputer?",
+        options: ["Local Area Network", "Large Area Network", "Long Access Network", "Local Access Node", "Logical Area Network"],
+        answer: 0
+      },
+      {
+        q: "Perangkat jaringan yang berfungsi menghubungkan dua atau lebih jaringan yang berbeda segmen IP adalah...",
+        options: ["Hub", "Repeater", "Router", "Access Point", "Bridge"],
+        answer: 2
+      },
+      {
+        q: "Berapa jumlah lapisan (layer) pada model referensi OSI?",
+        options: ["4 Layer", "5 Layer", "6 Layer", "7 Layer", "8 Layer"],
+        answer: 3
+      },
+      {
+        q: "Lapisan pada OSI Layer yang bertanggung jawab untuk pengalamatan logis (IP Address) dan routing adalah...",
+        options: ["Physical Layer", "Data Link Layer", "Network Layer", "Transport Layer", "Session Layer"],
+        answer: 2
+      },
+      {
+        q: "Protokol yang digunakan untuk menerjemahkan nama domain (seperti google.com) menjadi alamat IP adalah...",
+        options: ["DHCP", "DNS", "HTTP", "FTP", "SMTP"],
+        answer: 1
+      },
+      {
+        q: "Berapa panjang bit dari alamat IPv4?",
+        options: ["16 bit", "32 bit", "48 bit", "64 bit", "128 bit"],
+        answer: 1
+      },
+      {
+        q: "Berapa panjang bit dari alamat IPv6?",
+        options: ["32 bit", "48 bit", "64 bit", "128 bit", "256 bit"],
+        answer: 3
+      },
+      {
+        q: "Perintah pada Command Prompt (Windows) yang digunakan untuk menguji konektivitas antar perangkat jaringan adalah...",
+        options: ["ipconfig", "netstat", "ping", "tracert", "nslookup"],
+        answer: 2
+      },
+      {
+        q: "Topologi jaringan di mana setiap komputer terhubung ke satu perangkat pusat seperti Switch atau Hub disebut...",
+        options: ["Topologi Bus", "Topologi Ring", "Topologi Star", "Topologi Mesh", "Topologi Tree"],
+        answer: 2
+      },
+      {
+        q: "Alamat fisik yang tertanam permanen pada Network Interface Card (NIC) disebut...",
+        options: ["IP Address", "MAC Address", "Subnet Mask", "Default Gateway", "Port Number"],
+        answer: 1
+      },
+      {
+        q: "Kabel UTP kategori berapa yang umumnya mendukung kecepatan transfer data hingga 1 Gbps (Gigabit Ethernet)?",
+        options: ["Cat 3", "Cat 4", "Cat 5", "Cat 5e / Cat 6", "Cat 2"],
+        answer: 3
+      },
+      {
+        q: "Susunan kabel UTP standar TIA/EIA 568B pada pin nomor 1 dan 2 adalah...",
+        options: ["Putih Hijau - Hijau", "Putih Orange - Orange", "Putih Biru - Biru", "Putih Coklat - Coklat", "Orange - Putih Orange"],
+        answer: 1
+      },
+      {
+        q: "Jenis kabel UTP yang digunakan untuk menghubungkan dua perangkat yang berbeda jenis (misalnya PC ke Switch) adalah...",
+        options: ["Crossover", "Rollover", "Straight-Through", "Coaxial", "Fiber Optic"],
+        answer: 2
+      },
+      {
+        q: "Protokol yang secara otomatis memberikan alamat IP kepada perangkat client dalam jaringan adalah...",
+        options: ["DNS", "DHCP", "ARP", "ICMP", "SNMP"],
+        answer: 1
+      },
+      {
+        q: "Manakah di bawah ini yang termasuk alamat IP Private kelas C?",
+        options: ["172.16.0.1", "10.0.0.1", "192.168.1.1", "8.8.8.8", "11.0.0.1"],
+        answer: 2
+      },
+      {
+        q: "Default subnet mask untuk alamat IP Kelas C adalah...",
+        options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128", "255.255.255.255"],
+        answer: 2
+      },
+      {
+        q: "Berapa jumlah host yang valid pada subnet /24 (255.255.255.0)?",
+        options: ["256 host", "255 host", "254 host", "128 host", "64 host"],
+        answer: 2
+      },
+      {
+        q: "Port default yang digunakan oleh protokol HTTPS adalah...",
+        options: ["21", "22", "53", "80", "443"],
+        answer: 4
+      },
+      {
+        q: "Port default yang digunakan untuk akses remote aman menggunakan SSH adalah...",
+        options: ["20", "21", "22", "23", "25"],
+        answer: 2
+      },
+      {
+        q: "Perangkat jaringan yang bekerja pada Layer 2 (Data Link) dan meneruskan frame berdasarkan MAC Address adalah...",
+        options: ["Hub", "Repeater", "Switch", "Modem", "Router"],
+        answer: 2
+      },
+      {
+        q: "Apa fungsi utama dari Default Gateway pada konfigurasi TCP/IP?",
+        options: [
+          "Menerjemahkan nama domain ke IP",
+          "Memberikan IP otomatis ke client",
+          "Pintu keluar paket data menuju jaringan luar/berbeda segmen",
+          "Memblokir virus dari internet",
+          "Memperkuat sinyal Wi-Fi"
+        ],
+        answer: 2
+      },
+      {
+        q: "Protokol pada Transport Layer yang bersifat connection-oriented dan menjamin pengiriman data sampai dengan andal adalah...",
+        options: ["UDP", "TCP", "IP", "ICMP", "ARP"],
+        answer: 1
+      },
+      {
+        q: "Protokol pada Transport Layer yang bersifat connectionless dan cepat, cocok untuk streaming video atau VoIP adalah...",
+        options: ["TCP", "UDP", "FTP", "HTTP", "SMTP"],
+        answer: 1
+      },
+      {
+        q: "Konektor yang digunakan pada ujung kabel UTP untuk jaringan Ethernet adalah...",
+        options: ["RJ-11", "RJ-45", "BNC", "SC", "LC"],
+        answer: 1
+      },
+      {
+        q: "Media transmisi jaringan yang mengirimkan data menggunakan pulsa cahaya sehingga kebal terhadap interferensi elektromagnetik adalah...",
+        options: ["Coaxial", "UTP", "STP", "Fiber Optic", "Wireless"],
+        answer: 3
+      },
+      {
+        q: "Alamat IP 127.0.0.1 dikenal sebagai...",
+        options: ["Broadcast Address", "Network Address", "Loopback Address (Localhost)", "Multicast Address", "Public Gateway"],
+        answer: 2
+      },
+      {
+        q: "Protokol yang digunakan untuk memetakan alamat IP (Layer 3) ke alamat fisik MAC Address (Layer 2) adalah...",
+        options: ["DNS", "DHCP", "ARP", "NAT", "ICMP"],
+        answer: 2
+      },
+      {
+        q: "Teknologi yang memungkinkan banyak perangkat dalam jaringan lokal (IP Private) mengakses internet menggunakan satu IP Public adalah...",
+        options: ["VLAN", "NAT (Network Address Translation)", "VPN", "DNS", "STP"],
+        answer: 1
+      },
+      {
+        q: "Standar IEEE untuk jaringan nirkabel (Wi-Fi) adalah...",
+        options: ["IEEE 802.3", "IEEE 802.11", "IEEE 802.15", "IEEE 802.1Q", "IEEE 802.5"],
+        answer: 1
+      },
+      {
+        q: "Alat yang digunakan untuk menguji urutan dan konektivitas pin pada kabel UTP yang sudah dipasang konektor RJ-45 adalah...",
+        options: ["Tang Crimping", "LAN Tester", "OTDR", "Multimeter", "Punch Down Tool"],
+        answer: 1
+      }
+    ];
+
+    // State Variables
+    let currentIndex = 0;
+    let correctAnswersCount = 0;
+    let studentName = "";
+    let studentClass = "";
+    let answered = false;
+
+    const optionLetters = ["A", "B", "C", "D", "E"];
+
+    // DOM Elements
+    const startScreen = document.getElementById("start-screen");
+    const quizScreen = document.getElementById("quiz-screen");
+    const resultScreen = document.getElementById("result-screen");
+    const startForm = document.getElementById("start-form");
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const feedbackBox = document.getElementById("feedback-box");
+    const nextBtn = document.getElementById("next-btn");
+    const currentNumberEl = document.getElementById("current-number");
+    const progressBar = document.getElementById("quiz-progress");
+
+    // Start Quiz Handler
+    startForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      studentName = document.getElementById("inputNama").value.trim();
+      studentClass = document.getElementById("inputKelas").value.trim();
+
+      if (!studentName || !studentClass) return;
+
+      document.getElementById("display-student").textContent = `${studentName} (${studentClass})`;
+      startScreen.classList.add("d-none");
+      quizScreen.classList.remove("d-none");
+      loadQuestion();
+      scrollToTop();
+    });
+
+    // Load Current Question
+    function loadQuestion() {
+      answered = false;
+      feedbackBox.classList.add("d-none");
+      nextBtn.classList.add("d-none");
+      optionsContainer.innerHTML = "";
+
+      const currentQ = questions[currentIndex];
+      currentNumberEl.textContent = currentIndex + 1;
+      const progressPercent = ((currentIndex + 1) / questions.length) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      questionText.textContent = `${currentIndex + 1}. ${currentQ.q}`;
+
+      currentQ.options.forEach((optText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.innerHTML = `
+          <span class="option-prefix">${optionLetters[idx]}</span>
+          <span>${optText}</span>
+        `;
+        btn.onclick = () => selectAnswer(idx, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      if (currentIndex === questions.length - 1) {
+        nextBtn.innerHTML = `Lihat Skor Akhir <i class="bi bi-check-circle-fill ms-1"></i>`;
+      } else {
+        nextBtn.innerHTML = `Soal Selanjutnya <i class="bi bi-arrow-right ms-1"></i>`;
+      }
+    }
+
+    // Handle Answer Selection & Immediate Feedback
+    function selectAnswer(selectedIdx, selectedBtn) {
+      if (answered) return;
+      answered = true;
+
+      const currentQ = questions[currentIndex];
+      const correctIdx = currentQ.answer;
+      const allButtons = optionsContainer.querySelectorAll(".option-btn");
+
+      // Disable all buttons
+      allButtons.forEach(btn => btn.disabled = true);
+
+      // Highlight correct answer
+      allButtons[correctIdx].classList.add("option-correct");
+
+      if (selectedIdx === correctIdx) {
+        correctAnswersCount++;
+        feedbackBox.className = "alert alert-success mt-3";
+        feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> <strong>Benar!</strong> Jawaban yang tepat adalah <strong>${optionLetters[correctIdx]}. ${currentQ.options[correctIdx]}</strong>.`;
+      } else {
+        selectedBtn.classList.add("option-wrong");
+        feedbackBox.className = "alert alert-danger mt-3";
+        feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-1"></i> <strong>Kurang Tepat!</strong> Jawaban yang benar adalah <strong>${optionLetters[correctIdx]}. ${currentQ.options[correctIdx]}</strong>.`;
+      }
+
+      feedbackBox.classList.remove("d-none");
+      nextBtn.classList.remove("d-none");
+    }
+
+    // Next Question or Finish
+    nextBtn.addEventListener("click", function () {
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        loadQuestion();
+        scrollToTop();
+      } else {
+        finishQuiz();
+      }
+    });
+
+    // Finish Quiz & Calculate Score (Max 100)
+    function finishQuiz() {
+      quizScreen.classList.add("d-none");
+      resultScreen.classList.remove("d-none");
+      scrollToTop();
+
+      // Hitung skor maksimal 100 (dibulatkan 2 desimal jika tidak bulat, atau bilangan bulat jika pas)
+      const rawScore = (correctAnswersCount / questions.length) * 100;
+      const finalScore = Number.isInteger(rawScore) ? rawScore : parseFloat(rawScore.toFixed(2));
+
+      document.getElementById("result-student-info").textContent = `${studentName} — Kelas ${studentClass}`;
+      document.getElementById("final-score").textContent = finalScore;
+      document.getElementById("score-summary").textContent = `Jawaban Benar: ${correctAnswersCount} dari ${questions.length} soal`;
+
+      sendToGoogleSheets(studentName, studentClass, finalScore);
+    }
+
+    // Send Result to Google Spreadsheet
+    async function sendToGoogleSheets(nama, kelas, skor) {
+      const statusEl = document.getElementById("save-status");
+
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "URL_WEB_APP_GOOGLE_SCRIPT_ANDA") {
+        statusEl.className = "alert alert-info";
+        statusEl.innerHTML = `<i class="bi bi-info-circle-fill me-1"></i> URL Google Apps Script belum dipasang. Skor lokal Anda: <strong>${skor}</strong>.`;
+        return;
+      }
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nama: nama,
+            kelas: kelas,
+            skor: skor
+          })
+        });
+
+        statusEl.className = "alert alert-success";
+        statusEl.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data <strong>${nama} (${kelas})</strong> dengan skor <strong>${skor}</strong> berhasil disimpan ke spreadsheet <em>"Jaringan Komputer Quiz 1"</em>.`;
+      } catch (error) {
+        statusEl.className = "alert alert-danger";
+        statusEl.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> Gagal mengirim data ke Google Spreadsheet. Periksa koneksi internet Anda.`;
+      }
+    }
+
+    // Back to Top Button Visibility & Scroll
+    const btnToTop = document.getElementById("btnToTop");
+    window.onscroll = function () {
+      if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        btnToTop.style.display = "flex";
+      } else {
+        btnToTop.style.display = "none";
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
