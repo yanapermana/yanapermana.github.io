@@ -1,35 +1,3 @@
-<!-- PROMPT
-Buatkan halaman website berisi jobsheet jasa rakit pc berdasarkan informasi dibawah ini:
-
-Topik: 
-- Administrasi Sistem Jaringan
-
-Capaian Pembelajaran:
-- Pada akhir fase F, Murid mampu menginstalasi sistem operasi jaringan, menjelaskan konsep, menginstalasi services, mengkonfigurasi dan menguji konfigurasi remote server, DHCP server, DNS server, FTP server, file server, web server, mail server, database server, Control Panel Hosting, Share Hosting Server, Dedicated Hosting Server, Virtual Private Server, VPN server, sistem kontrol dan monitoring.
-
-Tujuan Pembelajaran:
-1. Murid mampu mengidentifikasi kebutuhan pelanggan dan menentukan spesifikasi komponen PC yang sesuai dengan fungsi dan anggaran yang dibutuhkan.
-2. Murid mampu merakit komputer sesuai dengan prosedur kerja, standar keselamatan (K3), dan petunjuk teknis yang berlaku.
-3. Murid mampu melakukan pengujian, troubleshooting sederhana, serta memastikan komputer berfungsi dengan baik sebelum diserahkan kepada pelanggan.
-
-Metode Pembelajaran:
-- Project Based Learning
-
-Alat dan Bahan:
-- Casing PC
-- Motherboard
-- Processor
-- Obeng Plus
-- Obeng Min
-- Power Supply
-- Heatsink
-- RAM
-- HDD/SSD
-- Baut
-- Baterai CMOS
-- Kabel SATA
--->
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -62,9 +30,10 @@ Alat dan Bahan:
     font-family:'IBM Plex Sans', sans-serif;
     color:var(--text);
     min-height:100vh;
-    padding:48px 20px 90px;
+    padding:0;
   }
-  .wrap{max-width:960px;margin:0 auto;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 12px 110px;}
+  @media (min-width:768px){.wrap{padding:48px 20px 110px;}}
 
   /* ===== HEADER / TICKET ===== */
   .ticket{
@@ -73,18 +42,6 @@ Alat dan Bahan:
     box-shadow:0 18px 40px rgba(0,0,0,0.35);
     position:relative;
     margin-bottom:36px;
-  }
-  .ticket::before{
-    content:"";
-    position:absolute; left:0; right:0; top:198px;
-    border-top:2px dashed rgba(20,40,55,0.35);
-  }
-  .ticket::after{
-    content:"";
-    position:absolute; left:-9px; top:190px;
-    width:18px;height:18px;border-radius:50%;
-    background:var(--ink);
-    box-shadow: 0 0 0 3px var(--panel) inset;
   }
   .ticket-top{
     padding:26px 32px 18px;
@@ -121,7 +78,14 @@ Alat dan Bahan:
   .topic-bar .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;flex-shrink:0;}
   .ticket-fields{
     padding:22px 32px 28px;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:18px 22px;
+    position:relative;
+    border-top:2px dashed rgba(20,40,55,0.35);
+  }
+  .ticket-fields::before{
+    content:"";
+    position:absolute; left:-10px; top:-11px;
+    width:18px;height:18px;border-radius:50%;
+    background:var(--ink);
   }
   .field label{
     display:block; font-family:'IBM Plex Mono', monospace;
@@ -188,11 +152,8 @@ Alat dan Bahan:
   .method-desc{color:var(--text-soft); font-size:14.5px; max-width:52ch; line-height:1.55;}
 
   /* tools grid */
-  .tool-grid{
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
-    gap:12px;
-  }
   .tool-item{
+    height:100%;
     border:1px solid rgba(20,40,55,0.25);
     background:var(--panel-dim);
     padding:12px 14px;
@@ -265,8 +226,6 @@ Alat dan Bahan:
   .ts-table tr:last-child td{border-bottom:none;}
 
   /* eval */
-  .eval-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
-  @media (max-width:640px){.eval-grid{grid-template-columns:1fr;}}
   .eval-col h4{
     font-family:'IBM Plex Mono', monospace; font-size:11.5px;
     text-transform:uppercase; letter-spacing:.1em; color:var(--text-soft);
@@ -280,11 +239,17 @@ Alat dan Bahan:
     margin-top:36px; letter-spacing:.06em;
   }
 
-  @media (max-width:700px){
-    .ticket-fields{grid-template-columns:1fr 1fr;}
-    .ticket-top{flex-direction:column;}
+  @media (max-width:767.98px){
+    .ticket-top{flex-direction:column; padding:22px 18px 16px;}
     .stamp{transform:none; align-self:flex-start;}
-    .ts-table{font-size:12.5px;}
+    .topic-bar{margin:0 18px 18px; font-size:11.5px;}
+    .ticket-fields{padding:20px 18px 24px;}
+    .ticket-fields::before{left:-10px;}
+    .panel-head{padding:14px 18px;}
+    .panel-body{padding:20px 18px 24px;}
+    .step{grid-template-columns:44px 1fr; gap:12px;}
+    .step-num{font-size:22px;}
+    .ts-table{font-size:12.5px; min-width:560px;}
   }
   @media print{
     body{background:#fff; padding:0;}
@@ -292,7 +257,6 @@ Alat dan Bahan:
   }
 
   /* ===== NAVBAR ===== */
-  body{padding-top:0;}
   .site-nav{
     background:var(--ink2);
     border-bottom:1.5px solid var(--line-soft);
@@ -308,7 +272,7 @@ Alat dan Bahan:
     letter-spacing:.04em; font-size:19px;
     color:var(--panel); text-decoration:none;
   }
-  .site-nav .nav-logo:hover{color:var(--accent);}
+  .site-nav .nav-logo:hover{color:var(--panel);}
   .site-nav .navbar-toggler{
     background:transparent;
   }
@@ -337,6 +301,40 @@ Alat dan Bahan:
   .site-nav .nav-links-list a:hover{
     color:var(--accent); border-bottom-color:var(--accent);
   }
+  /* ===== FLOATING BUTTONS ===== */
+  .float-btn{
+    position:fixed; bottom:max(16px, env(safe-area-inset-bottom));
+    z-index:1050;
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:.06em; font-weight:600;
+    border-radius:0; padding:10px 16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .float-btn svg{width:16px;height:16px;flex-shrink:0;}
+  .btn-back{
+    left:max(12px, env(safe-area-inset-left));
+    background:var(--panel); color:var(--ink); border:1.5px solid var(--ink2);
+  }
+  .btn-back:hover,.btn-back:focus-visible{background:var(--panel-dim); color:var(--ink);}
+  .btn-top{
+    right:max(12px, env(safe-area-inset-right));
+    background:var(--accent); color:#fff; border:1.5px solid var(--accent-deep);
+    opacity:0; visibility:hidden; transform:translateY(8px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+  }
+  .btn-top.show{opacity:1; visibility:visible; transform:none;}
+  .btn-top:hover,.btn-top:focus-visible{background:var(--accent-deep); color:#fff;}
+  .float-btn:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
+  @media (max-width:575.98px){
+    .float-btn{padding:10px 12px;}
+    .float-btn .lbl{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto !important;} .btn-top{transition:none;}}
+  @media print{.float-btn,.site-nav{display:none !important;}}
+
+  html{scroll-behavior:smooth;}
+
   @media (max-width:991.98px){
     .site-nav .nav-links-list a{border-bottom:none; border-left:2px solid transparent; padding:6px 0 6px 10px;}
     .site-nav .nav-links-list a:hover{border-left-color:var(--accent);}
@@ -346,24 +344,21 @@ Alat dan Bahan:
 </head>
 <body>
 <!-- ── NAVBAR ── -->
-<nav class="site-nav navbar navbar-expand-lg py-0">
+<nav class="site-nav navbar navbar-expand-lg py-0" aria-label="Menu utama">
   <div class="container-lg">
-    <a class="nav-logo py-3 me-auto" href="../index.html">Yana Permana</a>
+    <span class="nav-logo py-3 me-auto">Jobsheet Rakit PC</span>
 
     <button class="navbar-toggler border-0 py-3" type="button"
             data-bs-toggle="collapse" data-bs-target="#mainNav"
-            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="mainNav" aria-expanded="false" aria-label="Buka menu">
       <span class="navbar-toggler-icon d-inline-block"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="mainNav">
       <ul class="nav-links-list ms-auto py-3 py-lg-0 flex-column flex-lg-row gap-3 gap-lg-4 ps-3 ps-lg-0">
-        <li><a href="../index.html#experience">Pengalaman</a></li>
-        <li><a href="../index.html#skills">Keahlian</a></li>
-        <li><a href="../index.html#education">Pendidikan</a></li>
-        <li><a href="../index.html#contact">Kontak</a></li>
-        <li><a href="../jadwal.html">Jadwal</a></li>
-        <li><a href="../modul/index.html">Modul</a></li>
+        <li><a href="https://yanapermana.github.io">Yana Permana</a></li>
+        <li><a href="https://yanapermana.github.io/jadwal.html">Jadwal</a></li>
+        <li><a href="https://yanapermana.github.io/modul/index.html">Modul</a></li>
       </ul>
     </div>
   </div>
@@ -383,10 +378,12 @@ Alat dan Bahan:
     </div>
     <div class="topic-bar"><span class="dot"></span>Topik: Administrasi Sistem Jaringan</div>
     <div class="ticket-fields">
-      <div class="field"><label>Nama Siswa</label><input type="text" placeholder="..."></div>
-      <div class="field"><label>Kelas</label><input type="text" placeholder="..."></div>
-      <div class="field"><label>Tanggal</label><input type="text" placeholder="..."></div>
-      <div class="field"><label>Kelompok</label><input type="text" placeholder="..."></div>
+      <div class="row g-3 g-md-4">
+        <div class="col-12 col-sm-6 col-md-3 field"><label for="f-nama">Nama Siswa</label><input id="f-nama" type="text" placeholder="..."></div>
+        <div class="col-12 col-sm-6 col-md-3 field"><label for="f-kelas">Kelas</label><input id="f-kelas" type="text" placeholder="..."></div>
+        <div class="col-12 col-sm-6 col-md-3 field"><label for="f-tgl">Tanggal</label><input id="f-tgl" type="text" placeholder="..."></div>
+        <div class="col-12 col-sm-6 col-md-3 field"><label for="f-kel">Kelompok</label><input id="f-kel" type="text" placeholder="..."></div>
+      </div>
     </div>
   </div>
 
@@ -436,19 +433,19 @@ Alat dan Bahan:
   <div class="panel">
     <div class="panel-head"><div class="panel-num">D</div><h2>Alat dan Bahan</h2></div>
     <div class="panel-body">
-      <div class="tool-grid">
-        <div class="tool-item material"><span class="idx">01</span>Casing PC</div>
-        <div class="tool-item material"><span class="idx">02</span>Motherboard</div>
-        <div class="tool-item material"><span class="idx">03</span>Processor</div>
-        <div class="tool-item tool"><span class="idx">04</span>Obeng Plus (+)</div>
-        <div class="tool-item tool"><span class="idx">05</span>Obeng Min (−)</div>
-        <div class="tool-item material"><span class="idx">06</span>Power Supply</div>
-        <div class="tool-item material"><span class="idx">07</span>Heatsink</div>
-        <div class="tool-item material"><span class="idx">08</span>RAM</div>
-        <div class="tool-item material"><span class="idx">09</span>HDD / SSD</div>
-        <div class="tool-item material"><span class="idx">10</span>Baut</div>
-        <div class="tool-item material"><span class="idx">11</span>Baterai CMOS</div>
-        <div class="tool-item material"><span class="idx">12</span>Kabel SATA</div>
+      <div class="row g-2 g-md-3">
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">01</span>Casing PC</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">02</span>Motherboard</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">03</span>Processor</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item tool"><span class="idx">04</span>Obeng Plus (+)</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item tool"><span class="idx">05</span>Obeng Min (−)</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">06</span>Power Supply</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">07</span>Heatsink</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">08</span>RAM</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">09</span>HDD / SSD</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">10</span>Baut</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">11</span>Baterai CMOS</div></div>
+        <div class="col-6 col-md-4 col-lg-3"><div class="tool-item material"><span class="idx">12</span>Kabel SATA</div></div>
       </div>
       <div class="legend">
         <span><i class="lg-tool"></i>Alat kerja</span>
@@ -575,6 +572,7 @@ Alat dan Bahan:
   <div class="panel">
     <div class="panel-head"><div class="panel-num">G</div><h2>Troubleshooting Sederhana</h2></div>
     <div class="panel-body">
+      <div class="table-responsive">
       <table class="ts-table">
         <tr><th>Gejala</th><th>Kemungkinan Penyebab</th><th>Tindakan</th></tr>
         <tr><td>PC tidak menyala sama sekali</td><td>Kabel power/PSU belum tersambung, tombol power PSU mati</td><td>Periksa sambungan kabel power dan pastikan saklar PSU dalam posisi ON</td></tr>
@@ -584,14 +582,16 @@ Alat dan Bahan:
         <tr><td>Pengaturan waktu/BIOS selalu reset</td><td>Baterai CMOS lemah atau belum terpasang dengan benar</td><td>Periksa posisi dan kondisi baterai CMOS, ganti bila perlu</td></tr>
         <tr><td>HDD/SSD tidak terbaca</td><td>Kabel SATA data/power longgar</td><td>Periksa dan pasang ulang kabel SATA pada HDD/SSD dan motherboard</td></tr>
       </table>
+      </div>
     </div>
   </div>
 
   <!-- EVALUASI -->
   <div class="panel">
     <div class="panel-head"><div class="panel-num">H</div><h2>Evaluasi &amp; Penilaian</h2></div>
-    <div class="panel-body eval-grid">
-      <div class="eval-col">
+    <div class="panel-body">
+     <div class="row g-4">
+      <div class="col-12 col-md-6 eval-col">
         <h4>Aspek yang Dinilai</h4>
         <ul>
           <li>Ketepatan identifikasi kebutuhan dan spesifikasi PC</li>
@@ -602,7 +602,7 @@ Alat dan Bahan:
           <li>Kerja sama tim dalam kelompok</li>
         </ul>
       </div>
-      <div class="eval-col">
+      <div class="col-12 col-md-6 eval-col">
         <h4>Indikator Keberhasilan Proyek</h4>
         <ul>
           <li>Spesifikasi PC sesuai kebutuhan dan anggaran pelanggan</li>
@@ -612,11 +612,40 @@ Alat dan Bahan:
           <li>Laporan hasil praktik disusun dengan lengkap</li>
         </ul>
       </div>
+     </div>
     </div>
   </div>
 
   <footer>JOBSHEET · PERAKITAN UNIT PC · ADMINISTRASI SISTEM JARINGAN · PROJECT BASED LEARNING</footer>
 </div>
+<!-- Tombol melayang -->
+<a href="https://yanapermana.github.io/modul/index.html" id="btnBack" class="float-btn btn-back" aria-label="Kembali ke halaman sebelumnya">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  <span class="lbl">Kembali</span>
+</a>
+<button type="button" id="btnTop" class="float-btn btn-top" aria-label="Ke bagian atas halaman">
+  <span class="lbl">Ke atas</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Kembali ke halaman sebelumnya (jika tidak ada riwayat, tautan fallback ke halaman Modul dipakai)
+  document.getElementById('btnBack').addEventListener('click', function (e) {
+    if (window.history.length > 1) {
+      e.preventDefault();
+      window.history.back();
+    }
+  });
+
+  // Ke bagian atas halaman; tombol muncul setelah halaman di-scroll
+  var btnTop = document.getElementById('btnTop');
+  btnTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  function toggleTop() { btnTop.classList.toggle('show', window.scrollY > 300); }
+  window.addEventListener('scroll', toggleTop, { passive: true });
+  toggleTop();
+</script>
 </body>
 </html>
