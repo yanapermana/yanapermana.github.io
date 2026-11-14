@@ -123,3 +123,5 @@ Menu navigasi berisi link:
 Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
+----------------------------------------------------------------
+Buat tema website dengan 3 warna: hitam, merah, kuning
