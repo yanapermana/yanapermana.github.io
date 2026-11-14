@@ -110,3 +110,16 @@ Menu navigasi berisi link:
 Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Jaringan VoIP Telepon Internet", konten website berisi file video yang diembed melalui link public youtube berikut
+- Video 1 https://www.youtube.com/watch?v=s7t5GFq19_Y
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
