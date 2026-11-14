@@ -43,6 +43,60 @@
     .section-title { font-weight: 700; font-size: 1.5rem; }
     footer { background: var(--ink); color: var(--steel); }
     a:focus-visible, .btn:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+    
+    /* Tombol Back & To Top */
+    .floating-buttons {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      z-index: 1050;
+    }
+    .btn-float {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-float:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
+    .btn-back {
+      background: var(--steel);
+      color: var(--ink);
+    }
+    .btn-back:hover {
+      background: #b0c8d0;
+      color: var(--ink);
+    }
+    .btn-top {
+      background: var(--signal);
+      color: var(--ink);
+    }
+    .btn-top:hover {
+      background: #ffc233;
+      color: var(--ink);
+    }
+    /* Tampilkan tombol To Top setelah scroll */
+    #toTopBtn {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    #toTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
   </style>
 </head>
 <body>
@@ -55,8 +109,10 @@
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#utama">Video utama</a></li>
-          <li class="nav-item"><a class="nav-link" href="#koleksi">Video lainnya</a></li>
+          <!-- Menu tambahan -->
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io">Yana Permana</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a></li>
         </ul>
       </div>
     </div>
@@ -125,6 +181,37 @@
     </div>
   </footer>
 
+  <!-- Tombol Back & To Top -->
+  <div class="floating-buttons">
+    <button id="backBtn" class="btn-float btn-back" title="Kembali ke halaman sebelumnya" aria-label="Kembali ke halaman sebelumnya">
+      ←
+    </button>
+    <button id="toTopBtn" class="btn-float btn-top" title="Ke atas halaman" aria-label="Ke atas halaman">
+      ↑
+    </button>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Tombol back
+    document.getElementById('backBtn').addEventListener('click', function() {
+      window.history.back();
+    });
+
+    // Tombol to top dengan show/hide berdasarkan scroll
+    const toTopBtn = document.getElementById('toTopBtn');
+    
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        toTopBtn.classList.add('show');
+      } else {
+        toTopBtn.classList.remove('show');
+      }
+    });
+
+    toTopBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
