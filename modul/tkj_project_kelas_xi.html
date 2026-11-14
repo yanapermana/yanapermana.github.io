@@ -8,39 +8,65 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #12263a;
-      --cable: #1b6ca8;
-      --copper: #c8742b;
-      --paper: #f3f6f8;
+      /* Palet orange & putih */
+      --orange: #f97316;          /* orange utama */
+      --orange-dark: #ea580c;     /* orange gelap untuk hover/border */
+      --orange-soft: #fff7ed;     /* orange sangat muda (latar kartu) */
+      --ink: #3b2f2a;             /* teks coklat gelap hangat, bukan hitam pekat */
+      --muted: #7c6f66;           /* teks sekunder */
+      --paper: #ffffff;           /* latar utama putih */
+      --line: #f1e4d8;            /* garis/border tipis */
     }
     body {
       font-family: "IBM Plex Sans", system-ui, sans-serif;
       background: var(--paper);
       color: var(--ink);
     }
+
+    /* ===== Hero ===== */
     .hero {
-      background: var(--ink);
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
       color: #fff;
-      border-bottom: 6px solid var(--copper);
+      border-bottom: 6px solid #ffd7b0;
     }
     .hero h1 { font-weight: 700; letter-spacing: -0.02em; }
-    .hero p { color: #b9c8d6; max-width: 40rem; }
+    .hero p { color: #fff3e6; max-width: 40rem; }
+
+    /* ===== Judul kelas ===== */
     .kelas-title {
       font-weight: 700;
-      border-left: 6px solid var(--cable);
+      color: var(--ink);
+      border-left: 6px solid var(--orange);
       padding-left: .75rem;
     }
+
+    /* ===== Kartu semester ===== */
     .sem-card {
       background: #fff;
-      border: 1px solid #d5dee6;
-      border-top: 4px solid var(--cable);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--orange);
       border-radius: .5rem;
+      box-shadow: 0 1px 2px rgba(249, 115, 22, .06);
+      transition: box-shadow .2s ease, transform .2s ease;
     }
-    .sem-card.sem2 { border-top-color: var(--copper); }
-    .sem-card h3 { font-size: 1.15rem; font-weight: 600; }
+    .sem-card:hover {
+      box-shadow: 0 6px 18px rgba(249, 115, 22, .14);
+      transform: translateY(-2px);
+    }
+    .sem-card.sem2 {
+      border-top-color: var(--orange-dark);
+      background: var(--orange-soft);
+    }
+    .sem-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ===== Label ujian ===== */
     .ujian {
       display: inline-block;
-      background: var(--ink);
+      background: var(--orange);
       color: #fff;
       font-weight: 600;
       font-size: .85rem;
@@ -49,31 +75,45 @@
       margin: .75rem 0 .25rem;
     }
     .ujian:first-of-type { margin-top: 0; }
+
+    /* ===== Daftar ===== */
     .sem-card ul { padding-left: 1.2rem; margin-bottom: 0; }
-    .sem-card li { padding: .25rem 0; }
-    .sem-card li::marker { color: var(--copper); }
-    footer { color: #5d7186; font-size: .9rem; }
+    .sem-card li { padding: .25rem 0; color: var(--ink); }
+    .sem-card li::marker { color: var(--orange); }
 
-    /* Menu */
-    .site-nav {
-      background: var(--ink);
-      border-bottom: 1px solid rgba(255,255,255,.12);
+    /* ===== Footer ===== */
+    footer {
+      color: var(--muted);
+      font-size: .9rem;
     }
-    .site-nav .navbar-brand { font-weight: 700; color: #fff; }
-    .site-nav .nav-link { color: #b9c8d6; font-weight: 500; }
-    .site-nav .nav-link:hover,
-    .site-nav .nav-link:focus { color: #fff; }
-    .site-nav .nav-link.active { color: #fff; box-shadow: inset 0 -3px 0 var(--copper); }
-    .site-nav .navbar-toggler { border-color: rgba(255,255,255,.35); }
-    .site-nav .navbar-toggler-icon { filter: invert(1); }
-    .hero { scroll-margin-top: 0; }
+    footer hr { border-color: var(--line); opacity: 1; }
 
-    /* Tombol melayang */
+    /* ===== Navbar ===== */
+    .site-nav {
+      background: #fff;
+      border-bottom: 2px solid var(--orange);
+    }
+    .site-nav .navbar-brand { font-weight: 700; color: var(--orange-dark); }
+    .site-nav .navbar-brand:hover { color: var(--orange); }
+    .site-nav .nav-link { color: var(--muted); font-weight: 500; }
+    .site-nav .nav-link:hover,
+    .site-nav .nav-link:focus { color: var(--orange-dark); }
+    .site-nav .nav-link.active {
+      color: var(--orange-dark);
+      box-shadow: inset 0 -3px 0 var(--orange);
+    }
+    .site-nav .navbar-toggler { border-color: var(--orange); }
+    .site-nav .navbar-toggler-icon {
+      filter: invert(48%) sepia(96%) saturate(1750%) hue-rotate(1deg) brightness(98%) contrast(97%);
+    }
+
+    /* ===== Tombol melayang ===== */
     .float-btn {
       position: fixed;
       bottom: 1rem;
       z-index: 1030;
-      box-shadow: 0 .25rem .75rem rgba(18,38,58,.25);
+      box-shadow: 0 .25rem .75rem rgba(249, 115, 22, .3);
+      font-weight: 500;
     }
     .float-back { left: 1rem; }
     .float-top {
@@ -83,10 +123,33 @@
       transition: opacity .2s, visibility .2s;
     }
     .float-top.show { opacity: 1; visibility: visible; }
-    .btn-ink { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .btn-ink:hover, .btn-ink:focus { background: var(--cable); border-color: var(--cable); color: #fff; }
-    .btn-copper { background: var(--copper); color: #fff; border-color: var(--copper); }
-    .btn-copper:hover, .btn-copper:focus { background: #a85f20; border-color: #a85f20; color: #fff; }
+
+    /* Tombol orange solid */
+    .btn-ink {
+      background: var(--orange);
+      color: #fff;
+      border-color: var(--orange);
+    }
+    .btn-ink:hover,
+    .btn-ink:focus {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+      color: #fff;
+    }
+
+    /* Tombol orange muda / outline */
+    .btn-copper {
+      background: #fff;
+      color: var(--orange-dark);
+      border-color: var(--orange);
+    }
+    .btn-copper:hover,
+    .btn-copper:focus {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+    }
+
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   </style>
