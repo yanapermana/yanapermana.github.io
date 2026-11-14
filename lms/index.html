@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LMS TKJ Kelas XI – Pembelajaran Mandiri Setahun</title>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f6f8;--sf:#fff;--ink:#10263b;--mut:#53677a;--line:#d6e0e7;--acc:#0b7a85;--soft:#dff1f2;--amb:#9a5b00;--ok:#1b7f4b;--bad:#b3261e;--okb:#e2f5ea;--badb:#fbe6e4;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a26;--sf:#14263a;--ink:#e6eef5;--mut:#9db2c4;--line:#25405a;--acc:#4fc3cf;--soft:#12384a;--amb:#f0b155;--ok:#5fd39a;--bad:#ff8a80;--okb:#12382a;--badb:#42201e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1a26;--sf:#14263a;--ink:#e6eef5;--mut:#9db2c4;--line:#25405a;--acc:#4fc3cf;--soft:#12384a;--amb:#f0b155;--ok:#5fd39a;--bad:#ff8a80;--okb:#12382a;--badb:#42201e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+nav{background:var(--sf);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;align-self:start;height:100vh;overflow:auto}
+nav h1{font-size:17px;line-height:1.3;margin:0 8px 4px}
+nav small{display:block;margin:0 8px 14px;color:var(--mut)}
+nav a{display:flex;gap:8px;align-items:center;padding:9px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:15px}
+nav a:hover{background:var(--soft)}
+nav a.on{background:var(--acc);color:#fff}
+nav a .t{margin-left:auto;font-weight:700}
+.bar{height:8px;background:var(--line);border-radius:6px;margin:0 8px 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+main{padding:32px clamp(16px,4vw,48px) 60px;max-width:900px;width:100%}
+h2{font-size:clamp(24px,4vw,32px);line-height:1.2;margin:0 0 16px}
+h3{font-size:20px;margin:28px 0 8px}
+p{margin:0 0 14px;max-width:70ch}
+.view{display:none}.view.on{display:block}
+.box{background:var(--sf);border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:8px;padding:14px 18px;margin:16px 0}
+.box.w{border-left-color:var(--amb)}
+.box b.l{display:block;margin-bottom:4px}
+.tw{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:8px;background:var(--sf)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--soft)}
+tr:last-child td{border-bottom:0}
+code,.mono{font-family:ui-monospace,Consolas,monospace;font-size:.92em;background:var(--soft);padding:1px 6px;border-radius:4px}
+ul{padding-left:22px}li{margin-bottom:6px}
+.foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+button,.btn{font:inherit;font-weight:700;padding:10px 18px;border-radius:8px;border:2px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
+button.o,.btn.o{background:transparent;color:var(--acc)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+.sp{flex:1}
+.goal{display:grid;gap:10px;margin:14px 0}
+.goal div{background:var(--sf);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+.bits{font-family:ui-monospace,Consolas,monospace;display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.bits span.o{display:flex}
+.bits i{font-style:normal;width:1.35ch;text-align:center;padding:4px 0;background:var(--soft)}
+.bits i.n{background:var(--acc);color:#fff}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:12px 0}
+label{display:block;font-size:14px;color:var(--mut)}
+input[type=text],input[type=number],input[type=password],textarea{font:inherit;padding:9px 12px;border:2px solid var(--line);border-radius:8px;background:var(--sf);color:var(--ink);width:100%}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.res div{background:var(--sf);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.res small{display:block;color:var(--mut)}
+.res b{font-family:ui-monospace,Consolas,monospace;word-break:break-all}
+.q{background:var(--sf);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+.q p{margin-bottom:10px}
+.q label{display:flex;gap:10px;color:var(--ink);font-size:16px;padding:8px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+.q label:hover{background:var(--soft)}
+.q label.ok{background:var(--okb);border-color:var(--ok)}
+.q label.no{background:var(--badb);border-color:var(--bad)}
+.ex{display:none;margin-top:8px;padding:10px 14px;border-radius:8px;background:var(--soft);font-size:15px}
+.ex.s{display:block}
+.score{font-size:22px;font-weight:700;margin:14px 0}
+.bad{color:var(--bad)}
+.ans{display:none;margin-top:10px}.ans.s{display:block}
+textarea{min-height:110px;resize:vertical}
+@media(max-width:820px){.app{display:block}nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+#login{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+#login .card{background:var(--sf);border:1px solid var(--line);border-radius:12px;padding:26px;max-width:420px;width:100%}
+.tabs{display:flex;gap:8px;margin:16px 0 4px}.tabs button{flex:1}
+#login label{margin-top:12px}
+.hide{display:none!important}
+.chip{display:inline-block;background:var(--soft);padding:2px 10px;border-radius:12px;font-size:14px;margin:0 6px 6px 0}
+.opt{display:block;width:100%;text-align:left;background:var(--sf);color:var(--ink);border:2px solid var(--line);margin:6px 0;font-weight:400}
+.opt.ok{border-color:var(--ok);background:var(--okb)}.opt.no{border-color:var(--bad);background:var(--badb)}
+</style>
+</head>
+<body>
+<div id="login"><div class="card"><h2 style="font-size:24px;margin-bottom:4px">LMS TKJ Kelas XI</h2><p style="margin:0;color:var(--mut)">SMK Al-Irsyad Tegal • Belajar mandiri satu tahun pelajaran</p>
+<div class="tabs"><button id="tM" type="button">Masuk</button><button class="o" id="tD" type="button">Daftar siswa</button><button class="o hide" id="tA" type="button">Akun guru</button></div>
+<div id="fM"><label for="lu">Username</label><input type="text" id="lu" autocomplete="username" autocapitalize="none"><label for="lp">Password</label><input type="password" id="lp" autocomplete="current-password"><button id="lg" type="button" style="width:100%;margin-top:14px">Masuk</button></div>
+<div id="fD" class="hide"><label for="rn">Nama lengkap</label><input type="text" id="rn" autocomplete="name"><label for="rk">Kelas</label><input type="text" id="rk" placeholder="Contoh: XI TKJ 1"><label for="ru">Username (huruf kecil, angka, - atau _)</label><input type="text" id="ru" autocapitalize="none"><label for="rp">Password (minimal 6 karakter)</label><input type="password" id="rp" autocomplete="new-password"><button id="rg" type="button" style="width:100%;margin-top:14px">Daftar</button></div>
+<div id="fA" class="hide"><p style="font-size:15px;color:var(--mut);margin:10px 0 0">Buat atau ganti akun guru (satu akun, hak akses penuh).</p><label for="an">Nama guru</label><input type="text" id="an" value="Yana Permana, S.Pd"><label for="au">Username</label><input type="text" id="au" autocapitalize="none"><label for="ap">Password (minimal 6 karakter)</label><input type="password" id="ap" autocomplete="new-password"><button id="ag" type="button" style="width:100%;margin-top:14px">Simpan akun guru</button></div>
+<p id="le" role="alert" style="margin:12px 0 0"></p></div></div>
+<div class="app">
+<nav aria-label="Daftar materi">
+<h1>LMS TKJ Kelas XI</h1>
+<small>TKJ Kelas XI • Fase F • SMK Al-Irsyad Tegal</small>
+<div style="margin:0 8px 10px;font-size:14px"><b id="who"></b> <button class="o" id="lo" style="padding:3px 10px;font-size:13px;margin-left:6px" type="button">Keluar</button></div>
+<div class="bar" role="progressbar" aria-label="Kemajuan belajar"><i id="pb"></i></div>
+<div id="menu"></div>
+<p style="margin:14px 8px 0;font-size:13px;color:var(--mut)" id="pt"></p>
+</nav>
+<main>
+
+<section class="view" id="v-beranda">
+<h2>Pembelajaran mandiri TKJ Kelas XI, satu tahun pelajaran</h2>
+<p>Materi disusun sesuai Program Tahunan: 9 tujuan pembelajaran (TP.11.1 sampai TP.11.9), 648 JP. Buka menu Program tahunan untuk melihat urutannya. Baca materi, jawab cek pemahaman, lalu tandai selesai. Kemajuan Anda tersimpan dan dapat dipantau guru.</p>
+<h3>Tujuan pembelajaran Bab 1 (TP.11.1)</h3>
+<div class="goal">
+<div>Menganalisis kebutuhan teknis pengguna dan melaksanakan survei lokasi infrastruktur jaringan.</div>
+<div>Merancang topologi jaringan fisik dan logis yang efisien.</div>
+<div>Menghitung dan menerapkan pengalamatan IPv4 (Subnetting, VLSM, CIDR) serta mengenal IPv6.</div>
+</div>
+<div class="box"><b class="l">Alur belajar</b>Baca 1.1 sampai 1.5, tekan “Tandai selesai” di tiap bab, praktikkan hitungan di Kalkulator subnet, lalu kerjakan Evaluasi 1.6.</div>
+<p><small style="color:var(--mut)">Kode TP.11.1 • Alokasi waktu 54 JP (3 minggu efektif) • Guru pengampu: Yana Permana, S.Pd</small></p>
+<a class="btn" href="#analisis">Mulai belajar</a>
+</section>
+
+<section class="view" id="v-analisis">
+<h2>1.1 Analisis Kebutuhan Teknis Pengguna dan Survei Lokasi</h2>
+<p>Perencanaan jaringan yang andal dimulai dari memahami kebutuhan nyata pengguna (<i>user requirement analysis</i>), sebelum memilih perangkat atau skema alamat IP. Kesalahan analisis bisa menyebabkan pemborosan anggaran, <i>bottleneck</i>, atau jaringan sulit dikembangkan.</p>
+<h3>A. Parameter analisis kebutuhan</h3>
+<ul>
+<li><b>Jumlah dan sebaran pengguna (host):</b> hitung semua perangkat akhir (PC, laptop, telepon IP, CCTV, printer jaringan, perangkat nirkabel) per ruangan atau divisi, termasuk proyeksi pertumbuhan 3–5 tahun.</li>
+<li><b>Layanan dan kebutuhan bandwidth:</b> VoIP dan konferensi video butuh latensi rendah (&lt; 150 ms) dan jaminan <i>Quality of Service</i> (QoS). Transfer berkas besar butuh <i>throughput</i> tinggi.</li>
+<li><b>Keamanan dan segmentasi:</b> pisahkan jaringan tamu, staf administrasi, laboratorium praktik, dan server lokal agar gangguan di satu segmen tidak menyebar.</li>
+<li><b>Infrastruktur dan anggaran:</b> sesuaikan perangkat aktif (switch manageable, router, access point) dan media transmisi (UTP Cat6 atau serat optik) dengan kondisi gedung dan pagu biaya.</li>
+</ul>
+<h3>B. Prosedur survei lokasi (site survey)</h3>
+<p>Survei memetakan kondisi fisik gedung. Catat hal-hal berikut:</p>
+<ul>
+<li>Jarak kabel antar-ruangan. Batas maksimal kabel tembaga UTP/STP adalah <b>100 meter per segmen</b>.</li>
+<li>Lokasi rak server: <b>MDF</b> (<i>Main Distribution Frame</i>) dan <b>IDF</b> (<i>Intermediate Distribution Frame</i>).</li>
+<li>Jalur pelindung kabel (<i>conduit/tray</i>) dan sumber daya listrik cadangan (UPS).</li>
+<li>Interferensi elektromagnetik dan hambatan dinding beton terhadap sinyal Wi-Fi.</li>
+</ul>
+<div class="box w"><b class="l">Ingat</b>Kabel UTP lebih dari 100 m perlu switch perantara (IDF) atau serat optik.</div>
+</section>
+
+<section class="view" id="v-topologi">
+<h2>1.2 Perancangan Topologi Jaringan Fisik dan Logis</h2>
+<p>Dokumentasi jaringan harus membedakan representasi fisik perangkat dari alur logis paket data.</p>
+<div class="tw"><table>
+<tr><th>Aspek</th><th>Topologi fisik</th><th>Topologi logis</th></tr>
+<tr><td>Definisi</td><td>Tata letak nyata perangkat keras, jalur kabel, rak server, dan titik node di gedung.</td><td>Alur perpindahan sinyal atau paket data berdasarkan alamat IP, VLAN, dan aturan routing.</td></tr>
+<tr><td>Yang digambarkan</td><td>Nomor port fisik switch, panjang dan jenis kabel (UTP Cat6, fiber SMF/MMF), panel patch, ruang MDF/IDF.</td><td>Alamat Network, Subnet Mask/Prefiks, Default Gateway, VLAN ID, protokol routing statis/dinamis.</td></tr>
+<tr><td>Fungsi bagi teknisi</td><td>Panduan instalasi, penarikan kabel terstruktur, pelacakan kerusakan perangkat keras.</td><td>Panduan konfigurasi router/switch, manajemen lalu lintas, analisis gangguan konektivitas IP.</td></tr>
+</table></div>
+<h3>Model hierarki tiga lapis</h3>
+<p>Untuk jaringan sekolah atau kantor bertingkat, gunakan arsitektur hierarkis:</p>
+<ul>
+<li><b>Core Layer:</b> tulang punggung berkecepatan tinggi yang menghubungkan server utama dan gateway internet.</li>
+<li><b>Distribution Layer:</b> agregasi, kebijakan routing antar-VLAN, dan penyaringan keamanan.</li>
+<li><b>Access Layer:</b> switch yang terhubung langsung ke komputer klien dan access point.</li>
+</ul>
+</section>
+
+<section class="view" id="v-ipv4">
+<h2>1.3 Pengalamatan IPv4 (CIDR, Subnetting, dan VLSM)</h2>
+<p>IPv4 memakai alamat biner 32-bit dalam empat oktet (masing-masing 8-bit), ditulis desimal bertitik seperti <code>192.168.10.1</code>. Subnet Mask memisahkan alamat menjadi <b>Network ID</b> (identitas jaringan) dan <b>Host ID</b> (identitas perangkat).</p>
+<h3>A. CIDR</h3>
+<p>CIDR menggantikan kelas A/B/C dengan notasi <code>/n</code>, yaitu jumlah bit 1 berurutan pada subnet mask. Jika bit host <code>h = 32 − n</code>:</p>
+<ul>
+<li>Total alamat per subnet = <code>2<sup>h</sup></code></li>
+<li>Host valid = <code>2<sup>h</sup> − 2</code> (dikurangi alamat Network dan Broadcast)</li>
+<li>Ukuran blok = <code>256 − nilai oktet mask yang dimodifikasi</code></li>
+</ul>
+<div class="tw"><table>
+<tr><th>Prefiks</th><th>Subnet mask</th><th>h</th><th>Total</th><th>Host valid</th><th>Contoh penggunaan</th></tr>
+<tr><td>/24</td><td>255.255.255.0</td><td>8</td><td>256</td><td>254</td><td>Satu gedung atau area hotspot besar</td></tr>
+<tr><td>/25</td><td>255.255.255.128</td><td>7</td><td>128</td><td>126</td><td>Satu lantai kantor atau aula</td></tr>
+<tr><td>/26</td><td>255.255.255.192</td><td>6</td><td>64</td><td>62</td><td>Lab komputer 40–60 unit</td></tr>
+<tr><td>/27</td><td>255.255.255.224</td><td>5</td><td>32</td><td>30</td><td>Ruang guru atau lab kecil (25 PC)</td></tr>
+<tr><td>/28</td><td>255.255.255.240</td><td>4</td><td>16</td><td>14</td><td>Tata usaha atau server lokal</td></tr>
+<tr><td>/29</td><td>255.255.255.248</td><td>3</td><td>8</td><td>6</td><td>Manajemen perangkat (switch/AP)</td></tr>
+<tr><td>/30</td><td>255.255.255.252</td><td>2</td><td>4</td><td>2</td><td>Tautan point-to-point antar-router</td></tr>
+</table></div>
+<h3>B. VLSM</h3>
+<p>Subnetting konvensional (FLSM) membagi jaringan menjadi subnet berukuran sama, sehingga banyak alamat terbuang di segmen kecil seperti tautan antar-router. <b>VLSM</b> membagi blok menjadi subnet dengan panjang prefiks berbeda sesuai kebutuhan tiap segmen.</p>
+<div class="box"><b class="l">Studi kasus</b>Blok <code>192.168.50.0/24</code> dibagi untuk: Lab TKJ 1 (50 host), Ruang Guru (25 host), dan Link Router A–B (2 host). <b>Urutkan dari kebutuhan host terbesar ke terkecil.</b></div>
+<div class="tw"><table>
+<tr><th>Segmen</th><th>Kebutuhan</th><th>Prefiks</th><th>Network</th><th>Host valid</th><th>Broadcast</th></tr>
+<tr><td>1. Lab TKJ 1</td><td>50</td><td>/26</td><td>192.168.50.0</td><td>.1 – .62</td><td>192.168.50.63</td></tr>
+<tr><td>2. Ruang Guru</td><td>25</td><td>/27</td><td>192.168.50.64</td><td>.65 – .94</td><td>192.168.50.95</td></tr>
+<tr><td>3. Link Router A–B</td><td>2</td><td>/30</td><td>192.168.50.96</td><td>.97 – .98</td><td>192.168.50.99</td></tr>
+</table></div>
+<div class="box w"><b class="l">Cara menentukan prefiks</b>Cari <code>h</code> terkecil agar <code>2<sup>h</sup> − 2 ≥ kebutuhan host</code>. Contoh 50 host: h = 6 (62 ≥ 50), jadi prefiks = 32 − 6 = <b>/26</b>. Network berikutnya dimulai tepat setelah broadcast subnet sebelumnya.</div>
+<p><a class="btn o" href="#kalkulator">Coba di Kalkulator subnet</a></p>
+</section>
+
+<section class="view" id="v-ipv6">
+<h2>1.4 Pengenalan Pengalamatan IPv6</h2>
+<p>Ruang alamat IPv4 terbatas (sekitar 4,3 miliar). IPv6 memakai alamat <b>128-bit</b> dalam delapan kelompok heksadesimal (16-bit) dipisahkan titik dua, contoh: <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>.</p>
+<h3>Aturan penyingkatan</h3>
+<ul>
+<li>Nol di awal tiap blok boleh dihilangkan.</li>
+<li>Satu rangkaian blok nol penuh yang berurutan boleh diganti <code>::</code>, <b>hanya satu kali</b> per alamat.</li>
+</ul>
+<p>Alamat di atas menjadi <code>2001:db8:85a3::8a2e:370:7334</code>.</p>
+<h3>Jenis alamat</h3>
+<div class="tw"><table>
+<tr><th>Jenis</th><th>Fungsi</th><th>Awalan</th></tr>
+<tr><td>Unicast: Global</td><td>Identifikasi satu antarmuka, rute global</td><td><code>2000::/3</code></td></tr>
+<tr><td>Unicast: Link-Local</td><td>Komunikasi dalam satu segmen lokal</td><td><code>fe80::/10</code></td></tr>
+<tr><td>Multicast</td><td>Kirim ke sekelompok antarmuka</td><td><code>ff00::/8</code></td></tr>
+<tr><td>Anycast</td><td>Kirim ke antarmuka terdekat</td><td>—</td></tr>
+</table></div>
+<div class="box w"><b class="l">Penting</b>IPv6 tidak lagi memakai alamat Broadcast.</div>
+</section>
+
+<section class="view" id="v-rangkuman">
+<h2>1.5 Rangkuman Materi Bab 1</h2>
+<ul>
+<li>Perencanaan dimulai dari analisis kebutuhan (jumlah perangkat, layanan, keamanan, anggaran) dan survei lokasi (UTP maks. 100 m, rak MDF/IDF, listrik).</li>
+<li>Topologi fisik memetakan perangkat keras dan jalur kabel. Topologi logis menggambarkan skema IP, VLAN, dan aliran paket.</li>
+<li>CIDR dan VLSM mengalokasikan alamat IPv4 sesuai kebutuhan tiap segmen, dihitung dari host terbesar ke terkecil.</li>
+<li>IPv6 menyediakan alamat 128-bit heksadesimal tanpa kebutuhan NAT, mengganti broadcast dengan multicast, dan mendukung <i>link-local auto-configuration</i>.</li>
+</ul>
+</section>
+
+<section class="view" id="v-kalkulator">
+<h2>Kalkulator subnet</h2>
+<p>Gunakan untuk memeriksa hitungan Anda. Hitung dulu di kertas, baru cocokkan hasilnya.</p>
+<div class="row">
+<div style="flex:2;min-width:180px"><label for="ip">Alamat IPv4</label><input type="text" id="ip" value="192.168.50.70" inputmode="decimal"></div>
+<div style="flex:1;min-width:100px"><label for="px">Prefiks (/n)</label><input type="number" id="px" value="27" min="0" max="32"></div>
+</div>
+<div class="bits" id="bits" aria-label="Bit alamat: biru tua bagian network, biru muda bagian host"></div>
+<div class="res" id="out"></div>
+<h3>Cari prefiks dari jumlah host</h3>
+<div class="row"><div style="min-width:160px"><label for="need">Kebutuhan host</label><input type="number" id="need" value="50" min="1"></div></div>
+<div class="res" id="out2"></div>
+</section>
+
+<section class="view" id="v-evaluasi">
+<h2>1.6 Evaluasi Mandiri Bab 1</h2>
+<h3>Bagian A: Pilihan ganda</h3>
+<div id="mc"></div>
+<button id="chk">Periksa jawaban</button> <button class="o" id="rst">Ulangi</button>
+<div class="score" id="sc" aria-live="polite"></div>
+<h3>Bagian B: Studi kasus dan uraian</h3>
+<p>Tulis jawaban dulu di kotak, lalu buka kunci jawaban untuk membandingkan. Jawaban tersimpan otomatis di perangkat ini.</p>
+<div id="ur"></div>
+</section>
+
+<section class="view" id="v-prota"><h2>Program tahunan Kelas XI TKJ</h2><p>Alokasi 18 JP per minggu, 648 JP per tahun, tahun pelajaran 2026/2027. Klik kode TP untuk membuka materinya.</p><div class="tw" id="ptb"></div></section>
+<section class="view" id="v-dash"><h2>Dasbor guru</h2><p>Pantau kemajuan belajar siswa.</p><div id="dsh"></div></section>
+<div id="tpv"></div>
+<div class="foot" id="foot"></div>
+<p style="margin-top:30px;font-size:13px;color:var(--mut)">Buku Pegangan Siswa Bab 1 • Konsentrasi Keahlian TKJ Kelas XI • SMK Al-Irsyad Tegal</p>
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let UID='x';const G={get(k,d){try{const v=localStorage.getItem('tkj11g:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tkj11g:'+k,JSON.stringify(v))}catch(e){}}};
+const S={get(k,d){try{const v=localStorage.getItem('tkj11:'+UID+':'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tkj11:'+UID+':'+k,JSON.stringify(v))}catch(e){}}};
+const TP=[
+["tp2","TP.11.2","Teknologi Jaringan Kabel dan Nirkabel","Instalasi & Konfigurasi Jaringan Kabel dan Nirkabel","Ganjil",72,4,["Instalasi dan pengujian jaringan kabel UTP/STP","Konfigurasi perangkat jaringan nirkabel (Access Point, mode operasi, keamanan WiFi)","Perawatan dan perbaikan gangguan konektivitas jaringan lokal"],["Urutan warna kabel straight-through T568B: putih-oranye, oranye, putih-hijau, biru, putih-biru, hijau, putih-cokelat, cokelat.","Kabel diuji dengan LAN tester (kontinuitas dan urutan pin) atau cable certifier (panjang, wiremap, redaman).","Keamanan WiFi: pakai WPA2/WPA3, hindari WEP, ganti SSID dan kata sandi bawaan perangkat.","Troubleshooting dari bawah ke atas: kabel dan lampu link, lalu IP, gateway, dan DNS."],[["Pada standar T568B, pin 1 dan 2 berwarna...",["Putih-hijau, hijau","Putih-oranye, oranye","Putih-biru, biru","Putih-cokelat, cokelat"],1,"T568B dimulai putih-oranye (pin 1) dan oranye (pin 2)."],["Standar keamanan WiFi yang paling disarankan adalah...",["WEP","WPA2/WPA3","Terbuka tanpa sandi","MAC filtering saja"],1,"WEP mudah dibobol. WPA2/WPA3 memakai enkripsi modern."]]],
+["tp3","TP.11.3","Pemasangan dan Konfigurasi Perangkat Jaringan","Konfigurasi Switching dan VLAN","Ganjil",54,3,["Konfigurasi dasar Manageable Switch","Implementasi Virtual LAN (VLAN), Trunking (IEEE 802.1Q), dan Inter-VLAN Routing"],["VLAN memecah satu switch menjadi beberapa domain broadcast logis.","Port access membawa satu VLAN. Port trunk membawa banyak VLAN dengan tag 802.1Q.","Antar-VLAN butuh perangkat Layer 3: router-on-a-stick (subinterface) atau switch Layer 3.","Konfigurasi awal switch: hostname, kata sandi, IP manajemen, lalu simpan konfigurasi."],[["Port switch yang membawa banyak VLAN dengan tag 802.1Q disebut port...",["Access","Trunk","Console","Mirror"],1,"Port trunk memberi tag 802.1Q agar banyak VLAN lewat satu tautan."],["Agar PC di VLAN 10 dapat berkomunikasi dengan PC di VLAN 20 diperlukan...",["Switch Layer 2 saja","Inter-VLAN Routing","Kabel cross","Subnet mask yang sama"],1,"Setiap VLAN adalah jaringan terpisah, sehingga perlu routing antar-VLAN."]]],
+["tp4","TP.11.4","Pemasangan dan Konfigurasi Perangkat Jaringan","Konfigurasi Routing Statis dan Dinamis","Ganjil",72,4,["Konsep routing, tabel routing, dan konfigurasi Static Routing","Konfigurasi Dynamic Routing (RIPv2 / OSPF single area) dan NAT/Gateway Internet"],["Router memilih rute lewat tabel routing (longest prefix match). Bila tidak ada yang cocok dipakai default route 0.0.0.0/0.","Static routing manual dan ringan. Dynamic routing (RIPv2, OSPF) bertukar rute otomatis.","RIP memakai hop count (maksimum 15). OSPF memakai cost dan konsep area.","NAT/PAT menerjemahkan IP privat ke IP publik agar jaringan lokal bisa ke internet."],[["Batas maksimal hop count pada RIP adalah...",["5","15","255","1000"],1,"16 hop dianggap tidak terjangkau, jadi maksimum 15."],["Rute 0.0.0.0/0 pada router disebut...",["Loopback","Default route","Broadcast route","Host route"],1,"Default route dipakai bila tidak ada rute lain yang cocok."]]],
+["tp5","TP.11.5","Keamanan Jaringan Dasar","Keamanan Jaringan & Firewall","Ganjil",36,2,["Identifikasi potensi ancaman dan kerentanan keamanan jaringan","Konfigurasi Firewall filtering, NAT, dan Access Control List (ACL) pada router"],["Ancaman umum: malware, phishing, sniffing, spoofing, dan DoS/DDoS.","Firewall memfilter paket berdasarkan IP, port, protokol, dan status koneksi.","ACL diperiksa berurutan dari atas, aturan pertama yang cocok dipakai, dan di akhir ada implicit deny."],[["Pada ACL, paket yang tidak cocok dengan aturan mana pun akan...",["Diteruskan","Ditolak (implicit deny)","Dikirim ulang","Dienkripsi"],1,"Setiap ACL berakhir dengan implicit deny."],["Serangan yang membanjiri layanan agar tidak dapat diakses disebut...",["Phishing","DoS/DDoS","Sniffing","Spoofing"],1,"DoS/DDoS bertujuan membuat layanan tidak tersedia."]]],
+["tp6","TP.11.6","Administrasi Sistem Jaringan","Instalasi & Konfigurasi Sistem Operasi Jaringan","Genap",54,3,["Instalasi sistem operasi server berbasis CLI (Linux Server)","Manajemen hak akses pengguna, direktori, paket aplikasi, dan remote server (SSH)"],["Perintah dasar Linux: ls, cd, mkdir, cp, mv, rm, cat, nano. Paket dipasang dengan apt (Debian/Ubuntu).","Izin berkas: r = 4, w = 2, x = 1 untuk pemilik, grup, dan lainnya. Contoh chmod 755.","SSH mengakses server jarak jauh secara terenkripsi lewat port 22."],[["chmod 755 memberi pemilik izin...",["Hanya baca","Baca, tulis, dan eksekusi","Hanya eksekusi","Tidak ada"],1,"7 = 4 + 2 + 1, yaitu baca, tulis, dan eksekusi."],["Port bawaan layanan SSH adalah...",["21","22","80","443"],1,"SSH memakai TCP port 22."]]],
+["tp7","TP.11.7","Administrasi Sistem Jaringan","Konfigurasi Layanan Jaringan (Network Services)","Genap",90,5,["Konfigurasi DHCP Server, DNS Server, dan FTP/File Server","Konfigurasi Web Server, Database Server, dan Mail Server"],["DHCP memberi IP, gateway, dan DNS otomatis lewat proses DORA (Discover, Offer, Request, Acknowledge).","DNS menerjemahkan nama domain ke IP. Record A untuk IPv4, AAAA untuk IPv6, CNAME untuk alias, MX untuk surel.","Port umum: HTTP 80, HTTPS 443, FTP 21, SMTP 25, DNS 53, MySQL 3306."],[["Urutan proses DHCP yang benar adalah...",["Request, Offer, Discover, Acknowledge","Discover, Offer, Request, Acknowledge","Offer, Discover, Acknowledge, Request","Discover, Request, Offer, Acknowledge"],1,"Singkatannya DORA."],["Record DNS yang memetakan domain ke alamat IPv4 adalah...",["MX","A","CNAME","AAAA"],1,"Record A untuk IPv4, AAAA untuk IPv6."]]],
+["tp8","TP.11.8","Administrasi Sistem Jaringan","Virtualisasi dan Layanan Komputasi Awan","Genap",72,4,["Instalasi dan pengelolaan mesin virtual (Hypervisor / Proxmox / VirtualBox)","Implementasi layanan infrastruktur berbasis Cloud dan hosting sederhana"],["Hypervisor Tipe 1 berjalan langsung di perangkat keras (Proxmox VE, ESXi). Tipe 2 berjalan di atas sistem operasi (VirtualBox).","Mode jaringan VM: NAT, Bridged, dan Host-only.","Model cloud: IaaS (infrastruktur), PaaS (platform), SaaS (aplikasi siap pakai)."],[["Proxmox VE termasuk hypervisor...",["Tipe 1 (bare-metal)","Tipe 2 (hosted)","Emulator game","Browser"],0,"Proxmox VE berjalan langsung di perangkat keras."],["Menyewa mesin virtual dan jaringannya dari penyedia cloud adalah contoh...",["SaaS","IaaS","PaaS","DaaS"],1,"IaaS menyediakan VM, penyimpanan, dan jaringan."]]],
+["tp9","TP.11.9","Teknologi Jaringan Kabel dan Nirkabel","Pengenalan Jaringan Fiber Optik","Genap",72,4,["Karakteristik kabel fiber optik, perangkat aktif/pasif (OLT, ONU/ONT, ODP)","Penyambungan (splicing) dan pengukuran redaman menggunakan OPM & OTDR"],["Fiber optik mengirim data lewat cahaya dan kebal interferensi elektromagnetik. SMF untuk jarak jauh, MMF untuk jarak pendek.","Alur FTTH: OLT (penyedia) lalu ODP (titik distribusi) lalu ONT/ONU (rumah pelanggan).","OPM mengukur daya optik. OTDR memetakan redaman dan lokasi gangguan. Fusion splicing menyambung serat dengan peleburan."],[["Alat untuk mengukur daya optik pada jaringan fiber adalah...",["LAN tester","OPM","Multimeter","Crimping tool"],1,"OPM (Optical Power Meter) mengukur daya cahaya."],["Perangkat di sisi pelanggan yang mengubah sinyal optik menjadi sinyal jaringan adalah...",["OLT","ODP","ONT/ONU","Splitter"],2,"ONT/ONU ada di rumah pelanggan, OLT di sisi penyedia."]]]
+].map(([id,k,j,e,s,jp,mg,g,p,q])=>({id,k,j,e,s,jp,mg,g,p,q}));
+const V=[["beranda","Beranda"],["prota","Program tahunan"],["analisis","1.1 Analisis kebutuhan dan survei"],["topologi","1.2 Topologi fisik dan logis"],["ipv4","1.3 IPv4: CIDR dan VLSM"],["ipv6","1.4 Pengenalan IPv6"],["rangkuman","1.5 Rangkuman"],["kalkulator","Kalkulator subnet"],["evaluasi","1.6 Evaluasi mandiri"],...TP.map(t=>[t.id,t.k+" "+t.e]),["dash","Dasbor guru"]];
+const TRACK=["analisis","topologi","ipv4","ipv6","rangkuman","evaluasi",...TP.map(t=>t.id)];
+let done={},cur='beranda',U=null,DB=null,sy,last='';
+function prog(){const n=TRACK.filter(k=>done[k]).length;$('pb').style.width=(n/TRACK.length*100)+'%';$('pt').textContent=n+' dari '+TRACK.length+' bagian selesai';clearTimeout(sy);sy=setTimeout(sync,1200)}
+const VL=()=>V.filter(v=>v[0]!=='dash'||(U&&U.role==='guru'));const H={analisis:'Semester ganjil: TP.11.1',tp2:'Semester ganjil: TP.11.2–11.5',tp6:'Semester genap',dash:'Khusus guru'};
+function menu(){$('menu').innerHTML=VL().map(([k,t])=>(H[k]?'<p style="margin:12px 10px 2px;font-size:13px;font-weight:700;color:var(--mut)">'+H[k]+'</p>':'')+`<a href="#${k}" class="${k===cur?'on':''}" ${k===cur?'aria-current="page"':''}>${t}${done[k]?'<span class="t">✓</span>':''}</a>`).join('');prog()}
+function foot(){const L=VL(),i=L.findIndex(v=>v[0]===cur),p=L[i-1],n=L[i+1];let h='';
+if(p)h+=`<a class="btn o" href="#${p[0]}">Sebelumnya</a>`;
+h+='<span class="sp"></span>';
+if(TRACK.includes(cur)&&cur!=='evaluasi')h+=`<button class="o" id="dn">${done[cur]?'Batal tandai selesai':'Tandai selesai'}</button>`;
+if(n)h+=`<a class="btn" href="#${n[0]}">Berikutnya</a>`;
+$('foot').innerHTML=h;const d=$('dn');if(d)d.onclick=()=>{done[cur]=!done[cur];S.set('done',done);menu();foot()}}
+function route(){let id=location.hash.slice(1);if(id==='dash'&&!(U&&U.role==='guru'))id='beranda';if(!V.some(v=>v[0]===id))id='beranda';cur=id;if(id==='dash')dash();
+document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+id));menu();foot();window.scrollTo(0,0)}
+addEventListener('hashchange',route);
+
+/* Kalkulator */
+const dot=x=>[x>>>24,(x>>>16)&255,(x>>>8)&255,x&255].join('.');
+function calc(){const ip=$('ip').value.trim().split('.').map(Number),p=Number($('px').value);
+const bad=ip.length!==4||ip.some(x=>!Number.isInteger(x)||x<0||x>255)||!Number.isInteger(p)||p<0||p>32;
+if(bad){$('out').innerHTML='<p class="bad">Masukkan alamat IPv4 yang valid, misalnya 192.168.10.37, dan prefiks 0–32.</p>';$('bits').innerHTML='';return}
+const a=((ip[0]<<24)|(ip[1]<<16)|(ip[2]<<8)|ip[3])>>>0,m=p?(0xFFFFFFFF<<(32-p))>>>0:0,n=(a&m)>>>0,b=(n|(~m>>>0))>>>0,h=32-p,tot=2**h,u=Math.max(tot-2,0);
+let bt='';for(let o=0;o<4;o++){bt+='<span class="o">';for(let j=0;j<8;j++){const i=o*8+j;bt+=`<i class="${i<p?'n':''}">${(a>>>(31-i))&1}</i>`}bt+='</span>'}
+$('bits').innerHTML=bt;
+const c=(l,v)=>`<div><small>${l}</small><b>${v}</b></div>`;
+$('out').innerHTML=c('Subnet mask',dot(m))+c('Alamat Network',dot(n))+c('Alamat Broadcast',dot(b))+c('Rentang host valid',u?dot(n+1)+' – '+dot(b-1):'tidak ada')+c('Bit host (h)',h)+c('Total alamat',tot.toLocaleString('id-ID'))+c('Host valid (2^h − 2)',u.toLocaleString('id-ID'))+c('Ukuran blok',p>=24&&p<32?256-(m&255):'—')}
+function find(){const k=Number($('need').value);if(!Number.isInteger(k)||k<1){$('out2').innerHTML='<p class="bad">Masukkan jumlah host berupa bilangan bulat positif.</p>';return}
+let h=2;while(2**h-2<k)h++;if(h>30){$('out2').innerHTML='<p class="bad">Kebutuhan terlalu besar untuk satu subnet IPv4 biasa.</p>';return}
+const p=32-h,m=(0xFFFFFFFF<<h)>>>0,c=(l,v)=>`<div><small>${l}</small><b>${v}</b></div>`;
+$('out2').innerHTML=c('Prefiks paling efisien','/'+p)+c('Subnet mask',dot(m))+c('Host valid',(2**h-2).toLocaleString('id-ID'))+c('Alamat terbuang',(2**h-2-k).toLocaleString('id-ID'))}
+['ip','px'].forEach(i=>$(i).addEventListener('input',calc));$('need').addEventListener('input',find);calc();find();
+
+/* Evaluasi */
+const MC=[
+{q:"Seorang teknisi menyurvei gedung sekolah berlantai tiga untuk menarik kabel dari ruang server ke ruang praktik di lantai tiga. Jarak jalur kabel UTP Cat6 terukur 135 meter. Tindakan perencanaan fisik yang paling tepat adalah...",o:["Tetap memakai satu bentangan kabel UTP Cat6 agar tidak ada sambungan","Menempatkan switch perantara (IDF) di lantai dua atau memakai kabel serat optik","Mengubah topologi logis menjadi pengalamatan statis tanpa DHCP","Mengganti konektor RJ-45 biasa dengan konektor BNC","Menurunkan kecepatan kartu jaringan klien menjadi 10 Mbps"],a:1,e:"Batas kabel UTP adalah 100 m per segmen. Jarak 135 m harus dipecah dengan switch perantara (IDF) atau diganti serat optik."},
+{q:"Dokumen rancangan yang memuat pembagian segmen VLAN ID, blok alamat Network, Subnet Mask, dan Default Gateway setiap divisi disebut...",o:["Topologi Fisik","Bill of Materials","Topologi Logis","Diagram Rak MDF","Jadwal Pemeliharaan"],a:2,e:"Alamat IP, VLAN, dan gateway adalah isi topologi logis."},
+{q:"Sebuah laboratorium memiliki alamat jaringan 192.168.25.0/26. Jumlah maksimal host valid yang dapat dikonfigurasi pada komputer klien adalah...",o:["30 host","62 host","64 host","126 host","254 host"],a:1,e:"/26 → h = 32 − 26 = 6. Host valid = 2⁶ − 2 = 62."},
+{q:"Tautan point-to-point antar-router hanya perlu dua alamat IP valid. Prefiks CIDR yang paling hemat untuk kebutuhan tersebut adalah...",o:["/24","/27","/28","/29","/30"],a:4,e:"/30 → h = 2, host valid = 2² − 2 = 2."},
+{q:"Prinsip utama VLSM agar blok alamat tidak tumpang tindih (overlapping) adalah...",o:["Mengalokasikan subnet dari segmen host terkecil ke terbesar","Memakai subnet mask yang sama besar untuk semua segmen","Mengalokasikan subnet dari segmen host terbesar ke terkecil","Menetapkan alamat broadcast sebagai gateway utama router","Membagi blok secara acak sesuai urutan nomor ruangan"],a:2,e:"Mulai dari kebutuhan host terbesar, lalu lanjut ke yang lebih kecil. Setiap subnet baru dimulai setelah broadcast subnet sebelumnya."},
+{q:"Bentuk penulisan ringkas yang valid sesuai standar RFC untuk 2001:0db8:0000:0000:0045:0000:0000:00a1 adalah...",o:["2001:db8::45::a1","2001:db8::45:0:0:a1","2001:db8:0:0:45:0:0:a10","2001:0db8::0045:0:0:a1","2001:db8:45::a1"],a:1,e:"Hilangkan nol di awal blok, lalu pakai :: satu kali pada rangkaian nol (pada rangkaian nol yang sama panjang, pilih yang pertama). Hasilnya 2001:db8::45:0:0:a1. Opsi A memakai :: dua kali, opsi E menggeser posisi blok."}];
+const UR=[
+{q:"Jelaskan perbedaan mendasar antara Topologi Fisik dan Topologi Logis, serta berikan masing-masing dua contoh elemen yang dicantumkan dalam gambar rancangannya!",a:`<b>Topologi fisik</b> menggambarkan tata letak nyata perangkat keras dan jalur kabel di gedung. Contoh elemen: nomor port fisik switch, panjang dan jenis kabel (UTP Cat6 / fiber optik), lokasi panel patch dan ruang MDF/IDF.<br><b>Topologi logis</b> menggambarkan alur paket data berdasarkan alamat IP, VLAN, dan routing. Contoh elemen: alamat Network dan subnet mask/prefiks, default gateway, VLAN ID, protokol routing.`},
+{q:"SMK Al-Irsyad Tegal menyiapkan 4 ruang praktik komputer yang masing-masing menampung maksimal 25 komputer klien. Dengan blok 192.168.10.0/24, tentukan prefiks subnet mask yang paling efisien beserta alamat Network, rentang Host Valid, dan alamat Broadcast untuk Ruang Praktik 1 dan 2!",a:`Kebutuhan 25 host → h = 5 (2⁵ − 2 = 30 ≥ 25) → prefiks <b>/27</b> (255.255.255.224), ukuran blok 32.<div class="tw"><table><tr><th>Ruang</th><th>Network</th><th>Host valid</th><th>Broadcast</th></tr><tr><td>Praktik 1</td><td>192.168.10.0/27</td><td>192.168.10.1 – 192.168.10.30</td><td>192.168.10.31</td></tr><tr><td>Praktik 2</td><td>192.168.10.32/27</td><td>192.168.10.33 – 192.168.10.62</td><td>192.168.10.63</td></tr></table></div>(Ruang 3 mulai di .64 dan Ruang 4 di .96.)`},
+{q:"Gunakan VLSM untuk membagi blok 172.16.10.0/24 bagi tiga segmen: (a) Area Hotspot Siswa = 100 host, (b) Ruang Administrasi = 12 host, (c) Tautan Serial Antar-Router = 2 host. Tuliskan tabel alokasinya secara berurutan!",a:`<div class="tw"><table><tr><th>Segmen</th><th>Prefiks</th><th>Network</th><th>Host valid</th><th>Broadcast</th></tr><tr><td>Hotspot Siswa (100)</td><td>/25</td><td>172.16.10.0</td><td>.1 – .126</td><td>172.16.10.127</td></tr><tr><td>Ruang Administrasi (12)</td><td>/28</td><td>172.16.10.128</td><td>.129 – .142</td><td>172.16.10.143</td></tr><tr><td>Tautan Serial (2)</td><td>/30</td><td>172.16.10.144</td><td>.145 – .146</td><td>172.16.10.147</td></tr></table></div>Alasan: 100 host butuh h = 7 (/25, 126 host), 12 host butuh h = 4 (/28, 14 host), 2 host butuh h = 2 (/30).`},
+{q:"Mengapa IPv6 tidak lagi memerlukan alamat Broadcast seperti pada IPv4, dan bagaimana perangkat di jaringan lokal IPv6 mengenali tetangganya secara otomatis?",a:`IPv6 menggantikan broadcast dengan <b>multicast</b>, sehingga paket hanya dikirim ke kelompok perangkat yang berkepentingan dan tidak mengganggu semua perangkat di segmen. Perangkat mengenali tetangga lewat <b>Neighbor Discovery Protocol (NDP)</b> yang memakai pesan multicast ICMPv6, dan tiap antarmuka otomatis memiliki alamat <b>link-local</b> berawalan <code>fe80::/10</code> (<i>link-local auto-configuration</i>) untuk berkomunikasi dalam satu segmen.`}];
+function buildMC(){$('mc').innerHTML=MC.map((m,i)=>`<div class="q"><p><b>${i+1}.</b> ${m.q}</p>${m.o.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"><span>${'ABCDE'[j]}. ${o}</span></label>`).join('')}<div class="ex" id="ex${i}"></div></div>`).join('');$('sc').textContent='';
+const sv=S.get('mc',null);if(sv)sv.forEach((v,i)=>{const r=document.querySelector(`input[name=q${i}][value="${v}"]`);if(r)r.checked=true})}
+function check(){const ans=MC.map((m,i)=>{const r=document.querySelector(`input[name=q${i}]:checked`);return r?Number(r.value):-1});
+if(ans.includes(-1)){$('sc').innerHTML='<span class="bad">Jawab semua soal dulu: soal nomor '+(ans.indexOf(-1)+1)+' belum diisi.</span>';return}
+let s=0;MC.forEach((m,i)=>{const ls=document.querySelectorAll(`input[name=q${i}]`);ls.forEach((r,j)=>{const l=r.parentElement;l.classList.remove('ok','no');if(j===m.a)l.classList.add('ok');else if(j===ans[i])l.classList.add('no')});
+const ok=ans[i]===m.a;if(ok)s++;const e=$('ex'+i);e.className='ex s';e.innerHTML=(ok?'<b>Benar.</b> ':'<b>Belum tepat.</b> Jawaban: '+'ABCDE'[m.a]+'. ')+m.e});
+S.set('mc',ans);S.set('score',s);done.evaluasi=true;S.set('done',done);menu();showScore(s)}
+function showScore(s){$('sc').textContent='Skor Pilihan Ganda: '+s+' dari '+MC.length+' ('+Math.round(s/MC.length*100)+')'}
+$('chk').onclick=check;
+$('rst').onclick=()=>{S.set('mc',null);buildMC()};
+$('ur').innerHTML=UR.map((u,i)=>`<div class="q"><p><b>${i+1}.</b> ${u.q}</p><textarea id="ta${i}" aria-label="Jawaban soal uraian ${i+1}"></textarea><p style="margin-top:10px"><button class="o" data-k="${i}">Lihat kunci jawaban</button></p><div class="ans box" id="an${i}">${u.a}</div></div>`).join('');
+UR.forEach((u,i)=>{const t=$('ta'+i);t.addEventListener('input',()=>S.set('ta'+i,t.value))});
+document.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{const a=$('an'+b.dataset.k);a.classList.toggle('s');b.textContent=a.classList.contains('s')?'Sembunyikan kunci jawaban':'Lihat kunci jawaban'});
+const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+$('tpv').innerHTML=TP.map(t=>`<section class="view" id="v-${t.id}"><h2>${t.k} ${t.e}</h2><p>Capaian: ${t.j}</p><p><span class="chip">${t.s}</span><span class="chip">${t.jp} JP</span><span class="chip">${t.mg} minggu</span></p><h3>Tujuan pembelajaran</h3><ul>${t.g.map(x=>`<li>${x}</li>`).join('')}</ul><h3>Konsep kunci</h3><ul>${t.p.map(x=>`<li>${x}</li>`).join('')}</ul><h3>Cek pemahaman</h3><div id="tq-${t.id}"></div></section>`).join('');
+function tq(t){const a=S.get('tq',{})[t.id]||[];$('tq-'+t.id).innerHTML=t.q.map((q,i)=>{const v=a[i];return `<div class="q"><p><b>${i+1}.</b> ${q[0]}</p>${q[1].map((o,j)=>`<button type="button" class="opt ${v==null?'':j===q[2]?'ok':j===v?'no':''}" data-t="${t.id}" data-i="${i}" data-j="${j}" ${v==null?'':'disabled'}>${'ABCD'[j]}. ${o}</button>`).join('')}${v==null?'':`<div class="ex s"><b>${v===q[2]?'Benar.':'Belum tepat.'}</b> ${q[3]}</div>`}</div>`}).join('')}
+$('tpv').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b||b.disabled)return;const o=S.get('tq',{});(o[b.dataset.t]=o[b.dataset.t]||[])[+b.dataset.i]=+b.dataset.j;S.set('tq',o);tq(TP.find(x=>x.id===b.dataset.t));sync()});
+const PR=[['Ganjil','TP.11.1','Perencanaan Topologi & Pengalamatan Jaringan',54,3,'analisis'],...TP.filter(t=>t.s==='Ganjil').map(t=>[t.s,t.k,t.e,t.jp,t.mg,t.id]),['Ganjil','—','Asesmen sumatif tengah semester, akhir semester ganjil, dan pengayaan',36,2,''],...TP.filter(t=>t.s==='Genap').map(t=>[t.s,t.k,t.e,t.jp,t.mg,t.id]),['Genap','—','Asesmen sumatif tengah semester, sumatif akhir tahun (SAT), dan remidial',36,2,'']];
+$('ptb').innerHTML='<table><tr><th>Semester</th><th>Kode TP</th><th>Materi</th><th>JP</th><th>Minggu</th></tr>'+PR.map(r=>`<tr><td>${r[0]}</td><td>${r[5]?`<a href="#${r[5]}">${r[1]}</a>`:r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join('')+'<tr><th colspan="3">Total tahunan (324 + 324 JP)</th><th>648</th><th>36</th></tr></table>';
+function sync(){if(!U||U.role!=='siswa')return;const n=TRACK.filter(k=>done[k]).length,o=S.get('tq',{});let c=0;TP.forEach(t=>t.q.forEach((q,i)=>{if(o[t.id]&&o[t.id][i]===q[2])c++}));
+const r={nama:U.nama,kelas:U.kelas,nis:U.id,pct:Math.round(n/TRACK.length*100),skor:S.get('score',-1),tpk:c,t:Date.now()},k=JSON.stringify([r.pct,r.skor,r.tpk]);if(k===last)return;last=k;if(SHEETS_URL){api({a:'prog',u:U.id,tok:U.tok,d:{pct:r.pct,skor:r.skor,tpk:r.tpk,data:{done,tq:o,mc:S.get('mc',null),score:r.skor}}});return}
+const g=G.get('reg',{});g[U.id]=r;G.set('reg',g);if(DB){try{DB.doc('progress/'+U.id).set(r).catch(()=>{})}catch(e){}}}
+async function dash(){const el=$('dsh');el.textContent='Memuat data...';const pr=G.get('reg',{}),ac=Object.assign({},G.get('acc',{}));let src='perangkat ini';
+if(SHEETS_URL){const a=await api({a:'list',u:U.id,tok:U.tok});if(!a.ok){el.textContent=a.err;return}Object.keys(ac).forEach(k=>delete ac[k]);Object.keys(pr).forEach(k=>delete pr[k]);src='Google Spreadsheet';a.rows.forEach(x=>{ac[x.u]={u:x.u,n:x.n,k:x.k,role:'siswa'};pr[x.u]={pct:x.pct,skor:x.skor,tpk:x.tpk,t:x.t}})}
+if(DB&&!SHEETS_URL){try{const T=new Promise((_,j)=>setTimeout(j,8000));const [a,q]=await Promise.race([Promise.all([DB.collection('akun').get(),DB.collection('progress').get()]),T]);a.docs.forEach(d=>{ac[d.id]=d.data()});q.docs.forEach(d=>{pr[d.id]=d.data()});src='server bersama dan perangkat ini'}catch(e){}}
+const rows=Object.values(ac).filter(a=>a&&a.role!=='guru'&&a.u).map(a=>({...a,p:pr[a.u]||{}})).sort((a,b)=>String(a.k).localeCompare(String(b.k))||String(a.n).localeCompare(String(b.n)));
+el.innerHTML=`<p>Sumber data: ${src}. ${rows.length} siswa terdaftar.</p><p id="dm" role="status"></p>`+(rows.length?`<div class="tw"><table><tr><th>Nama</th><th>Kelas</th><th>Username</th><th>Kemajuan</th><th>Skor PG Bab 1</th><th>Cek TP</th><th>Terakhir aktif</th><th>Kelola akun</th></tr>${rows.map(a=>{const r=a.p,u=esc(a.u);return `<tr><td>${esc(a.n)}</td><td>${esc(a.k)}</td><td>${u}</td><td>${esc(r.pct||0)}%</td><td>${r.skor>=0?esc(r.skor)+'/6':'—'}</td><td>${esc(r.tpk||0)}/${TP.length*2}</td><td>${r.t?new Date(r.t).toLocaleString('id-ID'):'—'}</td><td style="min-width:230px"><input type="password" id="np-${u}" placeholder="Sandi baru" aria-label="Sandi baru ${u}" style="width:120px;padding:4px 8px"> <button class="o" type="button" data-a="rs" data-u="${u}" style="padding:4px 10px;font-size:13px">Reset sandi</button> <button class="o" type="button" data-a="del" data-u="${u}" style="padding:4px 10px;font-size:13px">Hapus</button></td></tr>`}).join('')}</table></div>`:'<p>Belum ada siswa yang mendaftar.</p>')}
+$('dsh').addEventListener('click',async e=>{const b=e.target.closest('button[data-a]');if(!b)return;const u=b.dataset.u;
+if(b.dataset.a==='rs'){const v=$('np-'+u).value;if(v.length<6){$('dm').textContent='Sandi baru minimal 6 karakter.';return}if(SHEETS_URL){const a=await api({a:'reset',u:U.id,tok:U.tok,t:u,np:v});$('dm').textContent=a.ok?'Sandi '+u+' diubah.':a.err;return}const rec=await aget(u);if(!rec)return;const sl=rnd(),w=await aset({...rec,s:sl,h:await sha(sl,v)});$('dm').textContent='Sandi '+u+' diubah'+(w==='server'?'.':' (hanya di perangkat ini).')}
+else if(b.dataset.a==='del'){if(b.dataset.c!=='1'){b.dataset.c='1';b.textContent='Yakin hapus?';return}if(SHEETS_URL){const a=await api({a:'del',u:U.id,tok:U.tok,t:u});if(a.ok)dash();else $('dm').textContent=a.err;return}
+const a=G.get('acc',{}),r=G.get('reg',{});delete a[u];delete r[u];G.set('acc',a);G.set('reg',r);if(DB){try{await DB.doc('akun/'+u).delete();await DB.doc('progress/'+u).delete()}catch(x){}}dash()}});
+function init(){done=S.get('done',{});TP.forEach(t=>tq(t));UR.forEach((u,i)=>$('ta'+i).value=S.get('ta'+i,''));buildMC();if(S.get('mc',null))check();last='';route()}
+/* Isi dengan URL Web App Apps Script (berakhiran /exec) agar data tersimpan di Google Spreadsheet. */
+const SHEETS_URL='https://script.google.com/macros/s/AKfycbwOS9pY851p_k4bclbq_F5ik9F_ItZ60ghjAoNFmxIYmdIDiEn0h5XBbj-Epyg8UB7l3A/exec';
+async function api(q){try{const x=await fetch(SHEETS_URL,{method:'POST',body:JSON.stringify(q)});return await x.json()}catch(e){return{ok:false,err:'Tidak dapat terhubung ke Google Sheets. Periksa koneksi internet.'}}}
+function restore(x,d){UID=x.id;if(d)['done','tq','mc','score'].forEach(k=>{if(d[k]!=null)S.set(k,d[k])})}
+const SU=/^[a-z0-9][a-z0-9_-]{2,19}$/;
+const hx=a=>[...new Uint8Array(a)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const sha=async(sl,p)=>hx(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(sl+':'+p)));
+const rnd=()=>hx(crypto.getRandomValues(new Uint8Array(8)));
+let USR=null;
+const dbp=Promise.race([((!SHEETS_URL&&window.claude&&claude.use)?claude.use('db').catch(()=>null):Promise.resolve(null)),new Promise(r=>setTimeout(()=>r(null),6000))]).then(d=>{DB=d;last='';if(U){sync();if(cur==='dash')dash()}return d});
+(async()=>{try{USR=window.claude&&claude.use?await claude.use('user'):null}catch(e){}await dbp;const g=await aget('_guru');if(!SHEETS_URL&&((USR&&USR.isOwner&&USR.isOwner())||(!DB&&!g)))$('tA').classList.remove('hide')})();
+async function aget(u){let r=null;if(DB){try{const d=await DB.doc('akun/'+u).get();if(d.exists)r=d.data()}catch(e){}}return r||G.get('acc',{})[u]||null}
+async function aset(rec,key){key=key||rec.u;const a=G.get('acc',{});a[key]=rec;G.set('acc',a);if(DB){try{await DB.doc('akun/'+key).set(rec);return 'server'}catch(e){}}return 'lokal'}
+function msg(m,good){const e=$('le');e.textContent=m;e.style.color=good?'var(--ok)':'var(--bad)'}
+function enter(u){U=u;UID=u.id;$('login').classList.add('hide');$('who').textContent=u.nama+(u.role==='guru'?' (Guru)':'');init();sync()}
+function setTab(t){['M','D','A'].forEach(k=>{$('f'+k).classList.toggle('hide',k!==t);$('t'+k).classList.toggle('o',k!==t)});msg('')}
+['M','D','A'].forEach(k=>$('t'+k).onclick=()=>setTab(k));
+$('lg').onclick=async()=>{const u=$('lu').value.trim().toLowerCase(),p=$('lp').value;if(!u||!p){msg('Isi username dan password.');return}
+if(SHEETS_URL){$('lg').disabled=true;msg('Memeriksa...',true);const a=await api({a:'login',u,p});$('lg').disabled=false;if(!a.ok){msg(a.err);return}const x={role:a.user.role,id:a.user.id,nama:a.user.nama,kelas:a.user.kelas,tok:a.user.tok};restore(x,a.data);G.set('sess',x);$('lp').value='';msg('');enter(x);return}
+$('lg').disabled=true;msg('Memeriksa...',true);await dbp;let g=await aget('_guru'),rec=(g&&g.u===u)?g:await aget(u);
+const ok=rec&&rec.h===await sha(rec.s,p);$('lg').disabled=false;if(!ok){msg('Username atau password salah.');return}
+const x={role:rec.role==='guru'?'guru':'siswa',id:rec.role==='guru'?'guru':rec.u,nama:rec.n,kelas:rec.k||''};G.set('sess',x);$('lp').value='';msg('');enter(x)};
+$('lp').addEventListener('keydown',e=>{if(e.key==='Enter')$('lg').click()});
+$('rg').onclick=async()=>{const n=$('rn').value.trim(),k=$('rk').value.trim(),u=$('ru').value.trim().toLowerCase(),p=$('rp').value;
+if(!n||!k){msg('Isi nama lengkap dan kelas.');return}if(!SU.test(u)){msg('Username 3–20 karakter: huruf kecil, angka, - atau _.');return}if(p.length<6){msg('Password minimal 6 karakter.');return}
+if(SHEETS_URL){$('rg').disabled=true;const a=await api({a:'reg',u,p,n,k});$('rg').disabled=false;if(!a.ok){msg(a.err);return}$('lu').value=u;$('rp').value='';setTab('M');msg('Akun dibuat. Silakan masuk.',true);return}
+$('rg').disabled=true;await dbp;const g=await aget('_guru');if((g&&g.u===u)||await aget(u)){$('rg').disabled=false;msg('Username sudah dipakai. Pilih yang lain.');return}
+const sl=rnd(),w=await aset({u,n,k,role:'siswa',s:sl,h:await sha(sl,p)});$('rg').disabled=false;$('lu').value=u;$('rp').value='';setTab('M');msg('Akun dibuat'+(w==='server'?'.':' (tersimpan di perangkat ini saja).')+' Silakan masuk.',true)};
+$('ag').onclick=async()=>{const n=$('an').value.trim()||'Guru TKJ',u=$('au').value.trim().toLowerCase(),p=$('ap').value;
+if(!SU.test(u)){msg('Username 3–20 karakter: huruf kecil, angka, - atau _.');return}if(p.length<6){msg('Password minimal 6 karakter.');return}
+$('ag').disabled=true;await dbp;if(await aget(u)){$('ag').disabled=false;msg('Username itu dipakai akun siswa. Pilih yang lain.');return}
+const sl=rnd(),w=await aset({u,n,role:'guru',s:sl,h:await sha(sl,p)},'_guru');$('ag').disabled=false;$('ap').value='';$('lu').value=u;setTab('M');msg('Akun guru disimpan'+(w==='server'?'.':' (hanya di perangkat ini, karena server bersama tidak dapat ditulis).')+' Silakan masuk.',true)};
+$('lo').onclick=()=>{G.set('sess',null);location.hash='';location.reload()};
+const ss=G.get('sess',null);if(ss&&ss.id&&(!SHEETS_URL||ss.tok))enter(ss);
+</script>
+</body>
+</html>
