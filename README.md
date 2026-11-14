@@ -97,3 +97,16 @@ Buatkan website dengan css bootstrap agar responsif, title website "Latihan Soal
 - Kisi-kisi https://drive.google.com/file/d/1EShiFU_G10jOd3rg2AP7jYoTpBAd21N4/view?usp=drive_link
 - Latihan Soal https://drive.google.com/file/d/1ec8RIyY41z3Y4fd8o2lGhxUJXgIJdfJC/view?usp=drive_link
 - Pembahasan https://drive.google.com/file/d/1Eu5aNHbfOvAskf4s8WXvk0DUcTEifOuV/view?usp=drive_link
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Perancangan Jaringan Internet", konten website berisi file video yang diembed melalui link public youtube berikut
+- Video 1 https://www.youtube.com/watch?v=aV1cr2Sw6So
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
