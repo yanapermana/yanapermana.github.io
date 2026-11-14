@@ -8,21 +8,40 @@
   <!-- Bootstrap Icons for back/top icons (optional, but nice) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
-    body { background: #eef2f6; color: #1c2733; }
-    .site-header { background: #14324a; color: #fff; border-bottom: 4px solid #2a9d8f; }
+    /* ===== TEMA ORANGE & PUTIH ===== */
+    :root {
+      --orange-primary: #f97316;   /* orange utama */
+      --orange-dark:    #ea580c;   /* orange tua (hover/header) */
+      --orange-darker:  #c2410c;   /* orange sangat tua (teks) */
+      --orange-soft:    #fff7ed;   /* orange sangat muda (background hover) */
+      --orange-border:  #fdba74;   /* border orange lembut */
+      --putih:          #ffffff;
+      --teks:           #3f2a1d;   /* coklat-orange gelap untuk teks */
+    }
+
+    body { background: #fffaf5; color: var(--teks); }
+
+    /* Header: orange tua dengan border orange terang */
+    .site-header {
+      background: var(--orange-dark);
+      color: var(--putih);
+      border-bottom: 4px solid var(--orange-primary);
+    }
     .site-header h1 { font-weight: 700; letter-spacing: .2px; }
-    .pdf-frame { position: relative; width: 100%; height: 80vh; min-height: 480px; background: #fff; }
+    .site-header p { color: #ffe9d6; }
+
+    .pdf-frame { position: relative; width: 100%; height: 80vh; min-height: 480px; background: var(--putih); }
     .pdf-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     @media (max-width: 576px) { .pdf-frame { height: 70vh; } }
 
-    /* Navbar link styling untuk menu */
+    /* Navbar putih dengan aksen orange */
     .navbar-custom {
-      background-color: #ffffff;
-      border-bottom: 1px solid #dee2e6;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      background-color: var(--putih);
+      border-bottom: 1px solid var(--orange-border);
+      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.08);
     }
     .navbar-custom .nav-link {
-      color: #14324a;
+      color: var(--orange-darker);
       font-weight: 500;
       padding: 0.6rem 1rem;
       border-radius: 0.375rem;
@@ -30,15 +49,15 @@
     }
     .navbar-custom .nav-link:hover,
     .navbar-custom .nav-link:focus {
-      background-color: #e9f0f5;
-      color: #0b1e2c;
+      background-color: var(--orange-soft);
+      color: var(--orange-dark);
     }
     .navbar-custom .nav-link.active {
-      background-color: #2a9d8f;
-      color: #fff !important;
+      background-color: var(--orange-primary);
+      color: var(--putih) !important;
     }
 
-    /* Tombol back & to top */
+    /* Tombol back */
     .btn-back-top {
       border-radius: 2rem;
       padding: 0.5rem 1.25rem;
@@ -46,8 +65,19 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
     }
+    .btn-back-top.btn-outline-secondary {
+      color: var(--orange-dark);
+      border-color: var(--orange-primary);
+    }
+    .btn-back-top.btn-outline-secondary:hover {
+      background-color: var(--orange-primary);
+      border-color: var(--orange-primary);
+      color: var(--putih);
+    }
+
+    /* Tombol to top: orange */
     .btn-to-top {
       position: fixed;
       bottom: 2rem;
@@ -59,20 +89,37 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #14324a;
-      color: #fff;
+      background-color: var(--orange-primary);
+      color: var(--putih);
       border: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
       transition: background-color 0.2s, transform 0.2s;
     }
     .btn-to-top:hover {
-      background-color: #2a9d8f;
-      color: #fff;
+      background-color: var(--orange-dark);
+      color: var(--putih);
       transform: scale(1.05);
     }
-    .btn-to-top i {
-      font-size: 1.5rem;
+    .btn-to-top i { font-size: 1.5rem; }
+
+    /* Tombol outline-primary jadi orange */
+    .btn-outline-primary {
+      color: var(--orange-dark);
+      border-color: var(--orange-primary);
     }
+    .btn-outline-primary:hover,
+    .btn-outline-primary:focus {
+      background-color: var(--orange-primary);
+      border-color: var(--orange-primary);
+      color: var(--putih);
+    }
+
+    /* Card & header card */
+    .card-header.bg-white { background-color: var(--putih) !important; }
+    .card-header .fw-semibold { color: var(--orange-darker); }
+
+    /* Footer */
+    footer.text-muted { color: #a0673f !important; }
 
     /* Supaya tombol to top tidak menutupi footer di mobile */
     @media (max-width: 576px) {
@@ -98,14 +145,13 @@
   <!-- MENU / NAVBAR -->
   <nav class="navbar navbar-expand navbar-custom py-2">
     <div class="container">
-      <!-- Tombol back (di kiri) + link menu -->
       <div class="d-flex flex-wrap align-items-center gap-2 w-100">
         <!-- Button Back ke halaman sebelumnya -->
         <button onclick="history.back()" class="btn btn-outline-secondary btn-back-top me-md-3">
           <i class="bi bi-arrow-left"></i> Back
         </button>
 
-        <!-- Menu links (tengah) -->
+        <!-- Menu links -->
         <div class="navbar-nav d-flex flex-row flex-wrap gap-2 ms-auto ms-md-0">
           <a class="nav-link" href="https://yanapermana.github.io">Yana Permana</a>
           <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
@@ -128,8 +174,6 @@
                 title="Project Mikrotik DHCP (PDF)" allow="autoplay" loading="lazy"></iframe>
       </div>
     </div>
-
-    <!-- Tombol back tambahan (optional) di bawah card? Tidak perlu, sudah ada di navbar -->
   </main>
 
   <!-- FOOTER -->
@@ -142,7 +186,6 @@
     <i class="bi bi-arrow-up"></i>
   </button>
 
-  <!-- Bootstrap JS (opsional, untuk navbar toggler jika diperlukan, tapi kita pakai expand saja) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
