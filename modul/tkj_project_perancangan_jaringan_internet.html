@@ -13,20 +13,22 @@
 
   <style>
     :root {
-      --ink: #12263a;
-      --sea: #0f766e;
-      --sea-dark: #0b5a54;
-      --mist: #eef3f6;
-      --line: #d5dee5;
+      --ink: #2b2b2b;
+      --orange: #f97316;
+      --orange-dark: #ea580c;
+      --orange-soft: #fff7ed;
+      --mist: #fffdfa;
+      --line: #f1e4d6;
     }
     body {
       font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
       background: var(--mist);
       color: var(--ink);
     }
-    .navbar { background: var(--ink); }
-    .navbar-brand { font-weight: 700; letter-spacing: .02em; }
-    .navbar .nav-link { color: #c9d6df; }
+    .navbar { background: var(--orange); }
+    .navbar-brand { font-weight: 700; letter-spacing: .02em; color: #fff; }
+    .navbar-brand:hover { color: #fff7ed; }
+    .navbar .nav-link { color: #fff4e8; }
     .navbar .nav-link:hover,
     .navbar .nav-link:focus { color: #fff; }
 
@@ -34,23 +36,38 @@
       font-weight: 700;
       font-size: clamp(1.6rem, 4.5vw, 2.6rem);
       line-height: 1.2;
+      color: var(--orange-dark);
     }
     .video-frame {
-      background: #000;
+      background: #fff;
       border: 1px solid var(--line);
       border-radius: .5rem;
       overflow: hidden;
-      box-shadow: 0 .5rem 1.5rem rgba(18, 38, 58, .15);
+      box-shadow: 0 .5rem 1.5rem rgba(249, 115, 22, .12);
     }
     .btn-sea {
-      background: var(--sea);
-      border-color: var(--sea);
+      background: var(--orange);
+      border-color: var(--orange);
       color: #fff;
     }
     .btn-sea:hover, .btn-sea:focus {
-      background: var(--sea-dark);
-      border-color: var(--sea-dark);
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
       color: #fff;
+    }
+    .btn-outline-dark {
+      color: var(--orange-dark);
+      border-color: var(--orange-dark);
+    }
+    .btn-outline-dark:hover,
+    .btn-outline-dark:focus {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: #fff;
+    }
+    h2.h5 {
+      color: var(--orange-dark);
+      font-weight: 600;
     }
     #toTop {
       position: fixed;
@@ -59,7 +76,11 @@
       display: none;
       z-index: 1030;
     }
-    footer { border-top: 1px solid var(--line); }
+    footer {
+      border-top: 1px solid var(--line);
+      background: var(--orange-soft);
+      color: #9a6b4a;
+    }
   </style>
 </head>
 <body>
@@ -107,7 +128,7 @@
     </div>
   </main>
 
-  <footer class="py-3 text-center small text-secondary">
+  <footer class="py-3 text-center small">
     &copy; <span id="tahun"></span> Yana Permana
   </footer>
 
