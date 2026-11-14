@@ -168,3 +168,25 @@ back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
 ----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Cyber Security Quiz 3", konten website berisi:
+- materi quiz tentang "PROTOKOL KEAMANAN JARINGAN"
+- maksimal SKOR 100
+- input NAMA diawal sebelum memulai quiz
+- input KELAS diawal sebelum memulai quiz
+- 30 soal pilihan ganda dengan opsi 5 jawaban
+- tampikan jawaban yang benar setelah menjawab
+- tampilkan SKOR diakhir
+- hubungkan dengan database google spreadsheet untuk menyimpan NAMA, KELAS dan SKOR 
+- nama file spreadsheet adalah "Cyber Security Quiz 3" 
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
