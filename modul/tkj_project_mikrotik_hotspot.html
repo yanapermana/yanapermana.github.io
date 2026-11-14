@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Project Mikrotik Hotspot</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     body { background: #eef2f6; color: #1c2733; }
     .site-header { background: #14324a; color: #fff; border-bottom: 4px solid #2a9d8f; }
@@ -12,9 +13,82 @@
     .pdf-frame { position: relative; width: 100%; height: 80vh; min-height: 480px; background: #fff; }
     .pdf-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     @media (max-width: 576px) { .pdf-frame { height: 70vh; } }
+
+    /* Navbar link hover */
+    .navbar .nav-link { color: rgba(255,255,255,.8); transition: color .2s; }
+    .navbar .nav-link:hover, .navbar .nav-link:focus { color: #fff; }
+
+    /* Floating buttons */
+    .floating-actions {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+    }
+    .floating-actions .btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,.18);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .floating-actions .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    }
+    .floating-actions .btn i { font-size: 1.2rem; }
+
+    /* To-top visibility */
+    .btn-to-top { opacity: 0; visibility: hidden; transition: opacity .3s, visibility .3s, transform .2s; }
+    .btn-to-top.show { opacity: 1; visibility: visible; }
+
+    @media (max-width: 576px) {
+      .floating-actions { bottom: 1rem; right: 1rem; }
+      .floating-actions .btn { width: 44px; height: 44px; }
+    }
   </style>
 </head>
-<body>
+<body id="top">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background:#14324a;">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#top">
+        <i class="bi bi-router me-1"></i>Mikrotik Hotspot
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+              aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-2">
+          <li class="nav-item">
+            <a class="nav-link" href="https://yanapermana.github.io" target="_blank" rel="noopener">
+              <i class="bi bi-person-circle me-1"></i>Yana Permana
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://yanapermana.github.io/jadwal.html" target="_blank" rel="noopener">
+              <i class="bi bi-calendar-week me-1"></i>Jadwal
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://yanapermana.github.io/modul/index.html" target="_blank" rel="noopener">
+              <i class="bi bi-book me-1"></i>Modul
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
   <header class="site-header py-4">
     <div class="container">
       <h1 class="h2 mb-1">Project Mikrotik Hotspot</h1>
@@ -22,12 +96,20 @@
     </div>
   </header>
 
+  <!-- Main -->
   <main class="container my-4">
     <div class="card border-0 shadow-sm">
       <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
         <span class="fw-semibold">Dokumen Project</span>
-        <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
-           href="https://drive.google.com/file/d/1bCKWmSh2dsaUzkQXBf0xc9qoLXrpu38T/view">Buka di tab baru</a>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="history.back()">
+            <i class="bi bi-arrow-left me-1"></i>Kembali
+          </button>
+          <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+             href="https://drive.google.com/file/d/1bCKWmSh2dsaUzkQXBf0xc9qoLXrpu38T/view">
+            <i class="bi bi-box-arrow-up-right me-1"></i>Buka di tab baru
+          </a>
+        </div>
       </div>
       <div class="pdf-frame">
         <iframe src="https://drive.google.com/file/d/1bCKWmSh2dsaUzkQXBf0xc9qoLXrpu38T/preview"
@@ -36,8 +118,32 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="text-center text-muted small pb-4">
     &copy; 2026 Project Mikrotik Hotspot
   </footer>
+
+  <!-- Floating actions: Back & To Top -->
+  <div class="floating-actions">
+    <button type="button" class="btn btn-secondary" onclick="history.back()" title="Kembali ke halaman sebelumnya" aria-label="Kembali">
+      <i class="bi bi-arrow-left"></i>
+    </button>
+    <a href="#top" class="btn btn-success btn-to-top" id="btnToTop" title="Ke atas" aria-label="Ke atas">
+      <i class="bi bi-arrow-up"></i>
+    </a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Tampilkan tombol "To Top" setelah scroll
+    const btnToTop = document.getElementById('btnToTop');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 300) {
+        btnToTop.classList.add('show');
+      } else {
+        btnToTop.classList.remove('show');
+      }
+    });
+  </script>
 </body>
 </html>
