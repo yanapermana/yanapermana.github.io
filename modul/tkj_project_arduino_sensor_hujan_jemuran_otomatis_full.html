@@ -49,6 +49,37 @@
 
     footer { background: var(--ink); color: #b9ccd3; }
     a:focus-visible, .btn:focus-visible, .nav-link:focus-visible { outline: 3px solid var(--drop); outline-offset: 2px; }
+
+    /* Floating utility buttons */
+    .floating-actions {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .floating-actions .btn {
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0.25rem 0.75rem rgba(18,48,58,.25);
+      font-size: 1.2rem;
+      transition: transform .15s ease;
+    }
+    .floating-actions .btn:hover { transform: scale(1.08); }
+    .floating-actions .btn-back { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .floating-actions .btn-top { background: var(--drop); color: var(--ink); border: 0; }
+    .floating-actions .btn-top:hover { background: #e39428; }
+
+    @media (max-width: 575.98px) {
+      .floating-actions { bottom: 1rem; right: 1rem; }
+      .floating-actions .btn { width: 2.6rem; height: 2.6rem; font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -64,6 +95,9 @@
           <li class="nav-item"><a class="nav-link" href="#dokumen">Dokumen</a></li>
           <li class="nav-item"><a class="nav-link" href="#video">Video</a></li>
           <li class="nav-item"><a class="nav-link" href="#kode">Kode</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io" target="_blank" rel="noopener">Yana Permana</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/jadwal.html" target="_blank" rel="noopener">Jadwal</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/modul/index.html" target="_blank" rel="noopener">Modul</a></li>
         </ul>
       </div>
     </div>
@@ -156,6 +190,20 @@
 
   </main>
 
+  <!-- Floating utility buttons: back & to top -->
+  <div class="floating-actions" aria-label="Aksi navigasi cepat">
+    <button type="button" class="btn btn-back" id="btnBack" aria-label="Kembali ke halaman sebelumnya" title="Kembali">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+      </svg>
+    </button>
+    <a href="#atas" class="btn btn-top" id="btnTop" aria-label="Ke atas halaman" title="Ke atas">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+      </svg>
+    </a>
+  </div>
+
   <footer class="py-4">
     <div class="container text-center small">
       &copy; <span id="tahun"></span> Project Arduino Sensor Hujan Jemuran Otomatis
@@ -165,12 +213,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.getElementById('tahun').textContent = new Date().getFullYear();
+
     // Tutup menu mobile setelah link diklik
     document.querySelectorAll('#menu .nav-link').forEach(function (a) {
       a.addEventListener('click', function () {
         var el = document.getElementById('menu');
         if (el.classList.contains('show')) bootstrap.Collapse.getOrCreateInstance(el).hide();
       });
+    });
+
+    // Tombol kembali ke halaman sebelumnya
+    document.getElementById('btnBack').addEventListener('click', function () {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        // fallback: arahkan ke halaman utama jika tidak ada history
+        window.location.href = 'https://yanapermana.github.io';
+      }
     });
   </script>
 </body>
