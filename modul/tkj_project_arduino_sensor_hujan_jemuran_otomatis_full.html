@@ -7,36 +7,100 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     :root {
-      --ink: #12303a;
-      --rain: #1f6f8b;
-      --mist: #eef4f6;
-      --drop: #f2a541;
-      --line: #dbe6ea;
+      /* Palet Orange & Putih */
+      --ink: #2d2d2d;           /* teks utama gelap */
+      --orange: #f97316;        /* orange utama */
+      --orange-dark: #ea580c;   /* orange hover/gelap */
+      --orange-light: #fff7ed;  /* latar orange sangat muda */
+      --white: #ffffff;
+      --line: #f0e6dc;          /* border lembut */
+      --gray-soft: #f8f5f2;     /* latar section */
     }
     html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
-    body { background: var(--mist); color: var(--ink); }
-    .navbar { background: var(--ink); }
-    .navbar-brand { font-weight: 700; }
-    .navbar .nav-link { color: #cfe0e6; }
-    .navbar .nav-link:hover, .navbar .nav-link.active { color: #fff; }
+    body { background: var(--white); color: var(--ink); }
 
+    /* Navbar */
+    .navbar { background: var(--white); border-bottom: 2px solid var(--line); }
+    .navbar-brand { font-weight: 800; color: var(--orange) !important; }
+    .navbar .nav-link { color: var(--ink); font-weight: 500; }
+    .navbar .nav-link:hover, .navbar .nav-link.active { color: var(--orange); }
+    .navbar-toggler { border-color: var(--orange); }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23f97316' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Hero */
     .hero {
-      background: linear-gradient(160deg, var(--ink) 0%, var(--rain) 100%);
+      background: linear-gradient(160deg, var(--orange) 0%, #fdba74 100%);
       color: #fff;
       padding: 4rem 0 5rem;
     }
     .hero h1 { font-weight: 800; font-size: clamp(1.8rem, 5vw, 3.1rem); }
-    .hero p { max-width: 42rem; opacity: .92; }
-    .btn-drop { background: var(--drop); color: var(--ink); font-weight: 600; border: 0; }
-    .btn-drop:hover { background: #e39428; color: var(--ink); }
+    .hero p { max-width: 42rem; opacity: .95; }
 
-    .section-title { font-weight: 700; }
-    .panel {
-      border: 0; border-radius: .75rem; overflow: hidden;
-      box-shadow: 0 .25rem 1rem rgba(18,48,58,.12);
+    /* Tombol utama */
+    .btn-orange {
+      background: var(--orange);
+      color: #fff;
+      font-weight: 600;
+      border: 0;
+      box-shadow: 0 4px 12px rgba(249,115,22,.3);
+      transition: all .2s ease;
     }
-    .panel .card-header { background: #fff; border-bottom: 1px solid var(--line); }
+    .btn-orange:hover { background: var(--orange-dark); color: #fff; transform: translateY(-1px); }
 
+    .btn-outline-orange {
+      background: transparent;
+      color: var(--orange);
+      border: 2px solid var(--orange);
+      font-weight: 600;
+      transition: all .2s ease;
+    }
+    .btn-outline-orange:hover { background: var(--orange); color: #fff; }
+
+    /* Tombol di hero (outline putih) */
+    .btn-outline-light { border-width: 2px; font-weight: 600; }
+    .btn-outline-light:hover { background: #fff; color: var(--orange-dark); border-color: #fff; }
+
+    /* Section titles */
+    .section-title { font-weight: 800; color: var(--ink); position: relative; padding-bottom: .5rem; }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--orange);
+      border-radius: 2px;
+      margin-top: .4rem;
+    }
+
+    /* Panel / Card */
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: .75rem;
+      overflow: hidden;
+      box-shadow: 0 .25rem 1rem rgba(249,115,22,.08);
+      transition: box-shadow .2s ease;
+      background: #fff;
+    }
+    .panel:hover { box-shadow: 0 .5rem 1.5rem rgba(249,115,22,.15); }
+    .panel .card-header {
+      background: var(--orange-light);
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .panel .card-header .btn-outline-primary {
+      color: var(--orange);
+      border-color: var(--orange);
+      font-weight: 500;
+    }
+    .panel .card-header .btn-outline-primary:hover {
+      background: var(--orange);
+      color: #fff;
+    }
+
+    /* Viewer */
     .viewer { position: relative; width: 100%; aspect-ratio: 4 / 3; background: #fff; }
     .viewer iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     @media (max-width: 575.98px) { .viewer { aspect-ratio: 3 / 4; } }
@@ -47,8 +111,19 @@
 
     .video-wrap .ratio { background: #000; }
 
-    footer { background: var(--ink); color: #b9ccd3; }
-    a:focus-visible, .btn:focus-visible, .nav-link:focus-visible { outline: 3px solid var(--drop); outline-offset: 2px; }
+    /* Footer */
+    footer {
+      background: var(--orange-light);
+      color: var(--ink);
+      border-top: 2px solid var(--line);
+      font-weight: 500;
+    }
+
+    /* Focus */
+    a:focus-visible, .btn:focus-visible, .nav-link:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 2px;
+    }
 
     /* Floating utility buttons */
     .floating-actions {
@@ -67,32 +142,49 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0.25rem 0.75rem rgba(18,48,58,.25);
+      box-shadow: 0 0.25rem 0.75rem rgba(249,115,22,.25);
       font-size: 1.2rem;
-      transition: transform .15s ease;
+      transition: transform .15s ease, background .2s ease;
+      border: 0;
     }
     .floating-actions .btn:hover { transform: scale(1.08); }
-    .floating-actions .btn-back { background: #fff; color: var(--ink); border: 1px solid var(--line); }
-    .floating-actions .btn-top { background: var(--drop); color: var(--ink); border: 0; }
-    .floating-actions .btn-top:hover { background: #e39428; }
+    .floating-actions .btn-back {
+      background: var(--white);
+      color: var(--orange);
+      border: 2px solid var(--orange);
+    }
+    .floating-actions .btn-back:hover { background: var(--orange); color: #fff; }
+    .floating-actions .btn-top {
+      background: var(--orange);
+      color: #fff;
+    }
+    .floating-actions .btn-top:hover { background: var(--orange-dark); }
 
     @media (max-width: 575.98px) {
       .floating-actions { bottom: 1rem; right: 1rem; }
       .floating-actions .btn { width: 2.6rem; height: 2.6rem; font-size: 1rem; }
     }
+
+    /* Card body teks */
+    .text-secondary { color: #6b7280 !important; }
+    .card-body.bg-white { background: #fff !important; }
+
+    /* Link umum */
+    a { color: var(--orange); text-decoration: none; }
+    a:hover { color: var(--orange-dark); text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#atas">Sensor Hujan</a>
+      <a class="navbar-brand" href="#atas">Yana Permana</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Buka menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io" target="_blank" rel="noopener">Yana Permana</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io" target="_blank" rel="noopener">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/jadwal.html" target="_blank" rel="noopener">Jadwal</a></li>
           <li class="nav-item"><a class="nav-link" href="https://yanapermana.github.io/modul/index.html" target="_blank" rel="noopener">Modul</a></li>
         </ul>
@@ -105,7 +197,7 @@
       <h1>Project Arduino Sensor Hujan Jemuran Otomatis</h1>
       <p class="lead mt-3">Dokumen konfigurasi, video demonstrasi, dan kode Arduino untuk sistem jemuran otomatis yang mendeteksi hujan.</p>
       <div class="d-flex flex-wrap gap-2 mt-4">
-        <a href="#dokumen" class="btn btn-drop btn-lg">Baca dokumen</a>
+        <a href="#dokumen" class="btn btn-light btn-lg fw-bold" style="color: var(--orange);">Baca dokumen</a>
         <a href="#video" class="btn btn-outline-light btn-lg">Tonton video</a>
         <a href="#kode" class="btn btn-outline-light btn-lg">Lihat kode</a>
       </div>
@@ -120,7 +212,7 @@
       <div class="card panel">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
           <span class="fw-semibold">Dokumen konfigurasi Arduino Sensor Hujan Jemuran Otomatis</span>
-          <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+          <a class="btn btn-sm btn-outline-orange" target="_blank" rel="noopener"
              href="https://drive.google.com/file/d/1fJGxzkf1jqLUiVCONHIyg9ZdHR785jdu/view">Buka di tab baru</a>
         </div>
         <div class="pdf-frame">
@@ -141,7 +233,7 @@
                       title="Video Project Arduino Sensor Hujan" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
             </div>
             <div class="card-body bg-white p-3 p-md-4">
-              <h3 class="h5 mb-1">Demo Sensor Hujan</h3>
+              <h3 class="h5 mb-1 fw-bold">Demo Sensor Hujan</h3>
               <p class="text-secondary small mb-0">Jika video tidak tampil, buka langsung di
                 <a href="https://drive.google.com/file/d/1ivqGZMJcXUrvVCKVJnsGX08dvrU8fM7i/view?usp=drive_link" target="_blank" rel="noopener">Google Drive</a>.
               </p>
@@ -158,8 +250,8 @@
         <div class="col-12 col-xl-6" id="home">
           <div class="card panel h-100">
             <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-              <h3 class="h5 mb-0">HOME.ino</h3>
-              <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+              <h3 class="h5 mb-0 fw-bold">HOME.ino</h3>
+              <a class="btn btn-sm btn-outline-orange" target="_blank" rel="noopener"
                  href="https://drive.google.com/file/d/1wJU8gKvh9T01IO3sQBpO843TTZiheOH1/view?usp=drive_link">Buka di Drive</a>
             </div>
             <div class="viewer">
@@ -172,8 +264,8 @@
         <div class="col-12 col-xl-6" id="kit">
           <div class="card panel h-100">
             <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-              <h3 class="h5 mb-0">KIT_JEMURAN.ino</h3>
-              <a class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener"
+              <h3 class="h5 mb-0 fw-bold">KIT_JEMURAN.ino</h3>
+              <a class="btn btn-sm btn-outline-orange" target="_blank" rel="noopener"
                  href="https://drive.google.com/file/d/11GQWISfNH1hJvSCND-pRJYIq0MN4iy2U/view?usp=drive_link">Buka di Drive</a>
             </div>
             <div class="viewer">
@@ -224,7 +316,6 @@
       if (window.history.length > 1) {
         window.history.back();
       } else {
-        // fallback: arahkan ke halaman utama jika tidak ada history
         window.location.href = 'https://yanapermana.github.io';
       }
     });
