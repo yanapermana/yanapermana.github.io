@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 4</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #ff6600;
+            --dark-orange: #e65c00;
+            --light-orange: #fff3eb;
+            --soft-orange: #ffe0cc;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 75px;
+            padding-bottom: 60px;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            background-color: var(--dark-orange);
+            border-radius: 5px;
+        }
+
+        /* Card & Container Styling */
+        .quiz-card {
+            background: #ffffff;
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Custom Buttons */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn-outline-orange {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Option Buttons */
+        .option-btn {
+            text-align: left;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #333333;
+            font-weight: 500;
+            transition: all 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+            font-weight: 600;
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+        .option-letter {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .correct .option-letter {
+            background-color: #198754;
+            color: #ffffff;
+        }
+        .wrong .option-letter {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 10px;
+            background-color: var(--soft-orange);
+        }
+        .progress-bar {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating To Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #btnToTop:hover {
+            background-color: var(--dark-orange);
+        }
+
+        .badge-orange {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-hdd-network me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Top Action Bar (Back Button) -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back
+            </button>
+            <span class="badge badge-orange px-3 py-2">Materi: VLSM & Supernetting</span>
+        </div>
+
+        <!-- 1. START SCREEN -->
+        <div id="startScreen" class="card quiz-card p-4 p-md-5 mx-auto" style="max-width: 650px;">
+            <div class="text-center mb-4">
+                <span class="badge bg-warning text-dark mb-2">Jaringan Komputer</span>
+                <h2 class="fw-bold text-dark">Jaringan Komputer Quiz 4</h2>
+                <p class="text-muted">Materi: <strong>VLSM (Variable Length Subnet Mask) & Supernetting</strong></p>
+            </div>
+
+            <div class="alert alert-light border-start border-4 border-warning small mb-4">
+                <ul class="mb-0 ps-3">
+                    <li>Jumlah soal: <strong>30 Pilihan Ganda</strong> (5 opsi jawaban).</li>
+                    <li>Skor maksimal: <strong>100 Poin</strong>.</li>
+                    <li>Jawaban benar akan langsung ditampilkan setelah Anda memilih jawaban.</li>
+                    <li>Hasil skor akan otomatis tersimpan ke database nilai.</li>
+                </ul>
+            </div>
+
+            <form id="startForm">
+                <div class="mb-3">
+                    <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+                </div>
+                <div class="mb-4">
+                    <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: TI-2A / XII TKJ 1" required>
+                </div>
+                <button type="submit" class="btn btn-orange btn-lg w-100">
+                    Mulai Quiz <i class="bi bi-play-fill ms-1"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. QUIZ SCREEN -->
+        <div id="quizScreen" class="card quiz-card p-4 p-md-5 mx-auto d-none" style="max-width: 800px;">
+            <!-- Header Info -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                <div>
+                    <span class="fw-bold text-dark" id="displayNama"></span>
+                    <span class="text-muted mx-1">|</span>
+                    <span class="badge bg-secondary" id="displayKelas"></span>
+                </div>
+                <div class="fw-bold" style="color: var(--primary-orange);">
+                    Soal <span id="currentQuestionNum">1</span> dari 30
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress mb-4">
+                <div id="quizProgress" class="progress-bar" role="progressbar" style="width: 3.33%"></div>
+            </div>
+
+            <!-- Question Text -->
+            <h5 id="questionText" class="fw-bold mb-4 lh-base text-dark"></h5>
+
+            <!-- Options Container -->
+            <div id="optionsContainer" class="mb-3"></div>
+
+            <!-- Feedback Alert -->
+            <div id="feedbackBox" class="alert d-none mt-3" role="alert">
+                <div class="fw-bold mb-1" id="feedbackTitle"></div>
+                <div class="small" id="feedbackExplanation"></div>
+            </div>
+
+            <!-- Next Button -->
+            <div class="d-flex justify-content-end mt-4">
+                <button id="nextBtn" class="btn btn-orange px-4 py-2 d-none">
+                    Soal Selanjutnya <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. RESULT SCREEN -->
+        <div id="resultScreen" class="card quiz-card p-4 p-md-5 mx-auto text-center d-none" style="max-width: 650px;">
+            <div class="mb-3">
+                <i class="bi bi-trophy-fill display-1" style="color: var(--primary-orange);"></i>
+            </div>
+            <h3 class="fw-bold mb-1">Quiz Selesai!</h3>
+            <p class="text-muted mb-4">Terima kasih telah mengerjakan Jaringan Komputer Quiz 4</p>
+
+            <div class="bg-light rounded-3 p-4 mb-4 border">
+                <div class="row text-start mb-3">
+                    <div class="col-4 text-muted">Nama</div>
+                    <div class="col-8 fw-bold" id="resNama">-</div>
+                    <div class="col-4 text-muted">Kelas</div>
+                    <div class="col-8 fw-bold" id="resKelas">-</div>
+                    <div class="col-4 text-muted">Jawaban Benar</div>
+                    <div class="col-8 fw-bold text-success"><span id="resBenar">0</span> / 30 Soal</div>
+                </div>
+                <hr>
+                <div class="text-muted small text-uppercase fw-semibold">Skor Akhir Anda</div>
+                <div class="display-3 fw-bold" style="color: var(--primary-orange);" id="resSkor">0</div>
+                <div class="small text-muted">Maksimal Skor: 100</div>
+            </div>
+
+            <!-- Status Pengiriman Spreadsheet -->
+            <div id="saveStatus" class="alert alert-info small mb-4">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Menyimpan hasil ke Google Spreadsheet ("Jaringan Komputer Quiz 4")...
+            </div>
+
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                <button onclick="location.reload()" class="btn btn-outline-orange px-4">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                </button>
+                <a href="https://yanapermana.github.io" class="btn btn-orange px-4">
+                    <i class="bi bi-house-door me-1"></i> Kembali ke Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- To Top Button -->
+    <button id="btnToTop" title="Kembali ke atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // =========================================================================
+        // KONFIGURASI GOOGLE SPREADSHEET WEB APP URL
+        // Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4dJvQS9cGcri5HmVErOhiAkmzIpkqWoio3mIZwmoKiAkWTu_ZGQInZqdMEV6LAiTs/exec";
+
+        // =========================================================================
+        // BANK 30 SOAL VLSM & SUPERNETTING (5 OPSI JAWABAN)
+        // =========================================================================
+        const questions = [
+            {
+                q: "Apa kepanjangan dari VLSM dalam konsep pengalamatan jaringan komputer?",
+                options: [
+                    "Variable Length Subnet Mask",
+                    "Virtual Local Subnet Mask",
+                    "Variable Local System Management",
+                    "Virtual Length System Mask",
+                    "Variable Link Subnet Mechanism"
+                ],
+                answer: 0,
+                explanation: "VLSM adalah kepanjangan dari Variable Length Subnet Mask."
+            },
+            {
+                q: "Tujuan utama penggunaan teknik VLSM pada jaringan IPv4 adalah...",
+                options: [
+                    "Mempercepat kecepatan transfer data kabel UTP",
+                    "Menghemat penggunaan alamat IP dengan menyesuaikan jumlah host tiap subnet",
+                    "Mengubah alamat IPv4 menjadi IPv6 secara otomatis",
+                    "Menggabungkan beberapa alamat MAC menjadi satu",
+                    "Menghilangkan kebutuhan akan perangkat router"
+                ],
+                answer: 1,
+                explanation: "VLSM memungkinkan pembagian blok IP berdasarkan kebutuhan jumlah host aktual pada masing-masing segmen jaringan sehingga tidak banyak IP yang terbuang."
+            },
+            {
+                q: "Konsep yang berkebalikan dengan subnetting, yaitu menggabungkan beberapa blok jaringan kecil menjadi satu blok jaringan yang lebih besar disebut...",
+                options: [
+                    "Multicasting",
+                    "Encapsulation",
+                    "Supernetting (Route Summarization)",
+                    "Fragmentation",
+                    "Port Forwarding"
+                ],
+                answer: 2,
+                explanation: "Supernetting atau Route Aggregation/Summarization menggabungkan beberapa network prefix menjadi satu summary route."
+            },
+            {
+                q: "Manakah protokol routing di bawah ini yang TIDAK mendukung VLSM karena termasuk kategori classful routing protocol?",
+                options: [
+                    "OSPF",
+                    "EIGRP",
+                    "RIPv2",
+                    "RIPv1",
+                    "BGP"
+                ],
+                answer: 3,
+                explanation: "RIPv1 (dan IGRP) adalah protokol classful yang tidak mengirimkan informasi subnet mask dalam update routing-nya sehingga tidak mendukung VLSM."
+            },
+            {
+                q: "Dalam merancang jaringan menggunakan metode VLSM, urutan pengalokasian subnet yang paling tepat adalah...",
+                options: [
+                    "Mulai dari kebutuhan host terkecil ke terbesar",
+                    "Mulai dari kebutuhan host terbesar ke terkecil",
+                    "Diurutkan berdasarkan abjad nama ruangan",
+                    "Diacak sesuai keinginan administrator jaringan",
+                    "Selalu menggunakan prefix /24 untuk semua divisi"
+                ],
+                answer: 1,
+                explanation: "Alokasi VLSM wajib dimulai dari sub-jaringan dengan kebutuhan host terbesar menuju terkecil agar tidak terjadi tumpang tindih (overlapping) alamat IP."
+            },
+            {
+                q: "Sebuah departemen membutuhkan 50 host aktif. Prefix VLSM paling efisien yang dapat digunakan adalah...",
+                options: [
+                    "/24",
+                    "/25",
+                    "/26",
+                    "/27",
+                    "/28"
+                ],
+                answer: 2,
+                explanation: "Prefix /26 memiliki 6 bit host (2^6 - 2 = 62 host usable), yang paling efisien untuk mencukupi kebutuhan 50 host."
+            },
+            {
+                q: "Untuk koneksi point-to-point serial antar dua buah router, prefix VLSM yang paling hemat alamat IP adalah...",
+                options: [
+                    "/24",
+                    "/28",
+                    "/29",
+                    "/30",
+                    "/32"
+                ],
+                answer: 3,
+                explanation: "Prefix /30 menyediakan 2^2 - 2 = 2 alamat host valid, sangat ideal untuk link point-to-point antar dua router."
+            },
+            {
+                q: "Berapa jumlah maksimal host yang dapat digunakan (usable host) pada subnet dengan prefix /27?",
+                options: [
+                    "14 host",
+                    "30 host",
+                    "32 host",
+                    "62 host",
+                    "126 host"
+                ],
+                answer: 1,
+                explanation: "Prefix /27 menyisakan 5 bit untuk host: 2^5 - 2 = 32 - 2 = 30 host valid."
+            },
+            {
+                q: "Subnet mask desimal yang setara dengan notasi CIDR /29 adalah...",
+                options: [
+                    "255.255.255.224",
+                    "255.255.255.240",
+                    "255.255.255.248",
+                    "255.255.255.252",
+                    "255.255.255.192"
+                ],
+                answer: 2,
+                explanation: "/29 berarti 29 bit bernilai 1, sehingga oktet terakhir bernilai 11111000 dalam biner = 248."
+            },
+            {
+                q: "Diberikan blok jaringan 192.168.10.0/24. Jika subnet pertama dialokasikan untuk 100 host (192.168.10.0/25), maka Network ID berikutnya yang tersedia untuk subnet kedua adalah...",
+                options: [
+                    "192.168.10.64",
+                    "192.168.10.100",
+                    "192.168.10.127",
+                    "192.168.10.128",
+                    "192.168.10.255"
+                ],
+                answer: 3,
+                explanation: "Subnet 192.168.10.0/25 mencakup IP .0 sampai .127. Maka subnet berikutnya dimulai tepat pada 192.168.10.128."
+            },
+            {
+                q: "Apa keuntungan utama penerapan Supernetting pada router di jaringan skala besar (seperti ISP)?",
+                options: [
+                    "Menambah jumlah kabel yang terhubung ke router",
+                    "Memperkecil ukuran tabel routing dan menghemat memori/CPU router",
+                    "Membuat semua komputer memiliki IP publik yang sama",
+                    "Menonaktifkan firewall secara otomatis",
+                    "Mengubah topologi star menjadi mesh"
+                ],
+                answer: 1,
+                explanation: "Supernetting merangkum banyak entri rute menjadi satu entri saja sehingga tabel routing menjadi lebih ringkas dan proses lookup lebih cepat."
+            },
+            {
+                q: "Gabungkan (supernet) empat jaringan berikut menjadi satu alamat summary yang paling tepat: 192.168.0.0/24, 192.168.1.0/24, 192.168.2.0/24, dan 192.168.3.0/24.",
+                options: [
+                    "192.168.0.0/20",
+                    "192.168.0.0/21",
+                    "192.168.0.0/22",
+                    "192.168.0.0/23",
+                    "192.168.0.0/24"
+                ],
+                answer: 2,
+                explanation: "4 jaringan /24 membutuhkan 2 bit dipinjam ke kiri (2^2 = 4). Jadi 24 - 2 = /22, dengan network 192.168.0.0/22."
+            },
+            {
+                q: "Berapa subnet mask desimal dari hasil supernetting /22?",
+                options: [
+                    "255.255.248.0",
+                    "255.255.252.0",
+                    "255.255.254.0",
+                    "255.255.255.0",
+                    "255.255.240.0"
+                ],
+                answer: 1,
+                explanation: "Prefix /22 memiliki 22 bit '1' (8 + 8 + 6). Pada oktet ketiga, 11111100 biner = 252, sehingga mask-nya 255.255.252.0."
+            },
+            {
+                q: "Dua jaringan berurutan 172.16.4.0/24 dan 172.16.5.0/24 dapat dirangkum (supernetting) menjadi...",
+                options: [
+                    "172.16.4.0/22",
+                    "172.16.4.0/23",
+                    "172.16.4.0/25",
+                    "172.16.0.0/16",
+                    "172.16.5.0/23"
+                ],
+                answer: 1,
+                explanation: "Oktet ketiga 4 (00000100) dan 5 (00000101) sama pada 7 bit pertama. Total bit sama: 8 + 8 + 7 = 23, sehingga hasilnya 172.16.4.0/23."
+            },
+            {
+                q: "Syarat mutlak agar beberapa blok jaringan dapat digabungkan dalam satu alamat Supernetting yang akurat tanpa menyertakan jaringan lain adalah...",
+                options: [
+                    "Jaringan harus berjumlah ganjil",
+                    "Jaringan harus berurutan (contiguous) dan jumlah bloknya merupakan kelipatan pangkat 2 (2, 4, 8, 16, dst.)",
+                    "Semua jaringan harus berbeda kelas IP (A, B, dan C)",
+                    "Harus menggunakan kabel fiber optik",
+                    "Setiap jaringan harus memiliki jumlah PC yang sama persis"
+                ],
+                answer: 1,
+                explanation: "Supernetting yang presisi mensyaratkan blok jaringan berurutan, jumlah blok berupa pangkat 2 (2^n), dan alamat awal habis dibagi ukuran blok."
+            },
+            {
+                q: "Sebuah jaringan memiliki kebutuhan: Lab A = 28 host, Lab B = 12 host, Lab C = 5 host. Prefix VLSM berturut-turut untuk Lab A, B, dan C adalah...",
+                options: [
+                    "/27, /28, /29",
+                    "/26, /27, /28",
+                    "/27, /27, /28",
+                    "/28, /29, /30",
+                    "/25, /26, /27"
+                ],
+                answer: 0,
+                explanation: "Lab A (28 host) -> /27 (30 host); Lab B (12 host) -> /28 (14 host); Lab C (5 host) -> /29 (6 host)."
+            },
+            {
+                q: "Alamat broadcast untuk subnet 10.10.10.64/26 adalah...",
+                options: [
+                    "10.10.10.95",
+                    "10.10.10.126",
+                    "10.10.10.127",
+                    "10.10.10.128",
+                    "10.10.10.255"
+                ],
+                answer: 2,
+                explanation: "Blok /26 memiliki ukuran kelipatan 64. Subnet 10.10.10.64 berakhir sebelum subnet berikutnya (10.10.10.128), maka broadcast-nya adalah 10.10.10.127."
+            },
+            {
+                q: "Range IP host yang valid (dapat dipasang pada perangkat) untuk subnet 192.168.5.32/28 adalah...",
+                options: [
+                    "192.168.5.32 - 192.168.5.47",
+                    "192.168.5.33 - 192.168.5.46",
+                    "192.168.5.33 - 192.168.5.47",
+                    "192.168.5.32 - 192.168.5.63",
+                    "192.168.5.33 - 192.168.5.62"
+                ],
+                answer: 1,
+                explanation: "Prefix /28 memiliki kelipatan 16. Network ID = .32, Broadcast = .47, sehingga host valid adalah .33 sampai .46."
+            },
+            {
+                q: "Istilah CIDR yang sering digunakan bersamaan dengan VLSM dan Supernetting adalah singkatan dari...",
+                options: [
+                    "Classful Internet Domain Routing",
+                    "Classless Inter-Domain Routing",
+                    "Centralized Internal Data Routing",
+                    "Classless Internal Device Registry",
+                    "Common Inter-Domain Resolution"
+                ],
+                answer: 1,
+                explanation: "CIDR adalah singkatan dari Classless Inter-Domain Routing yang menggantikan sistem pembagian kelas IP tradisional (Class A, B, C)."
+            },
+            {
+                q: "Jika Anda memiliki 8 jaringan /24 yang berurutan mulai dari 10.20.0.0/24 hingga 10.20.7.0/24, berapakah prefix supernet-nya?",
+                options: [
+                    "10.20.0.0/20",
+                    "10.20.0.0/21",
+                    "10.20.0.0/22",
+                    "10.20.0.0/23",
+                    "10.20.8.0/21"
+                ],
+                answer: 1,
+                explanation: "8 jaringan membutuhkan 3 bit (2^3 = 8). Maka 24 - 3 = /21, dengan alamat summary 10.20.0.0/21."
+            },
+            {
+                q: "Apa yang terjadi jika dua subnet dalam perancangan VLSM mengalami tumpang tindih (overlapping)?",
+                options: [
+                    "Kecepatan internet meningkat dua kali lipat",
+                    "Terjadi konflik IP dan kegagalan routing antar segmen jaringan",
+                    "Router akan otomatis memperbaiki subnet mask",
+                    "Broadcast domain menjadi lebih aman",
+                    "Switch akan berubah fungsi menjadi router"
+                ],
+                answer: 1,
+                explanation: "Overlapping subnet menyebabkan ambiguitas routing dan konflik IP sehingga paket data tidak terkirim ke tujuan yang benar."
+            },
+            {
+                q: "Perhatikan daftar subnet berikut: 192.168.16.0/24, 192.168.17.0/24, 192.168.18.0/24, 192.168.19.0/24. Alamat summary route yang tepat adalah...",
+                options: [
+                    "192.168.16.0/21",
+                    "192.168.16.0/22",
+                    "192.168.16.0/23",
+                    "192.168.0.0/16",
+                    "192.168.18.0/22"
+                ],
+                answer: 1,
+                explanation: "Angka 16 (00010000) sampai 19 (00010011) memiliki kesamaan pada 6 bit pertama oktet ke-3. Total bit sama: 8 + 8 + 6 = 22 -> 192.168.16.0/22."
+            },
+            {
+                q: "Berapa jumlah subnet /30 yang dapat dibentuk dari satu blok jaringan 192.168.1.0/24?",
+                options: [
+                    "16 subnet",
+                    "32 subnet",
+                    "64 subnet",
+                    "128 subnet",
+                    "256 subnet"
+                ],
+                answer: 2,
+                explanation: "Selisih bit dari /24 ke /30 adalah 6 bit. Jumlah subnet = 2^6 = 64 subnet."
+            },
+            {
+                q: "Wildcard mask yang sesuai untuk alamat supernet 172.16.0.0/22 adalah...",
+                options: [
+                    "0.0.1.255",
+                    "0.0.3.255",
+                    "0.0.7.255",
+                    "0.0.15.255",
+                    "0.0.0.255"
+                ],
+                answer: 1,
+                explanation: "Subnet mask /22 adalah 255.255.252.0. Wildcard mask = 255.255.255.255 - 255.255.252.0 = 0.0.3.255."
+            },
+            {
+                q: "Dalam perhitungan VLSM, mengapa kita selalu mengurangi 2 (rumus 2^n - 2) untuk mencari jumlah host yang dapat digunakan?",
+                options: [
+                    "Karena 2 IP dicadangkan untuk router dan switch",
+                    "Karena 1 IP digunakan sebagai Network ID dan 1 IP sebagai Broadcast Address",
+                    "Karena 2 IP tidak dikenali oleh sistem operasi Windows",
+                    "Karena aturan standar kabel jaringan",
+                    "Karena 2 IP digunakan untuk DNS primer dan sekunder"
+                ],
+                answer: 1,
+                explanation: "Alamat paling awal dalam blok adalah Network ID dan alamat paling akhir adalah Broadcast Address, keduanya tidak bisa diberikan ke host."
+            },
+            {
+                q: "Jika suatu subnet menggunakan prefix /25, maka bit yang dipinjam dari porsi host pada jaringan kelas C standar (/24) adalah sebanyak...",
+                options: [
+                    "1 bit",
+                    "2 bit",
+                    "3 bit",
+                    "4 bit",
+                    "7 bit"
+                ],
+                answer: 0,
+                explanation: "Dari /24 menjadi /25 hanya meminjam 1 bit dari oktet terakhir (24 + 1 = 25)."
+            },
+            {
+                q: "Manakah di antara alamat IP berikut yang merupakan alamat HOST VALID pada jaringan 10.0.8.0/21?",
+                options: [
+                    "10.0.8.0",
+                    "10.0.15.255",
+                    "10.0.10.255",
+                    "10.0.16.1",
+                    "10.0.7.254"
+                ],
+                answer: 2,
+                explanation: "Jaringan 10.0.8.0/21 mencakup range 10.0.8.0 (Network ID) hingga 10.0.15.255 (Broadcast). Maka 10.0.10.255 adalah alamat host yang sah di tengah blok."
+            },
+            {
+                q: "Pada protokol routing OSPF dan EIGRP, fitur yang memungkinkan pengiriman informasi subnet mask di setiap routing update sehingga VLSM dapat berjalan disebut...",
+                options: [
+                    "Classful Routing",
+                    "Classless Routing",
+                    "Static Routing",
+                    "Default Routing",
+                    "Switching Loop"
+                ],
+                answer: 1,
+                explanation: "Classless routing menyertakan informasi prefix/subnet mask di dalam paket pembaruan rute."
+            },
+            {
+                q: "Sebuah kantor cabang memerlukan 120 host dalam satu VLAN. Subnet mask paling tepat menggunakan pendekatan VLSM adalah...",
+                options: [
+                    "255.255.255.0",
+                    "255.255.255.128",
+                    "255.255.255.192",
+                    "255.255.255.224",
+                    "255.255.255.240"
+                ],
+                answer: 1,
+                explanation: "255.255.255.128 (/25) menyediakan 2^7 - 2 = 126 host usable, cukup untuk 120 host."
+            },
+            {
+                q: "Alasan mengapa blok 192.168.1.0/24 dan 192.168.2.0/24 TIDAK BISA dirangkum secara eksklusif menjadi satu supernet /23 saja adalah...",
+                options: [
+                    "Karena keduanya adalah IP Private",
+                    "Karena 192.168.2.0/23 juga akan mencakup 192.168.3.0/24, sedangkan 192.168.0.0/23 mencakup 192.168.0.0 dan 192.168.1.0",
+                    "Karena prefix /23 tidak ada dalam standar jaringan",
+                    "Karena kedua jaringan memiliki oktet pertama yang sama",
+                    "Karena supernetting hanya berlaku untuk IP kelas A"
+                ],
+                answer: 1,
+                explanation: "Kelipatan blok /23 pada oktet ketiga adalah bilangan genap (0, 2, 4, dst). Jadi 192.168.1.0 masuk ke blok 0-1, sedangkan 192.168.2.0 masuk ke blok 2-3."
+            }
+        ];
+
+        // =========================================================================
+        // VARIABEL STATE QUIZ
+        // =========================================================================
+        let currentIndex = 0;
+        let correctCount = 0;
+        let userNama = "";
+        let userKelas = "";
+        let answered = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById("startScreen");
+        const quizScreen = document.getElementById("quizScreen");
+        const resultScreen = document.getElementById("resultScreen");
+        const startForm = document.getElementById("startForm");
+
+        const displayNama = document.getElementById("displayNama");
+        const displayKelas = document.getElementById("displayKelas");
+        const currentQuestionNum = document.getElementById("currentQuestionNum");
+        const quizProgress = document.getElementById("quizProgress");
+        const questionText = document.getElementById("questionText");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const feedbackTitle = document.getElementById("feedbackTitle");
+        const feedbackExplanation = document.getElementById("feedbackExplanation");
+        const nextBtn = document.getElementById("nextBtn");
+
+        // Mulai Quiz
+        startForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            userNama = document.getElementById("inputNama").value.trim();
+            userKelas = document.getElementById("inputKelas").value.trim();
+
+            if (!userNama || !userKelas) return;
+
+            displayNama.textContent = userNama;
+            displayKelas.textContent = userKelas;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+
+            loadQuestion();
+        });
+
+        // Tampilkan Soal
+        function loadQuestion() {
+            answered = false;
+            const qObj = questions[currentIndex];
+            const letters = ["A", "B", "C", "D", "E"];
+
+            currentQuestionNum.textContent = currentIndex + 1;
+            const progressPercent = ((currentIndex + 1) / questions.length) * 100;
+            quizProgress.style.width = `${progressPercent}%`;
+
+            questionText.textContent = `${currentIndex + 1}. ${qObj.q}`;
+            optionsContainer.innerHTML = "";
+            feedbackBox.classList.add("d-none");
+            nextBtn.classList.add("d-none");
+
+            qObj.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `
+                    <span class="option-letter">${letters[idx]}</span>
+                    <span>${opt}</span>
+                `;
+                btn.onclick = () => selectAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Cek Jawaban & Tampilkan Jawaban Benar
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const qObj = questions[currentIndex];
+            const allOptionBtns = optionsContainer.querySelectorAll(".option-btn");
+            const letters = ["A", "B", "C", "D", "E"];
+
+            // Nonaktifkan semua tombol opsi
+            allOptionBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === qObj.answer) {
+                correctCount++;
+                selectedBtn.classList.add("correct");
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackTitle.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Jawaban Anda Benar!`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                // Tandai jawaban yang benar
+                allOptionBtns[qObj.answer].classList.add("correct");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackTitle.innerHTML = `<i class="bi bi-x-circle-fill me-1"></i> Jawaban Kurang Tepat! Jawaban yang benar adalah <strong>${letters[qObj.answer]}. ${qObj.options[qObj.answer]}</strong>`;
+            }
+
+            feedbackExplanation.textContent = qObj.explanation;
+            feedbackBox.classList.remove("d-none");
+
+            // Atur teks tombol lanjut
+            if (currentIndex === questions.length - 1) {
+                nextBtn.innerHTML = `Lihat Skor Akhir <i class="bi bi-check2-all ms-1"></i>`;
+            } else {
+                nextBtn.innerHTML = `Soal Selanjutnya <i class="bi bi-arrow-right ms-1"></i>`;
+            }
+            nextBtn.classList.remove("d-none");
+        }
+
+        // Tombol Soal Selanjutnya
+        nextBtn.addEventListener("click", function() {
+            currentIndex++;
+            if (currentIndex < questions.length) {
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showResult();
+            }
+        });
+
+        // Tampilkan Skor Akhir & Kirim ke Google Spreadsheet
+        function showResult() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+
+            // Kalkulasi skor maksimal 100
+            const finalScore = Math.round((correctCount / questions.length) * 100);
+
+            document.getElementById("resNama").textContent = userNama;
+            document.getElementById("resKelas").textContent = userKelas;
+            document.getElementById("resBenar").textContent = correctCount;
+            document.getElementById("resSkor").textContent = finalScore;
+
+            saveToGoogleSheets(userNama, userKelas, finalScore);
+        }
+
+        // Fungsi Kirim Data ke Google Spreadsheet
+        function saveToGoogleSheets(nama, kelas, skor) {
+            const statusBox = document.getElementById("saveStatus");
+
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "PASTE_URL_GOOGLE_APPS_SCRIPT_ANDA_DISINI") {
+                statusBox.className = "alert alert-warning small mb-4";
+                statusBox.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> URL Google Apps Script belum dikonfigurasi. Skor tampil secara lokal.`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    statusBox.className = "alert alert-success small mb-4";
+                    statusBox.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Berhasil! Data Nama, Kelas, dan Skor telah disimpan ke Spreadsheet <strong>"Jaringan Komputer Quiz 4"</strong>.`;
+                } else {
+                    throw new Error("Gagal menyimpan");
+                }
+            })
+            .catch(error => {
+                statusBox.className = "alert alert-danger small mb-4";
+                statusBox.innerHTML = `<i class="bi bi-wifi-off me-1"></i> Terjadi kendala koneksi saat mengirim data ke Google Spreadsheet.`;
+                console.error("Error:", error);
+            });
+        }
+
+        // =========================================================================
+        // TOMBOL TO TOP
+        // =========================================================================
+        const btnToTop = document.getElementById("btnToTop");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        btnToTop.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
