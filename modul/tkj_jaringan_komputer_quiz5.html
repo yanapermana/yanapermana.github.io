@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 5</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #ff6600;
+            --dark-orange: #e65c00;
+            --light-orange: #fff3eb;
+            --soft-orange: #ffd8bd;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            color: var(--soft-orange) !important;
+        }
+
+        /* Card & Button Styling */
+        .card-quiz {
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+        }
+
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #ffffff;
+        }
+
+        .btn-outline-orange {
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            font-weight: 600;
+            background-color: #ffffff;
+        }
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Option Buttons */
+        .option-btn {
+            text-align: left;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+            font-weight: 600;
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+
+        .badge-orange {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+        }
+
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating Back to Top Button */
+        #btn-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #btn-to-top:hover {
+            background-color: var(--dark-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-router-fill me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <!-- Tombol Back ke Halaman Sebelumnya -->
+        <div class="mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+            </button>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- 1. SCREEN AWAL (INPUT NAMA & KELAS) -->
+                <div id="start-screen" class="card card-quiz p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <span class="badge badge-orange px-3 py-2 mb-2">Jaringan Komputer</span>
+                        <h2 class="fw-bold text-dark">Quiz 5: Static Routing</h2>
+                        <p class="text-muted">Uji pemahaman Anda mengenai konsep, konfigurasi, dan troubleshooting Static Routing. Total 30 soal dengan skor maksimal 100.</p>
+                    </div>
+
+                    <form id="start-form">
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XI TKJ 1 / TI-2A" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-orange btn-lg">
+                                Mulai Quiz Sekarang <i class="bi bi-play-fill ms-1"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. SCREEN QUIZ -->
+                <div id="quiz-screen" class="card card-quiz p-4 p-md-5 d-none">
+                    <!-- Header Info Peserta & Progress -->
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                        <div>
+                            <span class="fw-bold text-dark" id="display-nama">Nama</span>
+                            <span class="badge bg-secondary ms-1" id="display-kelas">Kelas</span>
+                        </div>
+                        <div class="fw-bold" style="color: var(--primary-orange);">
+                            Soal <span id="current-number">1</span> / 30
+                        </div>
+                    </div>
+
+                    <div class="progress mb-4" style="height: 8px;">
+                        <div id="progress-bar" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+                    </div>
+
+                    <!-- Pertanyaan -->
+                    <h5 id="question-text" class="fw-bold mb-4" style="line-height: 1.6;">
+                        Memuat pertanyaan...
+                    </h5>
+
+                    <!-- Pilihan Jawaban -->
+                    <div id="options-container" class="mb-3">
+                        <!-- Tombol opsi jawaban akan digenerate oleh JS -->
+                    </div>
+
+                    <!-- Feedback Jawaban Benar/Salah -->
+                    <div id="feedback-box" class="alert d-none mt-3" role="alert">
+                        <div id="feedback-title" class="fw-bold mb-1"></div>
+                        <div id="feedback-detail" class="small"></div>
+                    </div>
+
+                    <!-- Tombol Selanjutnya -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <button id="next-btn" class="btn btn-orange px-4 d-none">
+                            Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. SCREEN HASIL AKHIR -->
+                <div id="result-screen" class="card card-quiz p-4 p-md-5 text-center d-none">
+                    <div class="mb-3">
+                        <i class="bi bi-trophy-fill" style="font-size: 4rem; color: var(--primary-orange);"></i>
+                    </div>
+                    <h3 class="fw-bold">Quiz Selesai!</h3>
+                    <p class="text-muted mb-4">Berikut adalah rekap hasil pengerjaan Anda pada materi <strong>Static Routing</strong>:</p>
+
+                    <div class="bg-light rounded p-4 mb-4 border">
+                        <h5 class="mb-1 fw-bold" id="result-nama">-</h5>
+                        <p class="text-muted mb-3" id="result-kelas">-</p>
+                        
+                        <div class="display-3 fw-bold mb-2" style="color: var(--primary-orange);">
+                            <span id="final-score">0</span> <span class="fs-5 text-muted">/ 100</span>
+                        </div>
+                        <p class="mb-0 fw-semibold">
+                            Jawaban Benar: <span id="correct-count" class="text-success">0</span> dari 30 soal
+                        </p>
+                    </div>
+
+                    <!-- Status Pengiriman ke Google Spreadsheet -->
+                    <div id="save-status" class="alert alert-warning py-2 small">
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Menyimpan nilai ke database Google Spreadsheet...
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 mt-4 flex-wrap">
+                        <button onclick="location.reload()" class="btn btn-outline-orange">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                        </button>
+                        <a href="https://yanapermana.github.io" class="btn btn-orange">
+                            <i class="bi bi-house-door me-1"></i> Ke Halaman Utama
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
+        <small>&copy; 2026 Yana Permana - Jaringan Komputer Quiz 5 (Static Routing)</small>
+    </footer>
+
+    <!-- Button To Top -->
+    <button id="btn-to-top" title="Kembali ke Atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Utama Quiz -->
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI:
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwx5hHc4lQXbJkYhtINgzqCvKQSIaBX80QyKK0YhdIOSANZNadTHQOKv9pJJLmI6xs9/exec";
+
+        // =========================================================================
+        // BANK 30 SOAL STATIC ROUTING (5 OPSI JAWABAN)
+        // =========================================================================
+        const quizData = [
+            {
+                question: "1. Apa yang dimaksud dengan Static Routing pada jaringan komputer?",
+                options: [
+                    "Proses penentuan jalur paket data secara otomatis menggunakan algoritma routing",
+                    "Konfigurasi tabel routing yang dilakukan secara manual oleh administrator jaringan",
+                    "Metode pengiriman paket data secara broadcast ke seluruh jaringan",
+                    "Protokol yang digunakan untuk menerjemahkan IP privat ke IP publik",
+                    "Proses pembagian alamat IP secara otomatis kepada klien"
+                ],
+                answer: 1
+            },
+            {
+                question: "2. Perintah dasar pada router Cisco IOS untuk menambahkan static route adalah...",
+                options: [
+                    "router static [network] [mask] [next-hop]",
+                    "ip address [network] [mask] [next-hop]",
+                    "ip route [destination_network] [subnet_mask] [next-hop_ip / exit_interface]",
+                    "route add [network] mask [subnet_mask] [gateway]",
+                    "set routing static [network] [next-hop]"
+                ],
+                answer: 2
+            },
+            {
+                question: "3. Berapakah nilai default Administrative Distance (AD) untuk static route yang menggunakan next-hop IP address pada router Cisco?",
+                options: [
+                    "0",
+                    "1",
+                    "90",
+                    "110",
+                    "120"
+                ],
+                answer: 1
+            },
+            {
+                question: "4. Manakah di bawah ini yang merupakan kelebihan utama dari penggunaan Static Routing?",
+                options: [
+                    "Sangat mudah dikonfigurasi pada jaringan berskala sangat besar (ribuan router)",
+                    "Dapat menyesuaikan jalur secara otomatis jika terjadi link putus",
+                    "Tidak membebani CPU router dan tidak memakan bandwidth untuk pertukaran update routing",
+                    "Memiliki konvergensi otomatis tanpa campur tangan admin",
+                    "Otomatis mendeteksi network baru yang ditambahkan pada router tetangga"
+                ],
+                answer: 2
+            },
+            {
+                question: "5. Apa fungsi dari Default Static Route (0.0.0.0 0.0.0.0)?",
+                options: [
+                    "Memblokir semua lalu lintas data yang tidak dikenal",
+                    "Mengarahkan paket data yang tujuannya tidak terdaftar secara spesifik di tabel routing",
+                    "Menghapus seluruh isi tabel routing secara berkala",
+                    "Menghubungkan dua router yang berada dalam satu subnet yang sama",
+                    "Mengenkripsi paket data sebelum dikirim ke jaringan internet"
+                ],
+                answer: 1
+            },
+            {
+                question: "6. Pada router MikroTik, menu manakah yang digunakan untuk menambahkan static route melalui Winbox?",
+                options: [
+                    "IP -> Addresses",
+                    "IP -> Firewall",
+                    "IP -> Routes",
+                    "IP -> DHCP Server",
+                    "System -> RouterBOARD"
+                ],
+                answer: 2
+            },
+            {
+                question: "7. Apa yang dimaksud dengan 'Next-Hop IP Address' dalam konfigurasi static routing?",
+                options: [
+                    "Alamat IP dari interface router lokal tempat paket keluar",
+                    "Alamat IP tujuan akhir dari host/PC penerima",
+                    "Alamat IP interface router tetangga terdekat yang akan menerima paket berikutnya",
+                    "Alamat IP broadcast dari jaringan tujuan",
+                    "Alamat IP loopback dari router pengirim"
+                ],
+                answer: 2
+            },
+            {
+                question: "8. Perintah pada Cisco IOS untuk melihat isi tabel routing yang aktif adalah...",
+                options: [
+                    "show interfaces brief",
+                    "show ip route",
+                    "show running-config",
+                    "show ip protocols",
+                    "show arp"
+                ],
+                answer: 1
+            },
+            {
+                question: "9. Kode huruf apakah yang muncul di tabel routing Cisco IOS yang menandakan jalur tersebut berasal dari Static Route?",
+                options: [
+                    "C",
+                    "L",
+                    "S",
+                    "R",
+                    "O"
+                ],
+                answer: 2
+            },
+            {
+                question: "10. Kode 'S*' pada tabel routing Cisco IOS memiliki arti...",
+                options: [
+                    "Static route yang mengalami error atau down",
+                    "Static route yang sedang dalam proses verifikasi",
+                    "Candidate Default Static Route",
+                    "Static route yang menggunakan protokol keamanan IPSec",
+                    "Static route cadangan (Floating Static Route)"
+                ],
+                answer: 2
+            },
+            {
+                question: "11. Apa yang dimaksud dengan Floating Static Route?",
+                options: [
+                    "Static route yang dikonfigurasi tanpa subnet mask",
+                    "Static route cadangan yang memiliki nilai Administrative Distance lebih besar dari rute utama",
+                    "Static route yang selalu aktif bersamaan dengan RIP",
+                    "Static route yang alamat IP-nya berubah-ubah secara dinamis",
+                    "Static route khusus untuk jaringan IPv6 saja"
+                ],
+                answer: 1
+            },
+            {
+                question: "12. Jika rute utama menggunakan OSPF (AD = 110), berapa nilai Administrative Distance yang tepat untuk Floating Static Route agar berfungsi sebagai jalur backup?",
+                options: [
+                    "1",
+                    "90",
+                    "100",
+                    "110",
+                    "115"
+                ],
+                answer: 4
+            },
+            {
+                question: "13. Perhatikan perintah berikut: `ip route 192.168.10.0 255.255.255.0 10.10.10.2`. Angka `10.10.10.2` pada perintah tersebut berperan sebagai...",
+                options: [
+                    "Network tujuan",
+                    "Subnet mask tujuan",
+                    "Next-hop IP address",
+                    "Administrative distance",
+                    "Exit interface"
+                ],
+                answer: 2
+            },
+            {
+                question: "14. Apa kelemahan utama dari Static Routing dibandingkan Dynamic Routing?",
+                options: [
+                    "Keamanan jaringan lebih rendah karena tabel routing disebarluaskan",
+                    "Membutuhkan spesifikasi CPU dan RAM router yang sangat tinggi",
+                    "Rentan terhadap kesalahan manusia (human error) dan tidak berskala baik pada jaringan besar",
+                    "Menghabiskan banyak bandwidth pada jalur WAN",
+                    "Tidak mendukung teknologi subnetting / VLSM"
+                ],
+                answer: 2
+            },
+            {
+                question: "15. Kapan waktu yang paling ideal untuk menggunakan Static Routing?",
+                options: [
+                    "Pada jaringan ISP skala nasional dengan ribuan router",
+                    "Pada jaringan kecil dengan topologi sederhana atau jaringan stub (hanya memiliki satu jalur keluar)",
+                    "Pada jaringan yang topologinya berubah setiap menit",
+                    "Pada jaringan dengan ratusan jalur redundan yang kompleks",
+                    "Saat administrator tidak mengetahui topologi jaringan sama sekali"
+                ],
+                answer: 1
+            },
+            {
+                question: "16. Apa yang dimaksud dengan 'Stub Network' dalam konteks routing?",
+                options: [
+                    "Jaringan yang tidak memiliki koneksi ke router mana pun",
+                    "Jaringan yang hanya memiliki satu jalur masuk dan keluar menuju jaringan lain",
+                    "Jaringan yang hanya menggunakan protokol IPv6",
+                    "Jaringan yang menggunakan topologi mesh penuh",
+                    "Jaringan khusus untuk manajemen server"
+                ],
+                answer: 1
+            },
+            {
+                question: "17. Perintah CLI pada MikroTik RouterOS untuk menambahkan default route menuju gateway 192.168.1.1 adalah...",
+                options: [
+                    "/ip address add address=0.0.0.0/0 gateway=192.168.1.1",
+                    "/ip route add dst-address=0.0.0.0/0 gateway=192.168.1.1",
+                    "/ip firewall nat add dst-address=0.0.0.0/0 gateway=192.168.1.1",
+                    "/system route add target=0.0.0.0/0 gw=192.168.1.1",
+                    "/routing static add network=0.0.0.0/0 next-hop=192.168.1.1"
+                ],
+                answer: 1
+            },
+            {
+                question: "18. Pada tabel routing MikroTik, tanda flag 'AS' pada sebuah entri rute memiliki arti...",
+                options: [
+                    "Access Denied",
+                    "Active Static",
+                    "Automatic Subnet",
+                    "Asynchronous Serial",
+                    "Active System"
+                ],
+                answer: 1
+            },
+            {
+                question: "19. Apa perbedaan antara 'Directly Connected Static Route' (menggunakan exit-interface) dengan 'Next-Hop Static Route'?",
+                options: [
+                    "Directly connected menggunakan nama interface keluar router lokal, sedangkan Next-Hop menggunakan IP router tetangga",
+                    "Directly connected hanya untuk jaringan wireless, sedangkan Next-Hop untuk kabel",
+                    "Directly connected memiliki AD 120, sedangkan Next-Hop memiliki AD 1",
+                    "Directly connected tidak membutuhkan tabel routing",
+                    "Tidak ada perbedaan sama sekali di antara keduanya"
+                ],
+                answer: 0
+            },
+            {
+                question: "20. Apa yang terjadi jika sebuah router menerima paket data, namun alamat IP tujuannya tidak cocok dengan entri mana pun di tabel routing dan tidak ada Default Route?",
+                options: [
+                    "Paket akan dikirim kembali ke pengirim asli (loopback)",
+                    "Paket akan dibuang (drop) dan router mengirim pesan ICMP Destination Unreachable",
+                    "Paket akan disimpan di RAM router sampai rute tersedia",
+                    "Router akan melakukan broadcast ke semua port aktif",
+                    "Router akan otomatis membuat static route baru"
+                ],
+                answer: 1
+            },
+            {
+                question: "21. Bagaimana cara menghapus static route `ip route 172.16.0.0 255.255.0.0 10.0.0.1` pada mode global configuration Cisco IOS?",
+                options: [
+                    "delete ip route 172.16.0.0 255.255.0.0 10.0.0.1",
+                    "clear ip route 172.16.0.0 255.255.0.0 10.0.0.1",
+                    "no ip route 172.16.0.0 255.255.0.0 10.0.0.1",
+                    "remove ip route 172.16.0.0 255.255.0.0 10.0.0.1",
+                    "erase ip route 172.16.0.0 255.255.0.0 10.0.0.1"
+                ],
+                answer: 2
+            },
+            {
+                question: "22. Apa yang dimaksud dengan 'Route Summarization' (Summary Static Route)?",
+                options: [
+                    "Memecah satu jaringan besar menjadi beberapa subnet kecil",
+                    "Menggabungkan beberapa rute jaringan yang berurutan menjadi satu entri static route tunggal",
+                    "Menghapus rute-rute yang jarang digunakan oleh klien",
+                    "Mengurutkan tabel routing berdasarkan abjad",
+                    "Menggandakan setiap entri rute untuk keamanan"
+                ],
+                answer: 1
+            },
+            {
+                question: "23. Manakah summary route yang tepat untuk menggabungkan jaringan 192.168.0.0/24, 192.168.1.0/24, 192.168.2.0/24, dan 192.168.3.0/24?",
+                options: [
+                    "192.168.0.0/21",
+                    "192.168.0.0/22",
+                    "192.168.0.0/23",
+                    "192.168.0.0/24",
+                    "192.168.1.0/22"
+                ],
+                answer: 1
+            },
+            {
+                question: "24. Prinsip apakah yang digunakan router ketika terdapat beberapa rute yang cocok dengan alamat IP tujuan dalam tabel routing?",
+                options: [
+                    "Shortest Path First (jalur terpendek)",
+                    "Longest Prefix Match (prefix / subnet mask terpanjang atau paling spesifik)",
+                    "First Come First Served (rute yang paling lama dibuat)",
+                    "Highest IP Address (IP gateway tertinggi)",
+                    "Random Load Balancing"
+                ],
+                answer: 1
+            },
+            {
+                question: "25. Jika di tabel routing terdapat rute menuju `10.10.10.0/24`, `10.10.0.0/16`, dan `0.0.0.0/0`, manakah yang akan dipilih router untuk paket dengan IP tujuan `10.10.10.55`?",
+                options: [
+                    "0.0.0.0/0",
+                    "10.10.0.0/16",
+                    "10.10.10.0/24",
+                    "Ketiganya dipilih bersamaan",
+                    "Paket akan dibuang karena konflik rute"
+                ],
+                answer: 2
+            },
+            {
+                question: "26. Mengapa pada konfigurasi static routing untuk jaringan 2 router (Router A dan Router B), komunikasi tetap gagal jika hanya Router A yang dikonfigurasi menuju LAN Router B?",
+                options: [
+                    "Karena kabel crossover tidak terpasang",
+                    "Karena paket balasan (reply) dari LAN Router B tidak tahu jalan kembali menuju LAN Router A (routing harus dua arah)",
+                    "Karena Router B membutuhkan lisensi tambahan",
+                    "Karena DHCP server pada Router A belum aktif",
+                    "Karena perbedaan merek router"
+                ],
+                answer: 1
+            },
+            {
+                question: "27. Perintah untuk mengonfigurasi IPv6 Static Route pada router Cisco IOS adalah...",
+                options: [
+                    "ip route ipv6 [prefix] [next-hop]",
+                    "ipv6 route [ipv6-prefix/prefix-length] [next-hop-ipv6-address]",
+                    "set ipv6 static-route [prefix] [next-hop]",
+                    "route ipv6 add [prefix] [gateway]",
+                    "ip v6-route [prefix] [next-hop]"
+                ],
+                answer: 1
+            },
+            {
+                question: "28. Pada sistem operasi Linux (Ubuntu/Debian), perintah modern menggunakan paket `iproute2` untuk menambahkan static route adalah...",
+                options: [
+                    "ip route add 192.168.20.0/24 via 192.168.1.1",
+                    "ifconfig add route 192.168.20.0/24 gw 192.168.1.1",
+                    "netstat -r add 192.168.20.0/24 192.168.1.1",
+                    "ping -r 192.168.20.0/24 192.168.1.1",
+                    "traceroute add 192.168.20.0/24 via 192.168.1.1"
+                ],
+                answer: 0
+            },
+            {
+                question: "29. Apa yang dimaksud dengan 'Recursive Lookup' pada proses static routing?",
+                options: [
+                    "Router melakukan ping berulang kali ke tujuan sebelum mengirim paket",
+                    "Router harus mencari tabel routing lebih dari sekali (pertama mencari network tujuan, lalu mencari interface keluar untuk next-hop IP)",
+                    "Router menghapus rute secara otomatis setiap 30 detik",
+                    "Router memblokir paket yang mengalami looping",
+                    "Router menyalin tabel routing dari router tetangga"
+                ],
+                answer: 1
+            },
+            {
+                question: "30. Dalam troubleshooting static routing, perintah apakah yang paling efektif digunakan untuk melacak jalur hop-by-hop yang dilalui paket dan mengetahui di titik mana paket terhenti?",
+                options: [
+                    "ipconfig /all",
+                    "arp -a",
+                    "traceroute / tracert",
+                    "nslookup",
+                    "netstat -an"
+                ],
+                answer: 2
+            }
+        ];
+
+        // =========================================================================
+        // VARIABEL STATE QUIZ
+        // =========================================================================
+        let userName = "";
+        let userClass = "";
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+        let answered = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+
+        const startForm = document.getElementById("start-form");
+        const inputNama = document.getElementById("inputNama");
+        const inputKelas = document.getElementById("inputKelas");
+
+        const displayNama = document.getElementById("display-nama");
+        const displayKelas = document.getElementById("display-kelas");
+        const currentNumberEl = document.getElementById("current-number");
+        const progressBar = document.getElementById("progress-bar");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const feedbackTitle = document.getElementById("feedback-title");
+        const feedbackDetail = document.getElementById("feedback-detail");
+        const nextBtn = document.getElementById("next-btn");
+
+        // Mulai Quiz
+        startForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            userName = inputNama.value.trim();
+            userClass = inputKelas.value.trim();
+
+            if (!userName || !userClass) return;
+
+            displayNama.textContent = userName;
+            displayKelas.textContent = userClass;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+
+            loadQuestion();
+        });
+
+        // Muat Soal
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("d-none");
+            nextBtn.classList.add("d-none");
+
+            const q = quizData[currentQuestionIndex];
+            const total = quizData.length;
+
+            currentNumberEl.textContent = currentQuestionIndex + 1;
+            const progressPercent = ((currentQuestionIndex + 1) / total) * 100;
+            progressBar.style.width = progressPercent + "%";
+
+            questionText.textContent = q.question;
+            optionsContainer.innerHTML = "";
+
+            const optionLetters = ["A", "B", "C", "D", "E"];
+
+            q.options.forEach((optText, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span class="fw-bold me-2">${optionLetters[index]}.</span> ${optText}`;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Ubah teks tombol di soal terakhir
+            if (currentQuestionIndex === total - 1) {
+                nextBtn.innerHTML = `Lihat Hasil Akhir <i class="bi bi-check-circle ms-1"></i>`;
+            } else {
+                nextBtn.innerHTML = `Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>`;
+            }
+        }
+
+        // Pilih Jawaban & Tampilkan Jawaban yang Benar
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const q = quizData[currentQuestionIndex];
+            const correctIndex = q.answer;
+            const optionLetters = ["A", "B", "C", "D", "E"];
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+
+            // Disable semua tombol
+            allButtons.forEach(btn => btn.disabled = true);
+
+            // Sorot jawaban yang benar
+            allButtons[correctIndex].classList.add("correct");
+
+            if (selectedIndex === correctIndex) {
+                correctAnswersCount++;
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackTitle.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Jawaban Anda Benar!`;
+                feedbackDetail.textContent = `Pilihan tepat: ${optionLetters[correctIndex]}. ${q.options[correctIndex]}`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackTitle.innerHTML = `<i class="bi bi-x-circle-fill me-1"></i> Jawaban Kurang Tepat!`;
+                feedbackDetail.innerHTML = `Jawaban yang benar adalah: <strong>${optionLetters[correctIndex]}. ${q.options[correctIndex]}</strong>`;
+            }
+
+            nextBtn.classList.remove("d-none");
+        }
+
+        // Lanjut Soal Berikutnya
+        nextBtn.addEventListener("click", function() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        });
+
+        // Selesai Quiz & Hitung Skor Maksimal 100
+        function finishQuiz() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+
+            // Hitung skor maksimal 100 (dibulatkan hingga 2 desimal jika tidak bulat)
+            const rawScore = (correctAnswersCount / quizData.length) * 100;
+            const finalScore = Number.isInteger(rawScore) ? rawScore : parseFloat(rawScore.toFixed(2));
+
+            document.getElementById("result-nama").textContent = userName;
+            document.getElementById("result-kelas").textContent = "Kelas: " + userClass;
+            document.getElementById("final-score").textContent = finalScore;
+            document.getElementById("correct-count").textContent = correctAnswersCount;
+
+            sendDataToSpreadsheet(userName, userClass, finalScore);
+        }
+
+        // Kirim Data ke Google Spreadsheet
+        function sendDataToSpreadsheet(nama, kelas, skor) {
+            const statusEl = document.getElementById("save-status");
+
+            if (GOOGLE_SCRIPT_URL === "URL_GOOGLE_APPS_SCRIPT_ANDA" || !GOOGLE_SCRIPT_URL) {
+                statusEl.className = "alert alert-info py-2 small";
+                statusEl.innerHTML = `<i class="bi bi-info-circle me-1"></i> Mode Demo: URL Google Apps Script belum diatur.`;
+                return;
+            }
+
+            const formData = new URLSearchParams();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            })
+            .then(() => {
+                statusEl.className = "alert alert-success py-2 small";
+                statusEl.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data berhasil disimpan ke Google Spreadsheet ("Jaringan Komputer Quiz 5").`;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                statusEl.className = "alert alert-danger py-2 small";
+                statusEl.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> Gagal terhubung ke Google Spreadsheet. Periksa koneksi internet Anda.`;
+            });
+        }
+
+        // =========================================================================
+        // TOMBOL TO TOP
+        // =========================================================================
+        const btnToTop = document.getElementById("btn-to-top");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        btnToTop.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
