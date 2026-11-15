@@ -512,7 +512,7 @@
         function saveToSpreadsheet(nama, kelas, skor) {
             const saveStatus = document.getElementById("save-status");
             
-            if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbxEi-Wt2HQt7iMjDkhpd7DzF9belSTSDmrM0BgRNeX4q44es71P0nx3BDfyNqHDYrtK/exec") {
+            if (SCRIPT_URL === "URL_GOOGLE_APPS_SCRIPT_ANDA") {
                 saveStatus.className = "alert alert-warning";
                 saveStatus.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>Database belum dihubungkan (URL Apps Script belum diisi).`;
                 return;
