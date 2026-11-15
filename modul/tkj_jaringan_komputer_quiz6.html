@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 6</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary-orange: #ff6b00;
+            --dark-orange: #e05a00;
+            --light-orange: #fff3eb;
+            --border-orange: #ffcca8;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 75px;
+            padding-bottom: 60px;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(255, 107, 0, 0.2);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            background-color: var(--dark-orange);
+            border-radius: 5px;
+        }
+
+        /* Card & Theme Styling */
+        .card-quiz {
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            background-color: #ffffff;
+        }
+
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn-outline-orange {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Option Buttons */
+        .option-btn {
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #ffffff;
+            color: #333;
+            transition: all 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+            font-weight: 600;
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+        .option-label {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Progress Bar */
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating To Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #btnToTop:hover {
+            background-color: var(--dark-orange);
+        }
+
+        .badge-orange {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--border-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="https://yanapermana.github.io">
+                <i class="bi bi-hdd-network me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+            </button>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- 1. SCREEN AWAL (INPUT IDENTITAS) -->
+                <div id="start-screen" class="card card-quiz p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <span class="badge badge-orange px-3 py-2 mb-2 fs-6">Jaringan Komputer - Quiz 6</span>
+                        <h2 class="fw-bold text-dark">Virtual Local Area Network (VLAN)</h2>
+                        <p class="text-muted">Uji pemahaman Anda mengenai konsep dasar, konfigurasi, jenis port, dan inter-VLAN routing.</p>
+                    </div>
+
+                    <div class="alert alert-light border mb-4">
+                        <ul class="mb-0 small text-secondary">
+                            <li>Jumlah Soal: <strong>30 Pilihan Ganda</strong> (5 Opsi Jawaban)</li>
+                            <li>Skor Maksimal: <strong>100 Poin</strong></li>
+                            <li>Kunci jawaban langsung ditampilkan setelah Anda memilih opsi.</li>
+                            <li>Hasil pengerjaan otomatis tersimpan ke database nilai.</li>
+                        </ul>
+                    </div>
+
+                    <form id="identity-form">
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XI TKJ 1 / TI-2A" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-orange btn-lg">
+                                Mulai Quiz <i class="bi bi-play-fill ms-1"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. SCREEN QUIZ -->
+                <div id="quiz-screen" class="card card-quiz p-4 p-md-5 d-none">
+                    <!-- Header Info -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold text-secondary" id="display-user">Peserta: -</span>
+                        <span class="badge badge-orange fs-6" id="question-counter">Soal 1 / 30</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4" style="height: 8px;">
+                        <div id="progress-bar" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3%;"></div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <h5 class="fw-bold mb-4 lh-base" id="question-text">Memuat pertanyaan...</h5>
+
+                    <!-- Options Container -->
+                    <div id="options-container" class="mb-3"></div>
+
+                    <!-- Feedback Box (Muncul setelah menjawab) -->
+                    <div id="feedback-box" class="alert d-none mt-3" role="alert">
+                        <div class="d-flex align-items-start">
+                            <i id="feedback-icon" class="bi fs-4 me-2"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1" id="feedback-title"></h6>
+                                <p class="mb-0 small" id="feedback-detail"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Button -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <button id="btn-next" class="btn btn-orange px-4 d-none">
+                            Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. SCREEN HASIL AKHIR -->
+                <div id="result-screen" class="card card-quiz p-4 p-md-5 text-center d-none">
+                    <div class="mb-3">
+                        <i class="bi bi-trophy-fill text-warning" style="font-size: 4rem;"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Quiz Selesai!</h3>
+                    <p class="text-muted mb-4">Terima kasih telah menyelesaikan Jaringan Komputer Quiz 6 (VLAN).</p>
+
+                    <div class="p-4 rounded-3 mb-4" style="background-color: var(--light-orange); border: 1px solid var(--border-orange);">
+                        <p class="mb-1 fw-semibold text-secondary" id="result-identity">Nama - Kelas</p>
+                        <div class="display-3 fw-bold" style="color: var(--primary-orange);" id="result-score">0</div>
+                        <p class="mb-0 text-muted small">Skor Maksimal: 100 | Jawaban Benar: <span id="result-correct" class="fw-bold">0</span> dari 30</p>
+                    </div>
+
+                    <!-- Status Pengiriman ke Google Spreadsheet -->
+                    <div id="save-status" class="alert alert-info py-2 small mb-4">
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Menyimpan skor ke Google Spreadsheet...
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <button onclick="location.reload()" class="btn btn-orange px-4">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                        </button>
+                        <a href="https://yanapermana.github.io" class="btn btn-outline-orange px-4">
+                            <i class="bi bi-house-door me-1"></i> Kembali ke Home
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Button To Top -->
+    <button id="btnToTop" title="Kembali ke atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quiz Logic & Google Sheets Integration -->
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI BAWAH INI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyukylFn5VvAdPjDlgmhLx2H6OZ06bp3xNUHq01QPzHb-d21lEae5Umg9LwO5dYT55i7w/exec";
+
+        // =========================================================================
+        // BANK 30 SOAL MATERI VLAN (5 OPSI JAWABAN)
+        // =========================================================================
+        const quizData = [
+            {
+                q: "Apa kepanjangan dari VLAN dalam jaringan komputer?",
+                options: [
+                    "Virtual Local Area Network",
+                    "Visual Local Area Network",
+                    "Verified Local Access Network",
+                    "Virtual Link Area Network",
+                    "Variable Local Area Network"
+                ],
+                answer: 0
+            },
+            {
+                q: "Pada lapisan (layer) OSI berapakah VLAN bekerja secara default?",
+                options: [
+                    "Layer 1 (Physical)",
+                    "Layer 2 (Data Link)",
+                    "Layer 3 (Network)",
+                    "Layer 4 (Transport)",
+                    "Layer 7 (Application)"
+                ],
+                answer: 1
+            },
+            {
+                q: "Manakah yang merupakan tujuan utama penggunaan VLAN dalam jaringan skala menengah hingga besar?",
+                options: [
+                    "Memperbesar ukuran broadcast domain menjadi satu kesatuan",
+                    "Memecah broadcast domain menjadi beberapa segmen logis yang terisolasi",
+                    "Menggantikan fungsi router sebagai gateway internet",
+                    "Meningkatkan tegangan listrik pada port switch",
+                    "Menghapus kebutuhan penggunaan alamat IP pada perangkat"
+                ],
+                answer: 1
+            },
+            {
+                q: "Jenis port pada switch yang digunakan untuk menghubungkan perangkat akhir (end-device) seperti PC atau printer ke dalam satu VLAN tertentu disebut...",
+                options: [
+                    "Trunk Port",
+                    "Hybrid Port",
+                    "Access Port",
+                    "Tunnel Port",
+                    "Uplink Port"
+                ],
+                answer: 2
+            },
+            {
+                q: "Jenis port pada switch yang berfungsi membawa lalu lintas data dari banyak VLAN sekaligus antar switch atau dari switch ke router disebut...",
+                options: [
+                    "Access Port",
+                    "Console Port",
+                    "Trunk Port",
+                    "Mirror Port",
+                    "Management Port"
+                ],
+                answer: 2
+            },
+            {
+                q: "Protokol standar terbuka (IEEE) yang paling umum digunakan untuk melakukan VLAN tagging pada frame Ethernet adalah...",
+                options: [
+                    "IEEE 802.11ac",
+                    "IEEE 802.1X",
+                    "IEEE 802.3af",
+                    "IEEE 802.1Q",
+                    "IEEE 802.1D"
+                ],
+                answer: 3
+            },
+            {
+                q: "Berapakah ukuran header tag tambahan yang disisipkan oleh protokol IEEE 802.1Q ke dalam frame Ethernet standar?",
+                options: [
+                    "2 Byte",
+                    "4 Byte",
+                    "8 Byte",
+                    "16 Byte",
+                    "32 Byte"
+                ],
+                answer: 1
+            },
+            {
+                q: "Pada switch Cisco, berapakah nomor VLAN default yang otomatis aktif dan menampung seluruh port sebelum dikonfigurasi?",
+                options: [
+                    "VLAN 0",
+                    "VLAN 1",
+                    "VLAN 10",
+                    "VLAN 100",
+                    "VLAN 4095"
+                ],
+                answer: 1
+            },
+            {
+                q: "Rentang ID VLAN normal (Normal Range VLAN) pada perangkat switch Cisco adalah...",
+                options: [
+                    "1 sampai 255",
+                    "1 sampai 1005",
+                    "1006 sampai 4094",
+                    "0 sampai 4095",
+                    "2 sampai 512"
+                ],
+                answer: 1
+            },
+            {
+                q: "Manakah dari nomor VLAN berikut yang termasuk dalam kategori Extended Range VLAN?",
+                options: [
+                    "VLAN 1",
+                    "VLAN 10",
+                    "VLAN 99",
+                    "VLAN 1002",
+                    "VLAN 2050"
+                ],
+                answer: 4
+            },
+            {
+                q: "Perintah pada Cisco IOS untuk membuat VLAN dengan ID 10 adalah...",
+                options: [
+                    "Switch(config)# create vlan 10",
+                    "Switch(config)# vlan 10",
+                    "Switch# set vlan 10",
+                    "Switch(config-if)# switchport vlan 10",
+                    "Switch(config)# interface vlan 10"
+                ],
+                answer: 1
+            },
+            {
+                q: "Perintah yang tepat untuk menetapkan port FastEthernet 0/1 ke dalam VLAN 20 sebagai access port adalah...",
+                options: [
+                    "switchport mode trunk dan switchport trunk allowed vlan 20",
+                    "switchport mode access dan switchport access vlan 20",
+                    "vlan 20 mode access",
+                    "ip address vlan 20",
+                    "encapsulation dot1q 20"
+                ],
+                answer: 1
+            },
+            {
+                q: "Apa fungsi dari Native VLAN pada koneksi trunk IEEE 802.1Q?",
+                options: [
+                    "Menampung lalu lintas data yang diberi tag khusus",
+                    "Menampung lalu lintas data yang tidak memiliki tag (untagged traffic) yang melewati trunk",
+                    "Memblokir semua lalu lintas broadcast dari switch tetangga",
+                    "Mengenkripsi seluruh paket yang melewati kabel fiber optik",
+                    "Menghapus konfigurasi VLAN secara otomatis saat reboot"
+                ],
+                answer: 1
+            },
+            {
+                q: "Apa yang terjadi jika dua komputer berada pada VLAN yang berbeda tetapi terhubung ke switch Layer 2 yang sama tanpa adanya router atau switch Layer 3?",
+                options: [
+                    "Kedua komputer dapat saling ping secara langsung",
+                    "Kedua komputer tidak dapat saling berkomunikasi",
+                    "Switch otomatis menggabungkan kedua VLAN tersebut",
+                    "Kecepatan transfer data meningkat dua kali lipat",
+                    "Terjadi loop jaringan pada port access"
+                ],
+                answer: 1
+            },
+            {
+                q: "Metode menghubungkan dua atau lebih VLAN agar dapat saling berkomunikasi menggunakan satu interface fisik router yang dibagi menjadi beberapa sub-interface disebut...",
+                options: [
+                    "Dynamic Trunking Protocol",
+                    "Router-on-a-Stick",
+                    "Spanning Tree Protocol",
+                    "Port Channeling",
+                    "Switch Virtual Interface (SVI)"
+                ],
+                answer: 1
+            },
+            {
+                q: "Perintah pada sub-interface router (misal: g0/0.10) untuk mengenali frame dari VLAN 10 pada metode Router-on-a-Stick adalah...",
+                options: [
+                    "switchport access vlan 10",
+                    "encapsulation dot1Q 10",
+                    "vlan tagging 10",
+                    "ip helper-address 10",
+                    "trunk vlan 10"
+                ],
+                answer: 1
+            },
+            {
+                q: "Protokol milik Cisco yang berfungsi untuk mendistribusikan dan menyinkronkan informasi konfigurasi VLAN ke seluruh switch dalam satu domain secara otomatis adalah...",
+                options: [
+                    "STP (Spanning Tree Protocol)",
+                    "VTP (VLAN Trunking Protocol)",
+                    "CDP (Cisco Discovery Protocol)",
+                    "LLDP (Link Layer Discovery Protocol)",
+                    "OSPF (Open Shortest Path First)"
+                ],
+                answer: 1
+            },
+            {
+                q: "Dalam mode VTP, switch yang dapat membuat, mengubah, menghapus VLAN, serta meneruskan informasi VLAN ke switch lain berada pada mode...",
+                options: [
+                    "VTP Client",
+                    "VTP Transparent",
+                    "VTP Server",
+                    "VTP Passive",
+                    "VTP Off"
+                ],
+                answer: 2
+            },
+            {
+                q: "Switch yang berada pada mode VTP Transparent akan berperilaku seperti berikut, KECUALI...",
+                options: [
+                    "Dapat membuat dan menghapus VLAN secara lokal",
+                    "Meneruskan advertisement VTP dari switch lain melalui trunk",
+                    "Tidak menyinkronkan database VLAN miliknya dengan VTP Server",
+                    "Menyimpan konfigurasi VLAN di dalam NVRAM (running-config)",
+                    "Otomatis menimpa database VLAN lokal saat menerima revisi VTP lebih tinggi"
+                ],
+                answer: 4
+            },
+            {
+                q: "Protokol proprietary Cisco yang digunakan untuk menegosiasikan pembentukan link trunk secara otomatis antar dua switch adalah...",
+                options: [
+                    "DTP (Dynamic Trunking Protocol)",
+                    "PAGP (Port Aggregation Protocol)",
+                    "LACP (Link Aggregation Control Protocol)",
+                    "ARP (Address Resolution Protocol)",
+                    "DHCP (Dynamic Host Configuration Protocol)"
+                ],
+                answer: 0
+            },
+            {
+                q: "Jika satu sisi port switch dikonfigurasi 'switchport mode dynamic auto' dan sisi lawannya juga 'switchport mode dynamic auto', status link yang terbentuk adalah...",
+                options: [
+                    "Trunk",
+                    "Access",
+                    "Err-disabled",
+                    "Blocking",
+                    "Shutdown"
+                ],
+                answer: 1
+            },
+            {
+                q: "Perintah untuk menampilkan daftar seluruh VLAN beserta port yang tergabung di dalamnya secara ringkas pada switch Cisco adalah...",
+                options: [
+                    "show ip interface brief",
+                    "show vlan brief",
+                    "show running-config vlan",
+                    "show interfaces trunk",
+                    "show mac address-table"
+                ],
+                answer: 1
+            },
+            {
+                q: "Di file manakah database konfigurasi Normal Range VLAN (VLAN 1–1005) disimpan pada perangkat switch Cisco?",
+                options: [
+                    "startup-config di NVRAM",
+                    "vlan.dat di memori Flash",
+                    "ios.bin di ROM",
+                    "arp-cache di RAM",
+                    "boot.cfg di USB"
+                ],
+                answer: 1
+            },
+            {
+                q: "Jenis VLAN yang dikhususkan untuk membawa lalu lintas telepon IP (IP Phone) dengan prioritas Quality of Service (QoS) tinggi disebut...",
+                options: [
+                    "Data VLAN",
+                    "Native VLAN",
+                    "Management VLAN",
+                    "Voice VLAN",
+                    "Default VLAN"
+                ],
+                answer: 3
+            },
+            {
+                q: "Jenis VLAN yang dikonfigurasi secara khusus agar administrator jaringan dapat mengakses switch dari jarak jauh menggunakan SSH, Telnet, atau SNMP disebut...",
+                options: [
+                    "Management VLAN",
+                    "Guest VLAN",
+                    "Voice VLAN",
+                    "Blackhole VLAN",
+                    "User VLAN"
+                ],
+                answer: 0
+            },
+            {
+                q: "Keuntungan utama penerapan VLAN dari aspek keamanan jaringan adalah...",
+                options: [
+                    "Mencegah serangan virus dari internet secara total",
+                    "Memisahkan lalu lintas data sensitif departemen tertentu dari pengguna umum",
+                    "Menggantikan fungsi firewall perimeter sepenuhnya",
+                    "Menyembunyikan alamat MAC perangkat dari tabel ARP",
+                    "Membuat kabel UTP tahan terhadap penyadapan fisik"
+                ],
+                answer: 1
+            },
+            {
+                q: "Perintah pada switch Cisco untuk membatasi agar link trunk hanya mengizinkan lewatnya trafik dari VLAN 10, 20, dan 30 adalah...",
+                options: [
+                    "switchport access vlan 10,20,30",
+                    "switchport trunk allowed vlan 10,20,30",
+                    "switchport trunk native vlan 10,20,30",
+                    "vlan allowed 10-30",
+                    "no switchport trunk vlan 10,20,30"
+                ],
+                answer: 1
+            },
+            {
+                q: "Pada switch Layer 3 (Multilayer Switch), interface logis yang dibuat untuk melakukan routing antar-VLAN tanpa memerlukan router eksternal disebut...",
+                options: [
+                    "Loopback Interface",
+                    "Switch Virtual Interface (SVI)",
+                    "Tunnel Interface",
+                    "Serial Interface",
+                    "Dialer Interface"
+                ],
+                answer: 1
+            },
+            {
+                q: "Apa dampak yang terjadi jika terjadi 'Native VLAN Mismatch' (perbedaan Native VLAN) pada kedua ujung koneksi trunk?",
+                options: [
+                    "Kabel jaringan langsung terputus secara fisik",
+                    "Trafik untagged dapat bocor ke VLAN yang salah dan muncul pesan error CDP",
+                    "Semua switch di jaringan otomatis restart",
+                    "Alamat IP pada seluruh client berubah menjadi 0.0.0.0",
+                    "Port switch berubah menjadi warna merah permanen"
+                ],
+                answer: 1
+            },
+            {
+                q: "Salah satu praktik keamanan terbaik (best practice) pada port switch yang tidak digunakan adalah...",
+                options: [
+                    "Menjadikannya trunk port secara default",
+                    "Membiarkannya aktif di VLAN 1",
+                    "Menonaktifkannya (shutdown) dan memindahkannya ke VLAN parkir (Blackhole VLAN)",
+                    "Menghubungkannya satu sama lain menggunakan kabel crossover",
+                    "Menghapus alamat MAC port tersebut"
+                ],
+                answer: 2
+            }
+        ];
+
+        // =========================================================================
+        // VARIABEL STATE QUIZ
+        // =========================================================================
+        let userName = "";
+        let userClass = "";
+        let currentIndex = 0;
+        let correctCount = 0;
+        let isAnswered = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+        const identityForm = document.getElementById("identity-form");
+
+        const displayUser = document.getElementById("display-user");
+        const questionCounter = document.getElementById("question-counter");
+        const progressBar = document.getElementById("progress-bar");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const feedbackIcon = document.getElementById("feedback-icon");
+        const feedbackTitle = document.getElementById("feedback-title");
+        const feedbackDetail = document.getElementById("feedback-detail");
+        const btnNext = document.getElementById("btn-next");
+
+        // Mulai Quiz
+        identityForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            userName = document.getElementById("inputNama").value.trim();
+            userClass = document.getElementById("inputKelas").value.trim();
+
+            if (!userName || !userClass) return;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+            displayUser.textContent = `${userName} (${userClass})`;
+            loadQuestion();
+        });
+
+        // Muat Soal
+        function loadQuestion() {
+            isAnswered = false;
+            feedbackBox.classList.add("d-none");
+            btnNext.classList.add("d-none");
+
+            const currentQ = quizData[currentIndex];
+            const totalQ = quizData.length;
+            const letters = ["A", "B", "C", "D", "E"];
+
+            questionCounter.textContent = `Soal ${currentIndex + 1} / ${totalQ}`;
+            progressBar.style.width = `${((currentIndex + 1) / totalQ) * 100}%`;
+            questionText.textContent = `${currentIndex + 1}. ${currentQ.q}`;
+
+            optionsContainer.innerHTML = "";
+
+            currentQ.options.forEach((optText, idx) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "option-btn";
+                btn.innerHTML = `
+                    <span class="option-label">${letters[idx]}</span>
+                    <span>${optText}</span>
+                `;
+                btn.onclick = () => selectOption(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Pilih Jawaban & Tampilkan Kunci Jawaban Langsung
+        function selectOption(selectedIndex, selectedBtn) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const currentQ = quizData[currentIndex];
+            const correctIndex = currentQ.answer;
+            const letters = ["A", "B", "C", "D", "E"];
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+
+            // Nonaktifkan semua tombol opsi
+            allButtons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === correctIndex) {
+                    btn.classList.add("correct");
+                }
+            });
+
+            // Cek benar atau salah
+            feedbackBox.classList.remove("d-none", "alert-success", "alert-danger");
+            feedbackIcon.classList.remove("bi-check-circle-fill", "bi-x-circle-fill");
+
+            if (selectedIndex === correctIndex) {
+                correctCount++;
+                feedbackBox.classList.add("alert-success");
+                feedbackIcon.classList.add("bi-check-circle-fill");
+                feedbackTitle.textContent = "Jawaban Anda Benar!";
+                feedbackDetail.textContent = `Kunci jawaban: ${letters[correctIndex]}. ${currentQ.options[correctIndex]}`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                feedbackBox.classList.add("alert-danger");
+                feedbackIcon.classList.add("bi-x-circle-fill");
+                feedbackTitle.textContent = "Jawaban Anda Kurang Tepat!";
+                feedbackDetail.textContent = `Jawaban yang benar adalah: ${letters[correctIndex]}. ${currentQ.options[correctIndex]}`;
+            }
+
+            // Ubah teks tombol jika soal terakhir
+            if (currentIndex === quizData.length - 1) {
+                btnNext.innerHTML = `Lihat Skor Akhir <i class="bi bi-check2-circle ms-1"></i>`;
+            }
+            btnNext.classList.remove("d-none");
+        }
+
+        // Tombol Soal Berikutnya
+        btnNext.addEventListener("click", function () {
+            currentIndex++;
+            if (currentIndex < quizData.length) {
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                showResult();
+            }
+        });
+
+        // Tampilkan Skor Akhir & Kirim ke Google Spreadsheet
+        function showResult() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+
+            // Skor maksimal 100 (dibulatkan 2 desimal jika tidak bulat)
+            const rawScore = (correctCount / quizData.length) * 100;
+            const finalScore = Number.isInteger(rawScore) ? rawScore : rawScore.toFixed(2);
+
+            document.getElementById("result-identity").textContent = `${userName} — Kelas ${userClass}`;
+            document.getElementById("result-score").textContent = finalScore;
+            document.getElementById("result-correct").textContent = correctCount;
+
+            saveToGoogleSheets(userName, userClass, finalScore);
+        }
+
+        // Kirim Data ke Google Apps Script
+        function saveToGoogleSheets(nama, kelas, skor) {
+            const statusBox = document.getElementById("save-status");
+
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("PASTE_URL")) {
+                statusBox.className = "alert alert-warning py-2 small mb-4";
+                statusBox.innerHTML = `<i class="bi bi-exclamation-triangle me-1"></i> URL Google Apps Script belum dipasang. Skor belum tersimpan ke spreadsheet.`;
+                return;
+            }
+
+            const formData = new URLSearchParams();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            })
+            .then(() => {
+                statusBox.className = "alert alert-success py-2 small mb-4";
+                statusBox.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data NAMA, KELAS, dan SKOR berhasil disimpan ke spreadsheet <strong>"Jaringan Komputer Quiz 6"</strong>.`;
+            })
+            .catch((err) => {
+                console.error(err);
+                statusBox.className = "alert alert-danger py-2 small mb-4";
+                statusBox.innerHTML = `<i class="bi bi-x-circle me-1"></i> Gagal mengirim data ke Google Spreadsheet. Periksa koneksi internet Anda.`;
+            });
+        }
+
+        // =========================================================================
+        // TOMBOL TO TOP
+        // =========================================================================
+        const btnToTop = document.getElementById("btnToTop");
+        window.addEventListener("scroll", function () {
+            if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        });
+
+        btnToTop.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
