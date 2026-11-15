@@ -3,611 +3,315 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crimping Kabel Jaringan LAN Tipe Straight</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <title>Project Crimping</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome (optional for icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Tema orange & putih */
     :root {
-      --orange-primary: #f97316;
-      --orange-dark: #ea580c;
-      --orange-light: #fff7ed;
-      --orange-soft: #ffedd5;
-      --orange-border: #fdba74;
-      --orange-text: #9a3412;
-    }
-    * {
-      box-sizing: border-box;
+      --orange: #f97316;        /* orange utama */
+      --orange-light: #fed7aa;  /* orange muda */
+      --orange-dark: #c2410c;   /* orange tua */
     }
     body {
-      background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      overflow-x: hidden;
+      background-color: #ffffff;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
     }
-    .fade-in {
-      animation: fadeIn 0.5s ease-in;
+    /* Navbar kustom */
+    .navbar-custom {
+      background-color: #ffffff;
+      border-bottom: 4px solid var(--orange);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.1);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.7rem;
+      color: var(--orange-dark) !important;
+      letter-spacing: -0.5px;
     }
-    .progress-bar {
-      transition: width 0.3s ease;
-      background-color: var(--orange-primary) !important;
+    .navbar-brand i {
+      color: var(--orange);
+      margin-right: 8px;
     }
-    .quiz-option {
+    .nav-link {
+      font-weight: 600;
+      color: #1e1e1e !important;
+      margin: 0 6px;
+      border-radius: 40px;
+      padding: 8px 18px !important;
       transition: all 0.2s ease;
     }
-    .quiz-option:hover {
-      transform: translateX(5px);
-      cursor: pointer;
-      border-color: var(--orange-border);
-    }
-    .correct {
-      background-color: #198754 !important;
-      color: white !important;
-      border-color: #198754 !important;
-    }
-    .incorrect {
-      background-color: #dc3545 !important;
-      color: white !important;
-      border-color: #dc3545 !important;
-    }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      background: white;
-      min-height: 100vh;
-      box-shadow: 4px 0 12px rgba(249, 115, 22, 0.08);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 280px;
-      z-index: 1050;
-      transition: transform 0.3s ease;
-      overflow-y: auto;
-      border-right: 2px solid var(--orange-soft);
-      padding-bottom: 1rem;
-    }
-    .sidebar .nav-link {
-      color: #1e2a3a;
-      border-radius: 8px;
-      padding: 0.6rem 1rem;
-      font-weight: 500;
-      transition: background 0.2s;
-      text-align: left;
-      width: 100%;
-    }
-    .sidebar .nav-link:hover,
-    .sidebar .nav-link.active {
+    .nav-link:hover {
       background-color: var(--orange-light);
-      color: var(--orange-dark);
-    }
-    .main-content {
-      margin-left: 280px;
-      padding: 1.5rem 1.5rem 2rem;
-      min-height: 100vh;
-      transition: margin-left 0.3s ease;
-    }
-
-    /* ===== RESPONSIVE SIDEBAR ===== */
-    @media (max-width: 991.98px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-      .sidebar.show {
-        transform: translateX(0);
-      }
-      .main-content {
-        margin-left: 0;
-        padding-top: 4.5rem; /* ruang untuk tombol menu mobile */
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 1040;
-      display: none;
-    }
-    .overlay.show {
-      display: block;
-    }
-
-    /* ===== TOMBOL MENU MOBILE ===== */
-    #mobileMenuBtn {
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      z-index: 1030;
-      border-radius: 12px;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--orange-primary) !important;
-      border-color: var(--orange-primary) !important;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-    }
-    #mobileMenuBtn:hover {
-      background-color: var(--orange-dark) !important;
-    }
-
-    /* ===== FLOATING BUTTONS ===== */
-    .floating-buttons {
-      position: fixed;
-      bottom: 20px;
-      right: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1020;
-    }
-    .floating-buttons .btn {
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      font-size: 1.3rem;
-    }
-    @media (max-width: 575.98px) {
-      .floating-buttons {
-        bottom: 16px;
-        right: 12px;
-        gap: 8px;
-      }
-      .floating-buttons .btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.1rem;
-      }
-    }
-
-    /* ===== CARD & KOMPONEN ===== */
-    .card {
-      border: none;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.08);
-    }
-    .card-header {
-      background-color: transparent;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      font-weight: 600;
-    }
-    .quiz-question {
-      background: var(--orange-light);
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid var(--orange-soft);
-    }
-    @media (max-width: 575.98px) {
-      .quiz-question {
-        padding: 1rem;
-      }
-    }
-    .quiz-option {
-      background: white;
-      border: 2px solid #dee2e6;
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
-      text-align: left;
-      width: 100%;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    .quiz-option:hover {
-      border-color: var(--orange-border);
-    }
-    .color-swatch {
-      height: 32px;
-      border-radius: 6px;
-      margin-bottom: 4px;
-      border: 1px solid rgba(0,0,0,0.1);
-    }
-    .small-label {
-      font-size: 0.7rem;
-      text-align: center;
-      font-weight: 500;
-      display: block;
-      word-break: break-word;
-      line-height: 1.2;
-    }
-    .section-title-icon {
-      font-size: 3rem;
-      line-height: 1;
-    }
-    @media (max-width: 575.98px) {
-      .section-title-icon {
-        font-size: 2.2rem;
-      }
-    }
-
-    /* ===== WARNA ORANGE UNTUK ELEMEN BOOTSTRAP ===== */
-    .btn-primary {
-      background-color: var(--orange-primary) !important;
-      border-color: var(--orange-primary) !important;
-    }
-    .btn-primary:hover, .btn-primary:focus {
-      background-color: var(--orange-dark) !important;
-      border-color: var(--orange-dark) !important;
-    }
-    .btn-secondary {
-      background-color: #6c757d !important;
-      border-color: #6c757d !important;
-    }
-    .text-primary {
       color: var(--orange-dark) !important;
     }
-    .bg-primary {
-      background-color: var(--orange-primary) !important;
-    }
-    .border-primary {
-      border-color: var(--orange-border) !important;
-    }
-    .badge.bg-primary {
-      background-color: var(--orange-primary) !important;
-    }
-    .bg-primary.bg-opacity-10 {
-      background-color: rgba(249, 115, 22, 0.1) !important;
-    }
-
-    /* ===== HEADER ===== */
-    .header-badge {
-      display: inline-block;
-      background: var(--orange-soft);
-      color: var(--orange-text);
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
+    .btn-outline-orange {
+      color: var(--orange);
+      border: 2px solid var(--orange);
       font-weight: 600;
-      margin: 0.15rem;
+      border-radius: 40px;
+      padding: 6px 20px;
+      transition: all 0.2s;
     }
-
-    /* ===== SECTION SPACING ===== */
-    @media (max-width: 575.98px) {
-      .card.p-4.p-md-5 {
-        padding: 1.25rem !important;
+    .btn-outline-orange:hover {
+      background-color: var(--orange);
+      color: white;
+    }
+    .btn-orange {
+      background-color: var(--orange);
+      color: white;
+      font-weight: 600;
+      border-radius: 40px;
+      padding: 8px 24px;
+      border: none;
+      transition: background 0.2s;
+    }
+    .btn-orange:hover {
+      background-color: var(--orange-dark);
+      color: white;
+    }
+    /* Card & section */
+    .section-card {
+      background-color: #ffffff;
+      border-radius: 28px;
+      padding: 1.8rem 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 12px 30px rgba(249, 115, 22, 0.08);
+      border: 1px solid #ffe6d5;
+      transition: transform 0.2s;
+    }
+    .section-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 36px rgba(249, 115, 22, 0.12);
+    }
+    .section-title {
+      font-weight: 700;
+      color: var(--orange-dark);
+      border-left: 8px solid var(--orange);
+      padding-left: 1rem;
+      margin-bottom: 1.4rem;
+      font-size: 1.7rem;
+    }
+    .section-title i {
+      color: var(--orange);
+      margin-right: 10px;
+      width: 2rem;
+    }
+    /* Embed responsive */
+    .embed-responsive {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 20px;
+      background-color: #f8f9fa;
+      border: 2px solid #ffe0cc;
+    }
+    .embed-responsive iframe {
+      width: 100%;
+      border: 0;
+      display: block;
+    }
+    .pdf-embed iframe {
+      height: 500px;
+    }
+    .video-embed iframe {
+      height: 420px;
+    }
+    @media (max-width: 576px) {
+      .pdf-embed iframe {
+        height: 320px;
       }
-      .main-content {
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
+      .video-embed iframe {
+        height: 250px;
+      }
+      .navbar-brand {
+        font-size: 1.4rem;
+      }
+      .section-title {
+        font-size: 1.4rem;
       }
     }
-
-    /* ===== GRID WARNA KABEL ===== */
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+    /* Tombol back & to-top */
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    @media (min-width: 768px) {
-      .color-grid {
-        grid-template-columns: repeat(8, 1fr);
-      }
+    .btn-back {
+      background-color: white;
+      border: 2px solid var(--orange);
+      color: var(--orange-dark);
+      border-radius: 40px;
+      padding: 10px 26px;
+      font-weight: 600;
+      transition: all 0.2s;
     }
-
-    /* ===== PROGRESS TEXT ===== */
-    .progress-info {
-      font-size: 0.8rem;
+    .btn-back:hover {
+      background-color: var(--orange);
+      color: white;
+      border-color: var(--orange);
+    }
+    .btn-totop {
+      background-color: var(--orange);
+      border: none;
+      color: white;
+      border-radius: 40px;
+      padding: 10px 26px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-totop:hover {
+      background-color: var(--orange-dark);
+      color: white;
+    }
+    footer {
+      border-top: 2px dashed var(--orange-light);
+      color: #6c757d;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
-<!-- Overlay mobile -->
-<div id="overlay" class="overlay" onclick="toggleMobileMenu()"></div>
-
-<!-- Sidebar -->
-<div id="sidebar" class="sidebar p-3">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0" style="color: var(--orange-dark);">Crimping Kabel LAN</h5>
-    <button class="btn-close d-lg-none" type="button" onclick="toggleMobileMenu()"></button>
-  </div>
-  <p class="text-secondary small mb-4">Dasar-dasar Teknik Jaringan Komputer</p>
-
-  <nav class="nav flex-column gap-1 mb-4">
-    <button onclick="showSection('pembuka')" class="nav-link text-start border-0 bg-transparent">📚 Pembuka</button>
-    <button onclick="showSection('capaian')" class="nav-link text-start border-0 bg-transparent">🎯 Capaian Pembelajaran</button>
-    <button onclick="showSection('pemantik')" class="nav-link text-start border-0 bg-transparent">💡 Pertanyaan Pemantik</button>
-    <button onclick="showSection('memahami')" class="nav-link text-start border-0 bg-transparent">🎥 Tahap Memahami</button>
-    <button onclick="showSection('mengaplikasi')" class="nav-link text-start border-0 bg-transparent">🔧 Tahap Mengaplikasi</button>
-    <button onclick="showSection('kuis')" class="nav-link text-start border-0 bg-transparent">📝 Kuis Evaluasi</button>
-    <button onclick="showSection('penutup')" class="nav-link text-start border-0 bg-transparent">🎉 Penutup</button>
-  </nav>
-
-  <!-- Link menu tambahan -->
-  <div class="border-top pt-3 mb-3">
-    <p class="fw-semibold small text-secondary mb-2">🔗 Tautan</p>
-    <div class="d-flex flex-column gap-1">
-      <a href="https://yanapermana.github.io" target="_blank" class="nav-link text-decoration-none">Home</a>
-      <a href="https://yanapermana.github.io/jadwal.html" target="_blank" class="nav-link text-decoration-none">Jadwal</a>
-      <a href="https://yanapermana.github.io/modul/index.html" target="_blank" class="nav-link text-decoration-none">Modul</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top py-2">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-tools"></i> Yana Permana
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
 
-  <!-- Progress -->
-  <div class="border-top pt-3">
-    <div class="d-flex justify-content-between progress-info text-secondary mb-1">
-      <span>Progress Pembelajaran</span>
-      <span id="progressText">1 dari 7 tahap</span>
+<!-- KONTEN UTAMA -->
+<main class="container py-4" id="top">
+
+  <!-- HEADER / JUDUL -->
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold" style="color: var(--orange-dark);">
+      <i class="fas fa-cogs me-2" style="color: var(--orange);"></i>Project Crimping
+    </h1>
+    <p class="lead text-secondary">Kumpulan perangkat pembelajaran & media</p>
+  </div>
+
+  <!-- 1. PERENCANAAN PEMBELAJARAN MENDALAM -->
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Perencanaan Pembelajaran Mendalam</h2>
+    <div class="embed-responsive pdf-embed mt-3">
+      <iframe src="https://drive.google.com/file/d/1JYPGFxk4XsFFU78litMvzJ9hf-9_Svwi/preview" allow="autoplay" title="Perencanaan Pembelajaran Mendalam"></iframe>
     </div>
-    <div class="progress" style="height: 8px;">
-      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 14%;" aria-valuenow="14" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="mt-2 text-end">
+      <a href="https://drive.google.com/file/d/1JYPGFxk4XsFFU78litMvzJ9hf-9_Svwi/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-orange mt-2">
+        <i class="fas fa-external-link-alt me-1"></i>Buka di tab baru
+      </a>
     </div>
   </div>
-</div>
 
-<!-- Tombol menu mobile -->
-<button id="mobileMenuBtn" class="btn btn-primary d-lg-none shadow" onclick="toggleMobileMenu()">
-  <i class="bi bi-list"></i>
-</button>
+  <!-- 2. RUBRIK PENILAIAN -->
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-check-double"></i> Rubrik Penilaian</h2>
+    <div class="embed-responsive pdf-embed mt-3">
+      <iframe src="https://drive.google.com/file/d/1z-N2IWZdTEE9bYAf7HJZe9KhS_-N4wNy/preview" allow="autoplay" title="Rubrik Penilaian"></iframe>
+    </div>
+    <div class="mt-2 text-end">
+      <a href="https://drive.google.com/file/d/1z-N2IWZdTEE9bYAf7HJZe9KhS_-N4wNy/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-orange mt-2">
+        <i class="fas fa-external-link-alt me-1"></i>Buka di tab baru
+      </a>
+    </div>
+  </div>
 
-<!-- Floating buttons: Back & To Top -->
-<div class="floating-buttons">
-  <button onclick="goBack()" class="btn btn-secondary" title="Kembali">
-    <i class="bi bi-arrow-left"></i>
-  </button>
-  <button onclick="scrollToTop()" class="btn btn-primary" title="Ke atas">
-    <i class="bi bi-arrow-up"></i>
-  </button>
-</div>
+  <!-- 3. BAHAN AJAR -->
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-book-open"></i> Bahan Ajar</h2>
+    <div class="embed-responsive pdf-embed mt-3">
+      <iframe src="https://drive.google.com/file/d/1v91VGkk7wk_begP2Ll3jBQuAWV2n7VtZ/preview" allow="autoplay" title="Bahan Ajar"></iframe>
+    </div>
+    <div class="mt-2 text-end">
+      <a href="https://drive.google.com/file/d/1v91VGkk7wk_begP2Ll3jBQuAWV2n7VtZ/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-orange mt-2">
+        <i class="fas fa-external-link-alt me-1"></i>Buka di tab baru
+      </a>
+    </div>
+  </div>
 
-<!-- Main Content -->
-<div class="main-content" id="mainContent">
-  <!-- Header -->
-  <header class="mb-4">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-      <div>
-        <h2 id="sectionTitle" class="fw-bold mb-1">Selamat Datang</h2>
-        <p class="text-secondary mb-0" id="namaGuru">Pembelajaran Interaktif Crimping Kabel Jaringan LAN</p>
-      </div>
-      <div class="text-start text-sm-end">
-        <span class="header-badge">⏱ Durasi: 90 menit</span>
-        <span class="header-badge">📘 Project Based Learning</span>
-      </div>
+  <!-- 4. VIDEO PEMBELAJARAN -->
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-video"></i> Video Pembelajaran</h2>
+    <div class="embed-responsive video-embed mt-3">
+      <iframe src="https://www.youtube.com/embed/JDiybTG9dGY" title="Video Pembelajaran Crimping" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
-  </header>
+    <div class="mt-2 text-end">
+      <a href="https://www.youtube.com/watch?v=JDiybTG9dGY" target="_blank" class="btn btn-sm btn-outline-orange mt-2">
+        <i class="fab fa-youtube me-1"></i>Tonton di YouTube
+      </a>
+    </div>
+  </div>
 
-  <!-- Section: Pembuka -->
-  <section id="section-pembuka" class="content-section fade-in">
-    <div class="card p-4 p-md-5 mb-4">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">🌟</div>
-        <h3 class="fw-bold">Selamat Datang di Pembelajaran Crimping Kabel Jaringan LAN!</h3>
-        <p class="text-secondary fs-5">Mari kita mulai perjalanan belajar yang menyenangkan tentang teknik jaringan komputer</p>
-      </div>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="bg-primary bg-opacity-10 p-4 rounded-4 h-100">
-            <h5 class="fw-semibold" style="color: var(--orange-dark);">🎯 Identifikasi Awal</h5>
-            <p class="mb-0">Murid menunjukkan antusiasme tinggi terhadap komponen jaringan komputer, jenis jaringan komputer dan keamanan peralatan jaringan komputer.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="bg-success bg-opacity-10 p-4 rounded-4 h-100">
-            <h5 class="fw-semibold text-success">📚 Materi Pelajaran</h5>
-            <p class="mb-0">Teknologi Jaringan Kabel dan Nirkabel</p>
-          </div>
-        </div>
-      </div>
-      <div class="mt-4 p-4 rounded-4" style="background: linear-gradient(135deg, #ffedd5, #fff7ed);">
-        <h5 class="fw-semibold mb-3" style="color: var(--orange-text);">🌟 Dimensi Profil Lulusan</h5>
-        <div class="row text-center g-3">
-          <div class="col-6 col-md-3"><div class="fs-3">🎯</div><div class="fw-medium">Kemandirian</div></div>
-          <div class="col-6 col-md-3"><div class="fs-3">🤝</div><div class="fw-medium">Kolaborasi</div></div>
-          <div class="col-6 col-md-3"><div class="fs-3">💡</div><div class="fw-medium">Kreativitas</div></div>
-          <div class="col-6 col-md-3"><div class="fs-3">🧠</div><div class="fw-medium">Berpikir Kritis</div></div>
-        </div>
-      </div>
-      <div class="mt-4 text-center">
-        <div id="motivasiText" class="fs-5 fw-medium p-3 rounded-4" style="background: var(--orange-soft); color: var(--orange-text);">"Setiap ahli pernah menjadi pemula. Mari belajar dengan semangat dan percaya diri!"</div>
-      </div>
+  <!-- 5. LKPD -->
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-pen-fancy"></i> LKPD</h2>
+    <div class="embed-responsive pdf-embed mt-3">
+      <iframe src="https://drive.google.com/file/d/1G2Kw2HRx1Tn8vVuhIJegkBlgQ6mHPYMv/preview" allow="autoplay" title="LKPD"></iframe>
     </div>
-    <div class="text-center">
-      <button onclick="nextSection('capaian')" class="btn btn-primary btn-lg px-5">
-        Selanjutnya <i class="bi bi-chevron-right ms-1"></i>
-      </button>
+    <div class="mt-2 text-end">
+      <a href="https://drive.google.com/file/d/1G2Kw2HRx1Tn8vVuhIJegkBlgQ6mHPYMv/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-orange mt-2">
+        <i class="fas fa-external-link-alt me-1"></i>Buka di tab baru
+      </a>
     </div>
-  </section>
+  </div>
 
-  <!-- Section: Capaian -->
-  <section id="section-capaian" class="content-section d-none">
-    <div class="card p-4 p-md-5">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">🎯</div>
-        <h3 class="fw-bold">Capaian & Tujuan Pembelajaran</h3>
-      </div>
-      <div class="row g-4">
-        <div class="col-12">
-          <div class="bg-primary bg-opacity-10 p-4 rounded-4">
-            <h5 class="fw-semibold" style="color: var(--orange-dark);">📋 Capaian Pembelajaran</h5>
-            <p class="mb-0">Pada akhir fase F, peserta didik mampu menginstalasi jaringan kabel dan nirkabel, melakukan perawatan dan perbaikan jaringan kabel dan nirkabel, memahami standar jaringan nirkabel, memilih teknologi jaringan nirkabel indoor dan outdoor sesuai kebutuhan, melakukan instalasi perangkat jaringan nirkabel, menguji instalasi perangkat jaringan nirkabel, menjelaskan konsep layanan Voice over IP (VoIP), mengkonfigurasi layanan Voice over IP (VoIP), memahami jaringan fiber optic, memahami jenis-jenis kabel fiber optic, memilih kabel fiber optic, menerapkan fungsi alat kerja fiber optic, menggunakan alat kerja fiber optic, melakukan sambungan fiber optic, dan melakukan perbaikan jaringan fiber optic.</p>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="bg-success bg-opacity-10 p-4 rounded-4">
-            <h5 class="fw-semibold text-success">🎯 Tujuan Pembelajaran</h5>
-            <div class="d-flex flex-column gap-3">
-              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">1</span><span>Murid mampu memahami jaringan komputer melalui crimping kabel jaringan LAN dengan baik</span></div>
-              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">2</span><span>Murid mampu menerapkan pembuatan kabel jaringan LAN tipe Straight dengan baik dan tanggung jawab</span></div>
-              <div class="d-flex gap-2 align-items-start"><span class="badge bg-success rounded-circle p-2 flex-shrink-0">3</span><span>Murid mampu menganalisis cara membuat kabel jaringan LAN tipe Straight dengan baik dan tepat</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <button onclick="nextSection('pemantik')" class="btn btn-primary btn-lg px-5">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
-    </div>
-  </section>
+  <!-- TOMBOL BACK & TO TOP -->
+  <div class="action-buttons">
+    <button class="btn-back" onclick="history.back()">
+      <i class="fas fa-arrow-left me-2"></i>Kembali
+    </button>
+    <a href="#top" class="btn-totop text-decoration-none">
+      <i class="fas fa-arrow-up me-2"></i>Ke Atas
+    </a>
+  </div>
 
-  <!-- Section: Pemantik -->
-  <section id="section-pemantik" class="content-section d-none">
-    <div class="card p-4 p-md-5">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">💡</div>
-        <h3 class="fw-bold">Pertanyaan Pemantik</h3>
-        <p class="text-secondary">Mari kita mulai dengan pertanyaan yang menarik!</p>
-      </div>
-      <div class="d-flex flex-column gap-4">
-        <div class="p-4 rounded-4 border-start border-4 border-warning bg-warning bg-opacity-10">
-          <div class="d-flex align-items-center gap-3 mb-2"><span class="fs-4">🤔</span><h5 class="fw-semibold text-warning-emphasis mb-0">Pertanyaan 1</h5></div>
-          <p class="fs-5 mb-0">"Pernahkah kalian bertanya bagaimana komputer bisa terhubung satu sama lain?"</p>
-        </div>
-        <div class="p-4 rounded-4 border-start border-4 border-primary bg-primary bg-opacity-10">
-          <div class="d-flex align-items-center gap-3 mb-2"><span class="fs-4">🌐</span><h5 class="fw-semibold mb-0" style="color: var(--orange-dark);">Pertanyaan 2</h5></div>
-          <p class="fs-5 mb-0">"Mengapa internet bisa diakses dari berbagai perangkat?"</p>
-        </div>
-        <div class="p-4 rounded-4 border-start border-4 border-success bg-success bg-opacity-10">
-          <div class="d-flex align-items-center gap-3 mb-2"><span class="fs-4">🔌</span><h5 class="fw-semibold text-success-emphasis mb-0">Pertanyaan 3</h5></div>
-          <p class="fs-5 mb-0">"Tahukah kalian kabel jaringan LAN berguna untuk menyalurkan internet?"</p>
-        </div>
-      </div>
-      <div class="mt-4 p-4 rounded-4 text-center" style="background: linear-gradient(135deg, var(--orange-soft), var(--orange-light));">
-        <div class="fs-3 mb-2">💭</div>
-        <p class="fs-5 mb-0">Pikirkan jawaban kalian, dan mari kita eksplorasi bersama!</p>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <button onclick="nextSection('memahami')" class="btn btn-primary btn-lg px-5">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
-    </div>
-  </section>
+</main>
 
-  <!-- Section: Memahami -->
-  <section id="section-memahami" class="content-section d-none">
-    <div class="card p-4 p-md-5">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">🎥</div>
-        <h3 class="fw-bold">Tahap Memahami</h3>
-        <p class="text-secondary">Eksplorasi dan Diskusi (10 menit)</p>
-      </div>
-      <div class="d-flex flex-column gap-4">
-        <div class="p-4 rounded-4 bg-danger bg-opacity-10">
-          <h5 class="fw-semibold text-danger-emphasis">📹 Video Pembelajaran</h5>
-          <p>Tonton video singkat tentang bagaimana jaringan komputer digunakan dalam kehidupan nyata:</p>
-          <div class="p-3 bg-white rounded-3 border border-2 border-dashed" style="border-color: var(--orange-border) !important;">
-            <div class="d-flex align-items-center gap-3 flex-wrap">
-              <span class="fs-3">🎬</span>
-              <div>
-                <p class="fw-medium mb-1">Video: Peran Jaringan di Kehidupan Sehari-hari</p>
-                <a href="https://drive.google.com/file/d/1ej9rlT1fVXILA4x1MTTXkoCrC52JnHx-/view?usp=drive_link" target="_blank" class="text-decoration-underline" style="color: var(--orange-dark);">Klik untuk menonton video →</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row g-3">
-          <div class="col-md-6">
-            <div class="bg-primary bg-opacity-10 p-4 rounded-4 h-100">
-              <h5 class="fw-semibold" style="color: var(--orange-dark);">🔍 Eksplorasi Informasi</h5>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-2">• Jaringan komputer menggunakan kabel jaringan LAN</li>
-                <li class="mb-2">• Fungsi kabel dalam transfer data</li>
-                <li>• Pentingnya koneksi yang stabil</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="bg-success bg-opacity-10 p-4 rounded-4 h-100">
-              <h5 class="fw-semibold text-success">💬 Diskusi Kelompok</h5>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-2">• Perbedaan warna kabel jaringan LAN</li>
-                <li class="mb-2">• Kabel tipe Straight vs Cross</li>
-                <li>• Bahan dan alat yang digunakan</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="bg-warning bg-opacity-10 p-4 rounded-4">
-          <h5 class="fw-semibold text-warning-emphasis">🎨 Urutan Warna Kabel Jaringan LAN Tipe Straight</h5>
-          <div class="color-grid mt-3">
-            <div class="text-center"><div class="color-swatch" style="background:#ffcc99; border:2px solid #ff9900;"></div><span class="small-label">Putih Orange</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#ff9900;"></div><span class="small-label">Orange</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#ccffcc; border:2px solid #00cc00;"></div><span class="small-label">Putih Hijau</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#0066ff;"></div><span class="small-label">Biru</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#cce5ff; border:2px solid #0066ff;"></div><span class="small-label">Putih Biru</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#00cc00;"></div><span class="small-label">Hijau</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#ffffcc; border:2px solid #cccc00;"></div><span class="small-label">Putih Coklat</span></div>
-            <div class="text-center"><div class="color-swatch" style="background:#cc6600;"></div><span class="small-label">Coklat</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <button onclick="nextSection('mengaplikasi')" class="btn btn-primary btn-lg px-5">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
-    </div>
-  </section>
+<!-- FOOTER -->
+<footer class="text-center py-4 mt-3">
+  <div class="container">
+    <p class="mb-0">
+      <i class="fas fa-tools me-1" style="color: var(--orange);"></i> Project Crimping – Yana Permana
+    </p>
+    <p class="small text-muted mt-1">Materi pembelajaran interaktif & responsif</p>
+  </div>
+</footer>
 
-  <!-- Section: Mengaplikasi -->
-  <section id="section-mengaplikasi" class="content-section d-none">
-    <div class="card p-4 p-md-5">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">🔧</div>
-        <h3 class="fw-bold">Tahap Mengaplikasi</h3>
-        <p class="text-secondary">Project Based Learning dan Demonstrasi (60 menit)</p>
-      </div>
-      <div class="d-flex flex-column gap-4">
-        <div class="p-4 rounded-4" style="background: var(--orange-soft);">
-          <h5 class="fw-semibold" style="color: var(--orange-text);">📋 1. Menentukan Project</h5>
-          <div class="row g-3 mt-1">
-            <div class="col-md-6"><div class="bg-white p-3 rounded-3 border">📄 Jobsheet/LKPD<br><small class="text-secondary">Murid diberikan lembar kerja tentang crimping kabel jaringan LAN tipe straight</small></div></div>
-            <div class="col-md-6"><div class="bg-white p-3 rounded-3 border">👥 Kelompok<br><small class="text-secondary">Murid mengerjakan secara berkelompok 2-3 orang</small></div></div>
-          </div>
-        </div>
-        <div class="bg-primary bg-opacity-10 p-4 rounded-4">
-          <h5 class="fw-semibold" style="color: var(--orange-dark);">👨‍🏫 2. Demonstrasi Langkah-langkah</h5>
-          <div class="row g-3 mt-1 text-center">
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔪</div><h6 class="fw-semibold">Persiapan Kabel</h6><small class="text-secondary">Kupas dan susun kabel sesuai urutan warna</small></div></div>
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔌</div><h6 class="fw-semibold">Pemasangan RJ45</h6><small class="text-secondary">Masukkan kabel ke konektor RJ45</small></div></div>
-            <div class="col-md-4"><div class="bg-white p-3 rounded-3 h-100"><div class="fs-2">🔨</div><h6 class="fw-semibold">Crimping</h6><small class="text-secondary">Tekan dengan tang crimping</small></div></div>
-          </div>
-        </div>
-        <div class="bg-success bg-opacity-10 p-4 rounded-4">
-          <h5 class="fw-semibold text-success">⚡ 3. Penyelesaian Project</h5>
-          <div class="bg-white p-3 rounded-3 border-start border-4 border-success mt-2">
-            <h6 class="fw-semibold text-success">✅ Checklist Kegiatan:</h6>
-            <div class="form-check"><input class="form-check-input" type="checkbox" id="check1"><label class="form-check-label" for="check1">Memeriksa peralatan crimping kabel jaringan LAN</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" id="check2"><label class="form-check-label" for="check2">Melaksanakan praktik crimping sesuai panduan</label></div>
-            <div class="form-check"><input class="form-check-input" type="checkbox" id="check3"><label class="form-check-label" for="check3">Mengecek hasil dengan LAN Tester</label></div>
-          </div>
-        </div>
-        <div class="bg-warning bg-opacity-10 p-4 rounded-4">
-          <h5 class="fw-semibold text-warning-emphasis">🛠️ Alat dan Bahan</h5>
-          <div class="row mt-2 g-3">
-            <div class="col-md-6"><h6 class="fw-semibold">🔧 Alat:</h6><ul class="list-unstyled"><li>• Tang Crimping</li><li>• LAN Tester</li><li>• Tang Kupas Kabel</li><li>• Cutter/Pisau</li></ul></div>
-            <div class="col-md-6"><h6 class="fw-semibold">📦 Bahan:</h6><ul class="list-unstyled"><li>• Kabel UTP Cat 5e/6</li><li>• Konektor RJ45</li><li>• Boot/Pelindung kabel</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="text-center mt-4">
-      <button onclick="nextSection('kuis')" class="btn btn-primary btn-lg px-5">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
-    </div>
-  </section>
-
-  <!-- Section: Kuis -->
-  <section id="section-kuis" class="content-section d-none">
-    <div class="card p-4 p-md-5">
-      <div class="text-center mb-4">
-        <div class="section-title-icon mb-2">📝</div>
-        <h3 class="fw-bold">Kuis Evaluasi</h3>
-        <p class="text-secondary">Tahap Merefleksi (5 menit)</p>
-      </div>
-      <div class="mb-4 p-4 rounded-4" style="background: var(--orange-soft);">
-        <label for="namaLengkap" class="form-label fw-semibold" style="color: var(--orange-text);">👤 Nama Lengkap:</label>
-        <input type="text" id="namaLengkap" class="form-control form-control-lg" style="border-color: var(--orange-border);" placeholder="Masukkan nama lengkap Anda">
-      </div>
-
-      <div id="quizContainer">
-        <div class="quiz-question">
-          <h5 class="fw-semibold mb-3">1. Apa kepanjangan dari LAN?</h5>
-          <button class="quiz-option" data-question="1" data-answer="A">A. Local Area Network</button>
-          <button class="quiz-option" data-question="1" data-answer="B">B. Large Area Network</button>
-          <button class="quiz-option" data-question="1" data-answer="C">C. Limited Area Network</button>
-          <
+<!-- Bootstrap JS (optional for navbar toggler) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Smooth scroll for anchor (optional) -->
+<script>
+  document.querySelectorAll('a[href="#top"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

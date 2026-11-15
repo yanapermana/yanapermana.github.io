@@ -214,3 +214,31 @@ back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
 ----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Project Crimping", konten website berisi:
+
+- Perencanaan Pembelajaran Mendalam
+- file pdf yang diembed melalui link public google drive berikut https://drive.google.com/file/d/1JYPGFxk4XsFFU78litMvzJ9hf-9_Svwi/view?usp=drive_link
+
+- Rubrik Penilaian
+- file pdf yang diembed melalui link public google drive berikut https://drive.google.com/file/d/1z-N2IWZdTEE9bYAf7HJZe9KhS_-N4wNy/view?usp=drive_link
+
+- Bahan Ajar
+- file pdf yang diembed melalui link public google drive berikut https://drive.google.com/file/d/1v91VGkk7wk_begP2Ll3jBQuAWV2n7VtZ/view?usp=drive_link
+
+- Video Pembelajaran
+- file video yang diembed melalui link public youtube berikut https://www.youtube.com/watch?v=JDiybTG9dGY
+
+- LKPD
+- file pdf yang diembed melalui link public google drive berikut https://drive.google.com/file/d/1G2Kw2HRx1Tn8vVuhIJegkBlgQ6mHPYMv/view?usp=drive_link
+
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
