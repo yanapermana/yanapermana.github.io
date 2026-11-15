@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 2</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #ff6b00;
+            --dark-orange: #e05e00;
+            --light-orange: #fff3e6;
+        }
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 70px;
+        }
+        /* Tema Navbar Oranye & Putih */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #ffe0b2 !important;
+            text-decoration: underline;
+        }
+        /* Tombol Tema Oranye */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: white;
+        }
+        .btn-outline-orange {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: white;
+            font-weight: 600;
+        }
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+        /* Card & Pilihan Jawaban */
+        .quiz-card {
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            background-color: #ffffff;
+        }
+        .option-btn {
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: all 0.2s;
+            width: 100%;
+            font-weight: 500;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+        }
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+        .badge-orange {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+        /* Floating Buttons (Back & To Top) */
+        .floating-btn-group {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn-float {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-router-fill me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- 1. Halaman Awal (Input Nama & Kelas) -->
+                <div id="start-screen" class="card quiz-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <span class="badge badge-orange px-3 py-2 mb-2">Jaringan Komputer</span>
+                        <h2 class="fw-bold text-dark">Quiz 2: Network Addressing</h2>
+                        <p class="text-muted">30 Soal Pilihan Ganda | Skor Maksimal: 100</p>
+                    </div>
+                    <form id="start-form">
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-bold">Nama Lengkap</label>
+                            <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputKelas" class="form-label fw-bold">Kelas</label>
+                            <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: TI-2A / XII TKJ 1" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-orange btn-lg">
+                                Mulai Quiz <i class="bi bi-arrow-right-circle ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. Halaman Quiz -->
+                <div id="quiz-screen" class="card quiz-card p-4 d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <div>
+                            <small class="text-muted d-block">Peserta: <strong id="display-nama" class="text-dark"></strong> (<span id="display-kelas"></span>)</small>
+                        </div>
+                        <span class="badge badge-orange fs-6">Soal <span id="question-number">1</span> / 30</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4" style="height: 8px;">
+                        <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 3.33%; background-color: var(--primary-orange);"></div>
+                    </div>
+
+                    <!-- Pertanyaan -->
+                    <h5 id="question-text" class="fw-bold mb-4 lh-base">Pertanyaan akan muncul di sini...</h5>
+
+                    <!-- Pilihan Jawaban -->
+                    <div id="options-container"></div>
+
+                    <!-- Feedback Jawaban Benar/Salah -->
+                    <div id="feedback-box" class="alert mt-3 d-none" role="alert"></div>
+
+                    <!-- Tombol Next -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <button id="next-btn" class="btn btn-orange px-4 d-none">
+                            Selanjutnya <i class="bi bi-chevron-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Halaman Hasil Akhir -->
+                <div id="result-screen" class="card quiz-card p-4 p-md-5 text-center d-none">
+                    <i class="bi bi-trophy-fill text-warning" style="font-size: 4rem;"></i>
+                    <h2 class="fw-bold mt-3">Quiz Selesai!</h2>
+                    <p class="text-muted mb-4">Terima kasih telah mengerjakan Quiz Network Addressing.</p>
+                    
+                    <div class="bg-light p-4 rounded-3 mb-4 border">
+                        <p class="mb-1">Nama: <strong id="final-nama"></strong></p>
+                        <p class="mb-3">Kelas: <strong id="final-kelas"></strong></p>
+                        <h6 class="text-uppercase text-muted">Skor Akhir Anda</h6>
+                        <h1 class="display-3 fw-bold" style="color: var(--primary-orange);" id="final-score">0</h1>
+                        <small class="text-muted">Benar <span id="correct-count">0</span> dari 30 soal</small>
+                    </div>
+
+                    <!-- Status Pengiriman ke Google Spreadsheet -->
+                    <div id="save-status" class="alert alert-info">
+                        <span class="spinner-border spinner-border-sm me-2"></span> Menyimpan nilai ke Google Spreadsheet...
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button onclick="location.reload()" class="btn btn-outline-orange">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons: Back & To Top -->
+    <div class="floating-btn-group">
+        <button onclick="history.back()" class="btn btn-light border btn-float" title="Kembali ke halaman sebelumnya">
+            <i class="bi bi-arrow-left text-dark fw-bold"></i>
+        </button>
+        <button onclick="scrollToTop()" class="btn btn-orange btn-float" title="Ke atas">
+            <i class="bi bi-arrow-up fw-bold"></i>
+        </button>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quiz Logic & Database Soal -->
+    <script>
+        // GANTI URL INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEi-Wt2HQt7iMjDkhpd7DzF9belSTSDmrM0BgRNeX4q44es71P0nx3BDfyNqHDYrtK/exec";
+
+        // 30 Soal Pilihan Ganda (5 Opsi) Materi: Network Addressing
+        const quizData = [
+            {
+                q: "Berapa panjang bit dari alamat IPv4?",
+                options: ["16 bit", "32 bit", "48 bit", "64 bit", "128 bit"],
+                answer: 1
+            },
+            {
+                q: "Alamat IPv4 dibagi menjadi berapa oktet?",
+                options: ["2 oktet", "3 oktet", "4 oktet", "6 oktet", "8 oktet"],
+                answer: 2
+            },
+            {
+                q: "Manakah rentang nilai desimal yang valid untuk satu oktet pada IPv4?",
+                options: ["0 - 127", "1 - 254", "0 - 255", "1 - 256", "0 - 512"],
+                answer: 2
+            },
+            {
+                q: "Alamat IP 192.168.10.1 termasuk ke dalam kelas IPv4 kategori apa?",
+                options: ["Kelas A", "Kelas B", "Kelas C", "Kelas D", "Kelas E"],
+                answer: 2
+            },
+            {
+                q: "Berapakah default subnet mask untuk alamat IP Kelas B?",
+                options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128", "255.255.255.252"],
+                answer: 1
+            },
+            {
+                q: "Notasi CIDR /24 setara dengan subnet mask desimal bertitik...",
+                options: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.192", "255.255.255.240"],
+                answer: 2
+            },
+            {
+                q: "Berapa jumlah maksimal host yang dapat digunakan (usable host) pada jaringan dengan prefix /24?",
+                options: ["256", "255", "254", "128", "126"],
+                answer: 2
+            },
+            {
+                q: "Manakah di bawah ini yang merupakan alamat IP Private Kelas A menurut RFC 1918?",
+                options: ["172.16.0.0 - 172.31.255.255", "192.168.0.0 - 192.168.255.255", "10.0.0.0 - 10.255.255.255", "169.254.0.0 - 169.254.255.255", "127.0.0.0 - 127.255.255.255"],
+                answer: 2
+            },
+            {
+                q: "Alamat IP 127.0.0.1 dicadangkan khusus untuk fungsi...",
+                options: ["Default Gateway", "Broadcast Address", "Loopback Address", "APIPA", "Multicast"],
+                answer: 2
+            },
+            {
+                q: "Jika sebuah komputer gagal mendapatkan IP dari DHCP Server di Windows, sistem akan memberikan alamat APIPA dengan rentang...",
+                options: ["10.0.0.0/8", "127.0.0.0/8", "169.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16"],
+                answer: 2
+            },
+            {
+                q: "Berapa jumlah host yang tersedia untuk subnet mask 255.255.255.252 (/30)?",
+                options: ["2 host", "4 host", "6 host", "14 host", "30 host"],
+                answer: 0
+            },
+            {
+                q: "Diketahui IP 192.168.1.70/26. Berapakah Network Address dari IP tersebut?",
+                options: ["192.168.1.0", "192.168.1.32", "192.168.1.64", "192.168.1.68", "192.168.1.128"],
+                answer: 2
+            },
+            {
+                q: "Diketahui IP 192.168.1.70/26. Berapakah Broadcast Address dari subnet tersebut?",
+                options: ["192.168.1.63", "192.168.1.95", "192.168.1.127", "192.168.1.191", "192.168.1.255"],
+                answer: 2
+            },
+            {
+                q: "Teknik pembagian jaringan di mana setiap subnet memiliki ukuran mask yang berbeda-beda sesuai kebutuhan jumlah host disebut...",
+                options: ["FLSM", "VLSM", "NAT", "PAT", "CIDR"],
+                answer: 1
+            },
+            {
+                q: "Protokol yang bertugas menerjemahkan alamat IP Private menjadi alamat IP Public agar bisa terhubung ke internet adalah...",
+                options: ["DHCP", "DNS", "ARP", "NAT", "ICMP"],
+                answer: 3
+            },
+            {
+                q: "Protokol yang digunakan untuk memetakan alamat IP (Layer 3) ke alamat fisik MAC Address (Layer 2) adalah...",
+                options: ["RARP", "ARP", "DHCP", "NAT", "ICMP"],
+                answer: 1
+            },
+            {
+                q: "Berapa panjang bit dari alamat IPv6?",
+                options: ["32 bit", "48 bit", "64 bit", "128 bit", "256 bit"],
+                answer: 3
+            },
+            {
+                q: "Format penulisan alamat IPv6 menggunakan sistem bilangan...",
+                options: ["Biner", "Oktal", "Desimal", "Heksadesimal", "Alfanumerik"],
+                answer: 3
+            },
+            {
+                q: "Manakah bentuk penyederhanaan (kompresi) yang valid untuk alamat IPv6 2001:0db8:0000:0000:0000:ff00:0042:8329?",
+                options: ["2001:db8::ff00:42:8329", "2001:db8:0:0:ff:42:8329", "2001:db8:::ff00:42:8329", "2001:db8::ff:42:8329", "2001:0db8::ff00:0042:8329"],
+                answer: 0
+            },
+            {
+                q: "Berapa kali tanda titik dua ganda (::) boleh digunakan dalam satu alamat IPv6?",
+                options: ["Tidak terbatas", "Maksimal 1 kali", "Maksimal 2 kali", "Maksimal 3 kali", "Tidak boleh digunakan"],
+                answer: 1
+            },
+            {
+                q: "Alamat IPv6 Link-Local selalu diawali dengan prefix...",
+                options: ["2000::/3", "FC00::/7", "FE80::/10", "FF00::/8", "::1/128"],
+                answer: 2
+            },
+            {
+                q: "Alamat Loopback pada IPv6 dituliskan sebagai...",
+                options: ["::/128", "::1/128", "FE80::1", "FF02::1", "127.0.0.1"],
+                answer: 1
+            },
+            {
+                q: "Pada IPv6, jenis transmisi paket yang menggantikan fungsi Broadcast pada IPv4 adalah...",
+                options: ["Unicast", "Anycast", "Multicast", "Simplex", "Duplex"],
+                answer: 2
+            },
+            {
+                q: "Berapa panjang bit dari sebuah MAC Address standar?",
+                options: ["16 bit", "32 bit", "48 bit", "64 bit", "128 bit"],
+                answer: 2
+            },
+            {
+                q: "Bagian 24 bit pertama pada MAC Address yang mengidentifikasi vendor atau pembuat kartu jaringan disebut...",
+                options: ["NIC Specific", "OUI (Organizationally Unique Identifier)", "BIA", "EUI-64", "SSID"],
+                answer: 1
+            },
+            {
+                q: "Perangkat jaringan yang bekerja pada Layer 3 (Network Layer) dan bertugas menentukan jalur terbaik berdasarkan alamat IP adalah...",
+                options: ["Hub", "Repeater", "Switch Unmanaged", "Router", "Access Point"],
+                answer: 3
+            },
+            {
+                q: "Apa fungsi utama dari Default Gateway pada konfigurasi TCP/IP sebuah host?",
+                options: ["Menyimpan cache DNS", "Memberikan IP otomatis", "Meneruskan paket ke jaringan yang berbeda", "Mendeteksi konflik IP", "Mengenkripsi data lokal"],
+                answer: 2
+            },
+            {
+                q: "Alamat IP Kelas D (224.0.0.0 - 239.255.255.255) dicadangkan untuk keperluan...",
+                options: ["Jaringan skala besar", "Penelitian eksperimental", "Multicasting", "Loopback", "Private Network"],
+                answer: 2
+            },
+            {
+                q: "Jika Anda membutuhkan minimal 50 host dalam satu subnet, prefix CIDR paling efisien yang harus dipilih adalah...",
+                options: ["/24", "/25", "/26", "/27", "/28"],
+                answer: 2
+            },
+            {
+                q: "Manakah perintah pada Command Prompt (Windows) yang digunakan untuk menampilkan informasi lengkap alamat IP, Subnet Mask, Gateway, dan MAC Address?",
+                options: ["ping", "tracert", "ipconfig /all", "netstat -r", "nslookup"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let userName = "";
+        let userClass = "";
+
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+        const startForm = document.getElementById("start-form");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+
+        // Mulai Quiz
+        startForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            userName = document.getElementById("inputNama").value.trim();
+            userClass = document.getElementById("inputKelas").value.trim();
+
+            document.getElementById("display-nama").textContent = userName;
+            document.getElementById("display-kelas").textContent = userClass;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+            loadQuestion();
+        });
+
+        // Muat Soal
+        function loadQuestion() {
+            const qData = quizData[currentQuestion];
+            document.getElementById("question-number").textContent = currentQuestion + 1;
+            document.getElementById("question-text").textContent = `${currentQuestion + 1}. ${qData.q}`;
+            
+            // Update Progress Bar
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById("progress-bar").style.width = `${progress}%`;
+
+            // Reset UI
+            optionsContainer.innerHTML = "";
+            feedbackBox.classList.add("d-none");
+            nextBtn.classList.add("d-none");
+
+            const labels = ["A", "B", "C", "D", "E"];
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span class="badge bg-secondary me-2">${labels[index]}</span> ${opt}`;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Cek Jawaban & Tampilkan Kunci Jawaban Langsung
+        function checkAnswer(selectedIndex, selectedBtn) {
+            const qData = quizData[currentQuestion];
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+            const labels = ["A", "B", "C", "D", "E"];
+
+            // Nonaktifkan semua tombol setelah memilih
+            allButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === qData.answer) {
+                correctAnswers++;
+                selectedBtn.classList.add("correct");
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><strong>Benar!</strong> Jawaban yang tepat adalah <strong>${labels[qData.answer]}. ${qData.options[qData.answer]}</strong>`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                allButtons[qData.answer].classList.add("correct");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-2"></i><strong>Salah!</strong> Jawaban yang benar adalah <strong>${labels[qData.answer]}. ${qData.options[qData.answer]}</strong>`;
+            }
+
+            feedbackBox.classList.remove("d-none");
+            nextBtn.classList.remove("d-none");
+            
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.innerHTML = `Lihat Hasil <i class="bi bi-check2-all ms-1"></i>`;
+            }
+        }
+
+        // Tombol Soal Selanjutnya
+        nextBtn.addEventListener("click", function() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        });
+
+        // Tampilkan Hasil Akhir & Kirim ke Google Spreadsheet
+        function showResult() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+
+            // Hitung skor maksimal 100
+            const finalScore = Math.round((correctAnswers / quizData.length) * 100);
+
+            document.getElementById("final-nama").textContent = userName;
+            document.getElementById("final-kelas").textContent = userClass;
+            document.getElementById("final-score").textContent = finalScore;
+            document.getElementById("correct-count").textContent = correctAnswers;
+
+            saveToSpreadsheet(userName, userClass, finalScore);
+        }
+
+        // Kirim Data ke Google Apps Script
+        function saveToSpreadsheet(nama, kelas, skor) {
+            const saveStatus = document.getElementById("save-status");
+            
+            if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbxEi-Wt2HQt7iMjDkhpd7DzF9belSTSDmrM0BgRNeX4q44es71P0nx3BDfyNqHDYrtK/exec") {
+                saveStatus.className = "alert alert-warning";
+                saveStatus.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>Database belum dihubungkan (URL Apps Script belum diisi).`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    saveStatus.className = "alert alert-success";
+                    saveStatus.innerHTML = `<i class="bi bi-cloud-check-fill me-2"></i>Data NAMA, KELAS, dan SKOR berhasil disimpan ke Google Spreadsheet!`;
+                } else {
+                    throw new Error("Gagal menyimpan");
+                }
+            })
+            .catch(error => {
+                saveStatus.className = "alert alert-danger";
+                saveStatus.innerHTML = `<i class="bi bi-x-octagon-fill me-2"></i>Gagal terhubung ke Google Spreadsheet. Pastikan izin akses Web App sudah diset ke "Anyone".`;
+            });
+        }
+
+        // Fungsi Tombol To Top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
