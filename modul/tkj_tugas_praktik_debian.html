@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Praktik Debian</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #f97316;
+            --primary-orange-hover: #ea580c;
+            --light-orange: #fff7ed;
+            --soft-orange-border: #fed7aa;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --terminal-bg: #1e1e2e;
+            --terminal-header: #181825;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: #ffffff;
+            border-bottom: 2px solid var(--soft-orange-border);
+            box-shadow: 0 2px 10px rgba(249, 115, 22, 0.06);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--primary-orange) !important;
+            letter-spacing: -0.5px;
+            font-size: 1.35rem;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--text-dark) !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-orange) !important;
+            background-color: var(--light-orange);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #ffffff 0%, var(--light-orange) 100%);
+            border-bottom: 1px solid var(--soft-orange-border);
+            padding: 3rem 0;
+        }
+
+        .badge-orange {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--soft-orange-border);
+            font-weight: 600;
+            padding: 0.45rem 0.9rem;
+            border-radius: 50px;
+        }
+
+        /* Cards & Sections */
+        .content-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-top: 4px solid var(--primary-orange);
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-bottom: 2rem;
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 0.6rem;
+            margin-right: 0.65rem;
+            font-size: 1rem;
+        }
+
+        .cmd-item {
+            padding: 1.15rem 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .cmd-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .cmd-title {
+            font-weight: 700;
+            color: var(--primary-orange-hover);
+            font-size: 1.05rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Dark Terminal Block */
+        .terminal-box {
+            background-color: var(--terminal-bg);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-top: 0.75rem;
+            border: 1px solid #313244;
+        }
+
+        .terminal-header {
+            background-color: var(--terminal-header);
+            padding: 0.45rem 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #313244;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .dot-red { background-color: #f38ba8; }
+        .dot-yellow { background-color: #f9e2af; }
+        .dot-green { background-color: #a6e3a1; }
+
+        .btn-copy {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #cdd6f4;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.65rem;
+            border-radius: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border-color: var(--primary-orange);
+        }
+
+        .terminal-body {
+            padding: 0.9rem 1.1rem;
+            margin: 0;
+            color: #a6e3a1;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            overflow-x: auto;
+        }
+
+        .terminal-prompt {
+            color: #f97316;
+            font-weight: 700;
+            user-select: none;
+        }
+
+        /* Buttons */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            padding: 0.55rem 1.2rem;
+            border-radius: 0.65rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-orange:hover {
+            background-color: var(--primary-orange-hover);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-orange {
+            background-color: #ffffff;
+            color: var(--primary-orange);
+            border: 1.5px solid var(--primary-orange);
+            font-weight: 600;
+            padding: 0.5rem 1.15rem;
+            border-radius: 0.65rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Floating To Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.3s ease;
+            z-index: 1050;
+        }
+
+        #btnToTop.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #btnToTop:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-3px);
+        }
+
+        /* Alat dan Bahan Pill */
+        .tool-badge {
+            background-color: var(--light-orange);
+            border: 1px solid var(--soft-orange-border);
+            border-radius: 0.75rem;
+            padding: 0.85rem 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .tool-icon {
+            width: 38px;
+            height: 38px;
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border-radius: 0.55rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #ffffff;
+            border-top: 2px solid var(--soft-orange-border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Responsif -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="https://yanapermana.github.io">
+                <i class="bi bi-terminal-fill"></i> Yana Permana
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-1 mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">
+                            <i class="bi bi-calendar-week me-1"></i> Jadwal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="https://yanapermana.github.io/modul/index.html">
+                            <i class="bi bi-journal-code me-1"></i> Modul
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Header Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                <button type="button" onclick="goBack()" class="btn btn-outline-orange btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back
+                </button>
+                <span class="badge-orange">
+                    <i class="bi bi-hdd-network me-1"></i> Administrasi Sistem Jaringan
+                </span>
+            </div>
+            <h1 class="display-5 fw-bold text-dark mb-2">Tugas Praktik Debian</h1>
+            <p class="lead text-secondary mb-0">
+                Panduan perintah dasar terminal Linux Debian untuk navigasi berkas, manajemen pengguna, pemantauan sistem, dan pengelolaan paket APT.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+
+        <!-- Alat dan Bahan -->
+        <section class="content-card p-4">
+            <h2 class="h4 fw-bold mb-3 d-flex align-items-center">
+                <i class="bi bi-tools text-warning me-2" style="color: var(--primary-orange) !important;"></i>
+                Alat dan Bahan
+            </h2>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="tool-badge">
+                        <div class="tool-icon">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">VirtualBox</div>
+                            <small class="text-muted fw-normal">Perangkat lunak virtualisasi mesin</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="tool-badge">
+                        <div class="tool-icon">
+                            <i class="bi bi-disc"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">Debian VDI</div>
+                            <small class="text-muted fw-normal">Virtual Disk Image sistem operasi Debian</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bagian 1: Navigasi dan Manajemen Berkas -->
+        <section class="content-card p-4">
+            <h2 class="h4 fw-bold mb-3 d-flex align-items-center">
+                <span class="section-number">1</span>
+                Navigasi dan Manajemen Berkas (File &amp; Directory)
+            </h2>
+
+            <!-- clear -->
+            <div class="cmd-item">
+                <div class="cmd-title">clear</div>
+                <p class="text-muted mb-1">Membersihkan layar terminal agar tampilan kembali rapi.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># clear</code></pre>
+                </div>
+            </div>
+
+            <!-- pwd -->
+            <div class="cmd-item">
+                <div class="cmd-title">pwd (Print Working Directory)</div>
+                <p class="text-muted mb-1">Menampilkan lokasi direktori tempat Anda berada saat ini.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># pwd</code></pre>
+                </div>
+            </div>
+
+            <!-- ls -->
+            <div class="cmd-item">
+                <div class="cmd-title">ls (List)</div>
+                <p class="text-muted mb-2">Melihat daftar file dan folder di direktori aktif.</p>
+                <ul class="text-muted small mb-2">
+                    <li><code>ls -a</code>: Menampilkan seluruh file, termasuk file tersembunyi (<em>hidden files</em>).</li>
+                    <li><code>ls -la</code>: Menampilkan file secara detail beserta izin akses (<em>permissions</em>) dan ukurannya.</li>
+                </ul>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># ls
+# ls -a
+# la -la</code></pre>
+                </div>
+            </div>
+
+            <!-- cd -->
+            <div class="cmd-item">
+                <div class="cmd-title">cd (Change Directory)</div>
+                <p class="text-muted mb-2">Berpindah ke direktori lain.</p>
+                <ul class="text-muted small mb-2">
+                    <li><code>cd ..</code>: Mundur satu tingkat ke direktori di atasnya.</li>
+                    <li><code>cd ~</code>: Kembali ke direktori home pengguna.</li>
+                </ul>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># cd ..
+# cd ~</code></pre>
+                </div>
+            </div>
+
+            <!-- mkdir -->
+            <div class="cmd-item">
+                <div class="cmd-title">mkdir (Make Directory)</div>
+                <p class="text-muted mb-1">Membuat folder baru (contoh: <code>mkdir nama_folder</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># mkdir namakamu
+# ls namakamu</code></pre>
+                </div>
+            </div>
+
+            <!-- rmdir -->
+            <div class="cmd-item">
+                <div class="cmd-title">rmdir</div>
+                <p class="text-muted mb-1">Menghapus folder yang kosong.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># rmdir namakamu</code></pre>
+                </div>
+            </div>
+
+            <!-- touch -->
+            <div class="cmd-item">
+                <div class="cmd-title">touch</div>
+                <p class="text-muted mb-1">Membuat file kosong baru (contoh: <code>touch file.txt</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># touch namakamu.txt
+# ls</code></pre>
+                </div>
+            </div>
+
+            <!-- cat -->
+            <div class="cmd-item">
+                <div class="cmd-title">cat</div>
+                <p class="text-muted mb-1">Menampilkan isi dari suatu file teks.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># echo "aku kelas xi" >> namakamu.txt
+# cat namakamu.txt</code></pre>
+                </div>
+            </div>
+
+            <!-- cp -->
+            <div class="cmd-item">
+                <div class="cmd-title">cp (Copy)</div>
+                <p class="text-muted mb-1">Menyalin file atau folder (contoh: <code>cp file.txt /lokasi/tujuan</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># cp namakamu.txt fileinidisalin.txt
+# ls</code></pre>
+                </div>
+            </div>
+
+            <!-- mv -->
+            <div class="cmd-item">
+                <div class="cmd-title">mv (Move)</div>
+                <p class="text-muted mb-1">Memindahkan atau mengganti nama (<em>rename</em>) file/folder (contoh: <code>mv lama.txt baru.txt</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># mv namakamu.txt namabaru.txt</code></pre>
+                </div>
+            </div>
+
+            <!-- rm -->
+            <div class="cmd-item">
+                <div class="cmd-title">rm (Remove)</div>
+                <p class="text-muted mb-2">Menghapus file.</p>
+                <ul class="text-muted small mb-2">
+                    <li><code>rm -r</code>: Menghapus folder beserta seluruh isinya secara rekursif.</li>
+                </ul>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># rm namabaru.txt
+# mkdir folderbaru
+# rm -r folderbaru
+# ls</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bagian 2: Manajemen Hak Akses dan Pengguna -->
+        <section class="content-card p-4">
+            <h2 class="h4 fw-bold mb-3 d-flex align-items-center">
+                <span class="section-number">2</span>
+                Manajemen Hak Akses dan Pengguna (Permissions &amp; Users)
+            </h2>
+
+            <!-- su -->
+            <div class="cmd-item">
+                <div class="cmd-title">su (Switch User)</div>
+                <p class="text-muted mb-1">Masuk ke akun pengguna lain atau beralih ke akun root (administrator).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># su</code></pre>
+                </div>
+            </div>
+
+            <!-- sudo -->
+            <div class="cmd-item">
+                <div class="cmd-title">sudo</div>
+                <p class="text-muted mb-1">Menjalankan perintah dengan hak akses sementara sebagai root.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># sudo su
+# whoami</code></pre>
+                </div>
+            </div>
+
+            <!-- chmod -->
+            <div class="cmd-item">
+                <div class="cmd-title">chmod</div>
+                <p class="text-muted mb-1">Mengubah hak akses (<em>permissions</em>) pada file atau direktori.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># mkdir namafolderkamu
+# chmod 777 namafolderkamu
+# ls -lah</code></pre>
+                </div>
+            </div>
+
+            <!-- chown -->
+            <div class="cmd-item">
+                <div class="cmd-title">chown</div>
+                <p class="text-muted mb-1">Mengubah kepemilikan (<em>ownership</em>) file atau direktori.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># useradd -m namakamu
+# sudo usermod -aG sudo namakamu
+# chown namakamu:namakamu namafolderkamu
+# ls -lah</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bagian 3: Informasi Sistem dan Jaringan -->
+        <section class="content-card p-4">
+            <h2 class="h4 fw-bold mb-3 d-flex align-items-center">
+                <span class="section-number">3</span>
+                Informasi Sistem dan Jaringan
+            </h2>
+
+            <!-- ip a / ifconfig -->
+            <div class="cmd-item">
+                <div class="cmd-title">ip a atau ifconfig</div>
+                <p class="text-muted mb-1">Mengecek alamat IP dan konfigurasi antarmuka jaringan (<em>network interface</em>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># ip a
+# ifconfig</code></pre>
+                </div>
+            </div>
+
+            <!-- ping -->
+            <div class="cmd-item">
+                <div class="cmd-title">ping &lt;alamat&gt;</div>
+                <p class="text-muted mb-1">Menguji koneksi jaringan ke komputer atau situs lain (contoh: <code>ping google.com</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># ping 8.8.8.8</code></pre>
+                </div>
+            </div>
+
+            <!-- df -h -->
+            <div class="cmd-item">
+                <div class="cmd-title">df -h</div>
+                <p class="text-muted mb-1">Melihat kapasitas dan penggunaan ruang penyimpanan (<em>disk space</em>) pada hard disk.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># df -h</code></pre>
+                </div>
+            </div>
+
+            <!-- free -h -->
+            <div class="cmd-item">
+                <div class="cmd-title">free -h</div>
+                <p class="text-muted mb-1">Memeriksa penggunaan memori RAM.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># free -h</code></pre>
+                </div>
+            </div>
+
+            <!-- top / htop -->
+            <div class="cmd-item">
+                <div class="cmd-title">top atau htop</div>
+                <p class="text-muted mb-1">Memantau proses sistem dan penggunaan CPU secara <em>real-time</em>.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># top</code></pre>
+                </div>
+            </div>
+
+            <!-- reboot & shutdown -->
+            <div class="cmd-item">
+                <div class="cmd-title">reboot &amp; shutdown -h now</div>
+                <ul class="text-muted small mb-2">
+                    <li><code>reboot</code>: Mulai ulang (<em>restart</em>) sistem.</li>
+                    <li><code>shutdown -h now</code>: Mematikan komputer atau server saat itu juga.</li>
+                </ul>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># reboot
+# shutdown -h now</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bagian 4: Manajemen Paket (APT Debian) -->
+        <section class="content-card p-4">
+            <h2 class="h4 fw-bold mb-2 d-flex align-items-center">
+                <span class="section-number">4</span>
+                Manajemen Paket (APT Debian)
+            </h2>
+            <p class="text-muted mb-3">
+                Debian menggunakan <strong>Advanced Package Tool (apt)</strong> untuk menginstal, memperbarui, dan menghapus aplikasi:
+            </p>
+
+            <!-- apt update -->
+            <div class="cmd-item">
+                <div class="cmd-title">apt update</div>
+                <p class="text-muted mb-1">Memperbarui daftar repositori paket dari server Debian.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># apt update</code></pre>
+                </div>
+            </div>
+
+            <!-- apt upgrade -->
+            <div class="cmd-item">
+                <div class="cmd-title">apt upgrade</div>
+                <p class="text-muted mb-1">Meningkatkan versi paket-paket yang sudah terinstal ke versi terbaru.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># apt upgrade</code></pre>
+                </div>
+            </div>
+
+            <!-- apt install -->
+            <div class="cmd-item">
+                <div class="cmd-title">apt install &lt;nama_paket&gt;</div>
+                <p class="text-muted mb-1">Menginstal aplikasi atau paket baru (contoh: <code>apt install nginx</code>).</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># apt install nginx</code></pre>
+                </div>
+            </div>
+
+            <!-- apt remove -->
+            <div class="cmd-item">
+                <div class="cmd-title">apt remove &lt;nama_paket&gt;</div>
+                <p class="text-muted mb-1">Menghapus aplikasi yang terinstal.</p>
+                <div class="terminal-box">
+                    <div class="terminal-header">
+                        <div class="terminal-dots"><span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span></div>
+                        <button class="btn-copy" onclick="copyCode(this)"><i class="bi bi-clipboard me-1"></i>Copy</button>
+                    </div>
+                    <pre class="terminal-body"><code># apt remove nginx</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Action Bar -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <button type="button" onclick="goBack()" class="btn btn-outline-orange">
+                <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+            </button>
+            <button type="button" onclick="scrollToTop()" class="btn btn-orange">
+                <i class="bi bi-arrow-up me-1"></i> Ke Atas
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Floating To Top Button -->
+    <button id="btnToTop" onclick="scrollToTop()" title="Kembali ke atas" aria-label="Kembali ke atas">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold text-dark">
+                Tugas Praktik Debian &mdash; <span style="color: var(--primary-orange);">Yana Permana</span>
+            </p>
+            <small class="text-muted">Materi Pembelajaran Administrasi Sistem Jaringan</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fungsi kembali ke halaman sebelumnya dengan fallback
+        function goBack() {
+            if (window.history.length > 1 && document.referrer !== "") {
+                window.history.back();
+            } else {
+                window.location.href = "https://yanapermana.github.io/modul/index.html";
+            }
+        }
+
+        // Fungsi scroll halus ke atas
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        // Menampilkan tombol floating To Top saat di-scroll
+        const btnToTop = document.getElementById("btnToTop");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 250) {
+                btnToTop.classList.add("show");
+            } else {
+                btnToTop.classList.remove("show");
+            }
+        });
+
+        // Fungsi salin perintah terminal (menghapus prefix '# ' agar siap tempel)
+        function copyCode(button) {
+            const codeElement = button.closest(".terminal-box").querySelector("code");
+            const rawText = codeElement.innerText;
+            const cleanedText = rawText
+                .split("\n")
+                .map(line => line.replace(/^#\s*/, ""))
+                .join("\n");
+
+            const tempTextarea = document.createElement("textarea");
+            tempTextarea.value = cleanedText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempTextarea);
+
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-check2 me-1"></i>Copied!';
+            button.style.backgroundColor = "#16a34a";
+            button.style.borderColor = "#16a34a";
+            button.style.color = "#ffffff";
+
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.style.backgroundColor = "";
+                button.style.borderColor = "";
+                button.style.color = "";
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
