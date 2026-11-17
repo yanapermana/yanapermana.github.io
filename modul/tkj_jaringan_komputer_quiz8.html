@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 8</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-orange: #ff6b00;
+            --dark-orange: #e05a00;
+            --light-orange: #fff3e8;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styling */
+        .navbar-orange {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-orange .navbar-brand,
+        .navbar-orange .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .navbar-orange .nav-link:hover {
+            color: var(--light-orange) !important;
+            text-decoration: underline;
+        }
+
+        /* Custom Buttons & Accents */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            border-color: var(--dark-orange);
+            color: #ffffff;
+        }
+
+        .btn-outline-orange {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+            font-weight: 600;
+        }
+
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        .card-quiz {
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background-color: #ffffff;
+        }
+
+        .option-btn {
+            text-align: left;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 1.5px solid #dee2e6;
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-weight: 500;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: var(--light-orange);
+            border-color: var(--primary-orange);
+        }
+
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+
+        .badge-orange {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating To Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        #btnToTop:hover {
+            background-color: var(--dark-orange);
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-orange sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="https://yanapermana.github.io">
+                <i class="bi bi-router-fill me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+        <!-- Back Button -->
+        <div class="mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back ke Halaman Sebelumnya
+            </button>
+        </div>
+
+        <!-- Header Title -->
+        <div class="text-center mb-4">
+            <span class="badge badge-orange px-3 py-2 mb-2 rounded-pill">Materi: Wireless Network</span>
+            <h2 class="fw-bold text-dark">Jaringan Komputer Quiz 8</h2>
+            <p class="text-muted">30 Soal Pilihan Ganda • Skor Maksimal 100</p>
+        </div>
+
+        <!-- STEP 1: Form Identitas -->
+        <div id="startSection" class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-quiz p-4">
+                    <h5 class="fw-bold mb-3 text-center" style="color: var(--primary-orange);">Data Peserta Quiz</h5>
+                    <form id="identityForm">
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-semibold">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputKelas" class="form-label fw-semibold">Kelas</label>
+                            <input type="text" class="form-control" id="inputKelas" placeholder="Contoh: TI-2A / XII TKJ 1" required>
+                        </div>
+                        <button type="submit" class="btn btn-orange w-100 py-2">
+                            Mulai Quiz <i class="bi bi-play-fill ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Area Quiz -->
+        <div id="quizSection" class="row justify-content-center d-none">
+            <div class="col-lg-8">
+                <!-- Info Bar -->
+                <div class="d-flex justify-content-between align-items-center bg-white p-3 rounded shadow-sm mb-3 border-start border-4" style="border-color: var(--primary-orange) !important;">
+                    <div>
+                        <small class="text-muted d-block">Peserta:</small>
+                        <strong id="displayIdentitas">-</strong>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted d-block">Progres Soal:</small>
+                        <strong id="questionCounter" style="color: var(--primary-orange);">1 / 30</strong>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress mb-4" style="height: 8px;">
+                    <div id="quizProgress" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="card card-quiz p-4">
+                    <h5 id="questionText" class="fw-bold mb-4 lh-base">Memuat soal...</h5>
+                    <div id="optionsContainer"></div>
+
+                    <!-- Feedback Box -->
+                    <div id="feedbackBox" class="alert mt-3 d-none" role="alert"></div>
+
+                    <!-- Next Button -->
+                    <div class="d-flex justify-content-end mt-3">
+                        <button id="btnNext" class="btn btn-orange px-4 d-none">
+                            Soal Selanjutnya <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Hasil Akhir -->
+        <div id="resultSection" class="row justify-content-center d-none">
+            <div class="col-md-6">
+                <div class="card card-quiz p-4 text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-trophy-fill" style="font-size: 4rem; color: var(--primary-orange);"></i>
+                    </div>
+                    <h4 class="fw-bold">Quiz Selesai!</h4>
+                    <p class="text-muted mb-1" id="resultName">-</p>
+                    <p class="text-muted mb-3" id="resultClass">-</p>
+
+                    <div class="p-3 rounded mb-3" style="background-color: var(--light-orange);">
+                        <span class="d-block text-muted small fw-semibold">SKOR AKHIR ANDA</span>
+                        <h1 class="display-3 fw-bold mb-0" style="color: var(--primary-orange);" id="finalScore">0</h1>
+                        <small class="text-muted">Benar <span id="correctCount">0</span> dari 30 soal</small>
+                    </div>
+
+                    <div id="saveStatus" class="alert alert-info py-2 small">
+                        <span class="spinner-border spinner-border-sm me-1"></span> Menyimpan skor ke Google Spreadsheet...
+                    </div>
+
+                    <button onclick="location.reload()" class="btn btn-outline-orange mt-2">
+                        <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 mt-5 bg-white border-top text-muted small">
+        &copy; 2026 Yana Permana • Jaringan Komputer Quiz 8
+    </footer>
+
+    <!-- Floating To Top Button -->
+    <button id="btnToTop" title="Kembali ke Atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quiz & Google Sheets Script -->
+    <script>
+        // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyE9VNm5GLgcz99q1i6DMPbh1_KvgqdDHmknL8DP01eQD5drBwzhU_6oE3Dvvo4kpZe/exec";
+
+        // Bank 30 Soal Wireless Network
+        const quizData = [
+            {
+                q: "1. Standar IEEE yang mendefinisikan spesifikasi untuk jaringan Wireless Local Area Network (WLAN) adalah...",
+                options: ["IEEE 802.3", "IEEE 802.11", "IEEE 802.15", "IEEE 802.16", "IEEE 802.1Q"],
+                answer: 1
+            },
+            {
+                q: "2. Frekuensi gelombang radio utama yang paling umum digunakan pada jaringan Wi-Fi standar saat ini adalah...",
+                options: ["900 MHz dan 1.8 GHz", "2.4 GHz dan 5 GHz", "3.5 GHz dan 4.2 GHz", "10 GHz dan 12 GHz", "800 MHz dan 2.1 GHz"],
+                answer: 1
+            },
+            {
+                q: "3. Standar Wi-Fi IEEE 802.11ax secara komersial dikenal dengan sebutan...",
+                options: ["Wi-Fi 4", "Wi-Fi 5", "Wi-Fi 6", "Wi-Fi 6E", "Wi-Fi 7"],
+                answer: 2
+            },
+            {
+                q: "4. Perangkat keras jaringan yang berfungsi sebagai penghubung antara perangkat nirkabel dengan jaringan kabel (LAN) disebut...",
+                options: ["Repeater", "Wireless Access Point (AP)", "Hub", "Modem Dial-up", "Patch Panel"],
+                answer: 1
+            },
+            {
+                q: "5. Nama unik yang digunakan untuk mengidentifikasi sebuah jaringan nirkabel (Wi-Fi) agar dapat dikenali oleh klien disebut...",
+                options: ["BSSID", "SSID", "MAC Address", "IP Gateway", "DNS"],
+                answer: 1
+            },
+            {
+                q: "6. Pada frekuensi 2.4 GHz, kanal (channel) mana saja yang tidak saling tumpang tindih (non-overlapping)?",
+                options: ["1, 2, dan 3", "1, 6, dan 11", "2, 7, dan 12", "3, 6, dan 9", "1, 5, dan 10"],
+                answer: 1
+            },
+            {
+                q: "7. Protokol keamanan nirkabel paling lemah dan sudah usang karena menggunakan kunci statis RC4 adalah...",
+                options: ["WPA2-PSK", "WPA3-Personal", "WEP", "WPA2-Enterprise", "802.1X"],
+                answer: 2
+            },
+            {
+                q: "8. Metode enkripsi standar yang wajib digunakan pada keamanan jaringan WPA2 adalah...",
+                options: ["TKIP", "DES", "AES (CCMP)", "MD5", "ROT13"],
+                answer: 2
+            },
+            {
+                q: "9. Protokol keamanan Wi-Fi generasi terbaru yang memperkenalkan SAE (Simultaneous Authentication of Equals) untuk mencegah serangan brute-force offline adalah...",
+                options: ["WEP2", "WPA-TKIP", "WPA2-Personal", "WPA3", "WPS"],
+                answer: 3
+            },
+            {
+                q: "10. Topologi jaringan nirkabel di mana perangkat klien saling terhubung secara langsung tanpa melalui Access Point disebut mode...",
+                options: ["Infrastructure", "Ad-Hoc (IBSS)", "Mesh", "Repeater", "Bridge"],
+                answer: 1
+            },
+            {
+                q: "11. Teknologi antena yang menggunakan beberapa antena pada pemancar dan penerima secara bersamaan untuk meningkatkan throughput disebut...",
+                options: ["SISO", "MIMO", "PoE", "CSMA/CD", "TDMA"],
+                answer: 1
+            },
+            {
+                q: "12. Metode akses media yang digunakan oleh jaringan IEEE 802.11 untuk menghindari tabrakan data di udara adalah...",
+                options: ["CSMA/CD", "CSMA/CA", "Token Passing", "Polling", "FDMA"],
+                answer: 1
+            },
+            {
+                q: "13. Apa kepanjangan dari BSSID dalam jaringan Wireless?",
+                options: ["Basic Service Set Identifier", "Binary Signal System ID", "Broadband Service Station ID", "Base Station Security ID", "Broadcast SSID"],
+                answer: 0
+            },
+            {
+                q: "14. Kelebihan utama frekuensi 5 GHz dibandingkan frekuensi 2.4 GHz adalah...",
+                options: ["Jangkauan sinyal lebih jauh", "Lebih mudah menembus tembok tebal", "Kecepatan transfer data lebih tinggi dan minim interferensi", "Konsumsi daya lebih rendah", "Kompatibel dengan perangkat tahun 1999"],
+                answer: 2
+            },
+            {
+                q: "15. Kelemahan utama frekuensi 5 GHz dibandingkan 2.4 GHz adalah...",
+                options: ["Kanal yang tersedia sedikit", "Jangkauan lebih pendek dan lebih mudah terhalang dinding", "Kecepatan maksimal hanya 11 Mbps", "Hanya mendukung keamanan WEP", "Tidak mendukung teknologi MIMO"],
+                answer: 1
+            },
+            {
+                q: "16. Antena nirkabel yang memancarkan sinyal ke segala arah secara horizontal (360 derajat) adalah jenis antena...",
+                options: ["Yagi", "Parabolic Grid", "Omnidirectional", "Sectoral", "Patch"],
+                answer: 2
+            },
+            {
+                q: "17. Antena directional yang berbentuk seperti piringan berjaring dan sering dipakai untuk koneksi jarak jauh Point-to-Point adalah...",
+                options: ["Rubber Duck", "Omnidirectional", "Grid / Parabolic", "Dipole", "Ceiling Mount"],
+                answer: 2
+            },
+            {
+                q: "18. Satuan yang digunakan untuk mengukur penguatan (gain) pada antena nirkabel adalah...",
+                options: ["dBm", "dBi", "Watt", "Hertz", "Ohm"],
+                answer: 1
+            },
+            {
+                q: "19. Fitur pada Access Point yang memungkinkan perangkat menerima daya listrik sekaligus data melalui satu kabel UTP adalah...",
+                options: ["QoS", "PoE (Power over Ethernet)", "DHCP", "NAT", "VLAN"],
+                answer: 1
+            },
+            {
+                q: "20. Apa yang dimaksud dengan Hidden SSID?",
+                options: ["Menghapus password Wi-Fi", "Menonaktifkan siaran (broadcast) nama SSID sehingga tidak muncul otomatis di daftar Wi-Fi", "Mengenkripsi data dengan WPA3", "Membatasi kecepatan pengguna", "Memblokir MAC Address tertentu"],
+                answer: 1
+            },
+            {
+                q: "21. Fitur keamanan yang membatasi perangkat yang boleh terhubung ke Access Point berdasarkan alamat fisik kartu jaringan disebut...",
+                options: ["IP Filtering", "MAC Address Filtering", "Port Forwarding", "DMZ", "Captive Portal"],
+                answer: 1
+            },
+            {
+                q: "22. Halaman login berbasis web yang muncul otomatis saat pengguna pertama kali terhubung ke Wi-Fi publik (seperti di hotel atau kafe) disebut...",
+                options: ["RADIUS Server", "Captive Portal", "Proxy Gateway", "Firewall", "VPN Tunnel"],
+                answer: 1
+            },
+            {
+                q: "23. Dalam mode autentikasi WPA2-Enterprise, server yang bertugas memverifikasi username dan password setiap pengguna adalah...",
+                options: ["DHCP Server", "DNS Server", "RADIUS Server", "FTP Server", "NTP Server"],
+                answer: 2
+            },
+            {
+                q: "24. Standar IEEE 802.11ac (Wi-Fi 5) hanya beroperasi pada pita frekuensi...",
+                options: ["2.4 GHz", "5 GHz", "6 GHz", "900 MHz", "60 GHz"],
+                answer: 1
+            },
+            {
+                q: "25. Fenomena penurunan kekuatan sinyal nirkabel akibat jarak maupun hambatan fisik disebut...",
+                options: ["Amplifikasi", "Atenuasi (Attenuation)", "Modulasi", "Multiplexing", "Roamings"],
+                answer: 1
+            },
+            {
+                q: "26. Proses perpindahan koneksi perangkat klien dari satu Access Point ke Access Point lain dalam satu jaringan ESS secara mulus tanpa putus disebut...",
+                options: ["Handshaking", "Wireless Roaming", "Bridging", "Tethering", "Bonding"],
+                answer: 1
+            },
+            {
+                q: "27. Serangan siber di mana pelaku membuat Access Point palsu dengan nama SSID yang sama persis dengan Wi-Fi asli untuk mencuri data korban disebut...",
+                options: ["Evil Twin Attack", "DDoS Attack", "SQL Injection", "Ransomware", "ARP Spoofing"],
+                answer: 0
+            },
+            {
+                q: "28. Area cakupan yang melengkung berbentuk elips di antara dua antena Point-to-Point yang harus bebas hambatan agar sinyal optimal disebut...",
+                options: ["Dead Zone", "Fresnel Zone", "Buffer Zone", "Demilitarized Zone", "Drop Zone"],
+                answer: 1
+            },
+            {
+                q: "29. Standar jaringan nirkabel jarak pendek (WPAN) seperti Bluetooth diatur dalam spesifikasi...",
+                options: ["IEEE 802.11", "IEEE 802.15", "IEEE 802.3", "IEEE 802.1X", "IEEE 802.5"],
+                answer: 1
+            },
+            {
+                q: "30. Lebar saluran (Channel Width) yang lebih besar seperti 80 MHz atau 160 MHz pada Wi-Fi akan memberikan dampak...",
+                options: ["Throughput lebih tinggi namun lebih rentan interferensi", "Jangkauan sinyal menjadi 2 kali lebih jauh", "Menghemat baterai perangkat secara drastis", "Mengubah frekuensi 5 GHz menjadi 2.4 GHz", "Menonaktifkan enkripsi keamanan"],
+                answer: 0
+            }
+        ];
+
+        let currentIdx = 0;
+        let correctAnswers = 0;
+        let userName = "";
+        let userClass = "";
+        let answered = false;
+
+        // Elements
+        const startSection = document.getElementById("startSection");
+        const quizSection = document.getElementById("quizSection");
+        const resultSection = document.getElementById("resultSection");
+        const identityForm = document.getElementById("identityForm");
+        const questionText = document.getElementById("questionText");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const btnNext = document.getElementById("btnNext");
+        const questionCounter = document.getElementById("questionCounter");
+        const quizProgress = document.getElementById("quizProgress");
+
+        // Start Quiz
+        identityForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            userName = document.getElementById("inputNama").value.trim();
+            userClass = document.getElementById("inputKelas").value.trim();
+
+            if (!userName || !userClass) return;
+
+            document.getElementById("displayIdentitas").textContent = `${userName} (${userClass})`;
+            startSection.classList.add("d-none");
+            quizSection.classList.remove("d-none");
+            loadQuestion();
+        });
+
+        // Load Question
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("d-none");
+            btnNext.classList.add("d-none");
+
+            const currentQ = quizData[currentIdx];
+            questionText.textContent = currentQ.q;
+            questionCounter.textContent = `${currentIdx + 1} / ${quizData.length}`;
+            quizProgress.style.width = `${((currentIdx + 1) / quizData.length) * 100}%`;
+
+            optionsContainer.innerHTML = "";
+            const labels = ["A", "B", "C", "D", "E"];
+
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span class="badge bg-secondary me-2">${labels[idx]}</span> ${opt}`;
+                btn.onclick = () => selectAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Check Answer
+        function selectAnswer(selectedIdx, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const currentQ = quizData[currentIdx];
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+            const labels = ["A", "B", "C", "D", "E"];
+
+            allButtons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === currentQ.answer) {
+                    btn.classList.add("correct");
+                }
+            });
+
+            if (selectedIdx === currentQ.answer) {
+                correctAnswers++;
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><strong>Benar!</strong> Jawaban Anda tepat.`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-2"></i><strong>Salah!</strong> Jawaban yang benar adalah <strong>${labels[currentQ.answer]}. ${currentQ.options[currentQ.answer]}</strong>`;
+            }
+
+            if (currentIdx === quizData.length - 1) {
+                btnNext.innerHTML = `Lihat Skor Akhir <i class="bi bi-check-all ms-1"></i>`;
+            }
+            btnNext.classList.remove("d-none");
+        }
+
+        // Next Question or Finish
+        btnNext.addEventListener("click", () => {
+            currentIdx++;
+            if (currentIdx < quizData.length) {
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        });
+
+        // Finish & Send Data to Google Sheets
+        function finishQuiz() {
+            quizSection.classList.add("d-none");
+            resultSection.classList.remove("d-none");
+
+            // Hitung skor maksimal 100
+            const finalScore = Math.round((correctAnswers / quizData.length) * 100);
+
+            document.getElementById("resultName").textContent = userName;
+            document.getElementById("resultClass").textContent = `Kelas: ${userClass}`;
+            document.getElementById("finalScore").textContent = finalScore;
+            document.getElementById("correctCount").textContent = correctAnswers;
+
+            sendToGoogleSheets(userName, userClass, finalScore);
+        }
+
+        function sendToGoogleSheets(nama, kelas, skor) {
+            const saveStatus = document.getElementById("saveStatus");
+
+            if (GOOGLE_SCRIPT_URL === "URL_WEB_APP_GOOGLE_SCRIPT_ANDA") {
+                saveStatus.className = "alert alert-warning py-2 small";
+                saveStatus.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> URL Google Apps Script belum diatur. Skor tidak tersimpan ke Spreadsheet.`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: formData,
+                mode: "no-cors"
+            })
+            .then(() => {
+                saveStatus.className = "alert alert-success py-2 small";
+                saveStatus.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data NAMA, KELAS, dan SKOR berhasil disimpan ke Google Spreadsheet!`;
+            })
+            .catch((error) => {
+                saveStatus.className = "alert alert-danger py-2 small";
+                saveStatus.innerHTML = `<i class="bi bi-x-circle-fill me-1"></i> Gagal menyimpan data ke server.`;
+                console.error("Error:", error);
+            });
+        }
+
+        // Floating To Top Button Logic
+        const btnToTop = document.getElementById("btnToTop");
+        window.onscroll = function () {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        btnToTop.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
