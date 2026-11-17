@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaringan Komputer Quiz 9</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-orange: #ff6b00;
+      --dark-orange: #e05a00;
+      --light-orange: #fff3eb;
+      --soft-orange-border: #ffd2b3;
+    }
+
+    body {
+      background-color: #fafafa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      padding-top: 75px;
+      padding-bottom: 60px;
+    }
+
+    /* Navbar Styling */
+    .navbar-custom {
+      background-color: var(--primary-orange);
+      box-shadow: 0 2px 10px rgba(255, 107, 0, 0.25);
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #ffffff !important;
+      font-weight: 600;
+    }
+    .navbar-custom .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+    }
+    .navbar-toggler {
+      border-color: rgba(255,255,255,0.6);
+    }
+    .navbar-toggler-icon {
+      filter: invert(1);
+    }
+
+    /* Card & Button Theme */
+    .card-custom {
+      background-color: #ffffff;
+      border: 1px solid var(--soft-orange-border);
+      border-top: 5px solid var(--primary-orange);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-orange {
+      background-color: var(--primary-orange);
+      color: #ffffff;
+      border: none;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-orange:hover {
+      background-color: var(--dark-orange);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-orange {
+      border: 2px solid var(--primary-orange);
+      color: var(--primary-orange);
+      background-color: #ffffff;
+      font-weight: 600;
+    }
+    .btn-outline-orange:hover {
+      background-color: var(--primary-orange);
+      color: #ffffff;
+    }
+
+    /* Option Styling */
+    .option-btn {
+      text-align: left;
+      background-color: #ffffff;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      width: 100%;
+      font-weight: 500;
+      transition: all 0.2s;
+      color: #333;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary-orange);
+      background-color: var(--light-orange);
+    }
+    .option-btn.correct {
+      background-color: #d1e7dd !important;
+      border-color: #198754 !important;
+      color: #0f5132 !important;
+      font-weight: 600;
+    }
+    .option-btn.wrong {
+      background-color: #f8d7da !important;
+      border-color: #dc3545 !important;
+      color: #842029 !important;
+    }
+
+    .badge-orange {
+      background-color: var(--light-orange);
+      color: var(--primary-orange);
+      border: 1px solid var(--soft-orange-border);
+    }
+
+    /* Progress Bar */
+    .progress-bar-orange {
+      background-color: var(--primary-orange);
+    }
+
+    /* Floating To Top Button */
+    #btnToTop {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+      display: none;
+      background-color: var(--primary-orange);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+      transition: background-color 0.2s;
+    }
+    #btnToTop:hover {
+      background-color: var(--dark-orange);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="bi bi-hdd-network me-2"></i>Yana Permana</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Top Action Bar (Back Button) -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button type="button" class="btn btn-outline-orange btn-sm" onclick="history.back()">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+      </button>
+      <span class="badge badge-orange px-3 py-2">Materi: Server</span>
+    </div>
+
+    <!-- Section 1: Form Identitas -->
+    <div id="startSection" class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card card-custom p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="badge badge-orange mb-2 px-3 py-2">Jaringan Komputer</span>
+            <h2 class="fw-bold" style="color: var(--primary-orange);">Jaringan Komputer Quiz 9</h2>
+            <p class="text-muted mb-0">Materi: Administrasi & Infrastruktur Server</p>
+            <small class="text-secondary">30 Soal Pilihan Ganda • Skor Maksimal 100</small>
+          </div>
+
+          <form id="identityForm">
+            <div class="mb-3">
+              <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda" required>
+            </div>
+            <div class="mb-4">
+              <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+              <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XI TKJ 1" required>
+            </div>
+            <button type="submit" class="btn btn-orange btn-lg w-100">
+              Mulai Quiz <i class="bi bi-play-fill ms-1"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Area Quiz -->
+    <div id="quizSection" class="row justify-content-center d-none">
+      <div class="col-lg-9">
+        <div class="card card-custom p-4">
+          <!-- Info Peserta & Progress -->
+          <div class="d-flex flex-wrap justify-content-between align-items-center border-bottom pb-3 mb-3">
+            <div>
+              <span class="fw-bold text-dark" id="displayNama"></span>
+              <span class="badge badge-orange ms-2" id="displayKelas"></span>
+            </div>
+            <div class="fw-bold" style="color: var(--primary-orange);">
+              Soal <span id="currentNumber">1</span> dari 30
+            </div>
+          </div>
+
+          <div class="progress mb-4" style="height: 8px;">
+            <div id="quizProgress" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+          </div>
+
+          <!-- Pertanyaan -->
+          <h5 class="fw-bold mb-4 lh-base" id="questionText">Memuat pertanyaan...</h5>
+
+          <!-- Pilihan Jawaban -->
+          <div id="optionsContainer"></div>
+
+          <!-- Feedback Jawaban -->
+          <div id="feedbackBox" class="alert mt-3 d-none" role="alert"></div>
+
+          <!-- Tombol Lanjut -->
+          <div class="d-flex justify-content-end mt-3">
+            <button id="btnNext" class="btn btn-orange px-4 d-none" onclick="nextQuestion()">
+              Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Hasil Akhir -->
+    <div id="resultSection" class="row justify-content-center d-none">
+      <div class="col-md-8 col-lg-6">
+        <div class="card card-custom p-4 p-md-5 text-center">
+          <div class="mb-3">
+            <i class="bi bi-trophy-fill" style="font-size: 3.5rem; color: var(--primary-orange);"></i>
+          </div>
+          <h3 class="fw-bold mb-1">Quiz Selesai!</h3>
+          <p class="text-muted mb-4">Berikut adalah hasil pengerjaan Anda</p>
+
+          <div class="bg-light rounded p-3 mb-4 border">
+            <div class="row text-start">
+              <div class="col-5 text-muted">Nama Lengkap:</div>
+              <div class="col-7 fw-bold" id="resNama">-</div>
+              <div class="col-5 text-muted mt-2">Kelas:</div>
+              <div class="col-7 fw-bold mt-2" id="resKelas">-</div>
+              <div class="col-5 text-muted mt-2">Jawaban Benar:</div>
+              <div class="col-7 fw-bold mt-2"><span id="resBenar">0</span> / 30 Soal</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded mb-4" style="background-color: var(--light-orange); border: 2px solid var(--primary-orange);">
+            <span class="text-uppercase fw-semibold small d-block mb-1" style="color: var(--dark-orange);">Skor Akhir Anda</span>
+            <h1 class="display-3 fw-bold mb-0" style="color: var(--primary-orange);" id="resSkor">0</h1>
+            <small class="text-muted">Maksimal Skor: 100</small>
+          </div>
+
+          <!-- Status Pengiriman Spreadsheet -->
+          <div id="saveStatus" class="alert alert-info py-2 small">
+            <span class="spinner-border spinner-border-sm me-2"></span> Menyimpan hasil ke Google Spreadsheet...
+          </div>
+
+          <div class="d-grid gap-2 d-sm-flex justify-content-center mt-3">
+            <button class="btn btn-orange px-4" onclick="location.reload()">
+              <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+            </button>
+            <a href="https://yanapermana.github.io" class="btn btn-outline-orange px-4">
+              Ke Halaman Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button To Top -->
+  <button id="btnToTop" title="Kembali ke atas" onclick="scrollToTop()">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // =========================================================================
+    // KONFIGURASI GOOGLE SPREADSHEET ("Jaringan Komputer Quiz 9")
+    // Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda
+    // =========================================================================
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0F-Ivq-aCXxg7FkfFfqkIUOBC9d6mr4LfkDwN7sVAzicKKumKHS2-y1Lr2KUkT9Mo/exec";
+
+    // Bank 30 Soal Materi Server (5 Opsi Jawaban)
+    const quizData = [
+      {
+        q: "Komputer atau sistem perangkat lunak yang menyediakan layanan, data, atau sumber daya kepada komputer lain (client) dalam sebuah jaringan disebut...",
+        options: ["Workstation", "Server", "Repeater", "Switch Unmanaged", "Access Point"],
+        answer: 1
+      },
+      {
+        q: "Layanan server yang berfungsi menerjemahkan nama domain (seperti google.com) menjadi alamat IP numerik adalah...",
+        options: ["DHCP Server", "FTP Server", "DNS Server", "Proxy Server", "Mail Server"],
+        answer: 2
+      },
+      {
+        q: "Protokol dan layanan server yang bertugas memberikan konfigurasi alamat IP secara otomatis kepada perangkat client dalam jaringan adalah...",
+        options: ["DHCP Server", "DNS Server", "Web Server", "NTP Server", "SSH Server"],
+        answer: 0
+      },
+      {
+        q: "Nomor port standar yang digunakan oleh Web Server untuk protokol HTTP dan HTTPS secara berturut-turut adalah...",
+        options: ["21 dan 22", "25 dan 110", "53 dan 67", "80 dan 443", "3306 dan 8080"],
+        answer: 3
+      },
+      {
+        q: "Perangkat lunak web server open-source yang paling populer digunakan pada sistem operasi Linux adalah...",
+        options: ["Microsoft IIS", "Apache HTTP Server dan Nginx", "FileZilla Server", "Postfix dan Dovecot", "Bind9"],
+        answer: 1
+      },
+      {
+        q: "Server yang bertindak sebagai perantara antara client dan internet untuk caching konten, penyaringan akses, serta menyembunyikan IP asli client adalah...",
+        options: ["Database Server", "Proxy Server", "NTP Server", "Print Server", "Syslog Server"],
+        answer: 1
+      },
+      {
+        q: "Layanan server yang digunakan untuk mentransfer file antar komputer melalui jaringan menggunakan port default 21 adalah...",
+        options: ["SMTP", "Telnet", "FTP", "SNMP", "ICMP"],
+        answer: 2
+      },
+      {
+        q: "Dalam administrasi server Linux berbasis teks, protokol aman yang digunakan untuk melakukan remote access terenkripsi pada port 22 adalah...",
+        options: ["Telnet", "RDP", "SSH", "VNC", "HTTP"],
+        answer: 2
+      },
+      {
+        q: "Paket aplikasi DNS Server yang paling umum digunakan pada distribusi Linux Debian/Ubuntu adalah...",
+        options: ["ISC-DHCP-Server", "Bind9", "Squid", "Samba", "MariaDB"],
+        answer: 1
+      },
+      {
+        q: "Layanan pada server Linux yang memungkinkan berbagi file dan printer dengan sistem operasi Windows melalui protokol SMB/CIFS adalah...",
+        options: ["NFS", "Samba", "ProFTPD", "OpenVPN", "Apache2"],
+        answer: 1
+      },
+      {
+        q: "Pada layanan Mail Server, protokol yang berfungsi untuk mengirimkan email dari client ke server atau antar mail server adalah...",
+        options: ["POP3", "IMAP", "SMTP", "SNMP", "LDAP"],
+        answer: 2
+      },
+      {
+        q: "Perbedaan utama antara protokol POP3 dan IMAP pada Mail Server adalah...",
+        options: [
+          "POP3 digunakan untuk mengirim email, sedangkan IMAP untuk menerima email",
+          "IMAP menyinkronkan folder email secara langsung di server, sedangkan POP3 umumnya mengunduh email ke perangkat lokal",
+          "POP3 menggunakan enkripsi SSL secara default, sedangkan IMAP tidak mendukung enkripsi",
+          "IMAP hanya berjalan di sistem operasi Windows Server",
+          "POP3 bekerja pada port 80, sedangkan IMAP pada port 443"
+        ],
+        answer: 1
+      },
+      {
+        q: "Teknologi penyimpanan pada server yang menggabungkan beberapa hard disk fisik menjadi satu unit logis untuk meningkatkan performa dan redundansi data disebut...",
+        options: ["VLAN", "RAID", "DHCP", "NAT", "DMZ"],
+        answer: 1
+      },
+      {
+        q: "Konfigurasi RAID yang menyediakan mirroring (pencerminan data identik pada dua disk) sehingga data tetap aman jika salah satu disk rusak adalah...",
+        options: ["RAID 0", "RAID 1", "JBOD", "RAID Linear", "Partitioning"],
+        answer: 1
+      },
+      {
+        q: "Jenis memori RAM khusus yang digunakan pada server untuk mendeteksi dan memperbaiki kerusakan data internal secara otomatis adalah...",
+        options: ["DDR4 Non-ECC", "SODIMM", "ECC RAM (Error-Correcting Code)", "VRAM", "SRAM Cache"],
+        answer: 2
+      },
+      {
+        q: "Bentuk fisik (form factor) server yang dirancang khusus untuk dipasang secara horizontal di dalam lemari rak standar 19 inci disebut...",
+        options: ["Tower Server", "Rackmount Server", "Desktop PC", "Mini ITX", "Mainframe"],
+        answer: 1
+      },
+      {
+        q: "Satuan ukuran tinggi standar yang digunakan untuk perangkat Rackmount Server (1U setara dengan 1,75 inci) adalah...",
+        options: ["Rack Unit (U)", "Bit per Second (bps)", "Hertz (Hz)", "Terabyte (TB)", "Watt (W)"],
+        answer: 0
+      },
+      {
+        q: "Layanan server yang berfungsi menyinkronkan waktu dan jam sistem seluruh komputer dalam jaringan agar seragam adalah...",
+        options: ["DNS Server", "NTP Server", "DHCP Server", "Proxy Server", "RADIUS Server"],
+        answer: 1
+      },
+      {
+        q: "Sub-jaringan terisolasi yang ditempatkan di antara jaringan internal (LAN) dan jaringan eksternal (Internet) untuk menampung server publik seperti Web Server disebut...",
+        options: ["VPN", "DMZ (Demilitarized Zone)", "Intranet", "Loopback", "Broadcast Domain"],
+        answer: 1
+      },
+      {
+        q: "Fitur pada server enterprise (seperti iDRAC pada Dell atau iLO pada HPE) yang memungkinkan administrator memantau dan mengendalikan server dari jarak jauh bahkan saat sistem operasi mati adalah...",
+        options: ["Out-of-Band Management (IPMI)", "Task Manager", "Windows Defender", "Cron Job", "Active Directory"],
+        answer: 0
+      },
+      {
+        q: "Perangkat lunak manajemen proxy cache yang sangat populer digunakan pada server berbasis Linux adalah...",
+        options: ["Squid", "Nginx", "Postfix", "MySQL", "Dovecot"],
+        answer: 0
+      },
+      {
+        q: "Dalam proses permintaan alamat IP pada DHCP Server, urutan tahapan komunikasi yang benar antara client dan server adalah...",
+        options: [
+          "Request - Offer - Discover - Acknowledge",
+          "Discover - Offer - Request - Acknowledge (DORA)",
+          "Offer - Discover - Acknowledge - Request",
+          "Acknowledge - Request - Offer - Discover",
+          "Discover - Request - Offer - Acknowledge"
+        ],
+        answer: 1
+      },
+      {
+        q: "Jenis record pada DNS Server yang berfungsi memetakan nama domain secara langsung ke alamat IPv4 adalah...",
+        options: ["AAAA Record", "MX Record", "CNAME Record", "A Record", "PTR Record"],
+        answer: 3
+      },
+      {
+        q: "Jenis record pada DNS Server yang digunakan untuk menentukan server penerima email bagi suatu nama domain adalah...",
+        options: ["NS Record", "MX Record", "TXT Record", "SOA Record", "A Record"],
+        answer: 1
+      },
+      {
+        q: "Sistem perangkat lunak yang memungkinkan satu server fisik menjalankan beberapa sistem operasi virtual secara bersamaan disebut...",
+        options: ["Compiler", "Hypervisor", "Bootloader", "Debugger", "Load Balancer"],
+        answer: 1
+      },
+      {
+        q: "Contoh Hypervisor Tipe 1 (Bare-Metal) yang diinstal langsung di atas perangkat keras server tanpa memerlukan sistem operasi host adalah...",
+        options: ["VirtualBox dan VMware Workstation", "VMware ESXi dan Proxmox VE", "Docker Desktop dan WSL", "XAMPP dan WAMP", "PuTTY dan WinSCP"],
+        answer: 1
+      },
+      {
+        q: "Teknik mendistribusikan beban lalu lintas jaringan secara merata ke beberapa server agar tidak terjadi overload pada satu server saja disebut...",
+        options: ["Port Forwarding", "Load Balancing", "Subnetting", "Defragmentasi", "Multiplexing"],
+        answer: 1
+      },
+      {
+        q: "Layanan direktori terpusat milik Microsoft Windows Server yang digunakan untuk mengelola pengguna, komputer, dan kebijakan keamanan dalam jaringan domain adalah...",
+        options: ["Active Directory Domain Services (AD DS)", "Windows Media Player", "BitLocker", "Disk Management", "Device Manager"],
+        answer: 0
+      },
+      {
+        q: "Perintah pada Linux Debian/Ubuntu untuk memeriksa status layanan web server Apache2 adalah...",
+        options: [
+          "systemctl status apache2",
+          "ipconfig /all",
+          "ping apache2",
+          "apt-get remove apache2",
+          "chmod 777 apache2"
+        ],
+        answer: 0
+      },
+      {
+        q: "Direktori standar pada sistem operasi Linux yang berisi file-file konfigurasi utama sistem dan layanan server adalah...",
+        options: ["/home", "/etc", "/tmp", "/boot", "/media"],
+        answer: 1
+      }
+    ];
+
+    let userName = "";
+    let userClass = "";
+    let currentIdx = 0;
+    let correctCount = 0;
+    let answered = false;
+
+    // Handle Form Identitas
+    document.getElementById("identityForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      userName = document.getElementById("inputNama").value.trim();
+      userClass = document.getElementById("inputKelas").value.trim();
+
+      if (!userName || !userClass) return;
+
+      document.getElementById("displayNama").textContent = userName;
+      document.getElementById("displayKelas").textContent = userClass;
+
+      document.getElementById("startSection").classList.add("d-none");
+      document.getElementById("quizSection").classList.remove("d-none");
+
+      loadQuestion();
+    });
+
+    // Muat Soal
+    function loadQuestion() {
+      answered = false;
+      const item = quizData[currentIdx];
+      const total = quizData.length;
+
+      document.getElementById("currentNumber").textContent = currentIdx + 1;
+      document.getElementById("quizProgress").style.width = (((currentIdx + 1) / total) * 100) + "%";
+      document.getElementById("questionText").textContent = (currentIdx + 1) + ". " + item.q;
+
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      const letters = ["A", "B", "C", "D", "E"];
+      item.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        btn.innerHTML = `<span class="badge bg-secondary me-2">${letters[idx]}</span> ${opt}`;
+        btn.onclick = () => selectAnswer(idx, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      const feedbackBox = document.getElementById("feedbackBox");
+      feedbackBox.classList.add("d-none");
+      feedbackBox.className = "alert mt-3 d-none";
+
+      const btnNext = document.getElementById("btnNext");
+      btnNext.classList.add("d-none");
+      btnNext.innerHTML = (currentIdx === total - 1) 
+        ? 'Selesai & Lihat Skor <i class="bi bi-check-circle ms-1"></i>' 
+        : 'Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>';
+    }
+
+    // Pilih Jawaban & Tampilkan Jawaban Benar
+    function selectAnswer(selectedIdx, selectedBtn) {
+      if (answered) return;
+      answered = true;
+
+      const item = quizData[currentIdx];
+      const correctIdx = item.answer;
+      const letters = ["A", "B", "C", "D", "E"];
+      const allButtons = document.querySelectorAll(".option-btn");
+
+      allButtons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === correctIdx) {
+          btn.classList.add("correct");
+          btn.querySelector(".badge").classList.replace("bg-secondary", "bg-success");
+        }
+      });
+
+      const feedbackBox = document.getElementById("feedbackBox");
+      feedbackBox.classList.remove("d-none");
+
+      if (selectedIdx === correctIdx) {
+        correctCount++;
+        feedbackBox.classList.add("alert-success");
+        feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><strong>Benar!</strong> Jawaban yang tepat adalah <strong>${letters[correctIdx]}. ${item.options[correctIdx]}</strong>.`;
+      } else {
+        selectedBtn.classList.add("wrong");
+        selectedBtn.querySelector(".badge").classList.replace("bg-secondary", "bg-danger");
+        feedbackBox.classList.add("alert-danger");
+        feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-2"></i><strong>Kurang Tepat!</strong> Jawaban yang benar adalah <strong>${letters[correctIdx]}. ${item.options[correctIdx]}</strong>.`;
+      }
+
+      document.getElementById("btnNext").classList.remove("d-none");
+    }
+
+    // Lanjut ke Soal Berikutnya atau Selesai
+    function nextQuestion() {
+      currentIdx++;
+      if (currentIdx < quizData.length) {
+        loadQuestion();
+        scrollToTop();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    // Hitung Skor Maksimal 100 & Kirim ke Spreadsheet
+    function finishQuiz() {
+      document.getElementById("quizSection").classList.add("d-none");
+      document.getElementById("resultSection").classList.remove("d-none");
+      scrollToTop();
+
+      // Perhitungan skor proporsional maksimal 100
+      const finalScore = Math.round((correctCount / quizData.length) * 100);
+
+      document.getElementById("resNama").textContent = userName;
+      document.getElementById("resKelas").textContent = userClass;
+      document.getElementById("resBenar").textContent = correctCount;
+      document.getElementById("resSkor").textContent = finalScore;
+
+      saveToGoogleSheets(userName, userClass, finalScore);
+    }
+
+    // Kirim Data ke Google Spreadsheet ("Jaringan Komputer Quiz 9")
+    function saveToGoogleSheets(nama, kelas, skor) {
+      const statusEl = document.getElementById("saveStatus");
+
+      if (GOOGLE_SCRIPT_URL === "MASUKKAN_URL_WEB_APP_ANDA_DISINI" || !GOOGLE_SCRIPT_URL) {
+        statusEl.className = "alert alert-warning py-2 small";
+        statusEl.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> URL Google Spreadsheet belum dikonfigurasi pada kode.`;
+        return;
+      }
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nama: nama,
+          kelas: kelas,
+          skor: skor
+        })
+      })
+      .then(() => {
+        statusEl.className = "alert alert-success py-2 small";
+        statusEl.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data berhasil disimpan ke spreadsheet <strong>"Jaringan Komputer Quiz 9"</strong>.`;
+      })
+      .catch((error) => {
+        statusEl.className = "alert alert-danger py-2 small";
+        statusEl.innerHTML = `<i class="bi bi-x-octagon-fill me-1"></i> Gagal menyimpan data ke spreadsheet. Periksa koneksi internet Anda.`;
+        console.error("Error:", error);
+      });
+    }
+
+    // Fungsi Tombol To Top
+    const btnToTop = document.getElementById("btnToTop");
+    window.onscroll = function() {
+      if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        btnToTop.style.display = "block";
+      } else {
+        btnToTop.style.display = "none";
+      }
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
