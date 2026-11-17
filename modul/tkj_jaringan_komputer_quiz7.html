@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Quiz 7</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #ff6b00;
+            --dark-orange: #e05a00;
+            --light-orange: #fff3eb;
+            --soft-orange-border: #ffd8bd;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(255, 107, 0, 0.25);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: var(--light-orange) !important;
+            text-decoration: underline;
+        }
+
+        /* Card & Container Styling */
+        .quiz-card {
+            background: #ffffff;
+            border: 1px solid var(--soft-orange-border);
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-badge {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+            font-weight: 600;
+        }
+
+        /* Custom Buttons */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            color: #ffffff;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-orange:hover, .btn-orange:focus {
+            background-color: var(--dark-orange);
+            border-color: var(--dark-orange);
+            color: #ffffff;
+        }
+
+        .btn-outline-orange {
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Option Buttons */
+        .option-btn {
+            text-align: left;
+            background-color: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            width: 100%;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+
+        .option-btn.correct-answer {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong-answer {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+
+        .option-prefix {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            font-weight: 700;
+            min-width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .correct-answer .option-prefix {
+            background-color: #198754;
+            color: #fff;
+        }
+
+        .wrong-answer .option-prefix {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        /* Progress Bar */
+        .progress {
+            height: 10px;
+            border-radius: 10px;
+            background-color: var(--light-orange);
+        }
+
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating Back to Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            display: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+            font-size: 1.3rem;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #btnToTop:hover {
+            background-color: var(--dark-orange);
+            transform: translateY(-3px);
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--light-orange);
+            border: 6px solid var(--primary-orange);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-router-fill me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4 my-md-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <!-- Top Navigation Helper (Back Button) -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <button type="button" class="btn btn-outline-orange btn-sm" onclick="goBack()">
+                        <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+                    </button>
+                    <span class="badge header-badge px-3 py-2 rounded-pill">Materi: Dynamic Routing</span>
+                </div>
+
+                <!-- 1. START SCREEN (INPUT NAMA & KELAS) -->
+                <div id="start-screen" class="quiz-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <h1 class="fw-bold" style="color: var(--primary-orange);">Jaringan Komputer Quiz 7</h1>
+                        <p class="text-muted mb-0">Evaluasi Pemahaman Materi <strong>Dynamic Routing (RIP, OSPF, EIGRP, BGP)</strong></p>
+                    </div>
+
+                    <div class="alert" style="background-color: var(--light-orange); border-left: 4px solid var(--primary-orange);">
+                        <h6 class="fw-bold mb-2" style="color: var(--dark-orange);"><i class="bi bi-info-circle-fill me-1"></i> Petunjuk Pengerjaan:</h6>
+                        <ul class="mb-0 small">
+                            <li>Jumlah soal sebanyak <strong>30 soal pilihan ganda</strong> (5 opsi jawaban).</li>
+                            <li>Skor maksimal adalah <strong>100</strong>.</li>
+                            <li>Jawaban yang benar akan langsung ditampilkan setelah Anda memilih opsi jawaban.</li>
+                            <li>Hasil akhir (Nama, Kelas, dan Skor) akan otomatis tersimpan ke database Google Spreadsheet.</li>
+                        </ul>
+                    </div>
+
+                    <form id="start-form" class="mt-4">
+                        <div class="mb-3">
+                            <label for="inputNama" class="form-label fw-semibold">Nama Lengkap <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda..." required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="inputKelas" class="form-label fw-semibold">Kelas <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XI TKJ 1 / TI-3A" required>
+                        </div>
+                        <button type="submit" class="btn btn-orange btn-lg w-100 py-3">
+                            Mulai Quiz Sekarang <i class="bi bi-play-circle-fill ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 2. QUIZ SCREEN -->
+                <div id="quiz-screen" class="quiz-card p-4 p-md-5 d-none">
+                    <!-- Info Bar -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                        <div>
+                            <span class="badge bg-secondary me-1" id="display-nama">Nama</span>
+                            <span class="badge" style="background-color: var(--primary-orange);" id="display-kelas">Kelas</span>
+                        </div>
+                        <div class="fw-bold" style="color: var(--primary-orange);">
+                            Soal <span id="current-number">1</span> / 30
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4">
+                        <div id="quiz-progress" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <h5 id="question-text" class="fw-bold mb-4 lh-base">Pertanyaan akan muncul di sini...</h5>
+
+                    <!-- Options Container -->
+                    <div id="options-container"></div>
+
+                    <!-- Feedback Box (Muncul setelah menjawab) -->
+                    <div id="feedback-box" class="alert mt-3 d-none" role="alert">
+                        <div class="d-flex align-items-center mb-1">
+                            <strong id="feedback-title" class="fs-6"></strong>
+                        </div>
+                        <p id="feedback-explanation" class="mb-0 small"></p>
+                    </div>
+
+                    <!-- Next Button -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <button id="btn-next" class="btn btn-orange px-4 py-2 d-none" onclick="nextQuestion()">
+                            Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. RESULT SCREEN -->
+                <div id="result-screen" class="quiz-card p-4 p-md-5 text-center d-none">
+                    <h2 class="fw-bold mb-1" style="color: var(--primary-orange);">Quiz Selesai!</h2>
+                    <p class="text-muted mb-4">Terima kasih telah mengerjakan Jaringan Komputer Quiz 7</p>
+
+                    <div class="score-circle mb-4">
+                        <span class="text-muted small fw-semibold">SKOR AKHIR</span>
+                        <span id="final-score" class="display-4 fw-bold" style="color: var(--primary-orange);">0</span>
+                        <span class="text-muted small">dari 100</span>
+                    </div>
+
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-8">
+                            <div class="card border-0" style="background-color: var(--light-orange);">
+                                <div class="card-body">
+                                    <p class="mb-1"><strong>Nama:</strong> <span id="res-nama">-</span></p>
+                                    <p class="mb-1"><strong>Kelas:</strong> <span id="res-kelas">-</span></p>
+                                    <p class="mb-0"><strong>Jawaban Benar:</strong> <span id="res-correct">0</span> dari 30 soal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Pengiriman ke Google Spreadsheet -->
+                    <div id="save-status" class="alert alert-warning d-flex align-items-center justify-content-center gap-2">
+                        <div class="spinner-border spinner-border-sm text-warning" role="status"></div>
+                        <span>Menyimpan data ke Google Spreadsheet "Jaringan Komputer Quiz 7"...</span>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-4">
+                        <button class="btn btn-outline-orange" onclick="goBack()">
+                            <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+                        </button>
+                        <button class="btn btn-orange" onclick="location.reload()">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-muted small border-top bg-white mt-5">
+        <div class="container">
+            &copy; 2026 <strong>Yana Permana</strong> &bull; Jaringan Komputer Quiz 7 (Dynamic Routing)
+        </div>
+    </footer>
+
+    <!-- Floating Button To Top -->
+    <button id="btnToTop" title="Kembali ke Atas" onclick="scrollToTop()">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // =========================================================================
+        // KONFIGURASI GOOGLE APPS SCRIPT WEB APP URL
+        // Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJdq9Sz_ivQScj8YADzPLcu9wmYImNbPLgD6u_WKNY2LUyyX1iTuqdqEmIEO0z4ztP/exec";
+
+        // =========================================================================
+        // BANK 30 SOAL DYNAMIC ROUTING (5 OPSI JAWABAN: A, B, C, D, E)
+        // =========================================================================
+        const quizData = [
+            {
+                q: "Apa fungsi utama dari Dynamic Routing pada jaringan komputer?",
+                options: [
+                    "Menentukan jalur pengiriman paket secara otomatis dan memperbarui tabel routing saat terjadi perubahan topologi",
+                    "Mengunci jalur paket data secara permanen agar tidak pernah berubah meskipun link terputus",
+                    "Mengubah alamat IP privat menjadi alamat IP publik secara otomatis pada setiap interface",
+                    "Membagi satu jaringan fisik menjadi beberapa jaringan virtual berdasarkan port switch",
+                    "Menyaring paket data berdasarkan nomor port TCP dan UDP untuk keamanan jaringan"
+                ],
+                answer: 0,
+                explanation: "Dynamic routing memungkinkan router saling bertukar informasi rute secara otomatis dan beradaptasi ketika terjadi perubahan topologi jaringan."
+            },
+            {
+                q: "Berikut ini yang BUKAN merupakan contoh protokol Dynamic Routing adalah...",
+                options: [
+                    "RIP (Routing Information Protocol)",
+                    "OSPF (Open Shortest Path First)",
+                    "EIGRP (Enhanced Interior Gateway Routing Protocol)",
+                    "DHCP (Dynamic Host Configuration Protocol)",
+                    "BGP (Border Gateway Protocol)"
+                ],
+                answer: 3,
+                explanation: "DHCP adalah protokol untuk memberikan konfigurasi IP secara otomatis kepada host, bukan protokol routing antar router."
+            },
+            {
+                q: "Berdasarkan cara kerjanya, protokol routing dinamis dibagi menjadi dua kategori utama pada IGP, yaitu...",
+                options: [
+                    "Static dan Default",
+                    "Distance Vector dan Link State",
+                    "Circuit Switching dan Packet Switching",
+                    "Unicast dan Broadcast",
+                    "Symmetric dan Asymmetric"
+                ],
+                answer: 1,
+                explanation: "Interior Gateway Protocol (IGP) diklasifikasikan menjadi Distance Vector (seperti RIP) dan Link State (seperti OSPF, IS-IS)."
+            },
+            {
+                q: "Metrik yang digunakan oleh protokol RIP (Routing Information Protocol) untuk menentukan jalur terbaik adalah...",
+                options: [
+                    "Bandwidth",
+                    "Delay",
+                    "Hop Count (jumlah lompatan router)",
+                    "Cost",
+                    "Reliability dan Load"
+                ],
+                answer: 2,
+                explanation: "RIP menggunakan Hop Count sebagai satu-satunya metrik untuk menentukan jalur terbaik menuju jaringan tujuan."
+            },
+            {
+                q: "Berapakah batas maksimum hop count yang dianggap valid pada protokol RIP?",
+                options: [
+                    "10 hop",
+                    "15 hop",
+                    "16 hop",
+                    "30 hop",
+                    "255 hop"
+                ],
+                answer: 1,
+                explanation: "Batas maksimum hop count pada RIP adalah 15 hop. Jika mencapai 16 hop, jaringan tujuan dianggap unreachable (tidak terjangkau)."
+            },
+            {
+                q: "Berapa nilai default Administrative Distance (AD) untuk protokol RIP?",
+                options: [
+                    "90",
+                    "100",
+                    "110",
+                    "115",
+                    "120"
+                ],
+                answer: 4,
+                explanation: "Nilai default Administrative Distance untuk RIP adalah 120, lebih tinggi dibanding OSPF (110) dan EIGRP (90)."
+            },
+            {
+                q: "Perbedaan mendasar antara RIPv1 dan RIPv2 terletak pada dukungan VLSM/CIDR. Mengapa RIPv2 mendukung VLSM?",
+                options: [
+                    "Karena RIPv2 menggunakan algoritma Dijkstra",
+                    "Karena RIPv2 mengirimkan informasi subnet mask di dalam paket routing update-nya",
+                    "Karena RIPv2 menggunakan pesan broadcast 255.255.255.255",
+                    "Karena RIPv2 mendukung hop count hingga 255",
+                    "Karena RIPv2 tidak memerlukan timer update"
+                ],
+                answer: 1,
+                explanation: "RIPv2 adalah protokol classless yang menyertakan subnet mask dalam routing update sehingga mendukung VLSM dan CIDR."
+            },
+            {
+                q: "Alamat multicast yang digunakan oleh RIPv2 untuk mengirimkan pembaruan tabel routing adalah...",
+                options: [
+                    "224.0.0.5",
+                    "224.0.0.6",
+                    "224.0.0.9",
+                    "224.0.0.10",
+                    "255.255.255.255"
+                ],
+                answer: 2,
+                explanation: "RIPv2 menggunakan alamat multicast 224.0.0.9 untuk mengirim update agar tidak membebani perangkat non-RIP."
+            },
+            {
+                q: "Protokol OSPF (Open Shortest Path First) termasuk ke dalam jenis protokol routing...",
+                options: [
+                    "Distance Vector",
+                    "Path Vector",
+                    "Link State",
+                    "Hybrid Exterior",
+                    "Static Stub"
+                ],
+                answer: 2,
+                explanation: "OSPF merupakan protokol routing bertipe Link State yang membangun peta topologi lengkap dari jaringan."
+            },
+            {
+                q: "Algoritma yang digunakan oleh OSPF untuk menghitung jalur terpendek menuju tujuan adalah...",
+                options: [
+                    "Bellman-Ford",
+                    "DUAL (Diffusing Update Algorithm)",
+                    "Dijkstra (Shortest Path First)",
+                    "Spanning Tree Algorithm",
+                    "Round Robin"
+                ],
+                answer: 2,
+                explanation: "OSPF menggunakan algoritma Dijkstra (SPF) untuk menghitung jalur bebas loop dengan cost terendah."
+            },
+            {
+                q: "Metrik yang digunakan oleh OSPF untuk menentukan jalur terbaik disebut...",
+                options: [
+                    "Hop Count",
+                    "Cost (berdasarkan bandwidth interface)",
+                    "Tick Count",
+                    "MTU",
+                    "AS Path"
+                ],
+                answer: 1,
+                explanation: "OSPF menggunakan metrik Cost yang dihitung dari Reference Bandwidth dibagi dengan Bandwidth interface."
+            },
+            {
+                q: "Berapa nilai default Administrative Distance (AD) untuk protokol OSPF?",
+                options: [
+                    "1",
+                    "90",
+                    "100",
+                    "110",
+                    "120"
+                ],
+                answer: 3,
+                explanation: "Default Administrative Distance untuk OSPF adalah 110."
+            },
+            {
+                q: "Pada jaringan OSPF multi-area, semua area lain wajib terhubung langsung ke area backbone yang memiliki nomor...",
+                options: [
+                    "Area 0",
+                    "Area 1",
+                    "Area 10",
+                    "Area 100",
+                    "Area 255"
+                ],
+                answer: 0,
+                explanation: "Area 0 adalah area backbone pada OSPF. Semua area non-backbone harus terhubung ke Area 0."
+            },
+            {
+                q: "Router OSPF yang menghubungkan dua atau lebih area OSPF yang berbeda (misalnya Area 0 dan Area 1) disebut...",
+                options: [
+                    "Internal Router",
+                    "Backbone Router",
+                    "ABR (Area Border Router)",
+                    "ASBR (Autonomous System Boundary Router)",
+                    "Designated Router (DR)"
+                ],
+                answer: 2,
+                explanation: "Area Border Router (ABR) memiliki interface yang berada di dalam lebih dari satu area OSPF dan memelihara LSDB untuk tiap area."
+            },
+            {
+                q: "Apa fungsi paket 'Hello' pada protokol routing seperti OSPF dan EIGRP?",
+                options: [
+                    "Mengirimkan seluruh isi tabel routing setiap 30 detik",
+                    "Menemukan router tetangga (neighbor) dan menjaga hubungan adjacency",
+                    "Menghapus rute yang sudah kadaluarsa dari memori NVRAM",
+                    "Mengenkripsi seluruh lalu lintas paket data user",
+                    "Menentukan alamat MAC dari gateway default"
+                ],
+                answer: 1,
+                explanation: "Paket Hello digunakan untuk neighbor discovery (menemukan router tetangga) dan memantau apakah tetangga masih aktif (keepalive)."
+            },
+            {
+                q: "Protokol EIGRP menggunakan algoritma canggih untuk menjamin jalur bebas loop dan konvergensi cepat yang disebut...",
+                options: [
+                    "Dijkstra SPF",
+                    "Bellman-Ford",
+                    "DUAL (Diffusing Update Algorithm)",
+                    "LSA Flooding",
+                    "Split Horizon Only"
+                ],
+                answer: 2,
+                explanation: "EIGRP menggunakan DUAL (Diffusing Update Algorithm) untuk menghitung jalur utama (Successor) dan jalur cadangan (Feasible Successor)."
+            },
+            {
+                q: "Berapa nilai default Administrative Distance (AD) untuk rute internal EIGRP?",
+                options: [
+                    "5",
+                    "90",
+                    "110",
+                    "120",
+                    "170"
+                ],
+                answer: 1,
+                explanation: "EIGRP internal memiliki Administrative Distance default sebesar 90, menjadikannya lebih dipercaya dibanding OSPF (110) dan RIP (120)."
+            },
+            {
+                q: "Secara default, dua faktor metrik utama yang digunakan EIGRP dalam perhitungan jalur terbaik adalah...",
+                options: [
+                    "Hop Count dan MTU",
+                    "Bandwidth dan Delay",
+                    "Reliability dan Load",
+                    "Cost dan Hop Count",
+                    "AS-Path dan Local Preference"
+                ],
+                answer: 1,
+                explanation: "Meskipun EIGRP mendukung 5 komponen metrik (K1-K5), secara default hanya Bandwidth dan Delay yang diaktifkan."
+            },
+            {
+                q: "Dalam terminologi EIGRP, rute terbaik yang dipilih dan dimasukkan ke dalam tabel routing disebut...",
+                options: [
+                    "Feasible Successor",
+                    "Successor",
+                    "Advertised Distance",
+                    "Backup Route",
+                    "Designated Router"
+                ],
+                answer: 1,
+                explanation: "Successor adalah router tetangga yang memiliki jalur dengan metrik terendah menuju jaringan tujuan dan dipasang di tabel routing."
+            },
+            {
+                q: "Jalur cadangan bebas loop yang sudah dihitung sebelumnya oleh EIGRP sehingga bisa langsung digunakan tanpa perhitungan ulang jika jalur utama putus disebut...",
+                options: [
+                    "Successor",
+                    "Feasible Successor",
+                    "Reported Distance",
+                    "Passive Route",
+                    "Default Gateway"
+                ],
+                answer: 1,
+                explanation: "Feasible Successor adalah jalur cadangan yang memenuhi Feasibility Condition sehingga dapat menggantikan Successor secara instan."
+            },
+            {
+                q: "Protokol routing yang termasuk ke dalam kategori Exterior Gateway Protocol (EGP) dan digunakan untuk menghubungkan antar Autonomous System (AS) di internet adalah...",
+                options: [
+                    "OSPF",
+                    "RIPv2",
+                    "EIGRP",
+                    "BGP (Border Gateway Protocol)",
+                    "IS-IS"
+                ],
+                answer: 3,
+                explanation: "BGP (Border Gateway Protocol) adalah protokol routing standar internet yang berfungsi menghubungkan antar Autonomous System (AS)."
+            },
+            {
+                q: "BGP diklasifikasikan sebagai protokol routing bertipe...",
+                options: [
+                    "Link State",
+                    "Distance Vector Sederhana",
+                    "Path Vector",
+                    "Static Vector",
+                    "Broadcast Vector"
+                ],
+                answer: 2,
+                explanation: "BGP menggunakan tipe Path Vector karena menyimpan informasi jalur berupa daftar nomor Autonomous System (AS_PATH) untuk mencegah loop."
+            },
+            {
+                q: "Berapa nilai default Administrative Distance untuk eBGP (External BGP)?",
+                options: [
+                    "20",
+                    "90",
+                    "110",
+                    "120",
+                    "200"
+                ],
+                answer: 0,
+                explanation: "eBGP (External BGP) memiliki Administrative Distance 20, sedangkan iBGP (Internal BGP) memiliki AD 200."
+            },
+            {
+                q: "Apa yang dimaksud dengan 'Convergence' (Konvergensi) dalam dynamic routing?",
+                options: [
+                    "Kondisi ketika semua router mengalami overload CPU akibat routing loop",
+                    "Kondisi ketika seluruh router dalam jaringan memiliki informasi topologi yang sama dan konsisten",
+                    "Proses penghapusan konfigurasi IP pada seluruh interface router",
+                    "Proses pemecahan satu jaringan besar menjadi beberapa subnet kecil",
+                    "Penggabungan dua alamat MAC menjadi satu alamat virtual"
+                ],
+                answer: 1,
+                explanation: "Konvergensi tercapai ketika semua router telah selesai bertukar informasi routing dan memiliki pandangan topologi jaringan yang konsisten."
+            },
+            {
+                q: "Mekanisme pencegahan routing loop pada protokol Distance Vector yang melarang router mengirimkan informasi rute kembali ke interface tempat rute tersebut dipelajari disebut...",
+                options: [
+                    "Route Poisoning",
+                    "Holddown Timer",
+                    "Split Horizon",
+                    "Triggered Update",
+                    "VLSM"
+                ],
+                answer: 2,
+                explanation: "Split Horizon mencegah routing loop dengan tidak mengiklankan kembali rute melalui interface asal diterimanya rute tersebut."
+            },
+            {
+                q: "Jika sebuah router mempelajari rute menuju jaringan 192.168.10.0/24 dari tiga protokol sekaligus (RIP, OSPF, dan EIGRP), protokol mana yang akan dipilih oleh router untuk dimasukkan ke tabel routing?",
+                options: [
+                    "RIP, karena hop count-nya paling sedikit",
+                    "OSPF, karena menggunakan algoritma Dijkstra",
+                    "EIGRP, karena memiliki Administrative Distance paling kecil (90)",
+                    "Ketiganya akan digunakan secara bersamaan (load balancing)",
+                    "Tidak ada yang dipilih karena terjadi konflik protokol"
+                ],
+                answer: 2,
+                explanation: "Router memilih sumber routing berdasarkan nilai Administrative Distance (AD) terkecil. EIGRP (90) lebih kecil dari OSPF (110) dan RIP (120)."
+            },
+            {
+                q: "Perintah pada Cisco IOS untuk mengaktifkan protokol routing OSPF dengan Process ID 10 adalah...",
+                options: [
+                    "router rip 10",
+                    "router ospf 10",
+                    "ip route ospf 10",
+                    "enable ospf 10",
+                    "network ospf area 10"
+                ],
+                answer: 1,
+                explanation: "Perintah konfigurasi global di Cisco IOS untuk mengaktifkan OSPF adalah 'router ospf [process-id]'."
+            },
+            {
+                q: "Pada konfigurasi perintah 'network' di OSPF dan EIGRP pada router Cisco, mask yang digunakan setelah alamat network adalah...",
+                options: [
+                    "Subnet Mask standar",
+                    "Wildcard Mask",
+                    "MAC Address Mask",
+                    "Default Gateway Mask",
+                    "Port Mask"
+                ],
+                answer: 1,
+                explanation: "OSPF dan EIGRP pada Cisco IOS menggunakan Wildcard Mask (kebalikan dari subnet mask) untuk mencocokkan interface."
+            },
+            {
+                q: "Apa fungsi dari perintah 'passive-interface' pada konfigurasi protokol dynamic routing?",
+                options: [
+                    "Mematikan interface router secara fisik (shutdown)",
+                    "Mencegah pengiriman paket routing update keluar melalui interface tersebut (misal interface ke arah LAN/user)",
+                    "Mengubah protokol routing menjadi static route",
+                    "Mempercepat interval pengiriman paket Hello menjadi 1 detik",
+                    "Mengizinkan semua trafik broadcast masuk ke router"
+                ],
+                answer: 1,
+                explanation: "Passive-interface menghentikan pengiriman routing update pada interface yang mengarah ke jaringan lokal (LAN) untuk menghemat bandwidth dan meningkatkan keamanan."
+            },
+            {
+                q: "Kelebihan utama menggunakan Dynamic Routing dibandingkan Static Routing pada jaringan berskala besar adalah...",
+                options: [
+                    "Tidak membutuhkan penggunaan CPU dan RAM pada router",
+                    "Konfigurasi sangat mudah pada jaringan yang hanya memiliki 1 router",
+                    "Skalabilitas tinggi dan mampu melakukan failover otomatis saat link putus",
+                    "Keamanan jauh lebih tinggi karena tidak ada paket update yang dikirim",
+                    "Administrator harus memperbarui rute secara manual setiap ada penambahan subnet"
+                ],
+                answer: 2,
+                explanation: "Dynamic routing unggul dalam jaringan besar karena skalabilitasnya dan kemampuannya mengalihkan jalur secara otomatis (failover) saat terjadi gangguan."
+            }
+        ];
+
+        // =========================================================================
+        // STATE & VARIABEL QUIZ
+        // =========================================================================
+        let userName = "";
+        let userClass = "";
+        let currentQuestionIndex = 0;
+        let correctCount = 0;
+        let answeredCurrent = false;
+        const optionLetters = ["A", "B", "C", "D", "E"];
+
+        // DOM Elements
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+        const startForm = document.getElementById("start-form");
+
+        // =========================================================================
+        // EVENT LISTENERS & NAVIGASI
+        // =========================================================================
+        startForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            userName = document.getElementById("inputNama").value.trim();
+            userClass = document.getElementById("inputKelas").value.trim();
+
+            if (!userName || !userClass) {
+                alert("Harap isi Nama dan Kelas terlebih dahulu!");
+                return;
+            }
+
+            document.getElementById("display-nama").textContent = userName;
+            document.getElementById("display-kelas").textContent = userClass;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+            loadQuestion();
+            scrollToTop();
+        });
+
+        function loadQuestion() {
+            answeredCurrent = false;
+            const currentData = quizData[currentQuestionIndex];
+
+            // Update nomor & progress
+            document.getElementById("current-number").textContent = currentQuestionIndex + 1;
+            const progressPercent = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById("quiz-progress").style.width = progressPercent + "%";
+
+            // Tampilkan Pertanyaan
+            document.getElementById("question-text").textContent = `${currentQuestionIndex + 1}. ${currentData.q}`;
+
+            // Reset Feedback & Next Button
+            const feedbackBox = document.getElementById("feedback-box");
+            feedbackBox.classList.add("d-none");
+            feedbackBox.classList.remove("alert-success", "alert-danger");
+            document.getElementById("btn-next").classList.add("d-none");
+
+            // Render Opsi Jawaban
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            currentData.options.forEach((optText, index) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "option-btn";
+                btn.innerHTML = `
+                    <span class="option-prefix">${optionLetters[index]}</span>
+                    <span>${optText}</span>
+                `;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            const currentData = quizData[currentQuestionIndex];
+            const correctIndex = currentData.answer;
+            const allOptionButtons = document.querySelectorAll(".option-btn");
+
+            // Disable semua tombol opsi setelah menjawab
+            allOptionButtons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === correctIndex) {
+                    btn.classList.add("correct-answer");
+                }
+            });
+
+            const feedbackBox = document.getElementById("feedback-box");
+            const feedbackTitle = document.getElementById("feedback-title");
+            const feedbackExplanation = document.getElementById("feedback-explanation");
+
+            if (selectedIndex === correctIndex) {
+                correctCount++;
+                feedbackBox.classList.add("alert-success");
+                feedbackTitle.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Jawaban Anda Benar!`;
+            } else {
+                selectedBtn.classList.add("wrong-answer");
+                feedbackBox.classList.add("alert-danger");
+                feedbackTitle.innerHTML = `<i class="bi bi-x-circle-fill me-1"></i> Jawaban Kurang Tepat! Jawaban yang benar adalah <strong>${optionLetters[correctIndex]}</strong>.`;
+            }
+
+            feedbackExplanation.textContent = currentData.explanation;
+            feedbackBox.classList.remove("d-none");
+
+            // Ubah teks tombol jika soal terakhir
+            const btnNext = document.getElementById("btn-next");
+            if (currentQuestionIndex === quizData.length - 1) {
+                btnNext.innerHTML = `Lihat Skor Akhir <i class="bi bi-trophy-fill ms-1"></i>`;
+            } else {
+                btnNext.innerHTML = `Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>`;
+            }
+            btnNext.classList.remove("d-none");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+                scrollToTop();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+            scrollToTop();
+
+            // Hitung Skor Maksimal 100
+            const finalScore = Math.round((correctCount / quizData.length) * 100);
+
+            document.getElementById("final-score").textContent = finalScore;
+            document.getElementById("res-nama").textContent = userName;
+            document.getElementById("res-kelas").textContent = userClass;
+            document.getElementById("res-correct").textContent = correctCount;
+
+            // Kirim data ke Google Spreadsheet
+            sendToGoogleSheet(userName, userClass, finalScore);
+        }
+
+        function sendToGoogleSheet(nama, kelas, skor) {
+            const statusDiv = document.getElementById("save-status");
+
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === "PASTE_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DISINI") {
+                statusDiv.className = "alert alert-info";
+                statusDiv.innerHTML = `<i class="bi bi-exclamation-circle-fill me-1"></i> URL Google Apps Script belum dipasang. Skor Anda: <strong>${skor}</strong>.`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    statusDiv.className = "alert alert-success";
+                    statusDiv.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Berhasil! Data NAMA, KELAS, dan SKOR tersimpan di Google Spreadsheet <strong>"Jaringan Komputer Quiz 7"</strong>.`;
+                } else {
+                    throw new Error("Respon server gagal");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                statusDiv.className = "alert alert-danger";
+                statusDiv.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> Gagal terhubung ke Google Spreadsheet. Periksa koneksi internet atau URL Web App Anda.`;
+            });
+        }
+
+        // =========================================================================
+        // TOMBOL BACK & TO TOP
+        // =========================================================================
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = "https://yanapermana.github.io";
+            }
+        }
+
+        const btnToTop = document.getElementById("btnToTop");
+        window.onscroll = function () {
+            if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+                btnToTop.style.display = "flex";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    </script>
+</body>
+</html>
