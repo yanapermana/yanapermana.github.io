@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekomendasi Mikrotik Gigabit untuk Sekolah</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #ff6600;
+            --secondary-orange: #fd7e14;
+            --dark-orange: #e05a00;
+            --light-orange-bg: #fff5ed;
+            --pure-white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2);
+        }
+
+        .navbar-custom .navbar-brand {
+            color: var(--pure-white) !important;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-custom .nav-link {
+            color: rgba(255, 255, 255, 0.92) !important;
+            font-weight: 600;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem;
+            transition: all 0.25s ease;
+        }
+
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link:focus {
+            color: var(--primary-orange) !important;
+            background-color: var(--pure-white);
+            transform: translateY(-1px);
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: var(--pure-white);
+            border-bottom: 3px solid var(--primary-orange);
+            padding: 3.5rem 0 3rem 0;
+            position: relative;
+        }
+
+        .hero-badge {
+            background-color: var(--light-orange-bg);
+            color: var(--primary-orange);
+            border: 1px solid rgba(255, 102, 0, 0.3);
+            font-weight: 600;
+        }
+
+        /* Button Custom Orange-White */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+            color: var(--pure-white);
+            font-weight: 600;
+            border-radius: 0.65rem;
+            transition: all 0.25s ease;
+        }
+
+        .btn-orange:hover,
+        .btn-orange:focus {
+            background-color: var(--dark-orange);
+            border-color: var(--dark-orange);
+            color: var(--pure-white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        .btn-outline-orange {
+            background-color: var(--pure-white);
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            font-weight: 600;
+            border-radius: 0.65rem;
+            transition: all 0.25s ease;
+        }
+
+        .btn-outline-orange:hover,
+        .btn-outline-orange:focus {
+            background-color: var(--primary-orange);
+            color: var(--pure-white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 102, 0, 0.25);
+        }
+
+        /* Product Cards */
+        .product-card {
+            background-color: var(--pure-white);
+            border: 1px solid rgba(255, 102, 0, 0.18);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px rgba(255, 102, 0, 0.14);
+            border-color: var(--primary-orange);
+        }
+
+        .product-img-wrapper {
+            background-color: var(--pure-white);
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            position: relative;
+            cursor: zoom-in;
+            transition: border-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .product-img-wrapper:hover {
+            border-color: var(--primary-orange);
+        }
+
+        .product-img-wrapper img {
+            max-height: 230px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-img-wrapper:hover img {
+            transform: scale(1.03);
+        }
+
+        .badge-promo {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #ff8800, var(--primary-orange));
+            color: var(--pure-white);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 0.5rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 8px rgba(255, 102, 0, 0.35);
+            z-index: 2;
+        }
+
+        .spec-table th {
+            width: 110px;
+            font-weight: 700;
+            color: #343a40;
+            padding: 0.4rem 0;
+        }
+
+        .spec-table td {
+            padding: 0.4rem 0;
+            color: #495057;
+        }
+
+        .brand-text {
+            color: #9e2a2b;
+            font-weight: 600;
+        }
+
+        .price-tag {
+            color: var(--primary-orange);
+            font-weight: 800;
+            font-size: 1.35rem;
+        }
+
+        .school-note {
+            background-color: var(--light-orange-bg);
+            border-left: 4px solid var(--primary-orange);
+            border-radius: 0.5rem;
+            padding: 0.85rem 1rem;
+            font-size: 0.92rem;
+            color: #4a3525;
+        }
+
+        /* Floating To Top Button */
+        #btnToTop {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: var(--pure-white);
+            border: 2px solid var(--pure-white);
+            box-shadow: 0 6px 18px rgba(255, 102, 0, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            z-index: 1040;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #btnToTop:hover {
+            background-color: var(--dark-orange);
+            transform: translateY(-4px);
+        }
+
+        /* Footer */
+        .footer-custom {
+            background-color: var(--pure-white);
+            border-top: 4px solid var(--primary-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Responsif -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="https://yanapermana.github.io">
+                <i class="bi bi-router-fill"></i>
+                <span>Yana Permana</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1 gap-lg-2 mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">
+                            <i class="bi bi-house-door me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">
+                            <i class="bi bi-calendar-week me-1"></i>Jadwal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">
+                            <i class="bi bi-journal-code me-1"></i>Modul
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero / Header Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <span class="badge hero-badge px-3 py-2 rounded-pill mb-3">
+                        <i class="bi bi-hdd-network me-1"></i> Infrastruktur Jaringan Sekolah & Lab TJKT
+                    </span>
+                    <h1 class="display-6 fw-bold text-dark mb-3">
+                        Rekomendasi Mikrotik Gigabit untuk Sekolah
+                    </h1>
+                    <p class="lead text-secondary mb-0">
+                        Pilihan perangkat router MikroTik Gigabit handal dan berperforma tinggi untuk mendukung konektivitas internet sekolah, manajemen bandwidth, serta kebutuhan praktikum jaringan di laboratorium komputer.
+                    </p>
+                </div>
+                <div class="col-lg-3 text-lg-end mt-4 mt-lg-0">
+                    <!-- Tombol Back Atas -->
+                    <button type="button" class="btn btn-outline-orange px-4 py-2" onclick="goBack()">
+                        <i class="bi bi-arrow-left me-2"></i>Kembali (Back)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Produk 1: RB5009UG+S+IN MIKROTIK -->
+                <div class="col-12 col-lg-6">
+                    <article class="card product-card h-100 p-3 p-md-4">
+                        <div class="card-body d-flex flex-column p-0">
+                            <h2 class="h4 fw-bold text-dark mb-3">
+                                RB5009UG+S+IN MIKROTIK
+                            </h2>
+
+                            <!-- Gambar Produk 1 -->
+                            <div class="product-img-wrapper mb-2" onclick="openImageModal(this.querySelector('img').src, 'RB5009UG+S+IN MIKROTIK')" title="Klik untuk memperbesar gambar">
+                                <span class="badge-promo">PROMO</span>
+                                <img 
+                                    src="rekomendasi_mikrotik_sekolah.jpg" 
+                                    alt="RB5009UG+S+IN MIKROTIK"
+                                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22460%22 height=%22240%22 viewBox=%220 0 460 240%22%3E%3Crect width=%22460%22 height=%22240%22 fill=%22%23ffffff%22/%3E%3Cg transform=%22translate(45,45)%22%3E%3Cpolygon points=%22180,15 360,55 190,120 10,75%22 fill=%22%23383c42%22 stroke=%22%231f2226%22 stroke-width=%222%22/%3E%3Cpolygon points=%2210,75 190,120 190,152 10,105%22 fill=%22%2323262b%22/%3E%3Cpolygon points=%22190,120 360,55 360,85 190,152%22 fill=%22%232d3136%22/%3E%3Crect x=%22205%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22226%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22247%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22268%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22289%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22310%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22331%22 y=%22112%22 width=%2216%22 height=%2214%22 rx=%222%22 transform=%22skewY(-20)%22 fill=%22%23111%22 stroke=%22%23777%22/%3E%3Crect x=%22170%22 y=%22115%22 width=%2212%22 height=%2212%22 rx=%222%22 fill=%22%230d6efd%22/%3E%3Crect x=%22148%22 y=%22110%22 width=%2215%22 height=%2214%22 rx=%222%22 fill=%22%23198754%22/%3E%3Ctext x=%22155%22 y=%2276%22 fill=%22%23d0d5dd%22 font-family=%22sans-serif%22 font-size=%2213%22 font-weight=%22bold%22 transform=%22rotate(-18 155 76)%22%3EMikroTik RB5009UG+S+IN%3C/text%3E%3C/g%3E%3C/svg%3E';"
+                                >
+                            </div>
+                            <p class="text-muted fst-italic small mb-3">
+                                <i class="bi bi-zoom-in text-warning me-1"></i>klik pada gambar untuk melihat gambar lebih besar
+                            </p>
+
+                            <!-- Spesifikasi Tabel -->
+                            <table class="table table-borderless spec-table mb-3">
+                                <tbody>
+                                    <tr>
+                                        <th>Brand</th>
+                                        <td>: <span class="brand-text">Mikrotik</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jenis</th>
+                                        <td>: <span class="brand-text">Router Desktop</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kode</th>
+                                        <td>: <span class="fw-semibold text-dark">RB5009UG+S+IN</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Harga</th>
+                                        <td>: <span class="price-tag">Rp 3.700.000,00</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Rekomendasi Penggunaan Sekolah -->
+                            <div class="school-note mt-auto">
+                                <div class="fw-bold mb-1" style="color: var(--primary-orange);">
+                                    <i class="bi bi-check-circle-fill me-1"></i>Rekomendasi Utama Gateway Sekolah:
+                                </div>
+                                Performa sangat tinggi dengan prosesor Quad-Core ARM 1.4GHz, 7 port Gigabit Ethernet, 1 port 2.5G Ethernet, serta 1 port SFP+ 10G. Sangat ideal dijadikan sebagai <strong>router utama (gateway)</strong> sekolah yang melayani ratusan siswa, guru, ruang ujian CBT, dan manajemen bandwidth kompleks.
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Produk 2: hEX S (2025) E60iUGS MIKROTIK Router Desktop -->
+                <div class="col-12 col-lg-6">
+                    <article class="card product-card h-100 p-3 p-md-4">
+                        <div class="card-body d-flex flex-column p-0">
+                            <h2 class="h4 fw-bold text-dark mb-3">
+                                hEX S (2025) E60iUGS MIKROTIK Router Desktop
+                            </h2>
+
+                            <!-- Gambar Produk 2 -->
+                            <div class="product-img-wrapper mb-2" onclick="openImageModal(this.querySelector('img').src, 'hEX S (2025) E60iUGS MIKROTIK Router Desktop')" title="Klik untuk memperbesar gambar">
+                                <img 
+                                    src="rekomendasi_mikrotik_sekolah2.PNG" 
+                                    alt="hEX S (2025) E60iUGS MIKROTIK Router Desktop"
+                                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22460%22 height=%22240%22 viewBox=%220 0 460 240%22%3E%3Crect width=%22460%22 height=%22240%22 fill=%22%23ffffff%22/%3E%3Cg transform=%22translate(55,65)%22%3E%3Crect x=%2210%22 y=%2210%22 width=%22330%22 height=%2286%22 rx=%226%22 fill=%22%23343a40%22 stroke=%22%23212529%22 stroke-width=%222%22/%3E%3Crect x=%2218%22 y=%2220%22 width=%22314%22 height=%2266%22 rx=%223%22 fill=%22%23495057%22/%3E%3Ctext x=%2252%22 y=%2236%22 fill=%22%23ffffff%22 font-family=%22sans-serif%22 font-size=%2213%22 font-weight=%22bold%22%3EhEX S (2025) E60iUGS%3C/text%3E%3Ccircle cx=%2234%22 cy=%2258%22 r=%229%22 fill=%22%23111%22 stroke=%22%23adb5bd%22 stroke-width=%222%22/%3E%3Crect x=%2254%22 y=%2245%22 width=%2234%22 height=%2228%22 rx=%222%22 fill=%22%23111%22 stroke=%22%230dcaf0%22 stroke-width=%221.5%22/%3E%3Crect x=%22102%22 y=%2246%22 width=%2236%22 height=%2226%22 rx=%222%22 fill=%22%23111%22 stroke=%22%23adb5bd%22/%3E%3Crect x=%22146%22 y=%2246%22 width=%2236%22 height=%2226%22 rx=%222%22 fill=%22%23111%22 stroke=%22%23adb5bd%22/%3E%3Crect x=%22190%22 y=%2246%22 width=%2236%22 height=%2226%22 rx=%222%22 fill=%22%23111%22 stroke=%22%23adb5bd%22/%3E%3Crect x=%22234%22 y=%2246%22 width=%2236%22 height=%2226%22 rx=%222%22 fill=%22%23111%22 stroke=%22%23adb5bd%22/%3E%3Crect x=%22278%22 y=%2246%22 width=%2236%22 height=%2226%22 rx=%222%22 fill=%22%23111%22 stroke=%22%23ffc107%22/%3E%3Ctext x=%2258%22 y=%2282%22 fill=%22%230dcaf0%22 font-family=%22sans-serif%22 font-size=%228%22%3ESFP 2.5G%3C/text%3E%3Ctext x=%22106%22 y=%2282%22 fill=%22%23dee2e6%22 font-family=%22sans-serif%22 font-size=%228%22%3EPoE In%3C/text%3E%3Ctext x=%22280%22 y=%2282%22 fill=%22%23ffc107%22 font-family=%22sans-serif%22 font-size=%228%22%3EPoE Out%3C/text%3E%3C/g%3E%3C/svg%3E';"
+                                >
+                            </div>
+                            <p class="text-muted fst-italic small mb-3">
+                                <i class="bi bi-zoom-in text-warning me-1"></i>klik pada gambar untuk melihat gambar lebih besar
+                            </p>
+
+                            <!-- Spesifikasi Tabel -->
+                            <table class="table table-borderless spec-table mb-3">
+                                <tbody>
+                                    <tr>
+                                        <th>Brand</th>
+                                        <td>: <span class="brand-text">Mikrotik</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jenis</th>
+                                        <td>: <span class="brand-text">Router Desktop</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kode</th>
+                                        <td>: <span class="fw-semibold text-dark">E60iUGS</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Harga</th>
+                                        <td>: <span class="price-tag">Rp 1.150.000,00</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- Deskripsi Produk 2 -->
+                            <div class="school-note mt-auto">
+                                <div class="fw-bold mb-1" style="color: var(--primary-orange);">
+                                    <i class="bi bi-info-circle-fill me-1"></i>Deskripsi & Spesifikasi:
+                                </div>
+                                <p class="mb-0" style="line-height: 1.6;">
+                                    hEX S (2025) E60iUGS merupakan router versi terbaru dari seri sebelumnya hEX S (RB760iGS). Memiliki 5 buah port Gigabit Ethernet dan 1 port SFP 2.5G, support PoE in (802.3af/at) pada port 1 ethernet dan PoE out Passive pada port 5 ethernet. Sudah termasuk dengan lisensi level 4 dan adaptor 24V.
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+
+            <!-- Bagian Navigasi Bawah (Tombol Back) -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-5 pt-3 border-top">
+                <button type="button" class="btn btn-orange px-4 py-2" onclick="goBack()">
+                    <i class="bi bi-arrow-left-circle me-2"></i>Back ke Halaman Sebelumnya
+                </button>
+                <span class="text-muted small mt-2 mt-sm-0">
+                    * Harga merupakan referensi estimasi perangkat jaringan sekolah.
+                </span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Perbesar Gambar -->
+    <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-labelledby="imageZoomModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header text-white" style="background-color: var(--primary-orange);">
+                    <h5 class="modal-title fw-bold" id="imageZoomModalLabel">Detail Gambar Produk</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body text-center bg-white p-4">
+                    <img id="modalZoomImage" src="" alt="Preview Produk" class="img-fluid rounded" style="max-height: 70vh;">
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-outline-orange px-4" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Button To Top -->
+    <button id="btnToTop" type="button" title="Kembali ke atas" aria-label="Ke bagian atas website" onclick="scrollToTop()">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer-custom py-4 mt-4">
+        <div class="container text-center">
+            <p class="mb-1 fw-semibold text-dark">
+                Rekomendasi Mikrotik Gigabit untuk Sekolah
+            </p>
+            <p class="mb-0 text-muted small">
+                &copy; 2025 <span style="color: var(--primary-orange); font-weight: 700;">Yana Permana</span>. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fungsi kembali ke halaman sebelumnya
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = 'https://yanapermana.github.io';
+            }
+        }
+
+        // Fungsi scroll halus ke bagian paling atas website
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Menampilkan atau menyembunyikan tombol To Top saat halaman digulir
+        const btnToTop = document.getElementById('btnToTop');
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 180) {
+                btnToTop.style.display = 'flex';
+            } else {
+                btnToTop.style.display = 'none';
+            }
+        });
+
+        // Fungsi membuka modal perbesar gambar saat gambar produk diklik
+        function openImageModal(imgSrc, titleText) {
+            const modalImg = document.getElementById('modalZoomImage');
+            const modalTitle = document.getElementById('imageZoomModalLabel');
+            modalImg.src = imgSrc;
+            modalTitle.textContent = titleText;
+
+            const zoomModal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
+            zoomModal.show();
+        }
+    </script>
+</body>
+</html>

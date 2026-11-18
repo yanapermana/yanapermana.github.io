@@ -432,3 +432,34 @@ to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
 ----------------------------------------------------------------
 Tambahkan fitur pencarian di bagian atas, dibawah navigasi, tambahkan tombol to the top saat scroll ke bawah
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Rekomendasi Mikrotik Gigabit untuk Sekolah", konten website berisi:
+- gambar1 RB5009UG+S+IN MIKROTIK
+- gambar2 hEX S (2025) E60iUGS MIKROTIK Router Desktop
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Studi Kasus Mikrotik", konten website berisi:
+
+- Pertanyaan: Sebuah sekolah mendapatkan bandwidth 200 mbps dari ISP, namun saat ditest di mikrotik sekolah ternyata yang diterima hanya 110 mbps. Apa yang menyebabkan hal ini terjadi?
+- Jawaban: Hal ini terjadi karena mikrotik sekolah sudah berumur lebih dari 10 tahun, cpu mikrotik sudah 100% saat bandwidth baru diterima 110 mbps.
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
