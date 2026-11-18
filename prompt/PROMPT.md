@@ -430,3 +430,5 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Tambahkan fitur pencarian di bagian atas, dibawah navigasi, tambahkan tombol to the top saat scroll ke bawah
