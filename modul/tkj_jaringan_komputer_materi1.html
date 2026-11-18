@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaringan Komputer Materi 1</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <style>
+    :root {
+      --primary-orange: #f97316;
+      --dark-orange: #ea580c;
+      --light-orange: #fff7ed;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #333333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Navbar Styling */
+    .navbar-orange {
+      background-color: var(--primary-orange);
+    }
+
+    .navbar-orange .navbar-brand,
+    .navbar-orange .nav-link {
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+
+    .navbar-orange .nav-link:hover {
+      background-color: var(--dark-orange);
+      border-radius: 6px;
+    }
+
+    /* Judul & Aksen */
+    .heading-title {
+      color: var(--dark-orange);
+      border-left: 5px solid var(--primary-orange);
+      padding-left: 15px;
+    }
+
+    /* Tombol Custom Oranye */
+    .btn-orange {
+      background-color: var(--primary-orange);
+      color: #ffffff;
+      border: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-orange:hover {
+      background-color: var(--dark-orange);
+      color: #ffffff;
+    }
+
+    .btn-outline-orange {
+      color: var(--primary-orange);
+      border: 1px solid var(--primary-orange);
+      background-color: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline-orange:hover {
+      background-color: var(--primary-orange);
+      color: #ffffff;
+    }
+
+    /* Container PDF Responsif */
+    .pdf-container {
+      width: 100%;
+      height: 75vh;
+      min-height: 500px;
+      border: 2px solid #fed7aa;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--light-orange);
+    }
+
+    /* Tombol Floating Back to Top */
+    #btn-back-to-top {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: none;
+      z-index: 999;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.4);
+    }
+  </style>
+</head>
+<body id="top">
+
+  <!-- Menu Navigasi -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-orange shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="https://yanapermana.github.io">Yana Permana</a>
+      <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto gap-1">
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Konten Utama -->
+  <main class="container my-4 my-md-5">
+    
+    <!-- Tombol Kembali (Back) -->
+    <div class="mb-3">
+      <button onclick="history.back()" class="btn btn-outline-orange btn-sm px-3 py-2 fw-semibold">
+        <i class="bi bi-arrow-left me-1"></i> Kembali
+      </button>
+    </div>
+
+    <!-- Card Konten -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-3 p-md-4 bg-white rounded">
+        <h1 class="h2 fw-bold heading-title mb-4">Materi 1 Basic Networking</h1>
+        
+        <!-- Embed PDF Google Drive -->
+        <div class="pdf-container shadow-sm">
+          <iframe 
+            src="https://drive.google.com/file/d/1OBBzELfpB356M794aI2xjhfmxPjV4nt_/preview" 
+            width="100%" 
+            height="100%" 
+            style="border: none;" 
+            allow="autoplay"
+            title="Materi 1 Basic Networking PDF">
+          </iframe>
+        </div>
+
+        <!-- Navigasi Bawah -->
+        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+          <button onclick="history.back()" class="btn btn-outline-orange">
+            <i class="bi bi-arrow-left me-1"></i> Halaman Sebelumnya
+          </button>
+          <a href="#top" class="btn btn-orange">
+            <i class="bi bi-arrow-up me-1"></i> Ke Atas
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 mt-5 border-top text-muted small">
+    <div class="container">
+      &copy; Yana Permana &mdash; Jaringan Komputer
+    </div>
+  </footer>
+
+  <!-- Floating Button To Top (Muncul saat di-scroll) -->
+  <button type="button" class="btn btn-orange" id="btn-back-to-top" title="Kembali ke atas">
+    <i class="bi bi-arrow-up fs-5"></i>
+  </button>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script Tombol To Top -->
+  <script>
+    const mybutton = document.getElementById("btn-back-to-top");
+
+    window.onscroll = function () {
+      if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    };
+
+    mybutton.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
