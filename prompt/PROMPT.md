@@ -577,3 +577,19 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Jaringan Komputer Materi 8", konten website berisi:
+- Judul heading1 "Materi 8 Wireless Network"
+- file pdf yang diembed dari google drive link public
+- https://drive.google.com/file/d/18JqmrslT8s2VVzNViSM2JzK7llVWHfoV/view?usp=drive_link
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- https://drive.google.com/file/d/1yxK0tJKPnDczgNsOveoujgXVz3XrWtjO/view?usp=drive_link
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
