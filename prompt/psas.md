@@ -44,6 +44,8 @@ Nomor Ujian         :
 # prompt2
 - Buatkan dokumen kunci jawaban versi docx
 - buatkan versi pdf 
+
 - Nama Kepala Sekolah: Raushan Fikry Adam, Lc.,MIRKH
-- Nama Guru Mata Pelajaran KIK: Yana Permana, S.Pd
+- Nama Guru Mata Pelajaran: Yana Permana, S.Pd
 - Buatkan dokumen kisi-kisi soal versi docx
+- buatkan versi pdf 
