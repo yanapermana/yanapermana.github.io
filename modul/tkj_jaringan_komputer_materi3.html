@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaringan Komputer Materi 3</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons untuk ikon tombol Back dan To Top -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --primary-orange: #ff6b00;
+            --dark-orange: #e05a00;
+            --light-orange: #fff4eb;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Oranye */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(255, 107, 0, 0.2);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .navbar-custom .nav-link:hover {
+            background-color: var(--dark-orange);
+            border-radius: 5px;
+        }
+
+        /* Tombol Oranye Kustom */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Heading & Card Konten */
+        .title-accent {
+            color: var(--primary-orange);
+            border-bottom: 3px solid var(--primary-orange);
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .pdf-card {
+            border: 2px solid var(--light-orange);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+        }
+
+        /* Container PDF Responsif */
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            height: 80vh; /* Tinggi otomatis 80% layar perangkat */
+            min-height: 500px;
+        }
+
+        .pdf-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Floating Button To Top */
+        #btn-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.4);
+        }
+
+        footer {
+            background-color: var(--light-orange);
+            border-top: 2px solid var(--primary-orange);
+            color: #555555;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="https://yanapermana.github.io">Yana Permana</a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konten Utama -->
+    <main class="container my-5">
+        <!-- Baris Tombol Back & Judul -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+            <div>
+                <h1 class="fw-bold title-accent mb-0">Materi 3 Subnetting</h1>
+            </div>
+            <button onclick="goBack()" class="btn btn-orange px-4 py-2 fw-semibold shadow-sm">
+                <i class="bi bi-arrow-left me-2"></i>Kembali
+            </button>
+        </div>
+
+        <!-- Card Embed PDF -->
+        <div class="pdf-card">
+            <div class="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
+                <span class="fw-semibold text-secondary">
+                    <i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i>Dokumen Materi Jaringan Komputer
+                </span>
+                <a href="https://drive.google.com/file/d/1r3ECEDhzxVmcZvPzH5UYOcqzkLt0VvQJ/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-warning text-dark fw-semibold">
+                    <i class="bi bi-box-arrow-up-right me-1"></i>Buka di Tab Baru
+                </a>
+            </div>
+            <div class="pdf-container">
+                <!-- Link diubah dari /view menjadi /preview agar bisa di-embed -->
+                <iframe src="https://drive.google.com/file/d/1r3ECEDhzxVmcZvPzH5UYOcqzkLt0VvQJ/preview" allow="autoplay"></iframe>
+            </div>
+        </div>
+
+        <!-- Tombol Navigasi Bawah -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <button onclick="goBack()" class="btn btn-orange px-4 py-2 fw-semibold">
+                <i class="bi bi-arrow-left me-2"></i>Halaman Sebelumnya
+            </button>
+            <a href="#top" class="btn btn-outline-secondary px-4 py-2 fw-semibold">
+                <i class="bi bi-arrow-up me-2"></i>Ke Atas
+            </a>
+        </div>
+    </main>
+
+    <!-- Tombol Floating To Top -->
+    <button onclick="scrollToTop()" id="btn-to-top" class="btn btn-orange" title="Kembali ke atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center mt-5">
+        <div class="container">
+            <p class="mb-0 fw-medium">&copy; 2026 Yana Permana - Materi Jaringan Komputer</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Fungsi Back & To Top -->
+    <script>
+        // Fungsi kembali ke halaman sebelumnya
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // Fallback jika dibuka langsung di tab baru tanpa riwayat sebelumnya
+                window.location.href = "https://yanapermana.github.io/modul/index.html";
+            }
+        }
+
+        // Menampilkan tombol To Top saat halaman di-scroll ke bawah
+        const btnToTop = document.getElementById("btn-to-top");
+        window.onscroll = function () {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        // Fungsi scroll halus ke atas
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    </script>
+</body>
+</html>
