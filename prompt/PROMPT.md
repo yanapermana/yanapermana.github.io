@@ -625,3 +625,19 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Fiber Optic Materi 2", konten website berisi:
+- Judul heading1 "Materi 2 Jaringan Fiber to The X (FTTX)"
+- file pdf yang diembed dari google drive link public
+- https://drive.google.com/file/d/1WGZ3Jru0QpAPTGHndpjXzPUbXaHGr8ET/view?usp=drive_link
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
