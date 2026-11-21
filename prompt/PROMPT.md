@@ -689,3 +689,19 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Fiber Optic Materi 6", konten website berisi:
+- Judul heading1 "Materi 6 Setting Routing Border Gateway Protocol (BGP)"
+- file video yang diembed dari google drive link public
+- https://drive.google.com/file/d/1nlw4lsc8CWsEgm4vKYdaZRSPwVFfkC23/view?usp=drive_link
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
