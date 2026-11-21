@@ -641,3 +641,35 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Fiber Optic Materi 3", konten website berisi:
+- Judul heading1 "Materi 3 Project Jaringan Fiber Optic"
+- file pdf yang diembed dari google drive link public
+- https://drive.google.com/file/d/1X7r2q5mJMOmGyK2D9eO7VdI47rl4qF_X/view?usp=drive_link
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Fiber Optic Materi 4", konten website berisi:
+- Judul heading1 "Materi 4 Setting Optical Network Unit (ONU)"
+- file video yang diembed dari google drive link public
+- https://drive.google.com/file/d/1g4mFbjtabT_rlOPMOF4Go48ShbmCseWz/view?usp=drive_link
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih

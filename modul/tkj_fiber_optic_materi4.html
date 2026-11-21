@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiber Optic Materi 4</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --dark-orange: #E05A00;
+            --light-orange: #FFF4EC;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #333333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-custom .navbar-brand {
+            color: #FFFFFF;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-custom .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            padding: 8px 15px !important;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: var(--primary-orange);
+            background-color: #FFFFFF;
+        }
+
+        /* Custom Toggler for Mobile */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Content & Card Styling */
+        .main-content {
+            flex: 1;
+            padding-top: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .page-title {
+            color: var(--primary-orange);
+            font-weight: 700;
+            border-bottom: 3px solid var(--primary-orange);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .video-wrapper {
+            background-color: var(--light-orange);
+            border: 2px solid var(--primary-orange);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.15);
+        }
+
+        /* Custom Buttons */
+        .btn-orange-outline {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: #FFFFFF;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-orange-outline:hover {
+            background-color: var(--primary-orange);
+            color: #FFFFFF;
+        }
+
+        /* Floating To Top Button */
+        #btn-back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            background-color: var(--primary-orange);
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #btn-back-to-top:hover {
+            background-color: var(--dark-orange);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--light-orange);
+            border-top: 2px solid var(--primary-orange);
+            color: #555555;
+        }
+    </style>
+</head>
+<body id="top">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://yanapermana.github.io">
+                <i class="bi bi-router me-2"></i>Yana Permana
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2 mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <!-- Tombol Back ke Halaman Sebelumnya -->
+        <div class="mb-4">
+            <button onclick="goBack()" class="btn btn-orange-outline">
+                <i class="bi bi-arrow-left me-1"></i> Kembali
+            </button>
+        </div>
+
+        <!-- Judul Materi -->
+        <div class="text-center mb-4">
+            <h1 class="page-title h2">Materi 4 Setting Optical Network Unit (ONU)</h1>
+        </div>
+
+        <!-- Video Container Responsif -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-11">
+                <div class="video-wrapper">
+                    <!-- Bootstrap Ratio 16:9 agar video selalu responsif di HP maupun Laptop -->
+                    <div class="ratio ratio-16x9 rounded overflow-hidden shadow-sm">
+                        <!-- URL Google Drive diubah dari /view menjadi /preview agar bisa di-embed -->
+                        <iframe 
+                            src="https://drive.google.com/file/d/1g4mFbjtabT_rlOPMOF4Go48ShbmCseWz/preview" 
+                            allow="autoplay; fullscreen" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Button To Top -->
+    <button type="button" class="btn" id="btn-back-to-top" title="Kembali ke atas">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="py-3 text-center mt-auto">
+        <div class="container">
+            <small class="fw-semibold">&copy; 2026 Yana Permana - Materi Pembelajaran Fiber Optic</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript untuk Tombol Back & To Top -->
+    <script>
+        // Fungsi kembali ke halaman sebelumnya
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // Fallback jika dibuka langsung di tab baru tanpa riwayat sebelumnya
+                window.location.href = "https://yanapermana.github.io/modul/index.html";
+            }
+        }
+
+        // Logika tombol To Top
+        const mybutton = document.getElementById("btn-back-to-top");
+
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        mybutton.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+</html>
