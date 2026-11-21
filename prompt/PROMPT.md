@@ -721,3 +721,20 @@ Tambahkan button:
 back ke halaman sebelumnya
 to top ke bagian atas website
 Buat tema website dengan warna orange dan putih
+----------------------------------------------------------------
+Buatkan website dengan css bootstrap agar responsif, title website "Fiber Optic Materi 8", konten website berisi:
+- Judul heading1 "Materi 8 Laporan Magang Industri"
+- file yang diembed dari google drive link public
+- Contoh Laporan Magang Industri https://drive.google.com/file/d/1-2-D7vNQppDjkeBUf5v_uCRuR_jwQFE3/view?usp=drive_link
+- Template Laporan Magang Industri https://docs.google.com/document/d/12se0rq55m8ydFb2p1OU8seV4publyMxp/edit?usp=drive_link&ouid=101793235865070182430&rtpof=true&sd=true
+
+Menu navigasi brand "Yana Permana"
+Menu navigasi berisi link:
+- <a href="https://yanapermana.github.io">Home</a>
+- <a href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+- <a href="https://yanapermana.github.io/modul/index.html">Modul</a>
+
+Tambahkan button:
+back ke halaman sebelumnya
+to top ke bagian atas website
+Buat tema website dengan warna orange dan putih
