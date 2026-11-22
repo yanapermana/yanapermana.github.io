@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Quiz 4</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --dark-orange: #E05A00;
+            --light-orange: #FFF3E8;
+            --soft-orange: #FFE0C2;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #F8F9FA;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 75px;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(255, 107, 0, 0.25);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #FFFFFF !important;
+            font-weight: 600;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: var(--soft-orange) !important;
+            text-decoration: underline;
+        }
+
+        /* Card & Header Styling */
+        .card-quiz {
+            border: none;
+            border-top: 5px solid var(--primary-orange);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            background-color: #FFFFFF;
+        }
+
+        .badge-orange {
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            border: 1px solid var(--primary-orange);
+            font-weight: 600;
+        }
+
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #FFFFFF;
+            border: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #FFFFFF;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-orange {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #FFFFFF;
+        }
+
+        /* Option Buttons Styling */
+        .option-btn {
+            text-align: left;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border: 2px solid #E9ECEF;
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            color: #212529;
+            font-weight: 500;
+            transition: all 0.2s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+
+        .option-btn.correct {
+            border-color: #198754 !important;
+            background-color: #D1E7DD !important;
+            color: #0F5132 !important;
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            border-color: #DC3545 !important;
+            background-color: #F8D7DA !important;
+            color: #842029 !important;
+        }
+
+        .option-prefix {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light-orange);
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Progress Bar */
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating To Top Button */
+        #btn-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-orange);
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem;
+        }
+
+        #btn-to-top:hover {
+            background-color: var(--dark-orange);
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--light-orange);
+            border: 6px solid var(--primary-orange);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-shield-lock-fill me-2"></i> Yana Permana
+            </a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+        <!-- Top Action Bar (Back Button) -->
+        <div class="mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+            </button>
+        </div>
+
+        <!-- SECTION 1: INTRO & FORM IDENTITAS -->
+        <div id="start-screen" class="card card-quiz p-4 p-md-5">
+            <div class="text-center mb-4">
+                <span class="badge badge-orange px-3 py-2 mb-2">Evaluasi Pembelajaran Fase F</span>
+                <h1 class="fw-bold text-dark">Cyber Security Quiz 4</h1>
+                <h5 class="text-secondary">Materi: <span style="color: var(--primary-orange); font-weight: 700;">Keamanan Jaringan</span></h5>
+            </div>
+
+            <div class="alert" style="background-color: var(--light-orange); border-left: 4px solid var(--primary-orange);">
+                <h6 class="fw-bold" style="color: var(--dark-orange);"><i class="bi bi-info-circle-fill me-1"></i> Capaian & Detail Materi:</h6>
+                <p class="mb-0 small text-dark" style="line-height: 1.6;">
+                    Pada akhir fase F, peserta didik mampu memahami kebijakan penggunaan jaringan, memahami kemungkinan ancaman dan serangan terhadap keamanan jaringan, menentukan sistem keamanan jaringan yang dibutuhkan, memahami firewall pada host dan server, memahami kebutuhan persyaratan alat-alat untuk membangun server firewall, menganalisis konsep dan implementasi firewall di host dan server, memahami fungsi dan cara kerja server autentifikasi, memahami kebutuhan persyaratan alat-alat untuk membangun server autentifikasi, menganalisis cara kerja sistem pendeteksi dan penahan ancaman/serangan yang masuk ke jaringan, menganalisis fungsi dan tata cara pengamanan server-server layanan pada jaringan, dan memahami tata cara pengamanan komunikasi data menggunakan teknik kriptografi.
+                </p>
+            </div>
+
+            <div class="row g-3 my-3 text-center">
+                <div class="col-4">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="fw-bold fs-5" style="color: var(--primary-orange);">30</div>
+                        <small class="text-muted">Jumlah Soal</small>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="fw-bold fs-5" style="color: var(--primary-orange);">5 Opsi</div>
+                        <small class="text-muted">Pilihan Ganda</small>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-2 border rounded bg-light">
+                        <div class="fw-bold fs-5" style="color: var(--primary-orange);">100</div>
+                        <small class="text-muted">Skor Maksimal</small>
+                    </div>
+                </div>
+            </div>
+
+            <form id="student-form" class="mt-3">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inputNama" class="form-label fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg" id="inputNama" placeholder="Masukkan nama lengkap Anda..." required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputKelas" class="form-label fw-bold">Kelas <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control form-control-lg" id="inputKelas" placeholder="Contoh: XII TKJ 1" required>
+                    </div>
+                </div>
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-orange btn-lg py-3">
+                        Mulai Mengerjakan Quiz <i class="bi bi-play-circle-fill ms-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SECTION 2: QUIZ AREA -->
+        <div id="quiz-screen" class="card card-quiz p-4 p-md-5 d-none">
+            <!-- Header Info -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                <div>
+                    <span class="badge bg-dark me-2" id="display-nama">Nama</span>
+                    <span class="badge badge-orange" id="display-kelas">Kelas</span>
+                </div>
+                <div class="fw-bold" style="color: var(--primary-orange);">
+                    Soal <span id="current-number">1</span> dari 30
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress mb-4" style="height: 10px;">
+                <div id="quiz-progress" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+            </div>
+
+            <!-- Question Text -->
+            <h5 id="question-text" class="fw-bold mb-4 text-dark" style="line-height: 1.6;">
+                Memuat pertanyaan...
+            </h5>
+
+            <!-- Options Container -->
+            <div id="options-container"></div>
+
+            <!-- Feedback / Jawaban Benar Alert -->
+            <div id="feedback-box" class="alert mt-3 d-none" role="alert"></div>
+
+            <!-- Next Button -->
+            <div class="d-flex justify-content-end mt-4">
+                <button id="next-btn" class="btn btn-orange px-4 py-2 d-none">
+                    Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION 3: RESULT SCREEN -->
+        <div id="result-screen" class="card card-quiz p-4 p-md-5 text-center d-none">
+            <h2 class="fw-bold mb-2">Quiz Selesai!</h2>
+            <p class="text-muted mb-4">Berikut adalah hasil evaluasi Keamanan Jaringan Anda:</p>
+
+            <div class="score-circle mb-3">
+                <small class="text-muted fw-bold">SKOR AKHIR</small>
+                <span id="final-score" class="display-4 fw-bold" style="color: var(--primary-orange);">0</span>
+                <small class="text-muted">dari 100</small>
+            </div>
+
+            <h5 id="result-student-info" class="fw-bold text-dark mt-3"></h5>
+            <p id="result-summary" class="text-secondary"></p>
+
+            <!-- Status Penyimpanan ke Google Spreadsheet -->
+            <div id="save-status" class="alert alert-warning d-inline-block mx-auto my-3">
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Menyimpan hasil ke Google Spreadsheet ("Cyber Security Quiz 4")...
+            </div>
+
+            <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
+                <button onclick="location.reload()" class="btn btn-outline-orange">
+                    <i class="bi bi-arrow-repeat me-1"></i> Ulangi Quiz
+                </button>
+                <a href="https://yanapermana.github.io/modul/index.html" class="btn btn-orange">
+                    <i class="bi bi-book me-1"></i> Kembali ke Modul
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
+        <small>&copy; 2026 <strong>Yana Permana</strong> &bull; Cyber Security Quiz 4 - Keamanan Jaringan</small>
+    </footer>
+
+    <!-- Button To Top -->
+    <button id="btn-to-top" title="Kembali ke atas">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // =========================================================================
+        // KONFIGURASI GOOGLE SPREADSHEET WEB APP URL
+        // Ganti URL di bawah ini dengan Web App URL dari Google Apps Script Anda
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCzZn3a45ZrEq-0-gtknfwA2jxpgVsN7J81B9vZsQ0NKX-Y1GVhL6Z6Stv9v9blB-n/exec";
+
+        // =========================================================================
+        // BANK SOAL: 30 SOAL KEAMANAN JARINGAN (FASE F) - 5 OPSI JAWABAN
+        // =========================================================================
+        const quizData = [
+            {
+                q: "1. Dokumen formal yang mendefinisikan aturan, hak akses, dan batasan perilaku pengguna dalam memanfaatkan sumber daya jaringan organisasi disebut...",
+                options: [
+                    "Acceptable Use Policy (AUP)",
+                    "Service Level Agreement (SLA)",
+                    "Disaster Recovery Plan (DRP)",
+                    "Standard Operating Procedure (SOP)",
+                    "Memorandum of Understanding (MoU)"
+                ],
+                answer: 0
+            },
+            {
+                q: "2. Dalam konsep CIA Triad keamanan informasi, upaya memastikan bahwa data tidak diubah oleh pihak yang tidak berwenang selama proses transmisi disebut...",
+                options: [
+                    "Confidentiality",
+                    "Integrity",
+                    "Availability",
+                    "Authentication",
+                    "Non-repudiation"
+                ],
+                answer: 1
+            },
+            {
+                q: "3. Serangan siber yang membanjiri server atau bandwidth jaringan dengan lalu lintas palsu secara masif dari banyak perangkat terinfeksi (botnet) sehingga layanan lumpuh disebut...",
+                options: [
+                    "SQL Injection",
+                    "Phishing",
+                    "Man-in-the-Middle (MitM)",
+                    "Distributed Denial of Service (DDoS)",
+                    "Cross-Site Scripting (XSS)"
+                ],
+                answer: 3
+            },
+            {
+                q: "4. Teknik serangan di mana penyerang menyisipkan diri di antara komunikasi dua pihak untuk menyadap atau memanipulasi paket data yang dikirimkan disebut...",
+                options: [
+                    "Brute Force Attack",
+                    "Man-in-the-Middle (MitM)",
+                    "Ransomware",
+                    "ARP Spoofing",
+                    "DNS Poisoning"
+                ],
+                answer: 1
+            },
+            {
+                q: "5. Langkah pertama yang paling tepat dilakukan administrator jaringan sebelum menentukan sistem keamanan jaringan yang akan diterapkan adalah...",
+                options: [
+                    "Membeli perangkat firewall termahal",
+                    "Menutup semua port jaringan yang terbuka",
+                    "Melakukan analisis risiko (Risk Assessment) dan inventarisasi aset",
+                    "Menginstal antivirus di seluruh komputer klien",
+                    "Mengganti seluruh kabel jaringan ke fiber optik"
+                ],
+                answer: 2
+            },
+            {
+                q: "6. Jenis firewall yang bekerja dengan melacak status koneksi aktif (seperti TCP handshake) dan membuat keputusan berdasarkan konteks lalu lintas jaringan adalah...",
+                options: [
+                    "Stateless Packet Filtering Firewall",
+                    "Stateful Inspection Firewall",
+                    "Circuit-Level Gateway",
+                    "Network Address Translation (NAT)",
+                    "Repeater Firewall"
+                ],
+                answer: 1
+            },
+            {
+                q: "7. Perbedaan utama antara Host-based Firewall dan Network/Server Firewall terletak pada...",
+                options: [
+                    "Host-based firewall hanya memblokir virus, sedangkan network firewall memblokir hacker",
+                    "Host-based firewall melindungi satu perangkat spesifik, sedangkan network firewall melindungi seluruh segmen jaringan",
+                    "Host-based firewall hanya bekerja di Linux, sedangkan network firewall di Windows",
+                    "Network firewall tidak memerlukan konfigurasi aturan (rules)",
+                    "Host-based firewall menggunakan perangkat keras khusus terpisah"
+                ],
+                answer: 1
+            },
+            {
+                q: "8. Untuk membangun sebuah dedicated server firewall berbasis jaringan (gateway firewall), persyaratan perangkat keras minimal yang wajib ada adalah...",
+                options: [
+                    "Kartu grafis (GPU) performa tinggi dan sound card",
+                    "Minimal dua antarmuka jaringan (NIC) untuk memisahkan jaringan WAN dan LAN",
+                    "Monitor layar sentuh resolusi 4K",
+                    "Printer jaringan dan scanner optik",
+                    "Kapasitas penyimpanan SSD minimal 10 TB"
+                ],
+                answer: 1
+            },
+            {
+                q: "9. Pada sistem operasi Linux modern, utilitas standar yang digunakan sebagai pengganti iptables untuk mengonfigurasi packet filtering dan firewall adalah...",
+                options: [
+                    "ufw-cron",
+                    "nftables",
+                    "netstat",
+                    "tcpdump",
+                    "wireshark"
+                ],
+                answer: 1
+            },
+            {
+                q: "10. Dalam konfigurasi firewall, zona jaringan semi-terpercaya yang ditempatkan di antara jaringan internal (LAN) dan jaringan eksternal (Internet) untuk meletakkan server publik (Web/Mail) disebut...",
+                options: [
+                    "VPN Tunnel",
+                    "Intranet",
+                    "Demilitarized Zone (DMZ)",
+                    "Loopback Zone",
+                    "Quarantine VLAN"
+                ],
+                answer: 2
+            },
+            {
+                q: "11. Prinsip aturan firewall yang menerapkan kebijakan 'menolak semua lalu lintas secara default kecuali yang secara eksplisit diizinkan' dikenal dengan istilah...",
+                options: [
+                    "Default Allow",
+                    "Implicit Deny",
+                    "Port Forwarding",
+                    "Promiscuous Mode",
+                    "Split Tunneling"
+                ],
+                answer: 1
+            },
+            {
+                q: "12. Fungsi utama dari server autentikasi (Authentication Server) dalam infrastruktur jaringan perusahaan adalah...",
+                options: [
+                    "Membagi alamat IP secara otomatis ke klien",
+                    "Memverifikasi identitas pengguna atau perangkat sebelum memberikan akses ke sumber daya jaringan",
+                    "Menerjemahkan nama domain menjadi alamat IP",
+                    "Menyimpan cadangan file pengguna secara berkala",
+                    "Mengatur kecepatan bandwidth internet"
+                ],
+                answer: 1
+            },
+            {
+                q: "13. Protokol standar industri yang sering digunakan pada server autentikasi terpusat untuk mengelola AAA (Authentication, Authorization, Accounting) pada akses jaringan adalah...",
+                options: [
+                    "SNMP dan SMTP",
+                    "RADIUS dan TACACS+",
+                    "DHCP dan DNS",
+                    "FTP dan TFTP",
+                    "HTTP dan POP3"
+                ],
+                answer: 1
+            },
+            {
+                q: "14. Dalam kerangka kerja AAA pada server autentikasi, proses mencatat aktivitas pengguna seperti kapan login, berapa lama terhubung, dan data yang diakses disebut...",
+                options: [
+                    "Authentication",
+                    "Authorization",
+                    "Accounting",
+                    "Auditing",
+                    "Administration"
+                ],
+                answer: 2
+            },
+            {
+                q: "15. Persyaratan penting yang harus dipenuhi saat membangun server autentikasi agar tetap andal dan aman adalah...",
+                options: [
+                    "Sinkronisasi waktu yang akurat (NTP), sinkronisasi direktori (LDAP/AD), dan sertifikat SSL/TLS",
+                    "Menggunakan protokol Telnet untuk manajemen jarak jauh",
+                    "Menonaktifkan enkripsi database pengguna agar proses login lebih cepat",
+                    "Membuka akses root login dari jaringan publik",
+                    "Menyimpan password pengguna dalam format plain text"
+                ],
+                answer: 0
+            },
+            {
+                q: "16. Perbedaan mendasar antara Intrusion Detection System (IDS) dan Intrusion Prevention System (IPS) adalah...",
+                options: [
+                    "IDS dipasang secara inline, sedangkan IPS dipasang secara pasif",
+                    "IDS hanya mendeteksi dan memberi peringatan (alert), sedangkan IPS dapat memblokir serangan secara aktif",
+                    "IDS hanya bekerja pada lapisan fisik, sedangkan IPS pada lapisan aplikasi",
+                    "IDS tidak membutuhkan database signature serangan",
+                    "IPS hanya dapat mendeteksi serangan dari dalam jaringan lokal"
+                ],
+                answer: 1
+            },
+            {
+                q: "17. Metode deteksi pada IDS/IPS yang bekerja dengan membandingkan pola lalu lintas jaringan terhadap database pola serangan yang sudah dikenal disebut...",
+                options: [
+                    "Anomaly-based Detection",
+                    "Heuristic-based Detection",
+                    "Signature-based Detection",
+                    "Behavioral-based Detection",
+                    "Sandbox-based Detection"
+                ],
+                answer: 2
+            },
+            {
+                q: "18. Kelemahan utama dari metode Signature-based Detection pada IDS/IPS adalah...",
+                options: [
+                    "Terlalu sering menghasilkan false positive",
+                    "Tidak mampu mendeteksi serangan baru yang belum ada polanya (Zero-Day Attack)",
+                    "Membutuhkan kapasitas RAM yang sangat besar dibanding metode anomali",
+                    "Tidak dapat memantau lalu lintas HTTP",
+                    "Hanya bekerja pada sistem operasi Windows"
+                ],
+                answer: 1
+            },
+            {
+                q: "19. Perangkat lunak open-source populer yang sering diimplementasikan sebagai Network Intrusion Detection/Prevention System (NIDS/NIPS) adalah...",
+                options: [
+                    "Snort dan Suricata",
+                    "Apache dan Nginx",
+                    "MySQL dan PostgreSQL",
+                    "Postfix dan Dovecot",
+                    "Samba dan NFS"
+                ],
+                answer: 0
+            },
+            {
+                q: "20. Tata cara pengamanan layanan Remote Access pada server Linux agar tidak mudah dibobol melalui serangan brute force SSH adalah...",
+                options: [
+                    "Mengaktifkan login root secara langsung melalui SSH",
+                    "Menggunakan port default 22 tanpa batasan percobaan login",
+                    "Menonaktifkan autentikasi password dan beralih menggunakan SSH Key-Pair serta Fail2Ban",
+                    "Mengganti layanan SSH dengan Telnet",
+                    "Menonaktifkan firewall pada port SSH"
+                ],
+                answer: 2
+            },
+            {
+                q: "21. Untuk mengamankan Web Server dari serangan injeksi kode berbahaya seperti SQL Injection dan Cross-Site Scripting (XSS), komponen keamanan khusus yang ditambahkan adalah...",
+                options: [
+                    "DHCP Snooping",
+                    "Web Application Firewall (WAF)",
+                    "Proxy Server",
+                    "Load Balancer",
+                    "Mail Transfer Agent"
+                ],
+                answer: 1
+            },
+            {
+                q: "22. Langkah mengamankan DNS Server dari serangan pemalsuan catatan DNS (DNS Cache Poisoning/Spoofing) adalah dengan mengimplementasikan...",
+                options: [
+                    "DNSSEC (Domain Name System Security Extensions)",
+                    "Dynamic DNS",
+                    "Reverse DNS Lookup",
+                    "DNS Forwarding",
+                    "Open DNS Resolver"
+                ],
+                answer: 0
+            },
+            {
+                q: "23. Tindakan 'Server Hardening' yang wajib dilakukan setelah instalasi server layanan selesai adalah...",
+                options: [
+                    "Menginstal seluruh paket aplikasi yang tersedia di repositori",
+                    "Menonaktifkan layanan (services) dan port yang tidak digunakan serta memperbarui patch keamanan",
+                    "Memberikan hak akses administrator (sudo) kepada semua user",
+                    "Menonaktifkan logging sistem agar ruang penyimpanan hemat",
+                    "Membuka akses database MySQL ke seluruh alamat IP publik (0.0.0.0)"
+                ],
+                answer: 1
+            },
+            {
+                q: "24. Dalam ilmu kriptografi, proses mengubah pesan asli yang dapat dibaca (plaintext) menjadi pesan acak yang tidak dapat dibaca (ciphertext) disebut...",
+                options: [
+                    "Dekripsi (Decryption)",
+                    "Enkripsi (Encryption)",
+                    "Hashing",
+                    "Encoding",
+                    "Steganografi"
+                ],
+                answer: 1
+            },
+            {
+                q: "25. Algoritma kriptografi yang menggunakan satu kunci yang sama untuk melakukan proses enkripsi maupun dekripsi disebut...",
+                options: [
+                    "Kriptografi Asimetris",
+                    "Kriptografi Simetris",
+                    "Fungsi Hash Kriptografis",
+                    "Digital Signature",
+                    "Public Key Infrastructure"
+                ],
+                answer: 1
+            },
+            {
+                q: "26. Contoh algoritma yang termasuk dalam kategori Kriptografi Simetris modern dan banyak digunakan untuk mengamankan jaringan nirkabel (WPA2/WPA3) adalah...",
+                options: [
+                    "RSA (Rivest-Shamir-Adleman)",
+                    "ECC (Elliptic Curve Cryptography)",
+                    "AES (Advanced Encryption Standard)",
+                    "SHA-256",
+                    "Diffie-Hellman"
+                ],
+                answer: 2
+            },
+            {
+                q: "27. Pada kriptografi asimetris, jika pengirim ingin mengirimkan pesan rahasia kepada penerima sehingga hanya penerima yang bisa membukanya, maka pengirim mengenkripsi pesan menggunakan...",
+                options: [
+                    "Private key milik pengirim",
+                    "Public key milik penerima",
+                    "Private key milik penerima",
+                    "Public key milik pengirim",
+                    "Session key yang dikirim terbuka"
+                ],
+                answer: 1
+            },
+            {
+                q: "28. Karakteristik utama dari fungsi Hash kriptografis (seperti SHA-256) dalam pengamanan integritas data dan penyimpanan password adalah...",
+                options: [
+                    "Dapat didekripsi kembali ke bentuk semula menggunakan kunci privat",
+                    "Bersifat satu arah (one-way) dan menghasilkan nilai digest dengan panjang tetap",
+                    "Menghasilkan output yang sama meskipun input berubah satu karakter",
+                    "Digunakan untuk mempercepat transfer file besar",
+                    "Menggantikan fungsi sertifikat SSL/TLS"
+                ],
+                answer: 1
+            },
+            {
+                q: "29. Protokol kriptografi yang digunakan untuk mengamankan komunikasi antara web browser dan web server (HTTPS) serta memverifikasi identitas server menggunakan sertifikat digital adalah...",
+                options: [
+                    "TLS (Transport Layer Security)",
+                    "PPTP (Point-to-Point Tunneling Protocol)",
+                    "HTTP (Hypertext Transfer Protocol)",
+                    "SNMPv1",
+                    "ICMP"
+                ],
+                answer: 0
+            },
+            {
+                q: "30. Teknologi keamanan jaringan yang menciptakan jalur terowongan terenkripsi (encrypted tunnel) melalui jaringan publik (internet) untuk menghubungkan kantor cabang atau pekerja jarak jauh secara aman disebut...",
+                options: [
+                    "VLAN (Virtual Local Area Network)",
+                    "VPN (Virtual Private Network)",
+                    "NAT (Network Address Translation)",
+                    "CDN (Content Delivery Network)",
+                    "BGP (Border Gateway Protocol)"
+                ],
+                answer: 1
+            }
+        ];
+
+        // State Variabel
+        let currentQuestion = 0;
+        let scoreCount = 0;
+        let studentName = "";
+        let studentClass = "";
+        let answered = false;
+
+        // DOM Elements
+        const startScreen = document.getElementById("start-screen");
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultScreen = document.getElementById("result-screen");
+        const studentForm = document.getElementById("student-form");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+        const currentNumberEl = document.getElementById("current-number");
+        const progressBar = document.getElementById("quiz-progress");
+        const btnToTop = document.getElementById("btn-to-top");
+
+        // Mulai Quiz
+        studentForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            studentName = document.getElementById("inputNama").value.trim();
+            studentClass = document.getElementById("inputKelas").value.trim();
+
+            if (!studentName || !studentClass) return;
+
+            document.getElementById("display-nama").textContent = studentName;
+            document.getElementById("display-kelas").textContent = studentClass;
+
+            startScreen.classList.add("d-none");
+            quizScreen.classList.remove("d-none");
+            loadQuestion();
+        });
+
+        // Muat Soal
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("d-none");
+            nextBtn.classList.add("d-none");
+            optionsContainer.innerHTML = "";
+
+            const qData = quizData[currentQuestion];
+            currentNumberEl.textContent = currentQuestion + 1;
+            const progressPercent = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            questionText.textContent = qData.q;
+
+            const prefixes = ["A", "B", "C", "D", "E"];
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span class="option-prefix">${prefixes[index]}</span> <span>${opt}</span>`;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Pilih Jawaban & Tampilkan Kunci Jawaban Benar
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const qData = quizData[currentQuestion];
+            const correctIndex = qData.answer;
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+            const prefixes = ["A", "B", "C", "D", "E"];
+
+            // Disable semua tombol
+            allButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                scoreCount++;
+                selectedBtn.classList.add("correct");
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><strong>Benar!</strong> Jawaban Anda tepat: <strong>${prefixes[correctIndex]}. ${qData.options[correctIndex]}</strong>`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                allButtons[correctIndex].classList.add("correct");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-2"></i><strong>Kurang Tepat!</strong> Jawaban yang benar adalah: <strong>${prefixes[correctIndex]}. ${qData.options[correctIndex]}</strong>`;
+            }
+
+            feedbackBox.classList.remove("d-none");
+            nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Lihat Skor Akhir" : "Soal Berikutnya";
+            nextBtn.classList.remove("d-none");
+        }
+
+        // Tombol Soal Berikutnya
+        nextBtn.addEventListener("click", () => {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                showResults();
+            }
+        });
+
+        // Tampilkan Hasil Akhir & Kirim ke Google Sheets
+        function showResults() {
+            quizScreen.classList.add("d-none");
+            resultScreen.classList.remove("d-none");
+
+            // Hitung skor skala 100 (dibulatkan 2 desimal jika tidak bulat, atau bilangan bulat)
+            const finalScore = Math.round((scoreCount / quizData.length) * 100);
+
+            document.getElementById("final-score").textContent = finalScore;
+            document.getElementById("result-student-info").textContent = `${studentName} (${studentClass})`;
+            document.getElementById("result-summary").textContent = `Anda menjawab benar ${scoreCount} dari ${quizData.length} soal.`;
+
+            sendToGoogleSheet(studentName, studentClass, finalScore);
+        }
+
+        // Kirim Data ke Google Spreadsheet
+        function sendToGoogleSheet(nama, kelas, skor) {
+            const statusEl = document.getElementById("save-status");
+
+            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("MASUKKAN_URL")) {
+                statusEl.className = "alert alert-info d-inline-block mx-auto my-3";
+                statusEl.innerHTML = `<i class="bi bi-info-circle-fill me-1"></i> Mode Simulasi: Hubungkan URL Google Apps Script untuk menyimpan otomatis ke Spreadsheet <strong>"Cyber Security Quiz 4"</strong>.`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("Nama", nama);
+            formData.append("Kelas", kelas);
+            formData.append("Skor", skor);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                statusEl.className = "alert alert-success d-inline-block mx-auto my-3";
+                statusEl.innerHTML = `<i class="bi bi-cloud-check-fill me-1"></i> Data berhasil disimpan ke Google Spreadsheet <strong>"Cyber Security Quiz 4"</strong>!`;
+            })
+            .catch(error => {
+                statusEl.className = "alert alert-danger d-inline-block mx-auto my-3";
+                statusEl.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-1"></i> Gagal mengirim data ke Spreadsheet. Periksa koneksi atau konfigurasi Apps Script.`;
+            });
+        }
+
+        // Tombol To Top Visibility & Action
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        btnToTop.addEventListener("click", function() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
+</body>
+</html>
