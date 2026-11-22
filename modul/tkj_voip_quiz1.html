@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoIP Quiz 1</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-orange: #ff6600;
+            --dark-orange: #e65c00;
+            --light-orange: #fff3eb;
+            --soft-orange: #ffd9bf;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            background-color: var(--primary-orange);
+            box-shadow: 0 2px 10px rgba(255, 102, 0, 0.2);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: var(--soft-orange) !important;
+        }
+
+        /* Custom Buttons */
+        .btn-orange {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-orange:hover {
+            background-color: var(--dark-orange);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-orange {
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+            background-color: #ffffff;
+            font-weight: 600;
+        }
+
+        .btn-outline-orange:hover {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Cards & Containers */
+        .card-custom {
+            border: 2px solid var(--soft-orange);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, var(--primary-orange), #ff8533);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Option Buttons */
+        .option-btn {
+            text-align: left;
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            background-color: #ffffff;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary-orange);
+            background-color: var(--light-orange);
+        }
+
+        .option-btn.correct {
+            background-color: #d1e7dd !important;
+            border-color: #198754 !important;
+            color: #0f5132 !important;
+            font-weight: bold;
+        }
+
+        .option-btn.wrong {
+            background-color: #f8d7da !important;
+            border-color: #dc3545 !important;
+            color: #842029 !important;
+        }
+
+        /* Progress Bar */
+        .progress-bar-orange {
+            background-color: var(--primary-orange);
+        }
+
+        /* Floating To Top Button */
+        #btn-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            z-index: 999;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="bi bi-telephone-inbound-fill me-2"></i>Yana Permana</a>
+            <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/jadwal.html">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://yanapermana.github.io/modul/index.html">Modul</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-4">
+        
+        <!-- Tombol Back ke Halaman Sebelumnya -->
+        <div class="mb-3">
+            <button onclick="history.back()" class="btn btn-outline-orange btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Kembali
+            </button>
+        </div>
+
+        <!-- Banner Materi -->
+        <div class="header-banner shadow-sm">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <span class="badge bg-white text-dark mb-2 px-3 py-2 fw-bold">Materi: Voice over IP (VoIP)</span>
+                    <h1 class="fw-bold mb-2">VoIP Quiz 1</h1>
+                    <p class="mb-1"><i class="bi bi-check-circle-fill me-2"></i>Teknologi VoIP yang dipakai sehari-hari</p>
+                    <p class="mb-0"><i class="bi bi-check-circle-fill me-2"></i>Menerapkan instalasi dan konfigurasi layanan Voice over IP (VoIP)</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <div class="bg-white text-dark p-3 rounded-3 d-inline-block text-center shadow-sm">
+                        <small class="text-muted d-block fw-bold">TOTAL SOAL & SKOR</small>
+                        <span class="fs-4 fw-bold" style="color: var(--primary-orange);">30 Soal | Maks 100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 1: FORM IDENTITAS -->
+        <div id="start-section" class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-custom p-4">
+                    <h4 class="fw-bold mb-3 text-center" style="color: var(--primary-orange);">Data Peserta Quiz</h4>
+                    <p class="text-muted text-center small mb-4">Silakan masukkan Nama Lengkap dan Kelas sebelum memulai pengerjaan soal.</p>
+                    <form id="identity-form">
+                        <div class="mb-3">
+                            <label for="nama" class="form-label fw-bold">Nama Lengkap</label>
+                            <input type="text" class="form-control form-control-lg" id="nama" placeholder="Contoh: Budi Santoso" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="kelas" class="form-label fw-bold">Kelas</label>
+                            <input type="text" class="form-control form-control-lg" id="kelas" placeholder="Contoh: XI TKJ 1" required>
+                        </div>
+                        <button type="submit" class="btn btn-orange btn-lg w-100">
+                            Mulai Quiz <i class="bi bi-play-fill ms-1"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: AREA QUIZ -->
+        <div id="quiz-section" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <!-- Info Bar -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-bold" id="display-user">Peserta: -</span>
+                        <span class="badge bg-warning text-dark fs-6" id="question-counter">Soal 1 / 30</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4" style="height: 10px;">
+                        <div id="progress-bar" class="progress-bar progress-bar-orange" role="progressbar" style="width: 3.33%;"></div>
+                    </div>
+
+                    <!-- Card Soal -->
+                    <div class="card card-custom p-4 mb-4">
+                        <h5 class="fw-bold mb-4 lh-base" id="question-text">Memuat pertanyaan...</h5>
+                        <div id="options-container">
+                            <!-- Opsi A-E dirender via JS -->
+                        </div>
+
+                        <!-- Feedback Jawaban -->
+                        <div id="feedback-box" class="alert mt-3 d-none" role="alert"></div>
+
+                        <!-- Tombol Next -->
+                        <div class="text-end mt-3">
+                            <button id="next-btn" class="btn btn-orange px-4 py-2 d-none">
+                                Soal Berikutnya <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: HASIL SKOR -->
+        <div id="result-section" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-7">
+                    <div class="card card-custom p-5 text-center">
+                        <i class="bi bi-trophy-fill display-1 mb-3" style="color: var(--primary-orange);"></i>
+                        <h2 class="fw-bold mb-1">Quiz Selesai!</h2>
+                        <p class="text-muted mb-4" id="result-identity">Nama - Kelas</p>
+                        
+                        <div class="p-4 rounded-4 mb-4" style="background-color: var(--light-orange); border: 2px dashed var(--primary-orange);">
+                            <span class="text-uppercase fw-bold text-muted small">Skor Akhir Anda</span>
+                            <h1 class="display-2 fw-bold my-1" style="color: var(--primary-orange);" id="final-score">0</h1>
+                            <p class="mb-0 fw-semibold" id="correct-count">Benar: 0 dari 30 soal</p>
+                        </div>
+
+                        <!-- Status Penyimpanan Spreadsheet -->
+                        <div id="save-status" class="alert alert-info">
+                            <span class="spinner-border spinner-border-sm me-2"></span> Menyimpan data ke Google Spreadsheet ("VoIP Quiz 4")...
+                        </div>
+
+                        <div class="mt-3">
+                            <button onclick="location.reload()" class="btn btn-outline-orange px-4">
+                                <i class="bi bi-arrow-clockwise me-1"></i> Ulangi Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 mt-5 border-top text-muted small">
+        &copy; 2026 Yana Permana - Media Pembelajaran Teknik Komputer dan Jaringan
+    </footer>
+
+    <!-- Floating Button To Top -->
+    <button onclick="scrollToTop()" id="btn-to-top" class="btn btn-orange" title="Kembali ke atas">
+        <i class="bi bi-arrow-up fs-5"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // =========================================================================
+        // KONFIGURASI GOOGLE SPREADSHEET WEB APP URL
+        // Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Anda
+        // =========================================================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-NTG4KJXg9YwJM-mMD7_TX1RDk5PoY8Vkq9TO1nUMISazwbCxWzbBMjE9j4-ZBkTE/exec";
+
+        // =========================================================================
+        // BANK SOAL: 30 SOAL PILIHAN GANDA (5 OPSI) - MATERI VOIP
+        // =========================================================================
+        const questions = [
+            {
+                q: "Teknologi yang memungkinkan percakapan suara jarak jauh melalui media jaringan internet dengan mengubah suara analog menjadi paket data digital disebut...",
+                options: ["PSTN", "VoIP", "ISDN", "PABX Analog", "GPRS"],
+                answer: 1
+            },
+            {
+                q: "Berikut ini yang merupakan contoh aplikasi berbasis teknologi VoIP yang sering digunakan dalam kehidupan sehari-hari adalah...",
+                options: ["Microsoft Excel", "WhatsApp Call & Zoom", "Adobe Photoshop", "WinRAR", "Notepad++"],
+                answer: 1
+            },
+            {
+                q: "Keuntungan utama menggunakan layanan VoIP dibandingkan jaringan telepon konvensional (PSTN) untuk komunikasi jarak jauh atau internasional adalah...",
+                options: ["Tidak membutuhkan listrik sama sekali", "Biaya komunikasi jauh lebih murah karena memanfaatkan jaringan internet", "Kualitas suara tidak dipengaruhi bandwidth", "Tidak memerlukan perangkat keras apapun", "Hanya bisa digunakan pada malam hari"],
+                answer: 1
+            },
+            {
+                q: "Protokol persinyalan (signaling) yang paling umum digunakan pada sistem VoIP modern untuk memulai, memodifikasi, dan mengakhiri sesi komunikasi adalah...",
+                options: ["FTP (File Transfer Protocol)", "SMTP (Simple Mail Transfer Protocol)", "SIP (Session Initiation Protocol)", "HTTP (Hypertext Transfer Protocol)", "SNMP (Simple Network Management Protocol)"],
+                answer: 2
+            },
+            {
+                q: "Nomor port default yang digunakan oleh protokol SIP (Session Initiation Protocol) tanpa enkripsi adalah...",
+                options: ["80", "443", "5060", "22", "8080"],
+                answer: 2
+            },
+            {
+                q: "Protokol yang bertugas mengirimkan paket data suara (audio/video) secara real-time setelah sesi koneksi terbentuk oleh SIP adalah...",
+                options: ["RTP (Real-time Transport Protocol)", "TCP (Transmission Control Protocol)", "ICMP (Internet Control Message Protocol)", "ARP (Address Resolution Protocol)", "DHCP (Dynamic Host Configuration Protocol)"],
+                answer: 0
+            },
+            {
+                q: "Komponen perangkat lunak atau server pada jaringan VoIP yang berfungsi sebagai pusat penyambungan, registrasi ekstensi, dan manajemen panggilan disebut...",
+                options: ["Web Server", "Softswitch / IP-PBX", "File Server", "Proxy Server", "DNS Server"],
+                answer: 1
+            },
+            {
+                q: "Contoh perangkat lunak (software) open-source berbasis Linux yang sering digunakan untuk membangun server IP-PBX adalah...",
+                options: ["Asterisk / Briker / FreePBX", "CorelDraw", "VMware Workstation", "Cisco Packet Tracer", "PuTTY"],
+                answer: 0
+            },
+            {
+                q: "Aplikasi klien VoIP yang diinstal pada komputer atau smartphone sehingga perangkat tersebut berfungsi layaknya pesawat telepon disebut...",
+                options: ["Hardphone", "Softphone", "Smartphone", "Megaphone", "Earphone"],
+                answer: 1
+            },
+            {
+                q: "Berikut ini yang termasuk contoh aplikasi Softphone yang populer digunakan dalam pengujian server VoIP lokal adalah...",
+                options: ["Zoiper dan X-Lite / MicroSIP", "Winbox dan Putty", "XAMPP dan WAMP", "Rufus dan Etcher", "VLC dan Winamp"],
+                answer: 0
+            },
+            {
+                q: "Perangkat keras khusus yang bentuknya menyerupai telepon meja konvensional namun memiliki port RJ-45 untuk terhubung langsung ke jaringan IP disebut...",
+                options: ["ATA (Analog Telephone Adapter)", "IP Phone (Hardphone)", "Modem ADSL", "Access Point", "Repeater"],
+                answer: 1
+            },
+            {
+                q: "Jika sebuah kantor ingin menggunakan pesawat telepon analog lama mereka agar dapat terhubung ke jaringan VoIP, perangkat tambahan yang dibutuhkan adalah...",
+                options: ["Switch Unmanaged", "ATA (Analog Telephone Adapter)", "Kabel Coaxial", "VGA Splitter", "Power Bank"],
+                answer: 1
+            },
+            {
+                q: "Dalam arsitektur VoIP, algoritma yang berfungsi mengompresi sinyal suara analog menjadi paket data digital dan mendekodekannya kembali disebut...",
+                options: ["Codec (Coder-Decoder)", "Modem (Modulator-Demodulator)", "Router", "Compiler", "Firewall"],
+                answer: 0
+            },
+            {
+                q: "Jenis Codec VoIP yang tidak melakukan kompresi sehingga menghasilkan kualitas suara sangat jernih namun memakan bandwidth sekitar 64 Kbps adalah...",
+                options: ["G.729", "G.711 (ulaw/alaw)", "G.723.1", "GSM", "MP3"],
+                answer: 1
+            },
+            {
+                q: "Jenis Codec VoIP yang memiliki rasio kompresi tinggi sehingga hanya membutuhkan bandwidth sekitar 8 Kbps (hemat bandwidth) adalah...",
+                options: ["G.711", "G.729", "WAV", "FLAC", "PCM"],
+                answer: 1
+            },
+            {
+                q: "Pada konfigurasi server Asterisk di Linux, file konfigurasi utama yang digunakan untuk mendaftarkan akun/nomor ekstensi pengguna (user) adalah...",
+                options: ["extensions.conf", "sip.conf", "iax.conf", "voicemail.conf", "modules.conf"],
+                answer: 1
+            },
+            {
+                q: "Pada konfigurasi server Asterisk, file yang berfungsi mengatur aturan dial plan (rute panggilan antar ekstensi) adalah...",
+                options: ["sip.conf", "extensions.conf", "network.conf", "resolv.conf", "dhcpd.conf"],
+                answer: 1
+            },
+            {
+                q: "Perintah pada CLI (Command Line Interface) Asterisk yang digunakan untuk melihat daftar akun SIP yang terdaftar beserta status koneksinya adalah...",
+                options: ["sip show peers", "show ip route", "ifconfig", "netstat -tuln", "dialplan reload"],
+                answer: 0
+            },
+            {
+                q: "Dalam file `sip.conf` pada Asterisk, parameter `type=friend` memiliki arti bahwa akun ekstensi tersebut dapat...",
+                options: ["Hanya menerima panggilan saja", "Hanya melakukan panggilan keluar saja", "Melakukan panggilan keluar sekaligus menerima panggilan masuk", "Menjadi administrator server", "Menghapus konfigurasi user lain"],
+                answer: 2
+            },
+            {
+                q: "Pada konfigurasi `sip.conf`, parameter `host=dynamic` digunakan apabila...",
+                options: ["IP Address klien bersifat statis dan tidak pernah berubah", "IP Address klien dapat berubah-ubah (misal menggunakan DHCP) sehingga klien harus melakukan registrasi ke server", "Server tidak terhubung ke jaringan lokal", "Klien menggunakan jaringan PSTN", "Koneksi tidak memerlukan password"],
+                answer: 1
+            },
+            {
+                q: "Parameter pada `sip.conf` yang berfungsi menentukan kata sandi (password) otentikasi bagi user/ekstensi saat mendaftar ke server VoIP adalah...",
+                options: ["context", "secret", "callerid", "disallow", "nat"],
+                answer: 1
+            },
+            {
+                q: "Dalam file `extensions.conf`, perintah `exten => 1001,1,Dial(SIP/1001,20)` memiliki arti...",
+                options: ["Memanggil ekstensi 1001 selama maksimal 20 detik sebelum ditutup/dialihkan", "Menghapus ekstensi 1001 setelah 20 kali panggilan", "Membatasi durasi bicara maksimal 20 detik", "Menunda panggilan selama 20 menit", "Mengalihkan panggilan ke nomor 20"],
+                answer: 0
+            },
+            {
+                q: "Setelah melakukan perubahan pada file `sip.conf` dan `extensions.conf` di Asterisk, perintah untuk memuat ulang konfigurasi tanpa mematikan layanan adalah...",
+                options: ["reboot", "reload", "shutdown -h now", "stop now", "apt update"],
+                answer: 1
+            },
+            {
+                q: "Gangguan kualitas suara pada VoIP berupa jeda waktu antara saat suara diucapkan oleh pengirim hingga terdengar oleh penerima disebut...",
+                options: ["Jitter", "Latency (Delay)", "Packet Loss", "Echo", "Crosstalk"],
+                answer: 1
+            },
+            {
+                q: "Variasi kedatangan paket data suara yang tidak beraturan di sisi penerima sehingga suara terdengar putus-putus atau bergetar disebut...",
+                options: ["Bandwidth", "Throughput", "Jitter", "Attenuation", "Firewall"],
+                answer: 2
+            },
+            {
+                q: "Fitur pada router atau switch jaringan yang digunakan untuk memprioritaskan paket data suara (VoIP) di atas lalu lintas data biasa (seperti download file) adalah...",
+                options: ["NAT (Network Address Translation)", "QoS (Quality of Service)", "VPN (Virtual Private Network)", "DMZ (Demilitarized Zone)", "DHCP Snooping"],
+                answer: 1
+            },
+            {
+                q: "Protokol jaringan transport layer yang lebih dipilih untuk membawa paket suara RTP pada VoIP karena kecepatannya (tanpa mekanisme pengiriman ulang paket yang terlambat) adalah...",
+                options: ["TCP", "UDP", "ICMP", "IGMP", "SCTP"],
+                answer: 1
+            },
+            {
+                q: "Teknologi penghubung antara jaringan telepon tradisional (PSTN) dengan jaringan berbasis IP (VoIP) sehingga pengguna VoIP dapat menelepon nomor rumah/seluler biasa disebut...",
+                options: ["Media Gateway / VoIP Gateway", "Bridge", "Access Point", "Repeater", "Hub"],
+                answer: 0
+            },
+            {
+                q: "Standar protokol VoIP lama yang dikembangkan oleh ITU-T sebelum SIP menjadi populer, terutama untuk komunikasi multimedia berbasis LAN, adalah...",
+                options: ["H.323", "IEEE 802.11", "POP3", "IMAP", "Telnet"],
+                answer: 0
+            },
+            {
+                q: "Saat melakukan konfigurasi Softphone (seperti Zoiper) pada smartphone agar terhubung ke server Briker/Asterisk lokal, parameter 'Domain / Host' diisi dengan...",
+                options: ["Alamat IP dari server VoIP", "Alamat IP dari smartphone itu sendiri", "Nomor ekstensi tujuan", "Alamat MAC dari router", "Nama lengkap pengguna"],
+                answer: 0
+            }
+        ];
+
+        // =========================================================================
+        // STATE & LOGIKA QUIZ
+        // =========================================================================
+        let userName = "";
+        let userClass = "";
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+        let answered = false;
+
+        // DOM Elements
+        const startSection = document.getElementById("start-section");
+        const quizSection = document.getElementById("quiz-section");
+        const resultSection = document.getElementById("result-section");
+        const identityForm = document.getElementById("identity-form");
+
+        const displayUser = document.getElementById("display-user");
+        const questionCounter = document.getElementById("question-counter");
+        const progressBar = document.getElementById("progress-bar");
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+
+        // Mulai Quiz
+        identityForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            userName = document.getElementById("nama").value.trim();
+            userClass = document.getElementById("kelas").value.trim();
+
+            if (!userName || !userClass) return;
+
+            startSection.classList.add("d-none");
+            quizSection.classList.remove("d-none");
+            displayUser.innerHTML = `<i class="bi bi-person-circle me-1" style="color: var(--primary-orange);"></i> ${userName} (${userClass})`;
+            loadQuestion();
+        });
+
+        // Muat Soal
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("d-none");
+            nextBtn.classList.add("d-none");
+
+            const currentQ = questions[currentQuestionIndex];
+            const totalQ = questions.length;
+
+            questionCounter.textContent = `Soal ${currentQuestionIndex + 1} / ${totalQ}`;
+            const progressPercent = ((currentQuestionIndex + 1) / totalQ) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            questionText.textContent = `${currentQuestionIndex + 1}. ${currentQ.q}`;
+            optionsContainer.innerHTML = "";
+
+            const letters = ["A", "B", "C", "D", "E"];
+            currentQ.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span class="badge bg-secondary me-2">${letters[index]}</span> ${opt}`;
+                btn.onclick = () => selectAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Pilih Jawaban & Tampilkan Jawaban Benar
+        function selectAnswer(selectedIndex, selectedBtn) {
+            if (answered) return;
+            answered = true;
+
+            const currentQ = questions[currentQuestionIndex];
+            const correctIndex = currentQ.answer;
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+            const letters = ["A", "B", "C", "D", "E"];
+
+            // Nonaktifkan semua tombol opsi
+            allButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === correctIndex) {
+                selectedBtn.classList.add("correct");
+                correctAnswersCount++;
+                feedbackBox.className = "alert alert-success mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-check-circle-fill me-2"></i><strong>Benar!</strong> Jawaban Anda tepat.`;
+            } else {
+                selectedBtn.classList.add("wrong");
+                allButtons[correctIndex].classList.add("correct");
+                feedbackBox.className = "alert alert-danger mt-3";
+                feedbackBox.innerHTML = `<i class="bi bi-x-circle-fill me-2"></i><strong>Kurang Tepat!</strong> Jawaban yang benar adalah <strong>${letters[correctIndex]}. ${currentQ.options[correctIndex]}</strong>`;
+            }
+
+            feedbackBox.classList.remove("d-none");
+            nextBtn.classList.remove("d-none");
+
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.innerHTML = `Lihat Skor Akhir <i class="bi bi-check2-all ms-1"></i>`;
+            }
+        }
+
+        // Tombol Soal Berikutnya
+        nextBtn.addEventListener("click", function() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        // Tampilkan Hasil Akhir & Kirim ke Google Spreadsheet
+        function showResults() {
+            quizSection.classList.add("d-none");
+            resultSection.classList.remove("d-none");
+
+            // Hitung skor maksimal 100
+            const finalScore = Math.round((correctAnswersCount / questions.length) * 100);
+
+            document.getElementById("result-identity").textContent = `${userName} — Kelas ${userClass}`;
+            document.getElementById("final-score").textContent = finalScore;
+            document.getElementById("correct-count").textContent = `Benar: ${correctAnswersCount} dari ${questions.length} soal`;
+
+            sendDataToSpreadsheet(userName, userClass, finalScore);
+        }
+
+        // Fungsi Kirim Data ke Google Apps Script
+        function sendDataToSpreadsheet(nama, kelas, skor) {
+            const statusDiv = document.getElementById("save-status");
+
+            if (SCRIPT_URL === "URL_GOOGLE_APPS_SCRIPT_ANDA" || !SCRIPT_URL) {
+                statusDiv.className = "alert alert-warning";
+                statusDiv.innerHTML = `<i class="bi bi-exclamation-triangle-fill me-2"></i>URL Google Apps Script belum dipasang. Skor belum tersimpan ke spreadsheet.`;
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("nama", nama);
+            formData.append("kelas", kelas);
+            formData.append("skor", skor);
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    statusDiv.className = "alert alert-success";
+                    statusDiv.innerHTML = `<i class="bi bi-cloud-check-fill me-2"></i>Data berhasil disimpan ke Google Spreadsheet <strong>"VoIP Quiz 4"</strong>!`;
+                } else {
+                    throw new Error("Gagal menyimpan");
+                }
+            })
+            .catch(error => {
+                statusDiv.className = "alert alert-danger";
+                statusDiv.innerHTML = `<i class="bi bi-x-octagon-fill me-2"></i>Terjadi kesalahan saat menyimpan ke Spreadsheet.`;
+                console.error("Error:", error);
+            });
+        }
+
+        // Logika Tombol To Top
+        const btnToTop = document.getElementById("btn-to-top");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                btnToTop.style.display = "block";
+            } else {
+                btnToTop.style.display = "none";
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
